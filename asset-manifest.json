@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/avance1_doc/static/css/main.a97b6080.css",
+    "main.js": "/avance1_doc/static/js/main.b3fa4d07.js",
+    "index.html": "/avance1_doc/index.html",
+    "main.a97b6080.css.map": "/avance1_doc/static/css/main.a97b6080.css.map",
+    "main.b3fa4d07.js.map": "/avance1_doc/static/js/main.b3fa4d07.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a97b6080.css",
+    "static/js/main.b3fa4d07.js"
+  ]
+}
