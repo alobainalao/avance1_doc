@@ -25,6 +25,18 @@ html, body {
     justify-content: center;
 }
 
+.slide-counter {
+    position: absolute;
+    top: 1.2vh;
+    right: 2vw;
+    font-size: 0.9rem;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 6px;
+    z-index: 20;
+    user-select: none;
+}
+
 .slide-image {
     height: 99vh;
     max-width: 100%;

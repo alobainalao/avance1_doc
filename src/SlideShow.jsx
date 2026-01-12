@@ -127,6 +127,10 @@ const Slideshow = () => {
         <div className="slideshow-container">
             <Controls onNext={next} onPrev={prev} fullscreen={fullscreen} handleFullscreen={setFullscreen}/>
             <div className="image-wrapper">
+                {/* Indicador de diapositiva */}
+                <div className="slide-counter">
+                    {index + 1} / {totalSlides}
+                </div>
                 {index === 2  && <AnimationButtons metodo={'mef'}/>}
                 {index === 6  && <AnimationButtons metodo={'bfr'}/>}
                 <ProgressIndicator
