@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import Controls from './Controls.jsx';
 import ProgressIndicator from './ProgressIndicator.jsx';
 import AnimationButtons from './AnimationButtons.jsx';
+import PageViewer from './PageViewer.jsx';
+import UrlHeader from "./UrlHeader";
 import './SlideShow.css';
 
 const Slideshow = () => {
-    const totalSlides = 22;
+    const totalSlides = 36;
 
     // ⏱ Tiempo total esperado (30 minutos en ms)
     const totalExpectedTime = 900000;
@@ -14,7 +16,8 @@ const Slideshow = () => {
     const slideDurations = [
         24, 60, 96, 50, 40, 50, 80, 30, 40, 30,
         30, 30, 30, 40, 30, 30, 60, 60, 30, 30, 
-        15, 15
+        15, 15, 30, 40, 30, 30, 60, 60, 30, 30,
+        30, 40, 30, 15,  5,  5
     ]; // 31 slides
 
     const [index, setIndex] = useState(0);
@@ -131,8 +134,16 @@ const Slideshow = () => {
                 <div className="slide-counter">
                     {index + 1} / {totalSlides}
                 </div>
-                {index === 2  && <AnimationButtons metodo={'mef'}/>}
-                {index === 6  && <AnimationButtons metodo={'bfr'}/>}
+                {index === 17  && <AnimationButtons metodo={'blk'}/>}
+                {index === 18 && (
+                    <div className="iframe-overlay">
+                        <UrlHeader url="https://doctorado-3.onrender.com" />
+                        <PageViewer url="https://doctorado-3.onrender.com" />
+                    </div>
+                )}
+                {index === 15  && <AnimationButtons metodo={'sem'}/>}
+                {index === 6  && <AnimationButtons metodo={'adr'}/>}
+                 
                 <ProgressIndicator
                     time={expectedProgressTime}
                     totalTime={totalExpectedTime}

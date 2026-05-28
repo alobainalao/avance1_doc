@@ -25,7 +25,7 @@ const VideoPlayer = () => {
 
     const metodoParam = params.get('metodo');
     const videoParam = params.get('video');
-    const flder = metodoParam === 'mef' ? 'videos' : 'videos_bfr';
+    const flder = 'videos_' + metodoParam;
 
     if (metodoParam) {
       setFolder(flder);
