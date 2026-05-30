@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/avance1_doc/static/css/main.959528c5.css",
-    "main.js": "/avance1_doc/static/js/main.ed29da99.js",
+    "main.css": "/avance1_doc/static/css/main.564a1e1e.css",
+    "main.js": "/avance1_doc/static/js/main.a55f6f24.js",
     "index.html": "/avance1_doc/index.html",
-    "main.959528c5.css.map": "/avance1_doc/static/css/main.959528c5.css.map",
-    "main.ed29da99.js.map": "/avance1_doc/static/js/main.ed29da99.js.map"
+    "main.564a1e1e.css.map": "/avance1_doc/static/css/main.564a1e1e.css.map",
+    "main.a55f6f24.js.map": "/avance1_doc/static/js/main.a55f6f24.js.map"
   },
   "entrypoints": [
-    "static/css/main.959528c5.css",
-    "static/js/main.ed29da99.js"
+    "static/css/main.564a1e1e.css",
+    "static/js/main.a55f6f24.js"
   ]
 }
