@@ -11,23 +11,28 @@ z_\text{mín}\leq z_p\leq z_\text{máx}
 \end{array}\right\}`;
 
 const QtSVG = () => (
-    <svg viewBox="0 0 230 185"
+    <svg viewBox="0 0 300 185"
          style={{ width: '100%', height: '100%', display: 'block' }}>
-        <rect x="30" y="55" width="183" height="107"
+        {/* rectángulo más corto que el eje */}
+        <rect x="30" y="55" width="190" height="107"
               style={{ fill: 'rgba(100,180,80,0.2)', stroke: 'rgba(100,180,80,0.5)', strokeWidth: 1 }} />
+        {/* eje vertical */}
         <line x1="30" y1="165" x2="30" y2="18"
               style={{ stroke: 'var(--sl-accent)', strokeWidth: 1.5 }} />
         <polygon points="30,16 26,26 34,26"
                  style={{ fill: 'var(--sl-accent)' }} />
-        <line x1="28" y1="162" x2="217" y2="162"
+        {/* eje t — se extiende más allá del rectángulo */}
+        <line x1="28" y1="162" x2="285" y2="162"
               style={{ stroke: 'var(--sl-accent)', strokeWidth: 1.5 }} />
-        <polygon points="219,162 209,158 209,166"
+        <polygon points="287,162 277,158 277,166"
                  style={{ fill: 'var(--sl-accent)' }} />
-        <line x1="28" y1="55" x2="215" y2="55"
+        {/* línea Qmáx — solo hasta el borde del rectángulo */}
+        <line x1="28" y1="55" x2="220" y2="55"
               style={{ stroke: 'var(--sl-accent)', strokeWidth: 1, strokeDasharray: '4 3' }} />
-        <path d="M 30,128 C 60,108 90,142 120,118 C 152,92 182,128 215,100"
+        {/* curva Q(t) dentro del rectángulo */}
+        <path d="M 30,128 C 60,108 90,142 130,118 C 165,92 195,128 220,105"
               style={{ stroke: '#5588ff', strokeWidth: 2, fill: 'none' }} />
-        <text x="224" y="166"
+        <text x="292" y="166"
               style={{ fill: 'var(--sl-accent)', fontSize: '14px', fontStyle: 'italic' }}>t</text>
         <text x="30" y="12" textAnchor="middle"
               style={{ fill: 'var(--sl-accent)', fontSize: '12px', fontStyle: 'italic' }}>Q(t)</text>
@@ -36,9 +41,9 @@ const QtSVG = () => (
             <tspan>Q</tspan>
             <tspan dy="3" fontSize="8">máx</tspan>
         </text>
-        <text x="122" y="125" textAnchor="middle"
+        <text x="125" y="125" textAnchor="middle"
               style={{ fill: 'rgba(100,200,80,0.9)', fontSize: '11px' }}>Región admisible</text>
-        <text x="180" y="92"
+        <text x="175" y="92"
               style={{ fill: '#7799ff', fontSize: '11px', fontStyle: 'italic' }}>Q(t)</text>
     </svg>
 );
@@ -51,7 +56,7 @@ const DepthSVG = () => (
                        stroke: 'var(--sl-accent)', strokeWidth: 1.5 }} />
         <text x="145" y="20" textAnchor="middle"
               style={{ fill: 'var(--sl-secondary)', fontSize: '12px' }}>Superficie</text>
-        <text x="240" y="42"
+        <text x="210" y="55" textAnchor="middle"
               style={{ fill: 'var(--sl-accent)', fontSize: '14px', fontStyle: 'italic' }}>Ω</text>
         <line x1="30" y1="68" x2="250" y2="68"
               style={{ stroke: 'var(--sl-accent)', strokeWidth: 1, strokeDasharray: '5 3' }} />

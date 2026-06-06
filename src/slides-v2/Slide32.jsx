@@ -22,23 +22,25 @@ const bcRight = [
 ];
 
 const Slide32 = ({ theme = 'dark' }) => (
-    <ScientificLayout title="Modelo adjunto" theme={theme} align="top-center">
-        <EqCard title="Adjunto hidráulico" num={24} className="sl-math-sm">
+    <ScientificLayout title="Modelo adjunto" theme={theme} align="center">
+        <EqCard title="Adjunto hidráulico" num={24}>
             <BlockMath math={eq24} />
         </EqCard>
-        <EqCard title="Adjunto transporte" num={25} className="sl-math-sm">
+        <EqCard title="Adjunto transporte" num={25}>
             <BlockMath math={eq25} />
         </EqCard>
-        <EqCard title="Condiciones adjuntas" num="26 – 31" className="sl-math-xs">
-            <div className="s32-bc-grid">
-                {bcLeft.map((left, i) => (
-                    <React.Fragment key={i}>
-                        <div className="s32-bc-cell"><BlockMath math={left} /></div>
-                        <div className="s32-bc-cell"><BlockMath math={bcRight[i]} /></div>
-                    </React.Fragment>
+        <div style={{ display: 'flex', gap: '2%', alignItems: 'stretch', width: '100%' }}>
+            <EqCard title="Cond. adjunto transporte" num="26 – 28" className="s32-bc-card" style={{ flex: 1, minWidth: 0 }}>
+                {bcLeft.map((eq, i) => (
+                    <div key={i} className="s32-bc-cell"><BlockMath math={eq} /></div>
                 ))}
-            </div>
-        </EqCard>
+            </EqCard>
+            <EqCard title="Cond. adjunto hidráulico" num="29 – 31" className="s32-bc-card" style={{ flex: 1, minWidth: 0 }}>
+                {bcRight.map((eq, i) => (
+                    <div key={i} className="s32-bc-cell"><BlockMath math={eq} /></div>
+                ))}
+            </EqCard>
+        </div>
     </ScientificLayout>
 );
 

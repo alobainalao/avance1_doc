@@ -1,20 +1,43 @@
 /* Slide28.css — Método del gradiente conjugado (NCG) */
 
-.s28-main-eq {
-    display: flex;
-    justify-content: center;
-    margin: 0.2vh 0 0.6vh 0;
-}
-.s28-main-eq .katex-display { margin: 0 !important; }
-
-.s28-cols {
-    display: flex;
-    gap: 4%;
-    flex: 1;
-    min-height: 0;
+/* Primera ecuación: grande y prominente */
+.s28-hero .katex {
+    font-size: 1.6em;
 }
 
-.s28-left { flex: 3; min-width: 0; }
+/* Segunda EqCard: definiciones a todo lo ancho */
+.s28-defs {
+    width: 100%;
+}
+
+/* Grid de definiciones: label | ecuación */
+.s28-donde {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0vh 2%;
+    align-items: center;
+}
+.s28-donde .katex-display { margin: 0.05em 0 !important; }
+
+.s28-donde-lbl {
+    font-size: 2vh;
+    color: var(--sl-text);
+    white-space: nowrap;
+    padding-right: 1%;
+}
+
+/* Fila inferior: ventajas + diagrama */
+.s28-bottom {
+    display: flex;
+    gap: 3%;
+    align-items: flex-start;
+    margin-top: 0.5vh;
+}
+
+.s28-ventajas {
+    flex: 3;
+    min-width: 0;
+}
 
 .s28-right {
     flex: 2;
@@ -24,21 +47,14 @@
     align-items: center;
 }
 
-/* donde: two-column grid */
-.s28-donde {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 0.1vh 2%;
-    align-items: center;
-    margin-bottom: 0.3vh;
+/* Lista con menos interlineado y letra más pequeña */
+.s28-tight.sl-bullet-list {
+    gap: 0.5vh;
+    font-size: 2vh;
 }
-.s28-donde .katex-display { margin: 0.1em 0 !important; }
 
-.s28-donde-lbl {
-    font-size: 2.1vh;
-    color: var(--sl-text);
-    white-space: nowrap;
-    padding-right: 1%;
+.s28-tight.sl-bullet-list li:last-child {
+    text-align: left;
 }
 
 /* NCG flowchart */
@@ -46,20 +62,20 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.4vh;
+    gap: 0.3vh;
     width: 100%;
 }
 
 .s28-fbox {
     border: 1.5px solid var(--sl-accent);
     border-radius: 5px;
-    padding: 0.7vh 3%;
+    padding: 0.5vh 3%;
     text-align: center;
     color: var(--sl-accent);
     background: color-mix(in srgb, var(--sl-accent) 8%, transparent);
-    width: 70%;
+    width: 80%;
     box-sizing: border-box;
-    font-size: 2.2vh;
+    font-size: 1.9vh;
 }
 
 .s28-fbox.s28-start {
@@ -78,7 +94,7 @@
 
 .s28-farrow {
     color: var(--sl-accent);
-    font-size: 2.2vh;
+    font-size: 2vh;
     text-align: center;
     line-height: 1;
     flex-shrink: 0;
@@ -88,10 +104,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.4vh;
+    gap: 0.3vh;
     border: 1.5px dashed var(--sl-accent);
     border-radius: 8px;
-    padding: 1.5% 2%;
+    padding: 1% 2%;
     width: 95%;
     position: relative;
 }
@@ -103,7 +119,7 @@
     top: 50%;
     transform: translateY(-50%);
     color: var(--sl-accent);
-    font-size: 2.4vh;
+    font-size: 2.2vh;
 }
 
 .s28-exit-row {
@@ -114,6 +130,6 @@
 }
 
 .s28-cond {
-    font-size: 1.7vh;
+    font-size: 1.6vh;
     color: var(--sl-muted);
 }

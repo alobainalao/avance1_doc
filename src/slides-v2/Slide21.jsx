@@ -30,18 +30,22 @@ const Slide21 = ({ theme = 'dark' }) => (
             </div>
         </div>
         <p className="sl-heading" style={{ marginTop: '0.5vh' }}>Funciones objetivo</p>
-        <EqCard
-            title={<><InlineMath math={String.raw`J_m(Q,z_p)`} /> — Calidad del agua</>}
-            className="sl-math-xs"
-        >
-            <BlockMath math={jm} />
-        </EqCard>
-        <EqCard
-            title={<><InlineMath math={String.raw`J_e(Q,z_p)`} /> — Costo energético</>}
-            className="sl-math-xs"
-        >
-            <BlockMath math={je} />
-        </EqCard>
+        <div style={{ display: 'flex', gap: '2%', alignItems: 'stretch' }}>
+            <EqCard
+                title={<><InlineMath math={String.raw`J_m(Q,z_p)`} /> — Calidad del agua</>}
+                className="sl-math-xs"
+                style={{ flex: 1, minWidth: 0 }}
+            >
+                <BlockMath math={jm} />
+            </EqCard>
+            <EqCard
+                title={<><InlineMath math={String.raw`J_e(Q,z_p)`} /> — Costo energético</>}
+                className="sl-math-xs"
+                style={{ flex: 1, minWidth: 0 }}
+            >
+                <BlockMath math={je} />
+            </EqCard>
+        </div>
     </SlideLayout>
 );
 

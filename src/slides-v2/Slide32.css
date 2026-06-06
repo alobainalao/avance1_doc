@@ -11,3 +11,7 @@
 .s32-bc-cell .katex-display {
     margin: 0.1em 0;
 }
+
+.s32-bc-card .katex {
+    font-size: 0.72em;
+}

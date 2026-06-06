@@ -44,16 +44,29 @@ const Slide31 = ({ theme = 'dark' }) => (
         </table>
 
         <div className="s31-pipeline">
-            <div className="s31-box s31-start">
-                Forward (<em>h</em>, <em>C</em>)
+            <div className="s31-pbox">
+                <div className="s31-pbox-label">Entrada</div>
+                <div className="s31-pbox-body"><InlineMath math="u_k" /></div>
             </div>
-            <div className="s31-arrow">→</div>
-            <div className="s31-box">
-                Adjunto (ψ<sub>h</sub>, ψ<sub>C</sub>)
+            <span className="s31-parrow">→</span>
+            <div className="s31-pbox">
+                <div className="s31-pbox-label">Solución forward</div>
+                <div className="s31-pbox-body"><InlineMath math="h,\;C" /></div>
             </div>
-            <div className="s31-arrow">→</div>
-            <div className="s31-box s31-end">
-                Gradiente <InlineMath math="\nabla_u J" />
+            <span className="s31-parrow">→</span>
+            <div className="s31-pbox">
+                <div className="s31-pbox-label">Solución adjunta</div>
+                <div className="s31-pbox-body"><InlineMath math="\psi_h,\;\psi_C" /></div>
+            </div>
+            <span className="s31-parrow">→</span>
+            <div className="s31-pbox">
+                <div className="s31-pbox-label">Gradiente</div>
+                <div className="s31-pbox-body"><InlineMath math="\nabla_u J" /></div>
+            </div>
+            <span className="s31-parrow">→</span>
+            <div className="s31-pbox">
+                <div className="s31-pbox-label">Actualización</div>
+                <div className="s31-pbox-body"><InlineMath math="u_{k+1}" /></div>
             </div>
         </div>
 

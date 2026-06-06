@@ -1,0 +1,142 @@
+/* Slide33.css — Gradientes respecto a los controles */
+
+.s33-cols {
+    display: flex;
+    gap: 3%;
+    flex: 1;
+    min-height: 0;
+}
+
+/* ── C1: diagrama ────────────────────────────────────────── */
+.s33-c1 {
+    flex: 0 0 48.5%;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.s33-chart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    width: 100%;
+    gap: 0.5vh;
+}
+
+.s33-node {
+    border: 1.5px solid var(--sl-accent);
+    border-radius: 7px;
+    padding: 0.8vh 3%;
+    text-align: center;
+    color: var(--sl-accent);
+    background: color-mix(in srgb, var(--sl-accent) 8%, transparent);
+    width: 82%;
+    box-sizing: border-box;
+}
+
+.s33-node.s33-terminal {
+    border-radius: 50px;
+    width: 52%;
+    font-size: 1.6vh;
+}
+
+.s33-start {
+    border-color: #f59e0b;
+    background: rgba(245, 158, 11, 0.12);
+    color: #f59e0b;
+}
+
+.s33-end {
+    border-color: #10b981;
+    background: rgba(16, 185, 129, 0.12);
+    color: #10b981;
+}
+
+.s33-node-label {
+    color: var(--sl-accent);
+    font-size: 1.7vh;
+    font-weight: 700;
+    margin-bottom: 0.15vh;
+}
+
+.s33-node-body {
+    font-size: 1.5vh;
+    opacity: 0.85;
+}
+
+.s33-loop {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5vh;
+    border: 1.5px dashed var(--sl-accent);
+    border-radius: 8px;
+    padding: 1.2% 2%;
+    width: 90%;
+    position: relative;
+}
+
+.s33-loop::before {
+    content: '↩';
+    position: absolute;
+    left: -1.6em;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--sl-accent);
+    font-size: 2.2vh;
+}
+
+.s33-exit-row {
+    display: flex;
+    align-items: center;
+    gap: 4%;
+    justify-content: center;
+    width: 100%;
+}
+
+.s33-cond {
+    font-size: 1.6vh;
+    color: var(--sl-muted);
+}
+
+.s33-farrow {
+    color: var(--sl-accent);
+    font-size: 2vh;
+    text-align: center;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+/* ── C2: texto y ecuación ────────────────────────────────── */
+.s33-c2 {
+    flex: 0 0 48.5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.4vh;
+    min-width: 0;
+}
+
+.s33-main-eq {
+    margin: 0.4vh 0 2.5vh 0;
+}
+
+.s33-main-eq .katex-display {
+    margin: 0 !important;
+}
+
+.s33-main-eq .katex {
+    font-size: 1.2em;
+}
+
+.s33-tight.sl-bullet-list {
+    gap: 0.8vh;
+    margin: 0.5vh 0 0 0;
+}
+
+.s33-tight.sl-bullet-list li {
+    font-size: 3vh;
+    margin-bottom: 0;
+    text-align: left;
+}

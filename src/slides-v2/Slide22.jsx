@@ -22,38 +22,28 @@ const Slide22 = ({ theme = 'dark' }) => (
             <InlineMath math={String.raw`\Omega\times(0,T)`} />,
             donde el operador <InlineMath math="e" /> se define como:
         </p>
-        <EqCard title="Restricción PDE" className="sl-math-sm s22-eq">
+        <EqCard title="Restricción PDE" className="s22-eq">
             <BlockMath math={eqE} />
         </EqCard>
         <div className="s22-flow">
-            <div className="s22-flow-row">
-                <div className="s22-box s22-start">
-                    <div className="s22-box-label">Controles</div>
-                    <div className="s22-box-body">
-                        <InlineMath math={String.raw`Q(t),\;(x_p,z_p)`} />
-                    </div>
-                </div>
-                <span className="s22-arrow">→</span>
-                <div className="s22-box">
-                    <div className="s22-box-label">Modelo PDE</div>
-                    <div className="s22-box-body">Flujo + Transporte</div>
-                </div>
-                <span className="s22-arrow">→</span>
-                <div className="s22-flow-col">
-                    <div className="s22-box">
-                        <div className="s22-box-label">Estados</div>
-                        <div className="s22-box-body">
-                            <InlineMath math={String.raw`h(x,z,t),\; C(x,z,t)`} />
-                        </div>
-                    </div>
-                    <span className="s22-arrow">↓</span>
-                    <div className="s22-box s22-end">
-                        <div className="s22-box-label">Funcionales</div>
-                        <div className="s22-box-body">
-                            <InlineMath math={String.raw`J_e,\; J_m`} />
-                        </div>
-                    </div>
-                </div>
+            <div className="s22-box">
+                <div className="s22-box-label">Controles</div>
+                <div className="s22-box-body"><InlineMath math={String.raw`Q(t),\;z_p`} /></div>
+            </div>
+            <span className="s22-arrow">→</span>
+            <div className="s22-box">
+                <div className="s22-box-label">Modelo PDE</div>
+                <div className="s22-box-body">Flujo + Transp.</div>
+            </div>
+            <span className="s22-arrow">→</span>
+            <div className="s22-box">
+                <div className="s22-box-label">Estados</div>
+                <div className="s22-box-body"><InlineMath math={String.raw`h,\;C`} /></div>
+            </div>
+            <span className="s22-arrow">→</span>
+            <div className="s22-box">
+                <div className="s22-box-label">Funcionales</div>
+                <div className="s22-box-body"><InlineMath math={String.raw`J_e,\;J_m`} /></div>
             </div>
         </div>
     </SlideLayout>

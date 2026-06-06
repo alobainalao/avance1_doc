@@ -19,17 +19,9 @@ const items07 = [
 const Slide07 = ({ theme = 'dark' }) => (
     <SlideLayout title="Resultados numéricos RBF" theme={theme}>
         <div className="sl-spacer" />
-        <ul style={{
-            listStyle: 'none', padding: 0, margin: '0 auto',
-            display: 'flex', flexDirection: 'column', gap: '3.5vh',
-            width: '68%',
-        }}>
+        <ul className="sl-video-list">
             {items07.map(({ label, video }) => (
-                <li key={label} style={{
-                    display: 'flex', alignItems: 'center',
-                    justifyContent: 'center', gap: '1.2vh',
-                    fontSize: '3.2vh', color: 'var(--sl-text)',
-                }}>
+                <li key={label}>
                     <span style={{ color: 'var(--sl-accent)', fontSize: '0.7em', flexShrink: 0 }}>■</span>
                     <span style={{ flex: 1 }}>{label}</span>
                     <button className="sl-play-btn" onClick={() => openVideo('adr', video)}>

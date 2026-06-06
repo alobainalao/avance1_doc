@@ -58,12 +58,14 @@
 /* ── Área de contenido ───────────────────────────────────── */
 .slide-layout__content {
     flex: 1;
-    padding: 3% 8.5%;
+    padding: 6vh 8.5% 2vh;
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     gap: 1.2vh;
     box-sizing: border-box;
+    font-size: 1.15rem;
 }
 
 /* ── Utilidades compartidas para contenido de slides ────── */
@@ -85,7 +87,7 @@
 
 .sl-bullet-list {
     list-style: none;
-    padding: 0;
+    padding: 0 0 0 3%;
     margin: 0 0 1.5vh 0;
     display: flex;
     flex-direction: column;
@@ -351,6 +353,26 @@
     font-weight: 600;
     flex-shrink: 0;
     padding-left: 0.6em;
+}
+
+/* ── Video list — lista centrada con botones de reproducción */
+.sl-video-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 4vh;
+    width: 68%;
+}
+
+.sl-video-list li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2vh;
+    font-size: 3.2vh;
+    color: var(--sl-text);
 }
 
 /* ── Cols / Col — \begin{columns} ───────────────────────── */

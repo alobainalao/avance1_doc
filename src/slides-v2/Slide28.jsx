@@ -42,28 +42,28 @@ const NCGChart = () => (
 
 const Slide28 = ({ theme = 'dark' }) => (
     <SlideLayout title="Método del gradiente conjugado (NCG)" theme={theme}>
-        <p className="sl-body">
+        <p className="sl-body" style={{ marginTop: '0' }}>
             Sea <InlineMath math={String.raw`\mathbf{y}=(h,C)`} />,{' '}
             <InlineMath math={String.raw`\mathbf{u}=(Q_1,\ldots,Q_{N_t},z_p)`} />{' '}
             se actualiza iterativamente mediante <span className="sl-cite">[Nocedal and Wright, 2006]</span>:
         </p>
-        <EqCard title="Actualización NCG" className="sl-math-sm">
+        <EqCard title="Actualización NCG" className="s28-hero">
             <BlockMath math={eqMain} />
         </EqCard>
-        <div className="s28-cols">
-            <div className="s28-left">
-                <EqCard title="Definiciones" className="sl-math-xs">
-                    <div className="s28-donde">
-                        <span className="s28-donde-lbl">■ <InlineMath math="\alpha_k" /> es el paso</span>
-                        <div><BlockMath math={eqAlpha} /></div>
-                        <span className="s28-donde-lbl">■ <InlineMath math="d_k" /> es la dirección conjugada</span>
-                        <div><BlockMath math={eqD} /></div>
-                        <span className="s28-donde-lbl">■ <InlineMath math="\beta_k" /> (Polak–Ribière)</span>
-                        <div><BlockMath math={eqBeta} /></div>
-                    </div>
-                </EqCard>
-                <p className="sl-heading" style={{ marginTop: '0.6vh' }}>Ventajas</p>
-                <ul className="sl-bullet-list">
+        <EqCard title="Definiciones" className="sl-math-xs s28-defs">
+            <div className="s28-donde">
+                <span className="s28-donde-lbl">■ <InlineMath math="\alpha_k" /> es el paso</span>
+                <div><BlockMath math={eqAlpha} /></div>
+                <span className="s28-donde-lbl">■ <InlineMath math="d_k" /> es la dirección conjugada</span>
+                <div><BlockMath math={eqD} /></div>
+                <span className="s28-donde-lbl">■ <InlineMath math="\beta_k" /> (Polak–Ribière)</span>
+                <div><BlockMath math={eqBeta} /></div>
+            </div>
+        </EqCard>
+        <div className="s28-bottom">
+            <div className="s28-ventajas">
+                <p className="sl-heading">Ventajas</p>
+                <ul className="sl-bullet-list s28-tight">
                     <li>No requiere Hessiano</li>
                     <li>Bajo costo de memoria</li>
                     <li>Adecuado para controles funcionales</li>

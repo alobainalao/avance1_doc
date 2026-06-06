@@ -22,17 +22,9 @@ const items = [
 const Slide18 = ({ theme = 'dark' }) => (
     <SlideLayout title="Resultados numéricos BLK-MRMT" theme={theme}>
         <div className="sl-spacer" />
-        <ul style={{
-            listStyle: 'none', padding: 0, margin: '0 auto',
-            display: 'flex', flexDirection: 'column', gap: '2.2vh',
-            width: '68%',
-        }}>
+        <ul className="sl-video-list">
             {items.map(({ label, video }) => (
-                <li key={label} style={{
-                    display: 'flex', alignItems: 'center',
-                    justifyContent: 'center', gap: '1.2vh',
-                    fontSize: '3.2vh', color: 'var(--sl-text)',
-                }}>
+                <li key={label}>
                     <span style={{ color: 'var(--sl-accent)', fontSize: '0.7em', flexShrink: 0 }}>■</span>
                     <span style={{ flex: 1 }}>{label}</span>
                     {video && (

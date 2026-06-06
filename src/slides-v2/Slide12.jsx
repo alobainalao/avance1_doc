@@ -16,7 +16,7 @@ const eq14 = String.raw`
 const eqL = String.raw`\mathcal{L}^n = D^n\nabla^2 + (\nabla D^n - \mathbf{v}^n) \cdot \nabla`;
 
 const Slide12 = ({ theme = 'dark' }) => (
-    <ScientificLayout title="Discretización Temporal" theme={theme} align="top-center">
+    <ScientificLayout title="Discretización Temporal" theme={theme} align="center">
         <EqCard title="Transporte" num={13} className="sl-math-sm">
             <BlockMath math={eq13} />
         </EqCard>

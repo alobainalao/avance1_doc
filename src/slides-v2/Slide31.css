@@ -60,47 +60,43 @@
 .s31-bad  { color: #f59e0b; font-weight: 700; }
 .s31-good { color: #10b981; font-weight: 700; }
 
-/* ── Pipeline ────────────────────────────────────────────── */
+/* ── Pipeline (estilo S22) ───────────────────────────────── */
 .s31-pipeline {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1.5%;
-    padding: 1.2vh 0 0.5vh;
+    gap: 1%;
+    padding: 1vh 0 0.5vh;
     flex-shrink: 0;
 }
 
-.s31-box {
+.s31-pbox {
+    flex: 0 0 15%;
     border: 1.5px solid var(--sl-accent);
-    border-radius: 5px;
-    padding: 1.2vh 3%;
-    color: var(--sl-accent);
-    font-size: 2.8vh;
+    border-radius: 6px;
+    padding: 0.6vh 2%;
     text-align: center;
     background: color-mix(in srgb, var(--sl-accent) 8%, transparent);
 }
 
-.s31-box.s31-start {
-    border-radius: 50px;
-    border-color: #f59e0b;
-    background: rgba(245, 158, 11, 0.12);
-    color: #f59e0b;
-}
-
-.s31-box.s31-end {
-    border-radius: 50px;
-    border-color: #10b981;
-    background: rgba(16, 185, 129, 0.12);
-    color: #10b981;
-}
-
-.s31-box .katex {
-    font-size: 2.6vh;
-}
-
-.s31-arrow {
+.s31-pbox-label {
     color: var(--sl-accent);
-    font-size: 2.6vh;
+    font-size: 1.55vh;
+    font-weight: 700;
+    margin-bottom: 0.2vh;
+    white-space: nowrap;
+}
+
+.s31-pbox-body {
+    color: var(--sl-accent);
+    font-size: 1.6vh;
+    opacity: 0.85;
+}
+
+.s31-parrow {
+    color: var(--sl-accent);
+    font-size: 2.2vh;
     font-weight: 700;
     flex-shrink: 0;
+    line-height: 1;
 }

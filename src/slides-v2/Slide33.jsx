@@ -14,11 +14,11 @@ const eqDzp = String.raw`\begin{aligned}
 \end{aligned}`;
 
 const Slide33 = ({ theme = 'dark' }) => (
-    <ScientificLayout title="Gradientes respecto a los controles" theme={theme} align="top-center">
-        <EqCard title="Gradiente respecto a Q" className="sl-math-sm">
+    <ScientificLayout title="Gradientes respecto a los controles" theme={theme} align="center">
+        <EqCard title="Gradiente respecto a Q">
             <BlockMath math={eqNQ} />
         </EqCard>
-        <EqCard title="Gradiente respecto a zₚ" className="sl-math-sm">
+        <EqCard title="Gradiente respecto a zₚ">
             <BlockMath math={eqDzp} />
         </EqCard>
     </ScientificLayout>
