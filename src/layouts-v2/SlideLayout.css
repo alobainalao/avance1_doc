@@ -1,0 +1,369 @@
+/* SlideLayout.css — base para todos los layouts V2 */
+
+/* ── Variables de tema ───────────────────────────────────── */
+.slide-layout--dark {
+    --sl-bg:           #0b0f19;
+    --sl-text:         #c8e8ff;
+    --sl-titlebar-bg:  #2e2d8a;
+    --sl-title-text:   #ffffff;
+    --sl-accent:       #00d8ff;
+    --sl-secondary:    #60a5fa;
+    --sl-muted:        #4a7a9b;
+}
+
+.slide-layout--light {
+    --sl-bg:           #f5f5ff;
+    --sl-text:         #1a1a3a;
+    --sl-titlebar-bg:  #3d3880;
+    --sl-title-text:   #ffffff;
+    --sl-accent:       #0050a0;
+    --sl-secondary:    #2a4a8a;
+    --sl-muted:        #5a6a8a;
+}
+
+/* ── Contenedor base ─────────────────────────────────────── */
+.slide-layout {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    font-family: 'Georgia', 'Times New Roman', serif;
+    overflow: hidden;
+    background: var(--sl-bg);
+    color: var(--sl-text);
+    position: relative;
+}
+
+/* ── Barra de título ─────────────────────────────────────── */
+.slide-layout__titlebar {
+    background: var(--sl-titlebar-bg);
+    padding: 1% 4%;
+    flex-shrink: 0;
+    box-shadow:
+        inset 4px 0 12px rgba(0, 212, 255, 0.15),
+        inset -4px 0 12px rgba(0, 212, 255, 0.15),
+        0 4px 16px rgba(0, 212, 255, 0.18);
+}
+
+.slide-layout__title {
+    color: var(--sl-title-text);
+    font-size: 4.5vh;
+    font-weight: 400;
+    margin: 0;
+    line-height: 1.3;
+    font-family: 'Georgia', 'Times New Roman', serif;
+}
+
+/* ── Área de contenido ───────────────────────────────────── */
+.slide-layout__content {
+    flex: 1;
+    padding: 3% 8.5%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2vh;
+    box-sizing: border-box;
+}
+
+/* ── Utilidades compartidas para contenido de slides ────── */
+.sl-heading {
+    color: var(--sl-accent);
+    font-size: 4.2vh;
+    font-weight: 700;
+    margin: 0 0 1vh 0;
+}
+
+.sl-body {
+    color: var(--sl-text);
+    font-size: 3.6vh;
+    line-height: 1.75;
+    margin: 0 0 1.5vh 0;
+    text-align: justify;
+    hyphens: auto;
+}
+
+.sl-bullet-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5vh 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.8vh;
+}
+
+.sl-bullet-list li {
+    display: block;
+    position: relative;
+    padding-left: 1.4em;
+    margin-bottom: 0.9vh;
+    color: var(--sl-text);
+    font-size: 3.6vh;
+    line-height: 1.65;
+    text-align: justify;
+    hyphens: auto;
+}
+
+.sl-bullet-list li::before {
+    content: '■';
+    color: var(--sl-accent);
+    font-size: 0.65em;
+    position: absolute;
+    left: 0;
+    top: 0.28em;
+}
+
+.sl-bullet-list.sl-has-btns li {
+    display: flex;
+    align-items: center;
+    gap: 0.7em;
+    text-align: left;
+}
+
+.sl-bullet-list.sl-has-btns li::before {
+    position: static;
+    top: auto;
+}
+
+.sl-play-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--sl-accent);
+    font-size: 1.4em;
+    padding: 0 0.2em;
+    flex-shrink: 0;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    opacity: 0.8;
+    transition: opacity 0.15s, transform 0.15s;
+}
+
+.sl-play-btn:hover {
+    opacity: 1;
+    transform: scale(1.15);
+}
+
+.sl-equation {
+    color: var(--sl-accent);
+    font-size: 3.8vh;
+    text-align: center;
+    margin: 1.5vh 0;
+}
+
+.sl-spacer {
+    flex: 1;
+}
+
+/* ── KaTeX color matching ────────────────────────────────── */
+.slide-layout__content .katex {
+    color: var(--sl-accent);
+}
+
+/* ── Prevent equation overflow ───────────────────────────── */
+.katex-display {
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-width: 100%;
+    padding-bottom: 3px;
+}
+
+/* ── Math font-size helpers ──────────────────────────────── */
+.sl-math-sm .katex { font-size: 0.95em; }
+.sl-math-xs .katex { font-size: 0.84em; }
+
+/* ── Boxed equation ──────────────────────────────────────── */
+.sl-boxed {
+    border: 1.5px solid var(--sl-accent);
+    border-radius: 4px;
+    padding: 0 2%;
+    display: inline-block;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.sl-num-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2vh 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2vh;
+    counter-reset: sl-counter;
+}
+
+.sl-num-list li {
+    display: flex;
+    align-items: baseline;
+    gap: 0.7em;
+    color: var(--sl-text);
+    font-size: 3.4vh;
+    line-height: 1.5;
+    counter-increment: sl-counter;
+}
+
+.sl-num-list li::before {
+    content: counter(sl-counter) '.';
+    color: var(--sl-accent);
+    font-weight: 700;
+    font-size: 0.95em;
+    flex-shrink: 0;
+    min-width: 1.4em;
+}
+
+.sl-num-list li strong {
+    color: var(--sl-accent);
+}
+
+.sl-ref-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5vh;
+}
+
+.sl-ref-entry {
+    display: flex;
+    align-items: flex-start;
+    gap: 1em;
+}
+
+.sl-ref-icon {
+    color: var(--sl-accent);
+    font-size: 3.2vh;
+    flex-shrink: 0;
+    margin-top: 0.2em;
+}
+
+.sl-ref-text {
+    font-size: 2.9vh;
+    line-height: 1.55;
+    color: var(--sl-text);
+}
+
+.sl-ref-authors {
+    color: var(--sl-text);
+}
+
+.sl-ref-title {
+    display: block;
+    color: var(--sl-accent);
+    font-weight: 700;
+}
+
+.sl-ref-venue {
+    display: block;
+    font-style: italic;
+    color: var(--sl-muted);
+}
+
+.sl-cite {
+    color: var(--sl-secondary);
+    font-style: italic;
+}
+
+/* ── Fig — \includegraphics card ─────────────────────────── */
+.sl-fig {
+    border: 1px solid var(--sl-accent);
+    border-radius: 8px 8px 8px 8px;
+    overflow: hidden;
+    line-height: 0;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+}
+
+.sl-fig > img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.sl-fig__caption {
+    font-size: 2.2vh;
+    color: var(--sl-muted);
+    padding: 0.4vh 3%;
+    text-align: center;
+    line-height: 1.4;
+    margin: 0;
+    background: rgba(0, 0, 0, 0.15);
+}
+
+/* ── Block — \begin{block} ───────────────────────────────── */
+.sl-block {
+    border: 1.5px solid var(--sl-accent);
+    border-radius: 8px 8px 8px 8px;
+    overflow: hidden;
+    margin: 0.5vh 0;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+}
+
+.sl-block__title {
+    background: var(--sl-accent);
+    color: var(--sl-bg);
+    font-size: 2.8vh;
+    font-weight: 700;
+    padding: 0.4vh 3%;
+    font-family: 'Georgia', 'Times New Roman', serif;
+}
+
+.sl-block__body {
+    padding: 0.8vh 3%;
+}
+
+.sl-block--alert  { border-color: #f59e0b; }
+.sl-block--alert  .sl-block__title { background: #f59e0b; }
+.sl-block--example { border-color: #10b981; }
+.sl-block--example .sl-block__title { background: #10b981; }
+
+/* ── EqCard — numbered equation box ─────────────────────── */
+.sl-eq-card {
+    border: 1px solid rgba(0,216,255,0.35);
+    border-radius: 8px 8px 8px 8px;
+    padding: 0.4vh 2%;
+    box-sizing: border-box;
+    width: 100%;
+    text-align: left;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+
+.sl-eq-card__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.1vh;
+}
+
+.sl-eq-card__label {
+    font-size: 1.8vh;
+    color: var(--sl-muted);
+    font-style: italic;
+    flex: 1;
+    min-width: 0;
+}
+
+.sl-eq-card__num {
+    font-size: 1.8vh;
+    color: var(--sl-accent);
+    font-weight: 600;
+    flex-shrink: 0;
+    padding-left: 0.6em;
+}
+
+/* ── Cols / Col — \begin{columns} ───────────────────────── */
+.sl-cols {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+}
+
+.sl-col {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}

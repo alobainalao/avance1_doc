@@ -1,0 +1,18 @@
+/* TwoColumnLayout.css */
+
+.two-col-layout .slide-layout__content {
+    padding: 3% 4%;
+}
+
+.two-col__cols {
+    display: flex;
+    flex: 1;
+    align-items: flex-start;
+    overflow: hidden;
+}
+
+.two-col__col {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}

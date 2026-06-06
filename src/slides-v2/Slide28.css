@@ -1,0 +1,119 @@
+/* Slide28.css — Método del gradiente conjugado (NCG) */
+
+.s28-main-eq {
+    display: flex;
+    justify-content: center;
+    margin: 0.2vh 0 0.6vh 0;
+}
+.s28-main-eq .katex-display { margin: 0 !important; }
+
+.s28-cols {
+    display: flex;
+    gap: 4%;
+    flex: 1;
+    min-height: 0;
+}
+
+.s28-left { flex: 3; min-width: 0; }
+
+.s28-right {
+    flex: 2;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* donde: two-column grid */
+.s28-donde {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.1vh 2%;
+    align-items: center;
+    margin-bottom: 0.3vh;
+}
+.s28-donde .katex-display { margin: 0.1em 0 !important; }
+
+.s28-donde-lbl {
+    font-size: 2.1vh;
+    color: var(--sl-text);
+    white-space: nowrap;
+    padding-right: 1%;
+}
+
+/* NCG flowchart */
+.s28-chart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4vh;
+    width: 100%;
+}
+
+.s28-fbox {
+    border: 1.5px solid var(--sl-accent);
+    border-radius: 5px;
+    padding: 0.7vh 3%;
+    text-align: center;
+    color: var(--sl-accent);
+    background: color-mix(in srgb, var(--sl-accent) 8%, transparent);
+    width: 70%;
+    box-sizing: border-box;
+    font-size: 2.2vh;
+}
+
+.s28-fbox.s28-start {
+    border-radius: 50px;
+    border-color: #f59e0b;
+    background: rgba(245, 158, 11, 0.12);
+    color: #f59e0b;
+}
+
+.s28-fbox.s28-end {
+    border-radius: 50px;
+    border-color: #10b981;
+    background: rgba(16, 185, 129, 0.12);
+    color: #10b981;
+}
+
+.s28-farrow {
+    color: var(--sl-accent);
+    font-size: 2.2vh;
+    text-align: center;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.s28-loop {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4vh;
+    border: 1.5px dashed var(--sl-accent);
+    border-radius: 8px;
+    padding: 1.5% 2%;
+    width: 95%;
+    position: relative;
+}
+
+.s28-loop::before {
+    content: '↩';
+    position: absolute;
+    left: -1.6em;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--sl-accent);
+    font-size: 2.4vh;
+}
+
+.s28-exit-row {
+    display: flex;
+    align-items: center;
+    gap: 6%;
+    justify-content: center;
+}
+
+.s28-cond {
+    font-size: 1.7vh;
+    color: var(--sl-muted);
+}

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { FaPlayCircle } from 'react-icons/fa';
 import './SlideShow.css';
+import { FaPlayCircle } from 'react-icons/fa';
 
 const AnimationButtons = ({ metodo }) => {
     const videoMap = {

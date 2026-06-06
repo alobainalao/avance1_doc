@@ -1,0 +1,117 @@
+.portada {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2.5%;
+    padding: 4% 8%;
+    box-sizing: border-box;
+    background: #050a14;
+    color: #c8e8ff;
+    font-family: 'Georgia', 'Times New Roman', serif;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Línea de acento en el tope */
+.portada::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #1d309b, #00d4ff, #1d309b, transparent);
+}
+
+.portada--light {
+    background: #f0f4f8;
+    color: #1a2a4a;
+}
+
+/* Caja de título */
+.portada-title-box {
+    background: #1d309b;
+    border-radius: 6px;
+    padding: 3.5% 6%;
+    width: 82%;
+    text-align: center;
+    border: 1px solid var(--glow-color);
+
+    box-shadow:
+        0 0 3px color-mix(in srgb, var(--glow-color) 70%, transparent),
+        0 0 8px color-mix(in srgb, var(--glow-color) 50%, transparent),
+        0 0 12px color-mix(in srgb, var(--glow-color) 30%, transparent);
+}
+
+.portada-title-box h1 {
+    color: #ffffff;
+    font-size: 4.5vh;
+    font-weight: 400;
+    line-height: 1.5;
+    margin: 0;
+    letter-spacing: 0.01em;
+}
+
+/* Filas de autor/director */
+.portada-info {
+    margin: 4vh 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.65vh;
+}
+
+.portada-row {
+    display: flex;
+    gap: 0.8em;
+    align-items: baseline;
+    font-size: 2vh;
+}
+
+.portada-label {
+    color: #60a5fa;
+    font-weight: 700;
+    font-size: 2vh;
+}
+
+.portada-value {
+    color: #c8e8ff;
+}
+
+.portada--light .portada-label {
+    color: #1d309b;
+}
+
+.portada--light .portada-value {
+    color: #1a3a6a;
+}
+
+/* Institución */
+.portada-institution {
+    text-align: center;
+    color: #4a9abf;
+    font-size: 1.35vh;
+    line-height: 1.7;
+}
+
+.portada-institution p {
+    margin: 0;
+}
+
+.portada--light .portada-institution {
+    color: #2a6080;
+}
+
+/* Fecha */
+.portada-date {
+    color: #50c8d8;
+    font-size: 1.8vh;
+    letter-spacing: 0.05em;
+}
+
+.portada--light .portada-date {
+    color: #1d5a7a;
+}

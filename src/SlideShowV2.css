@@ -1,0 +1,59 @@
+/* SlideShowV2.css — overrides V2 sobre SlideShow.css */
+
+/* ── Variables globales ─────────────────────────────────────── */
+:root {
+    --glow-color: #1e90ff;
+}
+
+[data-theme="dark"] {
+    --sl-bg:      #0b0f19;
+    --glow-color: #00d4ff;
+    --v2-border:  rgba(59, 130, 246, 0.3);
+}
+
+[data-theme="light"] {
+    --sl-bg:      #f5f5ff;
+    --glow-color: #1e90ff;
+    --v2-border:  rgba(96, 165, 250, 0.3);
+}
+
+/* ── Fondo oscuro del container ─────────────────────────────── */
+.slideshow-container.v2 {
+    background-color: var(--sl-bg, #0b0f19);
+}
+
+/* ── slide-stack como columna de altura fija ────────────────── */
+.slideshow-container.v2 .slide-stack {
+    height: 99vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── Dimensiones del slide V2 ───────────────────────────────── */
+.slideshow-container.v2 .slide-crop-wrapper {
+    width: calc(96vh * 4 / 3);
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    border-radius: 0 0 10px 10px;
+    border-top: none;
+    border-left:   1.5px solid var(--glow-color);
+    border-right:  1.5px solid var(--glow-color);
+    border-bottom: 1.5px solid var(--glow-color);
+    box-shadow:
+        0 0 16px color-mix(in srgb, var(--glow-color) 60%, transparent),
+        0 0 32px color-mix(in srgb, var(--glow-color) 35%, transparent),
+        0 3px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* ── Ocultar titlebar interno cuando SlideHeader lo maneja ─── */
+.slideshow-container.v2 .slide-crop-wrapper .slide-layout__titlebar {
+    display: none;
+}
+
+/* ── KaTeX overflow ─────────────────────────────────────────── */
+.katex-display {
+    overflow-x: auto;
+    overflow-y: hidden;
+    margin: 0.25em 0;
+}

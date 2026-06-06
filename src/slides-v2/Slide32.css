@@ -1,0 +1,13 @@
+/* Slide32.css — Modelo adjunto */
+
+.s32-bc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 2%;
+    width: 100%;
+    margin-top: 0.5vh;
+}
+
+.s32-bc-cell .katex-display {
+    margin: 0.1em 0;
+}

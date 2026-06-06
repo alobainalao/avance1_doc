@@ -1,0 +1,74 @@
+/* Slide22.css — Restricción: e(y,u) + flowchart */
+
+.s22-eq {
+    display: flex;
+    justify-content: center;
+    margin: 0.3vh 0 0.8vh 0;
+}
+
+.s22-flow {
+    margin-top: 0.5vh;
+}
+
+.s22-flow-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 1%;
+}
+
+.s22-flow-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+}
+
+.s22-box {
+    border: 1.5px solid var(--sl-accent);
+    border-radius: 5px;
+    padding: 0.9vh 2.5%;
+    text-align: center;
+    background: color-mix(in srgb, var(--sl-accent) 8%, transparent);
+}
+
+.s22-box.s22-start {
+    border-radius: 50px;
+    border-color: #f59e0b;
+    background: rgba(245, 158, 11, 0.10);
+}
+
+.s22-box.s22-start .s22-box-label { color: #f59e0b; }
+.s22-box.s22-start .s22-box-body { color: #f59e0b; }
+
+.s22-box.s22-end {
+    border-radius: 50px;
+    border-color: #10b981;
+    background: rgba(16, 185, 129, 0.10);
+}
+
+.s22-box.s22-end .s22-box-label { color: #10b981; }
+.s22-box.s22-end .s22-box-body { color: #10b981; }
+
+.s22-box-label {
+    color: var(--sl-accent);
+    font-size: 2.3vh;
+    font-weight: 700;
+    margin-bottom: 0.4vh;
+}
+
+.s22-box-body {
+    color: var(--sl-accent);
+    font-size: 2.1vh;
+    opacity: 0.85;
+}
+
+.s22-arrow {
+    color: var(--sl-accent);
+    font-size: 2.8vh;
+    font-weight: 700;
+    align-self: center;
+    padding: 0 0.8%;
+    line-height: 1;
+    flex-shrink: 0;
+}

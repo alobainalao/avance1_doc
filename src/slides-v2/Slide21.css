@@ -1,0 +1,34 @@
+/* Slide21.css — Definición del problema */
+
+.s21-vars {
+    display: flex;
+    gap: 6%;
+    margin-bottom: 1.2vh;
+}
+
+.s21-vars > div {
+    flex: 1;
+}
+
+.s21-obj-row {
+    display: flex;
+    align-items: center;
+    gap: 2%;
+    margin: 0.7vh 0;
+}
+
+.s21-obj-lbl {
+    flex: 0 0 46%;
+    font-size: 2.1vh;
+    color: var(--sl-text);
+    white-space: nowrap;
+}
+
+.s21-obj-eq {
+    flex: 1;
+    min-width: 0;
+}
+
+.s21-obj-eq .katex-display {
+    margin: 0 !important;
+}

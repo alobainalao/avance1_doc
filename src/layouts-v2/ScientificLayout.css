@@ -1,0 +1,59 @@
+/* ScientificLayout.css */
+
+.scientific-layout .slide-layout__content {
+    justify-content: flex-start;
+}
+
+.scientific-layout__body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    color: var(--sl-accent);
+    font-size: 2.2vh;
+    line-height: 1.7;
+}
+
+/* align variants */
+.scientific-layout--center .slide-layout__content {
+    align-items: center;
+    justify-content: center;
+}
+
+.scientific-layout--center .scientific-layout__body {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.scientific-layout--left .scientific-layout__body {
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.scientific-layout--top-center .slide-layout__content {
+    align-items: center;
+}
+
+.scientific-layout--top-center .scientific-layout__body {
+    align-items: center;
+    text-align: center;
+    justify-content: flex-start;
+}
+
+/* Bloque de ecuación con número a la derecha */
+.sl-eq-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+    margin: 1.2vh 0;
+}
+
+.sl-eq-number {
+    position: absolute;
+    right: 0;
+    color: var(--sl-accent);
+    font-size: 2vh;
+}

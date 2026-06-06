@@ -1,0 +1,85 @@
+/* SlideHeader.css — tabs de sección + barra de título unificados */
+
+.slide-header {
+    flex-shrink: 0;
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    background: #1d309b;
+    border-radius: 10px 10px 0 0;
+    border: 1.5px solid var(--glow-color);
+    border-bottom: none;
+    box-sizing: border-box;
+    overflow: hidden;
+    position: relative;
+    box-shadow:
+        -1px 0 7px color-mix(in srgb, var(--glow-color) 55%, transparent),
+        1px 0 7px color-mix(in srgb, var(--glow-color) 55%, transparent),
+        0 -4px 9px color-mix(in srgb, var(--glow-color) 55%, transparent);
+}
+
+/* Línea de acento luminoso en la parte superior */
+.slide-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, #1e90ff 30%, #00d4ff 50%, #1e90ff 70%, transparent 100%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* ── Fila de tabs ─────────────────────────────────────────── */
+.slide-header__tabs {
+    display: flex;
+    align-items: stretch;
+    height: 4vh;
+}
+
+.slide-header__tab {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.55rem;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+    color: #ffffff;
+    white-space: nowrap;
+    border-right: 1px solid #0d2a47;
+    padding: 0 0.2vw;
+    cursor: default;
+    text-transform: uppercase;
+    transition: background 0.2s ease, color 0.2s ease;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.slide-header__tab:last-child {
+    border-right: none;
+}
+
+.slide-header__tab.active {
+    color: red;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-shadow: 0 0 8px rgba(0, 190, 255, 0.7);
+    box-shadow: inset 0 1px 0 rgba(100, 200, 255, 0.15);
+}
+
+/* ── Barra de título ──────────────────────────────────────── */
+.slide-header__title {
+    background: #2e2d8a;
+    padding: 2vh 4% 0.8vh;
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: 4.5vh;
+    font-weight: 400;
+    color: #ffffff;
+    line-height: 1.25;
+    box-shadow:
+        inset 5px 0 14px rgba(0, 212, 255, 0.15),
+        inset -5px 0 14px rgba(0, 212, 255, 0.15),
+        0 5px 18px rgba(0, 212, 255, 0.2);
+}

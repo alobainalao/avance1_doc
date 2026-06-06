@@ -1,0 +1,89 @@
+/* Slide34.css — Esquema iterativo de optimización */
+
+.s34-flow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4vh;
+    width: 100%;
+}
+
+.s34-fbox {
+    border: 1.5px solid var(--sl-accent);
+    border-radius: 5px;
+    padding: 0.7vh 3%;
+    text-align: center;
+    color: var(--sl-accent);
+    background: color-mix(in srgb, var(--sl-accent) 8%, transparent);
+    width: 70%;
+    box-sizing: border-box;
+    font-size: 2.2vh;
+}
+
+.s34-fbox.s34-start {
+    border-radius: 50px;
+    border-color: #f59e0b;
+    background: rgba(245, 158, 11, 0.12);
+    color: #f59e0b;
+}
+
+.s34-fbox.s34-fbox-exit {
+    border-radius: 50px;
+    border-color: #10b981;
+    background: rgba(16, 185, 129, 0.12);
+    color: #10b981;
+}
+
+.s34-farrow {
+    color: var(--sl-accent);
+    font-size: 2vh;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.s34-loop-wrap {
+    display: flex;
+    align-items: center;
+    gap: 4%;
+    width: 100%;
+}
+
+.s34-loop {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4vh;
+    border: 1.5px dashed var(--sl-accent);
+    border-radius: 8px;
+    padding: 1.5% 2%;
+    position: relative;
+}
+
+.s34-loop::before {
+    content: '↩';
+    position: absolute;
+    left: -1.5em;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--sl-accent);
+    font-size: 2.2vh;
+}
+
+.s34-loop-note {
+    flex: 0 0 auto;
+    font-size: 1.7vh;
+    color: var(--sl-muted);
+    text-align: center;
+    white-space: nowrap;
+}
+
+.s34-eq {
+    margin: 0.5vh 0 1.5vh 0;
+}
+.s34-eq .katex-display { margin: 0 !important; }
+
+.s34-emph {
+    color: var(--sl-accent);
+    font-weight: 700;
+}

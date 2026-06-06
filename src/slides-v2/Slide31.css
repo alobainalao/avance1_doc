@@ -1,0 +1,106 @@
+/* Slide31.css — Ventaja computacional del método adjunto */
+
+/* ── Tabla de comparación ────────────────────────────────── */
+.s31-table {
+    width: 100%;
+    border-collapse: collapse;
+    flex: 1;
+    min-height: 0;
+}
+
+.s31-table thead tr {
+    background: var(--sl-titlebar-bg);
+}
+
+.s31-table th {
+    padding: 1.1vh 2.5%;
+    color: var(--sl-accent);
+    font-size: 3.1vh;
+    font-weight: 700;
+    text-align: center;
+    border-bottom: 2px solid var(--sl-accent);
+}
+
+.s31-th-aspect {
+    text-align: left !important;
+    width: 28%;
+}
+
+.s31-table tbody tr {
+    border-bottom: 1px solid rgba(0, 216, 255, 0.15);
+}
+
+.s31-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.s31-table tbody tr:hover {
+    background: rgba(0, 216, 255, 0.04);
+}
+
+.s31-table td {
+    padding: 1vh 2.5%;
+    color: var(--sl-text);
+    font-size: 3vh;
+    line-height: 1.4;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.s31-aspect {
+    color: var(--sl-accent) !important;
+    font-weight: 600;
+    text-align: left !important;
+}
+
+.s31-table .katex {
+    font-size: 2.9vh;
+}
+
+.s31-bad  { color: #f59e0b; font-weight: 700; }
+.s31-good { color: #10b981; font-weight: 700; }
+
+/* ── Pipeline ────────────────────────────────────────────── */
+.s31-pipeline {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5%;
+    padding: 1.2vh 0 0.5vh;
+    flex-shrink: 0;
+}
+
+.s31-box {
+    border: 1.5px solid var(--sl-accent);
+    border-radius: 5px;
+    padding: 1.2vh 3%;
+    color: var(--sl-accent);
+    font-size: 2.8vh;
+    text-align: center;
+    background: color-mix(in srgb, var(--sl-accent) 8%, transparent);
+}
+
+.s31-box.s31-start {
+    border-radius: 50px;
+    border-color: #f59e0b;
+    background: rgba(245, 158, 11, 0.12);
+    color: #f59e0b;
+}
+
+.s31-box.s31-end {
+    border-radius: 50px;
+    border-color: #10b981;
+    background: rgba(16, 185, 129, 0.12);
+    color: #10b981;
+}
+
+.s31-box .katex {
+    font-size: 2.6vh;
+}
+
+.s31-arrow {
+    color: var(--sl-accent);
+    font-size: 2.6vh;
+    font-weight: 700;
+    flex-shrink: 0;
+}

@@ -1,4 +1,4 @@
-﻿/* Slideshow.css */
+/* Slideshow.css */
 
 /* Reset básico para margen/padding */
 html, body {
@@ -9,8 +9,8 @@ html, body {
 
 .slideshow-container {
     position: relative;
-    top: 0.5vh;
-    height: 99vh;
+    top: 0;
+    height: 100vh;
     background-color: white;
     display: flex;
     align-items: center;
@@ -27,7 +27,7 @@ html, body {
 
 .slide-counter {
     position: absolute;
-    top: 1.2vh;
+    top: 5vh;
     right: 2vw;
     font-size: 0.9rem;
     color: white;
@@ -44,9 +44,48 @@ html, body {
     border: 1px solid #333;
 }
 
-/* Controles superpuestos arriba a la derecha */
+/* ── Stack de contenido del slide ──────────────────────────── */
+.slide-stack {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── Logo UDG ───────────────────────────────────────────────── */
+.logo {
+    position: absolute;
+    bottom: 2vh;
+    right: 2vh;
+    z-index: 4;
+    pointer-events: none;
+}
+
+.logo img {
+    height: 7vh;
+    width: auto;
+    display: block;
+    opacity: 0.85;
+}
+
+/* ── Toggle de tema ─────────────────────────────────────────── */
+.controls-theme {
+    position: absolute;
+    top: 1.2vh;
+    right: 1vw;
+    z-index: 30;
+    cursor: pointer;
+    font-size: 1.4rem;
+    user-select: none;
+    opacity: 0.75;
+    transition: opacity 0.2s;
+}
+
+.controls-theme:hover {
+    opacity: 1;
+}
+
+/* ── Botón fullscreen ───────────────────────────────────────── */
 .controls-overlay {
-    width: 2vw;
     position: absolute;
     bottom: 2vh;
     right: 2vw;
@@ -56,33 +95,31 @@ html, body {
 }
 
 .icon-button {
-    background-color: white;
-    color: blue;
+    background: transparent;
+    color: rgba(200, 232, 255, 0.75);
     border: none;
-    padding: 10px 12px;
+    padding: 6px 8px;
     border-radius: 6px;
     font-size: 1.2rem;
     cursor: pointer;
-    transition: transform 0.2s ease, background-color 0.3s ease;
+    transition: transform 0.2s ease, color 0.3s ease;
 }
 
-    .icon-button:hover {
-        transform: scale(1.3);
-    }
+.icon-button:hover {
+    transform: scale(1.3);
+    color: #00d8ff;
+}
 
-
-/* 🎯 Indicador de progreso (posición controlada por React vía style) */
+/* ── Indicador de progreso ──────────────────────────────────── */
 .progress-indicator {
     position: absolute;
     left: 0;
     right: 0;
-    margin: 0 auto;
     width: 100%;
-    height: 10px;
+    height: 0.8vh;
     z-index: 10;
 }
 
-/* Fondo del indicador */
 .progress-bar-bg {
     position: relative;
     background-color: #0a64ad;
@@ -91,14 +128,13 @@ html, body {
     height: 100%;
 }
 
-/* Barra de progreso actual o esperada (color definido desde React por props) */
 .progress-bar-actual {
     position: absolute;
     height: 100%;
-    width: 0.4%; /* Siempre ocupa 1% del ancho pero avanza con `left` */
+    width: 0.4%;
 }
 
-
+/* ── Overlays heredados (V1) ────────────────────────────────── */
 .iframe-overlay {
     position: absolute;
     top: 10%;
@@ -110,7 +146,7 @@ html, body {
 }
 
 .animation-buttons-vertical {
-    position: absolute;   
+    position: absolute;
     top: 55%;
     left: 70%;
     transform: translateY(-52%);
@@ -130,8 +166,7 @@ html, body {
     transition: transform 0.2s, color 0.3s;
 }
 
-    .animation-icon-button:hover {
-        transform: scale(0.9);
-        color: #2563eb;
-    }
-
+.animation-icon-button:hover {
+    transform: scale(0.9);
+    color: #2563eb;
+}

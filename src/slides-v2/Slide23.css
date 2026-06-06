@@ -1,0 +1,36 @@
+/* Slide23.css — Optimización multiobjetivo */
+
+.s23-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    margin-bottom: 2vh;
+}
+
+.s23-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 2.1vh;
+    color: var(--sl-text);
+    font-family: 'Georgia', serif;
+}
+
+.s23-table th,
+.s23-table td {
+    padding: 0.9vh 2%;
+    text-align: center;
+    border: 1px solid var(--sl-accent);
+}
+
+.s23-table th {
+    color: var(--sl-accent);
+    font-weight: 700;
+    background: color-mix(in srgb, var(--sl-accent) 10%, transparent);
+}
+
+.s23-table tr:first-child th {
+    border-top: 2px solid var(--sl-accent);
+}
+
+.s23-table tbody tr:last-child td {
+    border-bottom: 2px solid var(--sl-accent);
+}
