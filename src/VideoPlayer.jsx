@@ -4,57 +4,67 @@ import './VideoPlayer.css';
 
 const base = process.env.PUBLIC_URL;
 
-const videos = [
-  { filename: 'h.mp4', label: 'Altura piezométrica' },
-  { filename: 'v.mp4', label: 'Flujo del agua' },
-  { filename: 'c.mp4', label: 'Contaminante' }
-];
+const videosByMethod = {
+  adr: [
+    { filename: 'h.mp4',  label: 'Altura piezométrica' },
+    { filename: 'v.mp4',  label: 'Flujo del agua' },
+    { filename: 'c.mp4',  label: 'Contaminante' },
+  ],
+  sem: [
+    { filename: 'h.mp4',  label: 'Altura piezométrica' },
+    { filename: 'v.mp4',  label: 'Flujo del agua' },
+    { filename: 'c.mp4',  label: 'Contaminante móvil' },
+    { filename: 'C_im_r0.mp4', label: 'Contaminante sorbido 1' },
+    { filename: 'C_im_r1.mp4', label: 'Contaminante sorbido 2' },
+    { filename: 'C_im_r2.mp4', label: 'Contaminante sorbido 3' },
+  ],
+  blk: [
+    { filename: 'h.mp4',  label: 'Altura piezométrica' },
+    { filename: 'v.mp4',  label: 'Flujo del agua' },
+    { filename: 'c.mp4',  label: 'Contaminante móvil' },
+    { filename: 'C_im_r0.mp4', label: 'Contaminante sorbido 1' },
+    { filename: 'C_im_r1.mp4', label: 'Contaminante sorbido 2' },
+    { filename: 'C_im_r2.mp4', label: 'Contaminante sorbido 3' },
+  ],
+};
 
 const VideoPlayer = () => {
   const videoRef = useRef(null);
   const location = useLocation();
 
-  const [folder, setFolder] = useState('videos');
+  const [metodo, setMetodo] = useState('adr');
+  const [folder, setFolder] = useState('videos_adr');
   const [selected, setSelected] = useState('');
   const [isReady, setIsReady] = useState(false);
   const [fullscreen, setFullscreen] = useState(false);
 
-  // 👉 leer metodo y video desde la URL
+  // Leer metodo y video desde la URL
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-
     const metodoParam = params.get('metodo');
-    const videoParam = params.get('video');
-    const flder = 'videos_' + metodoParam;
+    const videoParam  = params.get('video');
 
     if (metodoParam) {
-      setFolder(flder);
+      setMetodo(metodoParam);
+      setFolder('videos_' + metodoParam);
     }
-
     if (videoParam) {
-      setSelected(`${process.env.PUBLIC_URL}/${flder}/${videoParam}`);
+      const flder = 'videos_' + (metodoParam || metodo);
+      setSelected(`${base}/${flder}/${videoParam}`);
     }
   }, [location.search]);
 
-  // 👉 construir rutas finales
-  const videosFinal = useMemo(
-    () =>
-      videos.map(v => ({
-        ...v,
-        file: `${base}/${folder}/${v.filename}`
-      })),
-    [folder]
+  // Lista de videos según método activo
+  const videoList = useMemo(
+    () => videosByMethod[metodo] ?? videosByMethod.adr,
+    [metodo]
   );
 
-  // 👉 cuando cambia metodo o filename, resolver video real
-  useEffect(() => {
-    if (!selected) return;
-
-    const found = videosFinal.find(v => v.filename === selected);
-    if (found) {
-      setSelected(found.file);
-    }
-  }, [videosFinal]);
+  // Construir rutas completas
+  const videosFinal = useMemo(
+    () => videoList.map(v => ({ ...v, file: `${base}/${folder}/${v.filename}` })),
+    [videoList, folder]
+  );
 
   // fullscreen inicial
   useEffect(() => {
@@ -66,26 +76,18 @@ const VideoPlayer = () => {
     };
 
     const nextVideo = () => {
-        const currentIndex = videos.findIndex(v => selected.endsWith(v.filename));
+        const currentIndex = videosFinal.findIndex(v => selected.endsWith(v.filename));
 
-        if (currentIndex === videos.length - 1) {
-
-            // Intenta cerrar la ventana
-            if (window.close) {
-                window.close();
-            } else {
-                setTimeout(() => {
-                    alert('Fin del último video. Puedes cerrar la ventana manualmente.');
-                }, 500);
-            }
-        }else {
+        if (currentIndex === videosFinal.length - 1) {
+            window.close?.();
+        } else {
             const nextIndex = (currentIndex + 1 + videosFinal.length) % videosFinal.length;
             setSelected(videosFinal[nextIndex].file);
         }
     };
 
     const prevVideo = () => {
-        const currentIndex = videos.findIndex(v => selected.endsWith(v.filename));
+        const currentIndex = videosFinal.findIndex(v => selected.endsWith(v.filename));
         const prevIndex = (currentIndex - 1 + videosFinal.length) % videosFinal.length;
         setSelected(videosFinal[prevIndex].file);
     };

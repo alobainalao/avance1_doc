@@ -4,7 +4,7 @@ import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import EqCard from '../layouts-v2/EqCard.jsx';
 
 const eqJ  = String.raw`J = J\!\left(C(h(Q,z_p),Q,z_p),\,Q,\,z_p\right)`;
-const eq22 = String.raw`\frac{dJ}{dQ} = \frac{\partial J}{\partial Q} + \frac{\partial J}{\partial C}\!\left(\frac{\partial C}{\partial Q} + \frac{\partial C}{\partial h}\frac{\partial h}{\partial Q}\right)`;
+const eq22 = String.raw`\frac{dJ}{dQ} = \frac{\partial J}{\partial Q} + \textcolor{#00d8ff}{\frac{\partial J}{\partial C}}\!\left(\textcolor{#ff4466}{\frac{\partial C}{\partial Q} + \frac{\partial C}{\partial h}\frac{\partial h}{\partial Q}}\right)`;
 
 const Slide29 = ({ theme = 'dark' }) => (
     <SlideLayout title="Motivación del método adjunto" theme={theme}>

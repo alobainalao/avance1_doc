@@ -14,9 +14,9 @@ const items = [
     { label: 'Altura piezométrica',   video: 'h.mp4'  },
     { label: 'Flujo del agua',        video: 'v.mp4'  },
     { label: 'Contaminante móvil',    video: 'c.mp4'  },
-    { label: 'Contaminante sorbido 1', video: 's1.mp4' },
-    { label: 'Contaminante sorbido 2', video: 's2.mp4' },
-    { label: 'Contaminante sorbido 3', video: 's3.mp4' },
+    { label: 'Contaminante sorbido 1', video: 'C_im_r0.mp4' },
+    { label: 'Contaminante sorbido 2', video: 'C_im_r1.mp4' },
+    { label: 'Contaminante sorbido 3', video: 'C_im_r2.mp4' },
 ];
 
 const Slide16 = ({ theme = 'dark' }) => (

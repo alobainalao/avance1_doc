@@ -32,11 +32,20 @@ const Slide34Flow = () => (
                     <InlineMath math={String.raw`Q^{k+1},\; z_p^{k+1}`} />
                 </div>
             </div>
+        </div>
+        <div
+            style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "1rem"
+            }}
+        >
+            <div className="s34-farrow">↓</div>
+
             <div className="s34-loop-note">
                 <InlineMath math={String.raw`\|\nabla J\|<\varepsilon`} />
             </div>
         </div>
-        <div className="s34-farrow">↓</div>
         <div className="s34-fbox s34-fbox-exit">Óptimo</div>
     </div>
 );
@@ -46,7 +55,10 @@ const rightContent = (
         <EqCard title="Actualización iterativa" className="sl-math-sm">
             <BlockMath math={eqUpdate} />
         </EqCard>
-        <p className="sl-heading">Interpretación:</p>
+
+        <div style={{ marginTop: "10vh"}}>
+	     <p className="sl-heading">Interpretación:</p>
+	</div>
         <ul className="sl-bullet-list">
             <li><span className="s34-emph">Forward:</span> simula el sistema físico</li>
             <li><span className="s34-emph">Adjunto:</span> propaga sensibilidad</li>

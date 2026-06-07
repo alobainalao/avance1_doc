@@ -3,8 +3,8 @@ import { BlockMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import EqCard from '../layouts-v2/EqCard.jsx';
 
-const eqA1 = String.raw`\left(\frac{2\phi R}{\Delta t}I - \mathcal{L}^{n+1}\right)C^* = \left(\frac{2\phi R}{\Delta t}I + \mathcal{L}^n\right)C^n + f^{n+1} + f^n`;
-const eqA2 = String.raw`\mathcal{P}\,C^* = \mathcal{R}\,C^n + F`;
+const eqA1 = String.raw`\textcolor{#60a5fa}{\left(\frac{2\phi R}{\Delta t}I - \mathcal{L}^{n+1}\right)}\!C^* = \textcolor{#fb923c}{\left(\frac{2\phi R}{\Delta t}I + \mathcal{L}^n\right)}\!C^n + \textcolor{#a78bfa}{f^{n+1} + f^n}`;
+const eqA2 = String.raw`\textcolor{#60a5fa}{\mathcal{P}}\,C^* = \textcolor{#fb923c}{\mathcal{R}}\,C^n + \textcolor{#a78bfa}{F}`;
 const eqB  = String.raw`S_r^{n+1} = C^* + (S_r^n - C^*)\,e^{-\alpha_r\Delta t}, \qquad r = 1,\ldots,N_r`;
 const eqC  = String.raw`C^{n+1} = C^* + \sum_{r=1}^{N_r}\eta_r\!\left(S_r^n - S_r^{n+1}\right)`;
 
