@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Controls from './Controls.jsx';
 import ProgressIndicator from './ProgressIndicator.jsx';
 import SlideHeader from './SlideHeader.jsx';
@@ -19,8 +19,8 @@ const SlideshowV2 = () => {
     const [fullscreen, setFullscreen] = useState(false);
     const [theme, setTheme] = useState('dark');
 
-    const next = () => setIndex((prev) => (prev + 1) % totalSlides);
-    const prev = () => setIndex((prev) => (prev - 1 + totalSlides) % totalSlides);
+    const next = useCallback(() => setIndex((i) => (i + 1) % totalSlides), [totalSlides]);
+    const prev = useCallback(() => setIndex((i) => (i - 1 + totalSlides) % totalSlides), [totalSlides]);
 
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', theme);
@@ -88,7 +88,7 @@ const SlideshowV2 = () => {
             window.removeEventListener('touchstart', handleTouchStart);
             window.removeEventListener('touchend', handleTouchEnd);
         };
-    }, []);
+    }, [next, prev]);
 
     useEffect(() => {
         const handleVideoClosed = () => {

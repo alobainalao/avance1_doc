@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useMemo } from 'react';
+import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import './VideoPlayer.css';
 
@@ -36,7 +36,6 @@ const VideoPlayer = () => {
   const [folder, setFolder] = useState('videos_adr');
   const [selected, setSelected] = useState('');
   const [isReady, setIsReady] = useState(false);
-  const [fullscreen, setFullscreen] = useState(false);
 
   // Leer metodo y video desde la URL
   useEffect(() => {
@@ -49,7 +48,7 @@ const VideoPlayer = () => {
       setFolder('videos_' + metodoParam);
     }
     if (videoParam) {
-      const flder = 'videos_' + (metodoParam || metodo);
+      const flder = 'videos_' + (metodoParam ?? 'adr');
       setSelected(`${base}/${flder}/${videoParam}`);
     }
   }, [location.search]);
@@ -75,22 +74,21 @@ const VideoPlayer = () => {
         setSelected(e.target.value);
     };
 
-    const nextVideo = () => {
+    const nextVideo = useCallback(() => {
         const currentIndex = videosFinal.findIndex(v => selected.endsWith(v.filename));
-
         if (currentIndex === videosFinal.length - 1) {
             window.close?.();
         } else {
             const nextIndex = (currentIndex + 1 + videosFinal.length) % videosFinal.length;
             setSelected(videosFinal[nextIndex].file);
         }
-    };
+    }, [videosFinal, selected]);
 
-    const prevVideo = () => {
+    const prevVideo = useCallback(() => {
         const currentIndex = videosFinal.findIndex(v => selected.endsWith(v.filename));
         const prevIndex = (currentIndex - 1 + videosFinal.length) % videosFinal.length;
         setSelected(videosFinal[prevIndex].file);
-    };
+    }, [videosFinal, selected]);
 
   useEffect(() => {
         const handleKey = (e) => {
@@ -101,9 +99,9 @@ const VideoPlayer = () => {
             } else if (['f', 'Enter', 'Tab', 'AudioVolumeUp'].includes(e.key)) {
                 const elem = document.documentElement;
                 if (!document.fullscreenElement) {
-                    elem.requestFullscreen?.().then(() => setFullscreen(true)).catch(() => { });
+                    elem.requestFullscreen?.().catch(() => { });
                 } else {
-                    document.exitFullscreen?.().then(() => setFullscreen(false)).catch(() => { });
+                    document.exitFullscreen?.().catch(() => { });
                 }
             }
         };
@@ -125,7 +123,7 @@ const VideoPlayer = () => {
             window.removeEventListener('keydown', handleKey);
             window.removeEventListener('mousedown', handleClick);
         };
-    }, [selected]);
+    }, [nextVideo, prevVideo]);
 
   useEffect(() => {
     setIsReady(false);
