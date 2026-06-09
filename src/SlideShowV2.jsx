@@ -17,7 +17,7 @@ const SlideshowV2 = () => {
     const [startTime] = useState(Date.now());
     const [elapsedTime, setElapsedTime] = useState(0);
     const [fullscreen, setFullscreen] = useState(false);
-    const [theme, setTheme] = useState('dark');
+    const [theme, setTheme] = useState('light');
 
     const next = useCallback(() => setIndex((i) => (i + 1) % totalSlides), [totalSlides]);
     const prev = useCallback(() => setIndex((i) => (i - 1 + totalSlides) % totalSlides), [totalSlides]);

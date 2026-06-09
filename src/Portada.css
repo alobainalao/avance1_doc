@@ -60,6 +60,7 @@
     margin: 4vh 0;
     display: flex;
     flex-direction: column;
+    font-size: 2.5vh;
     align-items: center;
     gap: 0.65vh;
 }
@@ -68,13 +69,13 @@
     display: flex;
     gap: 0.8em;
     align-items: baseline;
-    font-size: 2vh;
+    font-size: 2.5vh;
 }
 
 .portada-label {
     color: #60a5fa;
     font-weight: 700;
-    font-size: 2vh;
+        font-size: 2.5vh;
 }
 
 .portada-value {
@@ -93,7 +94,7 @@
 .portada-institution {
     text-align: center;
     color: #4a9abf;
-    font-size: 1.35vh;
+    font-size: 2.5vh;
     line-height: 1.7;
 }
 

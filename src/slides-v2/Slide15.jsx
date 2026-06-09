@@ -18,7 +18,7 @@ const Slide15 = ({ theme = 'dark' }) => (
         <EqCard title="Reservorios" num={16}>
             <BlockMath math={eq16} />
         </EqCard>
-        <EqCard title="Sistema reducido" num={17} className="sl-math-sm">
+        <EqCard title="Sistema reducido" num={17} >
             <BlockMath math={eq17} />
         </EqCard>
         <EqCard title="Forma compacta" num={18}>

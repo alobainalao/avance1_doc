@@ -2,7 +2,7 @@ import React from 'react';
 import { BlockMath } from 'react-katex';
 import { SlideLayout, EqCard } from '../layouts-v2/slide-components.jsx';
 
-const eq1 = String.raw`S_s \frac{\partial h}{\partial t} - \nabla \cdot (K \nabla h) = f`;
+const eq1 = String.raw`S_s \frac{\partial h}{\partial t} - \nabla \cdot (\mathbf{K}\nabla h) = f`;
 
 const eq2 = String.raw`\frac{\partial(\phi CR)}{\partial t}
   - \nabla\!\cdot\!(\mathbf{D}\nabla C)

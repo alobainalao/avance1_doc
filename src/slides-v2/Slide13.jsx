@@ -19,7 +19,7 @@ const Slide13 = ({ theme = 'dark' }) => (
         <EqCard title="Evaluación nodal">
             <BlockMath math={eqDef} />
         </EqCard>
-        <EqCard title="Vectores solución" className="sl-math-sm">
+        <EqCard title="Vectores solución">
             <BlockMath math={eqVecs} />
         </EqCard>
         <p className="sl-heading" style={{ textAlign: 'center' }}>

@@ -1,4 +1,4 @@
-/* ScientificLayout.css */
+﻿/* ScientificLayout.css */
 
 .scientific-layout .slide-layout__content {
     justify-content: flex-start;
@@ -11,7 +11,6 @@
     gap: 2.5vh;
     width: 100%;
     color: var(--sl-accent);
-    font-size: 2.2vh;
     line-height: 1.7;
 }
 
@@ -42,7 +41,7 @@
     justify-content: flex-start;
 }
 
-/* Bloque de ecuación con número a la derecha */
+/* Bloque de ecuacion con numero a la derecha */
 .sl-eq-row {
     display: flex;
     align-items: center;

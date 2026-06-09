@@ -20,7 +20,7 @@
 .s28-donde .katex-display { margin: 0.05em 0 !important; }
 
 .s28-donde-lbl {
-    font-size: 2vh;
+    font-size: 3vh;
     color: var(--sl-text);
     white-space: nowrap;
     padding-right: 1%;
@@ -50,7 +50,7 @@
 /* Lista con menos interlineado y letra más pequeña */
 .s28-tight.sl-bullet-list {
     gap: 0.5vh;
-    font-size: 2vh;
+    font-size: 3vh;
 }
 
 .s28-tight.sl-bullet-list li:last-child {

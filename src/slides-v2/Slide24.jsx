@@ -14,17 +14,17 @@ const ParetoSVG = () => (
         <path d="M 96,360 C 120,192 240,144 300,240 C 372,312 336,420 228,408 C 156,396 156,396 96,360 Z"
               style={{ fill: 'rgba(0,216,255,0.18)', stroke: 'rgba(0,216,255,0.45)', strokeWidth: 1.2 }} />
         <text x="204" y="248" textAnchor="middle"
-              style={{ fill: 'var(--sl-accent)', fontSize: '15px', fontStyle: 'italic' }}>Q × Ω</text>
+              style={{ fill: 'var(--sl-accent)', fontSize: '18px', fontStyle: 'italic' }}>Q × Ω</text>
         <circle cx="216" cy="320" r="4" style={{ fill: 'var(--sl-accent)' }} />
         <text x="216" y="340" textAnchor="middle"
-              style={{ fill: 'var(--sl-text)', fontSize: '12px' }}>(Q₀, p₀)</text>
+              style={{ fill: 'var(--sl-text)', fontSize: '18px' }}>(Q₀, p₀)</text>
 
         {/* ── Flecha de transformación ── */}
         <path d="M 396,310 Q 500,328 596,266"
               style={{ stroke: 'var(--sl-accent)', strokeWidth: 1.8, fill: 'none',
                        markerEnd: 'url(#arr24)' }} />
         <text x="490" y="188" textAnchor="middle"
-              style={{ fill: 'var(--sl-accent)', fontSize: '13px', fontStyle: 'italic' }}>
+              style={{ fill: 'var(--sl-accent)', fontSize: '18px', fontStyle: 'italic' }}>
             𝒥 : (Q, p) ↦ (Jₑ, Jₘ)
         </text>
 
@@ -33,13 +33,13 @@ const ParetoSVG = () => (
               style={{ stroke: 'var(--sl-accent)', strokeWidth: 1.5 }} />
         <polygon points="1062,456 1052,451 1052,461" style={{ fill: 'var(--sl-accent)' }} />
         <text x="1074" y="461"
-              style={{ fill: 'var(--sl-accent)', fontSize: '15px', fontStyle: 'italic' }}>Jₑ</text>
+              style={{ fill: 'var(--sl-accent)', fontSize: '18px', fontStyle: 'italic' }}>Jₑ</text>
 
         <line x1="660" y1="466" x2="660" y2="64"
               style={{ stroke: 'var(--sl-accent)', strokeWidth: 1.5 }} />
         <polygon points="660,60 655,72 665,72" style={{ fill: 'var(--sl-accent)' }} />
         <text x="652" y="52" textAnchor="middle"
-              style={{ fill: 'var(--sl-accent)', fontSize: '15px', fontStyle: 'italic' }}>Jₘ</text>
+              style={{ fill: 'var(--sl-accent)', fontSize: '18px', fontStyle: 'italic' }}>Jₘ</text>
 
         {/* ── Región factible (blob verde) ── */}
         <path d="M 696,396 C 756,144 756,144 864,132 C 972,156 972,156 984,252 C 972,372 972,372 888,408 C 852,420 852,420 696,396 Z"
@@ -48,7 +48,7 @@ const ParetoSVG = () => (
         {/* ── Punto imagen ── */}
         <circle cx="852" cy="204" r="4" style={{ fill: 'var(--sl-accent)' }} />
         <text x="852" y="193" textAnchor="middle"
-              style={{ fill: 'var(--sl-text)', fontSize: '11px' }}>
+              style={{ fill: 'var(--sl-text)', fontSize: '18px' }}>
             (Jₑ(Q₀,p₀), Jₘ(Q₀,p₀))
         </text>
 
@@ -61,7 +61,7 @@ const ParetoSVG = () => (
         {/* ── Frente de Pareto ── */}
         <path d="M 696,396 C 744,408 744,408 792,414 C 852,418 852,418 864,418"
               style={{ stroke: '#5599ff', strokeWidth: 3, fill: 'none' }} />
-        <text x="880" y="410" style={{ fill: '#5599ff', fontSize: '13px' }}>Frente de Pareto</text>
+        <text x="880" y="410" style={{ fill: '#5599ff', fontSize: '20px' }}>Frente de Pareto</text>
     </svg>
 );
 

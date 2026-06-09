@@ -19,7 +19,7 @@ const Slide30 = ({ theme = 'dark' }) => (
             <BlockMath math={eqLag} />
         </EqCard>
         <p className="sl-body">Derivando respecto a <em>Q</em>:</p>
-        <EqCard title="Derivada total" num={23} className="sl-math-sm">
+        <EqCard title="Derivada total" num={23} >
             <BlockMath math={eq23} />
         </EqCard>
         <EqCard title="Gradiente reducido">

@@ -5,9 +5,8 @@ const Slide11 = ({ theme = 'dark' }) => (
     <SlideLayout title="Objetivos del semestre" theme={theme}>
         <p className="sl-heading">Objetivo general:</p>
         <p className="sl-body">
-            Desarrollar e implementar un modelo acoplado de flujo y transporte con
-            transferencia de masa multitasa, y formular un problema de optimización
-            asociado al modelo de la maestría.
+            Implementar el nuevo modelo propuesto con transferencia de masa multitasa y formular un problema de optimización
+            asociado al modelo desarrollado previamente durante la maestría.
         </p>
         <p className="sl-heading">Objetivos específicos:</p>
         <ul className="sl-bullet-list">

@@ -12,13 +12,13 @@
 }
 
 .slide-layout--light {
-    --sl-bg:           #f5f5ff;
+    --sl-bg:           #ffffff;
     --sl-text:         #1a1a3a;
-    --sl-titlebar-bg:  #3d3880;
+    --sl-titlebar-bg:  #2e3a9e;
     --sl-title-text:   #ffffff;
-    --sl-accent:       #0050a0;
-    --sl-secondary:    #2a4a8a;
-    --sl-muted:        #5a6a8a;
+    --sl-accent:       #1a56db;
+    --sl-secondary:    #3a5a9a;
+    --sl-muted:        #6b7a9a;
 }
 
 /* ── Contenedor base ─────────────────────────────────────── */
@@ -278,6 +278,10 @@
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
 }
 
+.slide-layout--light .sl-fig {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
 .sl-fig > img {
     display: block;
     width: 100%;
@@ -294,6 +298,10 @@
     background: rgba(0, 0, 0, 0.15);
 }
 
+.slide-layout--light .sl-fig__caption {
+    background: rgba(0, 0, 0, 0.04);
+}
+
 /* ── Block — \begin{block} ───────────────────────────────── */
 .sl-block {
     border: 1.5px solid var(--sl-accent);
@@ -301,6 +309,10 @@
     overflow: hidden;
     margin: 0.5vh 0;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+}
+
+.slide-layout--light .sl-block {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
 }
 
 .sl-block__title {
@@ -330,6 +342,11 @@
     width: 100%;
     text-align: left;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+
+.slide-layout--light .sl-eq-card {
+    border-color: rgba(26, 86, 219, 0.30);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
 }
 
 .sl-eq-card__head {

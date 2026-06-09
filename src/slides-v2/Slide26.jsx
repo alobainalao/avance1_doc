@@ -33,18 +33,18 @@ const QtSVG = () => (
         <path d="M 30,128 C 60,108 90,142 130,118 C 165,92 195,128 220,105"
               style={{ stroke: '#5588ff', strokeWidth: 2, fill: 'none' }} />
         <text x="292" y="166"
-              style={{ fill: 'var(--sl-accent)', fontSize: '14px', fontStyle: 'italic' }}>t</text>
+              style={{ fill: 'var(--sl-accent)', fontSize: '18px', fontStyle: 'italic' }}>t</text>
         <text x="30" y="12" textAnchor="middle"
-              style={{ fill: 'var(--sl-accent)', fontSize: '12px', fontStyle: 'italic' }}>Q(t)</text>
+              style={{ fill: 'var(--sl-accent)', fontSize: '18px', fontStyle: 'italic' }}>Q(t)</text>
         <text x="24" y="59" textAnchor="end"
-              style={{ fill: 'var(--sl-accent)', fontSize: '10px', fontStyle: 'italic' }}>
+              style={{ fill: 'var(--sl-accent)', fontSize: '18px', fontStyle: 'italic' }}>
             <tspan>Q</tspan>
             <tspan dy="3" fontSize="8">máx</tspan>
         </text>
         <text x="125" y="125" textAnchor="middle"
-              style={{ fill: 'rgba(100,200,80,0.9)', fontSize: '11px' }}>Región admisible</text>
+              style={{ fill: 'rgba(100,200,80,0.9)', fontSize: '18px' }}>Región admisible</text>
         <text x="175" y="92"
-              style={{ fill: '#7799ff', fontSize: '11px', fontStyle: 'italic' }}>Q(t)</text>
+              style={{ fill: '#7799ff', fontSize: '18px', fontStyle: 'italic' }}>Q(t)</text>
     </svg>
 );
 
@@ -55,9 +55,9 @@ const DepthSVG = () => (
               style={{ fill: 'var(--sl-accent)', fillOpacity: 0.05,
                        stroke: 'var(--sl-accent)', strokeWidth: 1.5 }} />
         <text x="145" y="20" textAnchor="middle"
-              style={{ fill: 'var(--sl-secondary)', fontSize: '12px' }}>Superficie</text>
+              style={{ fill: 'var(--sl-secondary)', fontSize: '18px' }}>Superficie</text>
         <text x="210" y="55" textAnchor="middle"
-              style={{ fill: 'var(--sl-accent)', fontSize: '14px', fontStyle: 'italic' }}>Ω</text>
+              style={{ fill: 'var(--sl-accent)', fontSize: '18px', fontStyle: 'italic' }}>Ω</text>
         <line x1="30" y1="68" x2="250" y2="68"
               style={{ stroke: 'var(--sl-accent)', strokeWidth: 1, strokeDasharray: '5 3' }} />
         <line x1="30" y1="145" x2="250" y2="145"
@@ -66,17 +66,17 @@ const DepthSVG = () => (
               style={{ stroke: 'var(--sl-accent)', strokeWidth: 2 }} />
         <circle cx="140" cy="106" r="5" style={{ fill: '#5599ff' }} />
         <text x="25" y="72" textAnchor="end"
-              style={{ fill: 'var(--sl-accent)', fontSize: '10px', fontStyle: 'italic' }}>
+              style={{ fill: 'var(--sl-accent)', fontSize: '18px', fontStyle: 'italic' }}>
             <tspan>z</tspan>
-            <tspan dy="3" fontSize="8">mín</tspan>
+            <tspan dy="3" fontSize="10">mín</tspan>
         </text>
         <text x="25" y="149" textAnchor="end"
-              style={{ fill: 'var(--sl-accent)', fontSize: '10px', fontStyle: 'italic' }}>
+              style={{ fill: 'var(--sl-accent)', fontSize: '18px', fontStyle: 'italic' }}>
             <tspan>z</tspan>
-            <tspan dy="3" fontSize="8">máx</tspan>
+            <tspan dy="3" fontSize="10">máx</tspan>
         </text>
         <text x="150" y="103"
-              style={{ fill: '#5599ff', fontSize: '11px', fontStyle: 'italic' }}>
+              style={{ fill: '#5599ff', fontSize: '18px', fontStyle: 'italic' }}>
             {'(xₚ, zₚ)'}
         </text>
     </svg>
@@ -98,7 +98,7 @@ const Slide26 = ({ theme = 'dark' }) => (
                 </p>
             </div>
         </div>
-        <EqCard title="Conjunto admisible" className="sl-math-sm">
+        <EqCard title="Conjunto admisible" >
             <BlockMath math={uad} />
         </EqCard>
     </SlideLayout>

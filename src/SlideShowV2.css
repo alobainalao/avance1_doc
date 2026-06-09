@@ -31,7 +31,7 @@
 
 /* ── Dimensiones del slide V2 ───────────────────────────────── */
 .slideshow-container.v2 .slide-crop-wrapper {
-    width: calc(96vh * 4 / 3);
+    width: min(calc(96vh * 4 / 3), 95vw);
     flex: 1;
     min-height: 0;
     overflow: hidden;
@@ -56,4 +56,13 @@
     overflow-x: auto;
     overflow-y: hidden;
     margin: 0.25em 0;
+}
+
+/* ── Icon buttons — tema claro ──────────────────────────────── */
+[data-theme="light"] .icon-button {
+    color: rgba(30, 50, 100, 0.7);
+}
+
+[data-theme="light"] .icon-button:hover {
+    color: #1a56db;
 }

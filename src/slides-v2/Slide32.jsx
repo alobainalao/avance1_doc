@@ -30,12 +30,12 @@ const Slide32 = ({ theme = 'dark' }) => (
             <BlockMath math={eq25} />
         </EqCard>
         <div style={{ display: 'flex', gap: '2%', alignItems: 'stretch', width: '100%' }}>
-            <EqCard title="Cond. adjunto transporte" num="26 – 28" className="s32-bc-card" style={{ flex: 1, minWidth: 0 }}>
+            <EqCard title="Cond. adjunto transporte" num="26 – 28"  style={{ flex: 1, minWidth: 0 }}>
                 {bcLeft.map((eq, i) => (
                     <div key={i} className="s32-bc-cell"><BlockMath math={eq} /></div>
                 ))}
             </EqCard>
-            <EqCard title="Cond. adjunto hidráulico" num="29 – 31" className="s32-bc-card" style={{ flex: 1, minWidth: 0 }}>
+            <EqCard title="Cond. adjunto hidráulico" num="29 – 31"  style={{ flex: 1, minWidth: 0 }}>
                 {bcRight.map((eq, i) => (
                     <div key={i} className="s32-bc-cell"><BlockMath math={eq} /></div>
                 ))}
