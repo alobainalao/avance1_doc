@@ -3,20 +3,20 @@
 .s23-table-wrap {
     width: 100%;
     overflow-x: auto;
-    margin-bottom: 2vh;
+    margin-bottom: 19px;
 }
 
 .s23-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 2.1vh;
+    font-size: 20px;
     color: var(--sl-text);
     font-family: 'Georgia', serif;
 }
 
 .s23-table th,
 .s23-table td {
-    padding: 0.9vh 2%;
+    padding: 9px 2%;
     text-align: center;
     border: 1px solid var(--sl-accent);
 }

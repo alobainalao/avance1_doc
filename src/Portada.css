@@ -48,7 +48,7 @@
 
 .portada-title-box h1 {
     color: #ffffff;
-    font-size: 4.5vh;
+    font-size: 43px;
     font-weight: 400;
     line-height: 1.5;
     margin: 0;
@@ -57,25 +57,25 @@
 
 /* Filas de autor/director */
 .portada-info {
-    margin: 4vh 0;
+    margin: 38px 0;
     display: flex;
     flex-direction: column;
-    font-size: 2.5vh;
+    font-size: 24px;
     align-items: center;
-    gap: 0.65vh;
+    gap: 6px;
 }
 
 .portada-row {
     display: flex;
     gap: 0.8em;
     align-items: baseline;
-    font-size: 2.5vh;
+    font-size: 24px;
 }
 
 .portada-label {
     color: #60a5fa;
     font-weight: 700;
-        font-size: 2.5vh;
+    font-size: 24px;
 }
 
 .portada-value {
@@ -94,7 +94,7 @@
 .portada-institution {
     text-align: center;
     color: #4a9abf;
-    font-size: 2.5vh;
+    font-size: 24px;
     line-height: 1.7;
 }
 
@@ -109,7 +109,7 @@
 /* Fecha */
 .portada-date {
     color: #50c8d8;
-    font-size: 1.8vh;
+    font-size: 17px;
     letter-spacing: 0.05em;
 }
 

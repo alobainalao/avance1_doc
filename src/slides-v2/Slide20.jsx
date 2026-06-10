@@ -7,7 +7,7 @@ const PTS ="55,65.1 267,67.2 378.3,58.8 585,63 585,105 267,147 55,210";
 
 const AcuiferSVG = () => (
     <svg viewBox="0 0 640 225"
-         style={{ width: '92%', maxHeight: '52vh', display: 'block', margin: '0 auto' }}>
+         style={{ width: '92%', maxHeight: '499px', display: 'block', margin: '0 auto' }}>
         <defs>
             <linearGradient id="aqFill20" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%"   stopColor="#00a8d8" stopOpacity="0.22" />
@@ -63,7 +63,7 @@ const AcuiferSVG = () => (
 const Slide20 = ({ theme = 'dark' }) => (
     <SlideLayout title="Motivación" theme={theme}>
         <AcuiferSVG />
-        <p className="sl-body" style={{ textAlign: 'center', fontStyle: 'italic', marginTop: '1.5vh' }}>
+        <p className="sl-body" style={{ textAlign: 'center', fontStyle: 'italic', marginTop: '14px' }}>
             ¿Cómo ubicar y operar el pozo de extracción minimizando contaminación y costo?
         </p>
     </SlideLayout>

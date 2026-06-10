@@ -3,7 +3,7 @@ import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 
 const ParetoSVG = () => (
     <svg viewBox="0 0 1100 520"
-         style={{ width: '88%', maxHeight: '44vh', display: 'block', margin: '0 auto' }}>
+         style={{ width: '88%', maxHeight: '422px', display: 'block', margin: '0 auto' }}>
         <defs>
             <marker id="arr24" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
                 <polygon points="0 0, 8 3, 0 6" style={{ fill: 'var(--sl-accent)' }} />
@@ -68,12 +68,12 @@ const ParetoSVG = () => (
 const Slide24 = ({ theme = 'dark' }) => (
     <SlideLayout title="Óptimos de Pareto" theme={theme}>
         <ParetoSVG />
-        <div style={{ margin: '1vh 0 0 0' }}>
-            <p className="sl-body" style={{ fontSize: '2.6vh', margin: '0 0 0.8vh 0' }}>
+        <div style={{ margin: '10px 0 0 0' }}>
+            <p className="sl-body" style={{ fontSize: '25px', margin: '0 0 8px 0' }}>
                 Una solución es <strong style={{ color: 'var(--sl-accent)' }}>Pareto óptima</strong> si
                 no existe otra solución que mejore un objetivo sin empeorar el otro.
             </p>
-            <p className="sl-body" style={{ fontSize: '2.6vh', margin: 0 }}>
+            <p className="sl-body" style={{ fontSize: '25px', margin: 0 }}>
                 El conjunto de dichas soluciones define el{' '}
                 <strong style={{ color: 'var(--sl-accent)' }}>frente de Pareto</strong>,
                 que representa los compromisos entre calidad y costo.

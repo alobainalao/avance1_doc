@@ -13,9 +13,9 @@
 }
 
 .s31-table th {
-    padding: 1.1vh 2.5%;
+    padding: 11px 2.5%;
     color: #ffffff;
-    font-size: 3.1vh;
+    font-size: 30px;
     font-weight: 700;
     text-align: center;
     border-bottom: 2px solid var(--sl-accent);
@@ -40,9 +40,9 @@
 }
 
 .s31-table td {
-    padding: 1vh 2.5%;
+    padding: 10px 2.5%;
     color: var(--sl-text);
-    font-size: 3vh;
+    font-size: 29px;
     line-height: 1.4;
     text-align: center;
     vertical-align: middle;
@@ -55,7 +55,7 @@
 }
 
 .s31-table .katex {
-    font-size: 2.9vh;
+    font-size: 28px;
 }
 
 .s31-bad  { color: #f59e0b; font-weight: 700; }
@@ -67,7 +67,7 @@
     align-items: center;
     justify-content: center;
     gap: 1%;
-    padding: 1vh 0 0.5vh;
+    padding: 10px 0 5px;
     flex-shrink: 0;
 }
 
@@ -75,28 +75,28 @@
     flex: 0 0 15%;
     border: 1.5px solid var(--sl-accent);
     border-radius: 6px;
-    padding: 0.6vh 2%;
+    padding: 6px 2%;
     text-align: center;
     background: color-mix(in srgb, var(--sl-accent) 8%, transparent);
 }
 
 .s31-pbox-label {
     color: var(--sl-accent);
-    font-size: 1.55vh;
+    font-size: 15px;
     font-weight: 700;
-    margin-bottom: 0.2vh;
+    margin-bottom: 2px;
     white-space: nowrap;
 }
 
 .s31-pbox-body {
     color: var(--sl-accent);
-    font-size: 1.6vh;
+    font-size: 15px;
     opacity: 0.85;
 }
 
 .s31-parrow {
     color: var(--sl-accent);
-    font-size: 2.2vh;
+    font-size: 21px;
     font-weight: 700;
     flex-shrink: 0;
     line-height: 1;

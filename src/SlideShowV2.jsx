@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Controls from './Controls.jsx';
 import ProgressIndicator from './ProgressIndicator.jsx';
 import SlideHeader from './SlideHeader.jsx';
@@ -9,6 +9,8 @@ import './SlideShowV2.css';
 import 'katex/dist/katex.min.css';
 
 const TOTAL_EXPECTED_TIME = 900000;
+const CANVAS_W = 1280;
+const CANVAS_H = 960;
 
 const SlideshowV2 = () => {
     const totalSlides = slideConfig.length;
@@ -18,6 +20,8 @@ const SlideshowV2 = () => {
     const [elapsedTime, setElapsedTime] = useState(0);
     const [fullscreen, setFullscreen] = useState(false);
     const [theme, setTheme] = useState('light');
+    const [scale, setScale] = useState(1);
+    const containerRef = useRef(null);
 
     const next = useCallback(() => setIndex((i) => (i + 1) % totalSlides), [totalSlides]);
     const prev = useCallback(() => setIndex((i) => (i - 1 + totalSlides) % totalSlides), [totalSlides]);
@@ -25,6 +29,17 @@ const SlideshowV2 = () => {
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', theme);
     }, [theme]);
+
+    useEffect(() => {
+        const el = containerRef.current;
+        if (!el) return;
+        const obs = new ResizeObserver(([entry]) => {
+            const { width, height } = entry.contentRect;
+            setScale(Math.min(width / CANVAS_W, height / CANVAS_H));
+        });
+        obs.observe(el);
+        return () => obs.disconnect();
+    }, []);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -105,7 +120,7 @@ const SlideshowV2 = () => {
     const SlideComponent = slide?.component;
 
     return (
-        <div className="slideshow-container v2">
+        <div className="slideshow-container v2" ref={containerRef}>
             <Controls
                 onNext={next}
                 onPrev={prev}
@@ -114,23 +129,30 @@ const SlideshowV2 = () => {
                 theme={theme}
                 onThemeToggle={() => setTheme(t => t === 'dark' ? 'light' : 'dark')}
             />
-            <div className="image-wrapper">
+            <div
+                className="slide-canvas"
+                style={{
+                    width: CANVAS_W,
+                    height: CANVAS_H,
+                    transform: `scale(${scale})`,
+                    transformOrigin: 'center center',
+                }}
+            >
                 <div className="slide-counter">
                     {index + 1} / {totalSlides}
                 </div>
-
                 <div className="slide-stack">
                     <SlideHeader index={index} title={slide?.title} />
                     <ProgressIndicator
                         time={elapsedTime}
                         totalTime={TOTAL_EXPECTED_TIME}
-                        top="4.2vh"
+                        top="40px"
                         color="cyan"
                     />
                     <ProgressIndicator
                         time={realProgressTime}
                         totalTime={TOTAL_EXPECTED_TIME}
-                        top="3vh"
+                        top="29px"
                         color="red"
                     />
                     <div className="slide-crop-wrapper">

@@ -4,7 +4,7 @@ import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 
 const EscalarizacionSVG = () => (
     <svg viewBox="0 0 900 750"
-         style={{ width: '60%', maxHeight: '56vh', display: 'block', margin: '0 auto' }}>
+         style={{ width: '60%', maxHeight: '538px', display: 'block', margin: '0 auto' }}>
         <defs>
             <marker id="arr25" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
                 <polygon points="0 0, 8 3, 0 6" style={{ fill: 'var(--sl-accent)' }} />
@@ -56,7 +56,7 @@ const EscalarizacionSVG = () => (
 
 const Slide25 = ({ theme = 'dark' }) => (
     <SlideLayout title="Escalarización" theme={theme}>
-        <p className="sl-equation" style={{ textAlign: 'center', margin: '0 0 1vh 0' }}>
+        <p className="sl-equation" style={{ textAlign: 'center', margin: '0 0 10px 0' }}>
             <InlineMath math={String.raw`J = J_m + \gamma J_e`} />
         </p>
         <EscalarizacionSVG />

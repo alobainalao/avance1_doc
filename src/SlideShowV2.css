@@ -20,30 +20,46 @@
 /* ── Fondo oscuro del container ─────────────────────────────── */
 .slideshow-container.v2 {
     background-color: var(--sl-bg, #0b0f19);
+    padding: 28px;
+    box-sizing: border-box;
 }
 
-/* ── slide-stack como columna de altura fija ────────────────── */
+/* ── Canvas fijo escalado: 1280×960 px ──────────────────────── */
+.slide-canvas {
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+    border-radius: 10px;
+    box-shadow:
+        0 0 0 2px var(--glow-color),
+        0 0 12px  color-mix(in srgb, var(--glow-color) 75%, transparent),
+        0 0 30px  color-mix(in srgb, var(--glow-color) 45%, transparent),
+        0 0 60px  color-mix(in srgb, var(--glow-color) 22%, transparent);
+}
+
+/* ── slide-stack ocupa todo el canvas ───────────────────────── */
 .slideshow-container.v2 .slide-stack {
-    height: 99vh;
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
-/* ── Dimensiones del slide V2 ───────────────────────────────── */
+/* ── slide-crop-wrapper ocupa el espacio restante ───────────── */
 .slideshow-container.v2 .slide-crop-wrapper {
-    width: min(calc(96vh * 4 / 3), 95vw);
+    width: 100%;
     flex: 1;
     min-height: 0;
     overflow: hidden;
     border-radius: 0 0 10px 10px;
     border-top: none;
-    border-left:   1.5px solid var(--glow-color);
-    border-right:  1.5px solid var(--glow-color);
-    border-bottom: 1.5px solid var(--glow-color);
+    border-left:   2px solid var(--glow-color);
+    border-right:  2px solid var(--glow-color);
+    border-bottom: 2px solid var(--glow-color);
     box-shadow:
-        0 0 16px color-mix(in srgb, var(--glow-color) 60%, transparent),
-        0 0 32px color-mix(in srgb, var(--glow-color) 35%, transparent),
-        0 3px 12px rgba(0, 0, 0, 0.25);
+        inset 0 0 18px color-mix(in srgb, var(--glow-color) 18%, transparent),
+        0 3px 14px rgba(0, 0, 0, 0.35);
 }
 
 /* ── Ocultar titlebar interno cuando SlideHeader lo maneja ─── */

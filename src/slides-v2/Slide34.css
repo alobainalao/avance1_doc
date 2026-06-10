@@ -1,13 +1,13 @@
 /* Slide34.css — Esquema iterativo de optimización */
 
 .s34-flow {
-    top: 8vh;
+    top: 77px;
 
     display: flex;
     flex-direction: column;
     align-items: center;
 
-    gap: 0.4vh;
+    gap: 4px;
     width: 100%;
 }
 
@@ -19,7 +19,7 @@
     width: 65%;
     box-sizing: border-box;
 
-    padding: 0.7vh 3%;
+    padding: 7px 3%;
 
     border: 1.5px solid var(--sl-accent);
     border-radius: 5px;
@@ -33,7 +33,7 @@
     color: var(--sl-accent);
 
     text-align: center;
-    font-size: 2.2vh;
+    font-size: 21px;
 }
 
 /* Nodo inicial */
@@ -81,7 +81,7 @@
 
     color: var(--sl-accent);
 
-    font-size: 4vh;
+    font-size: 38px;
     line-height: 1.2;
 
     text-align: center;
@@ -112,7 +112,7 @@
     flex-direction: column;
     align-items: center;
 
-    gap: 0.4vh;
+    gap: 4px;
 
     padding: 1.5% 2%;
 
@@ -134,7 +134,7 @@
 
     color: var(--sl-accent);
 
-    font-size: 2.2vh;
+    font-size: 21px;
 }
 
 /* =========================
@@ -147,7 +147,7 @@
     display: flex;
     align-items: center;
 
-    font-size: 1.7vh;
+    font-size: 16px;
 
     color: var(--sl-muted);
 
@@ -161,7 +161,7 @@
 ========================= */
 
 .s34-eq {
-    margin: 0.5vh 0 1.5vh 0;
+    margin: 5px 0 14px 0;
 }
 
 .s34-eq .katex-display {

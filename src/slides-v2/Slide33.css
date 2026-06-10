@@ -21,13 +21,13 @@
     align-items: center;
     flex: 1;
     width: 100%;
-    gap: 0.5vh;
+    gap: 5px;
 }
 
 .s33-node {
     border: 1.5px solid var(--sl-accent);
     border-radius: 7px;
-    padding: 0.8vh 3%;
+    padding: 8px 3%;
     text-align: center;
     color: var(--sl-accent);
     background: color-mix(in srgb, var(--sl-accent) 8%, transparent);
@@ -38,7 +38,7 @@
 .s33-node.s33-terminal {
     border-radius: 50px;
     width: 52%;
-    font-size: 1.6vh;
+    font-size: 15px;
 }
 
 .s33-start {
@@ -55,13 +55,13 @@
 
 .s33-node-label {
     color: var(--sl-accent);
-    font-size: 1.7vh;
+    font-size: 16px;
     font-weight: 700;
-    margin-bottom: 0.15vh;
+    margin-bottom: 1px;
 }
 
 .s33-node-body {
-    font-size: 1.5vh;
+    font-size: 14px;
     opacity: 0.85;
 }
 
@@ -69,7 +69,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.5vh;
+    gap: 5px;
     border: 1.5px dashed var(--sl-accent);
     border-radius: 8px;
     padding: 1.2% 2%;
@@ -84,7 +84,7 @@
     top: 50%;
     transform: translateY(-50%);
     color: var(--sl-accent);
-    font-size: 2.2vh;
+    font-size: 21px;
 }
 
 .s33-exit-row {
@@ -96,13 +96,13 @@
 }
 
 .s33-cond {
-    font-size: 1.6vh;
+    font-size: 15px;
     color: var(--sl-muted);
 }
 
 .s33-farrow {
     color: var(--sl-accent);
-    font-size: 2vh;
+    font-size: 19px;
     text-align: center;
     flex-shrink: 0;
     line-height: 1;
@@ -114,12 +114,12 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 0.4vh;
+    gap: 4px;
     min-width: 0;
 }
 
 .s33-main-eq {
-    margin: 0.4vh 0 2.5vh 0;
+    margin: 4px 0 24px 0;
 }
 
 .s33-main-eq .katex-display {
@@ -131,12 +131,12 @@
 }
 
 .s33-tight.sl-bullet-list {
-    gap: 0.8vh;
-    margin: 0.5vh 0 0 0;
+    gap: 8px;
+    margin: 5px 0 0 0;
 }
 
 .s33-tight.sl-bullet-list li {
-    font-size: 3vh;
+    font-size: 29px;
     margin-bottom: 0;
     text-align: left;
 }

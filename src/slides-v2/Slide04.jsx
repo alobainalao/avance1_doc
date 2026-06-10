@@ -45,7 +45,7 @@ const Slide04 = ({ theme = 'dark' }) => (
         </EqCard>
 
         <div style={{ display: 'flex', gap: '2%', width: '100%', alignItems: 'flex-start' }}>
-            <div style={{ flex: '0 0 55%', display: 'flex', flexDirection: 'column', gap: '1.2vh' }}>
+            <div style={{ flex: '0 0 55%', display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 <EqCard title="Fuente de flujo" num={6} className="sl-math-sm">
                     <BlockMath math={eq6} />
                 </EqCard>

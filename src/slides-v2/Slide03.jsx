@@ -3,7 +3,7 @@ import { SlideLayout, Fig } from '../layouts-v2/slide-components.jsx';
 
 const Slide03 = ({ theme = 'dark' }) => (
     <SlideLayout title="Malla y Porosidad efectiva" theme={theme}>
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '2.5vh' }}>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '24px' }}>
             <Fig
                 src={`${process.env.PUBLIC_URL}/grid.png`}
                 alt="Malla numérica del acuífero"

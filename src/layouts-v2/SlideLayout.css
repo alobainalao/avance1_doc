@@ -48,7 +48,7 @@
 
 .slide-layout__title {
     color: var(--sl-title-text);
-    font-size: 4.5vh;
+    font-size: 43px;
     font-weight: 400;
     margin: 0;
     line-height: 1.3;
@@ -58,12 +58,12 @@
 /* ── Área de contenido ───────────────────────────────────── */
 .slide-layout__content {
     flex: 1;
-    padding: 6vh 8.5% 2vh;
+    padding: 58px 8.5% 19px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 1.2vh;
+    gap: 12px;
     box-sizing: border-box;
     font-size: 1.15rem;
 }
@@ -71,16 +71,16 @@
 /* ── Utilidades compartidas para contenido de slides ────── */
 .sl-heading {
     color: var(--sl-accent);
-    font-size: 4.2vh;
+    font-size: 40px;
     font-weight: 700;
-    margin: 0 0 1vh 0;
+    margin: 0 0 10px 0;
 }
 
 .sl-body {
     color: var(--sl-text);
-    font-size: 3.6vh;
+    font-size: 35px;
     line-height: 1.75;
-    margin: 0 0 1.5vh 0;
+    margin: 0 0 14px 0;
     text-align: justify;
     hyphens: auto;
 }
@@ -88,19 +88,19 @@
 .sl-bullet-list {
     list-style: none;
     padding: 0 0 0 3%;
-    margin: 0 0 1.5vh 0;
+    margin: 0 0 14px 0;
     display: flex;
     flex-direction: column;
-    gap: 1.8vh;
+    gap: 17px;
 }
 
 .sl-bullet-list li {
     display: block;
     position: relative;
     padding-left: 1.4em;
-    margin-bottom: 0.9vh;
+    margin-bottom: 9px;
     color: var(--sl-text);
-    font-size: 3.6vh;
+    font-size: 35px;
     line-height: 1.65;
     text-align: justify;
     hyphens: auto;
@@ -149,9 +149,9 @@
 
 .sl-equation {
     color: var(--sl-accent);
-    font-size: 3.8vh;
+    font-size: 37px;
     text-align: center;
-    margin: 1.5vh 0;
+    margin: 14px 0;
 }
 
 .sl-spacer {
@@ -188,10 +188,10 @@
 .sl-num-list {
     list-style: none;
     padding: 0;
-    margin: 0 0 2vh 0;
+    margin: 0 0 19px 0;
     display: flex;
     flex-direction: column;
-    gap: 1.2vh;
+    gap: 12px;
     counter-reset: sl-counter;
 }
 
@@ -200,7 +200,7 @@
     align-items: baseline;
     gap: 0.7em;
     color: var(--sl-text);
-    font-size: 3.4vh;
+    font-size: 33px;
     line-height: 1.5;
     counter-increment: sl-counter;
 }
@@ -224,7 +224,7 @@
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 2.5vh;
+    gap: 24px;
 }
 
 .sl-ref-entry {
@@ -235,13 +235,13 @@
 
 .sl-ref-icon {
     color: var(--sl-accent);
-    font-size: 3.2vh;
+    font-size: 31px;
     flex-shrink: 0;
     margin-top: 0.2em;
 }
 
 .sl-ref-text {
-    font-size: 2.9vh;
+    font-size: 28px;
     line-height: 1.55;
     color: var(--sl-text);
 }
@@ -289,9 +289,9 @@
 }
 
 .sl-fig__caption {
-    font-size: 2.2vh;
+    font-size: 21px;
     color: var(--sl-muted);
-    padding: 0.4vh 3%;
+    padding: 4px 3%;
     text-align: center;
     line-height: 1.4;
     margin: 0;
@@ -307,7 +307,7 @@
     border: 1.5px solid var(--sl-accent);
     border-radius: 8px 8px 8px 8px;
     overflow: hidden;
-    margin: 0.5vh 0;
+    margin: 5px 0;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
 }
 
@@ -318,14 +318,14 @@
 .sl-block__title {
     background: var(--sl-accent);
     color: var(--sl-bg);
-    font-size: 2.8vh;
+    font-size: 27px;
     font-weight: 700;
-    padding: 0.4vh 3%;
+    padding: 4px 3%;
     font-family: 'Georgia', 'Times New Roman', serif;
 }
 
 .sl-block__body {
-    padding: 0.8vh 3%;
+    padding: 8px 3%;
 }
 
 .sl-block--alert  { border-color: #f59e0b; }
@@ -337,7 +337,7 @@
 .sl-eq-card {
     border: 1px solid rgba(0,216,255,0.35);
     border-radius: 8px 8px 8px 8px;
-    padding: 0.4vh 2%;
+    padding: 4px 2%;
     box-sizing: border-box;
     width: 100%;
     text-align: left;
@@ -353,11 +353,11 @@
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    margin-bottom: 0.1vh;
+    margin-bottom: 1px;
 }
 
 .sl-eq-card__label {
-    font-size: 1.8vh;
+    font-size: 17px;
     color: var(--sl-muted);
     font-style: italic;
     flex: 1;
@@ -365,7 +365,7 @@
 }
 
 .sl-eq-card__num {
-    font-size: 1.8vh;
+    font-size: 17px;
     color: var(--sl-accent);
     font-weight: 600;
     flex-shrink: 0;
@@ -379,7 +379,7 @@
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 4vh;
+    gap: 38px;
     width: 68%;
 }
 
@@ -387,8 +387,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1.2vh;
-    font-size: 3.2vh;
+    gap: 12px;
+    font-size: 31px;
     color: var(--sl-text);
 }
 

@@ -56,7 +56,7 @@ const rightContent = (
             <BlockMath math={eqUpdate} />
         </EqCard>
 
-        <div style={{ marginTop: "10vh"}}>
+        <div style={{ marginTop: "96px" }}>
 	     <p className="sl-heading">Interpretación:</p>
 	</div>
         <ul className="sl-bullet-list">

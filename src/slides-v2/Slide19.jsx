@@ -17,21 +17,21 @@ const Slide19 = ({ theme = 'dark' }) => (
             }}>
                 <div style={{
                     background: 'rgba(0,0,0,0.35)',
-                    padding: '0.5vh 2%',
+                    padding: '5px 2%',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '1%',
                     borderBottom: '1px solid rgba(0,216,255,0.25)',
                     flexShrink: 0,
                 }}>
-                    <span style={{ color: 'var(--sl-muted)', fontSize: '2vh', fontFamily: 'monospace', userSelect: 'none' }}>🌐</span>
+                    <span style={{ color: 'var(--sl-muted)', fontSize: '19px', fontFamily: 'monospace', userSelect: 'none' }}>🌐</span>
                     <span style={{
                         flex: 1,
                         background: 'rgba(255,255,255,0.06)',
                         borderRadius: '4px',
-                        padding: '0.25vh 1.5%',
+                        padding: '2px 1.5%',
                         color: 'var(--sl-muted)',
-                        fontSize: '2vh',
+                        fontSize: '19px',
                         fontFamily: 'monospace',
                     }}>
                         {IFRAME_URL}
@@ -42,7 +42,7 @@ const Slide19 = ({ theme = 'dark' }) => (
                     title="Simulación interactiva"
                     style={{
                         width: '100%',
-                        height: '64vh',
+                        height: '614px',
                         border: 'none',
                         display: 'block',
                     }}

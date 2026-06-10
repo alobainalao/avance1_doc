@@ -3,7 +3,7 @@
 /* EqCard altura moderada + ecuación más grande */
 .s22-eq {
     flex: 0 0 auto;
-    min-height: 30vh;
+    min-height: 288px;
 }
 
 .s22-eq .katex {
@@ -16,7 +16,7 @@
     align-items: center;
     justify-content: center;
     gap: 1%;
-    margin-top: 1.5vh;
+    margin-top: 14px;
     flex-shrink: 0;
 }
 
@@ -25,27 +25,27 @@
     flex: 0 0 16%;
     border: 1.5px solid var(--sl-accent);
     border-radius: 6px;
-    padding: 0.6vh 2%;
+    padding: 6px 2%;
     text-align: center;
     background: color-mix(in srgb, var(--sl-accent) 8%, transparent);
 }
 
 .s22-box-label {
     color: var(--sl-accent);
-    font-size: 1.8vh;
+    font-size: 17px;
     font-weight: 700;
-    margin-bottom: 0.2vh;
+    margin-bottom: 2px;
 }
 
 .s22-box-body {
     color: var(--sl-accent);
-    font-size: 1.6vh;
+    font-size: 15px;
     opacity: 0.85;
 }
 
 .s22-arrow {
     color: var(--sl-accent);
-    font-size: 2.2vh;
+    font-size: 21px;
     font-weight: 700;
     flex-shrink: 0;
     line-height: 1;

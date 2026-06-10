@@ -29,7 +29,7 @@ const Slide21 = ({ theme = 'dark' }) => (
                 </ul>
             </div>
         </div>
-        <p className="sl-heading" style={{ marginTop: '0.5vh' }}>Funciones objetivo</p>
+        <p className="sl-heading" style={{ marginTop: '5px' }}>Funciones objetivo</p>
         <div style={{ display: 'flex', gap: '2%', alignItems: 'stretch' }}>
             <EqCard
                 title={<><InlineMath math={String.raw`J_m(Q,z_p)`} /> — Calidad del agua</>}

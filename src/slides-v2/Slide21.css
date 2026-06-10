@@ -3,7 +3,7 @@
 .s21-vars {
     display: flex;
     gap: 6%;
-    margin-bottom: 1.2vh;
+    margin-bottom: 12px;
 }
 
 .s21-vars > div {
@@ -14,12 +14,12 @@
     display: flex;
     align-items: center;
     gap: 2%;
-    margin: 0.7vh 0;
+    margin: 7px 0;
 }
 
 .s21-obj-lbl {
     flex: 0 0 46%;
-    font-size: 2.1vh;
+    font-size: 20px;
     color: var(--sl-text);
     white-space: nowrap;
 }

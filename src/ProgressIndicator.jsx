@@ -1,7 +1,7 @@
 import React from 'react';
 import './SlideShow.css';
 
-const ProgressIndicator = ({ time, totalTime, top = '8vh', color= 'blue' }) => {
+const ProgressIndicator = ({ time, totalTime, top = '77px', color= 'blue' }) => {
     const percent = Math.min((time / totalTime) * 100, 100);
 
     return (

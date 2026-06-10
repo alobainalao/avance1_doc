@@ -22,7 +22,7 @@
 
 .hero-layout__caption {
     text-align: center;
-    font-size: 1.6vh;
+    font-size: 15px;
     color: var(--sl-muted);
     margin: 0;
     padding: 0 4% 2%;
