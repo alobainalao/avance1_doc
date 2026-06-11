@@ -20,9 +20,10 @@
 /* ── Fondo oscuro del container ─────────────────────────────── */
 .slideshow-container.v2 {
     background-color: var(--sl-bg, #0b0f19);
-    padding: 28px;
+    padding: 5px;
     box-sizing: border-box;
 }
+
 
 /* ── Canvas fijo escalado: 1280×960 px ──────────────────────── */
 .slide-canvas {
@@ -82,3 +83,4 @@
 [data-theme="light"] .icon-button:hover {
     color: #1a56db;
 }
+
