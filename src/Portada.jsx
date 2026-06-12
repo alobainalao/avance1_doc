@@ -17,11 +17,11 @@ const Portada = ({ theme }) => (
             </div>
             <div className="portada-row">
                 <span className="portada-label">Director:</span>
-                <span className="portada-value">Dr. Néstor García Chan</span>
+                <span className="portada-value">Dr. Juan Antonio Licea Salazar</span>
             </div>
             <div className="portada-row">
                 <span className="portada-label">Codirector:</span>
-                <span className="portada-value">Dr. Juan Antonio Licea Salazar</span>
+                <span className="portada-value">Dr. Néstor García Chan</span>
             </div>
             <div className="portada-row">
                 <span className="portada-label">Asesora:</span>

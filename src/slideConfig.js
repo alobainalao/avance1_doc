@@ -46,7 +46,7 @@ const slideConfig = [
   { id: 4,  title: 'Modelo Matemático',                                    component: Slide04, duration: 105, section: 'Precedente',     special: null },
   { id: 5,  title: 'Áreas de oportunidad de la implementación MEF-FeniCS', component: Slide05, duration: 45,  section: 'Precedente',     special: null },
   { id: 6,  title: 'Radial Basis Functions (RBF)',                          component: Slide06, duration: 75,  section: 'Precedente',     special: null },
-  { id: 7,  title: 'Resultados numéricos RBF',                             component: Slide07, duration: 90,  section: 'Precedente',     special: null },
+  { id: 7,  title: 'Resultados numéricos RBF',                             component: Slide07, duration: 90,  section: 'Precedente',     special: null, videoMetodo: 'adr' },
   { id: 8,  title: 'Conclusiones computacionales',                         component: Slide08, duration: 23,  section: 'Precedente',     special: null },
   { id: 9,  title: 'Limitaciones del modelo físico',                       component: Slide09, duration: 23,  section: 'Precedente',     special: null },
   { id: 10, title: 'Transferencia de Masa Multirate (MRMT)',               component: Slide10, duration: 45,  section: 'Precedente',     special: null },
@@ -56,9 +56,9 @@ const slideConfig = [
   { id: 13, title: 'Discretización espacial (RBF-FD)',                     component: Slide13, duration: 45,  section: 'MRMT',           special: null },
   { id: 14, title: 'Matriz bloque global',                                 component: Slide14, duration: 75,  section: 'MRMT',           special: null },
   { id: 15, title: 'Reducción de Schur',                                   component: Slide15, duration: 45,  section: 'MRMT',           special: null },
-  { id: 16, title: 'Resultados numéricos',                                 component: Slide16, duration: 90,  section: 'MRMT',           special: null },
+  { id: 16, title: 'Resultados numéricos',                                 component: Slide16, duration: 90,  section: 'MRMT',           special: null, videoMetodo: 'sem' },
   { id: 17, title: 'Método desacoplado',                                   component: Slide17, duration: 45,  section: 'MRMT',           special: null },
-  { id: 18, title: 'Resultados numéricos',                                 component: Slide18, duration: 90,  section: 'MRMT',           special: null },
+  { id: 18, title: 'Resultados numéricos',                                 component: Slide18, duration: 90,  section: 'MRMT',           special: null, videoMetodo: 'blk' },
 
   { id: 19, title: 'Simulación interactiva',                               component: Slide19, duration: 90,  section: 'MRMT',           special: null },
 

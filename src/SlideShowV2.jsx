@@ -22,9 +22,12 @@ const SlideshowV2 = () => {
     const [theme, setTheme] = useState('light');
     const [scale, setScale] = useState(1);
     const containerRef = useRef(null);
+    const indexRef = useRef(0);
 
     const next = useCallback(() => setIndex((i) => (i + 1) % totalSlides), [totalSlides]);
     const prev = useCallback(() => setIndex((i) => (i - 1 + totalSlides) % totalSlides), [totalSlides]);
+
+    useEffect(() => { indexRef.current = index; }, [index]);
 
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', theme);
@@ -57,6 +60,13 @@ const SlideshowV2 = () => {
             e.preventDefault();
             if (['ArrowRight', 'ArrowDown', 'PageDown'].includes(e.key)) next();
             else if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(e.key)) prev();
+            else if (e.key === 'Tab') {
+                const vm = slideConfig[indexRef.current]?.videoMetodo;
+                if (vm) window.open(
+                    `${process.env.PUBLIC_URL}/#/video-player?metodo=${vm}&video=h.mp4`,
+                    '_blank'
+                );
+            }
             else if (['f', 'Enter', 'AudioVolumeUp'].includes(e.key)) {
                 const elem = document.documentElement;
                 if (!document.fullscreenElement) {
