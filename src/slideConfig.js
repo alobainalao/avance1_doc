@@ -29,6 +29,7 @@ import Slide23 from './slides-v2/Slide23.jsx';
 import Slide24 from './slides-v2/Slide24.jsx';
 import Slide25 from './slides-v2/Slide25.jsx';
 import Slide27 from './slides-v2/Slide27.jsx';
+import Slide27b from './slides-v2/Slide27b.jsx';
 import Slide29 from './slides-v2/Slide29.jsx';
 import Slide30 from './slides-v2/Slide30.jsx';
 import Slide31 from './slides-v2/Slide31.jsx';
@@ -65,8 +66,9 @@ const slideConfig = [
   { id: 24, title: 'Óptimos de Pareto',                                    component: Slide24, duration: 40, section: 'Optimización',   special: null },
   { id: 25, title: 'Escalarización',                                       component: Slide25, duration: 30, section: 'Optimización',   special: null },
   { id: 26, title: 'Restricciones',                                        component: Slide26, duration: 30, section: 'Optimización',   special: null },
-  { id: 27, title: 'Problema de optimización',                             component: Slide27, duration: 60, section: 'Optimización',   special: null },
-  { id: 28, title: 'Método del gradiente conjugado (NCG)',                 component: Slide28, duration: 60, section: 'Optimización',   special: null },
+  { id: 27,  title: 'Problema de optimización',                             component: Slide27,  duration: 60, section: 'Optimización',   special: null },
+  { id: '27b', title: 'Selección del método de optimización',              component: Slide27b, duration: 40, section: 'Optimización',   special: null },
+  { id: 28,  title: 'Método del gradiente conjugado (NCG)',                 component: Slide28,  duration: 60, section: 'Optimización',   special: null },
   { id: 29, title: 'Motivación del método adjunto',                        component: Slide29, duration: 30, section: 'Optimización',   special: null },
   { id: 30, title: 'Idea fundamental del método adjunto',                  component: Slide30, duration: 30, section: 'Optimización',   special: null },
   { id: 31, title: 'Ventaja computacional del método adjunto',             component: Slide31, duration: 30, section: 'Optimización',   special: null },
