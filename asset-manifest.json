@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/avance1_doc/static/css/main.195a3e36.css",
-    "main.js": "/avance1_doc/static/js/main.44fda9b5.js",
+    "main.css": "/avance1_doc/static/css/main.33e07856.css",
+    "main.js": "/avance1_doc/static/js/main.1e07715f.js",
     "static/media/KaTeX_AMS-Regular.ttf": "/avance1_doc/static/media/KaTeX_AMS-Regular.853be92419a6c3766b9a.ttf",
     "static/media/KaTeX_Main-Regular.ttf": "/avance1_doc/static/media/KaTeX_Main-Regular.9eba1d77abcf2aa6e94e.ttf",
     "static/media/KaTeX_Main-Bold.ttf": "/avance1_doc/static/media/KaTeX_Main-Bold.8169508bf58f8bd92ad8.ttf",
@@ -63,11 +63,11 @@
     "static/media/KaTeX_Size3-Regular.woff": "/avance1_doc/static/media/KaTeX_Size3-Regular.7947224e8a9914fa332b.woff",
     "static/media/KaTeX_Size3-Regular.woff2": "/avance1_doc/static/media/KaTeX_Size3-Regular.e1951519f6f0596f7356.woff2",
     "index.html": "/avance1_doc/index.html",
-    "main.195a3e36.css.map": "/avance1_doc/static/css/main.195a3e36.css.map",
-    "main.44fda9b5.js.map": "/avance1_doc/static/js/main.44fda9b5.js.map"
+    "main.33e07856.css.map": "/avance1_doc/static/css/main.33e07856.css.map",
+    "main.1e07715f.js.map": "/avance1_doc/static/js/main.1e07715f.js.map"
   },
   "entrypoints": [
-    "static/css/main.195a3e36.css",
-    "static/js/main.44fda9b5.js"
+    "static/css/main.33e07856.css",
+    "static/js/main.1e07715f.js"
   ]
 }
