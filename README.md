@@ -1,70 +1,46 @@
-# Getting Started with Create React App
+# avance1_doc — Presentación (doctorado)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Presentación de avances/defensa del doctorado sobre **control óptimo de la
+contaminación en acuíferos profundos** (flujo + transporte, RBF-FD, MRMT, método
+adjunto). App React (Create React App, React 19) con fórmulas en KaTeX.
 
-## Available Scripts
+Deploy en vivo: <https://alobainalao.github.io/avance1_doc>
 
-In the project directory, you can run:
+## Arranque
 
-### `npm start`
+```bash
+npm install                      # primera vez
+BROWSER=none PORT=3005 npm start # → http://localhost:3005/avance1_doc
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+La ruta `/avance1_doc` es necesaria (coincide con `homepage` para GitHub Pages).
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Estructura
 
-### `npm test`
+- `src/slideConfig.js` — registro central de slides: `{ id, title, component, duration, section, videoMetodo }`. Aquí se ordena la presentación y se fija la duración (segundos) de cada slide para cronometrar la charla.
+- `src/slides-v2/SlideNN.jsx` — una diapositiva por archivo (arquitectura **V2**).
+- `src/layouts-v2/` — layouts reutilizables (`ScientificLayout`, `TwoColumnLayout`, `HeroLayout`, `Block`, `Cols`, `EqCard`, `Fig`, `Cite`).
+- `SlideShowV2.jsx` — motor: navegación (teclado/swipe), fullscreen, timing, progreso.
+- `VideoPlayer.jsx` — overlay de video de simulaciones (se abre con Tab en slides con `videoMetodo`).
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Secciones del arco: Portada → Precedente → Objetivos → MRMT → Optimización → Estado Adjunto.
 
-### `npm run build`
+## Arquitectura V2 — regla importante
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+El slideshow original (`SlideShow.jsx`, `Controls.jsx`, `Portada.jsx`, etc.) es
+**estable y no debe modificarse destructivamente**. Toda evolución va en `slides-v2/`
+y `layouts-v2/`. Debe preservarse: navegación teclado/swipe, fullscreen, timing,
+indicadores de progreso, temas claro/oscuro, overlays de video, animaciones y responsive.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Scripts
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- `npm start` — desarrollo.
+- `npm run build` — build de producción.
+- `npm run deploy` — build + publicar a GitHub Pages (`gh-pages`).
+- `npm test` — tests.
 
-### `npm run eject`
+## Añadir una slide
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1. Crear `src/slides-v2/SlideNN.jsx` reusando un layout de `layouts-v2/`.
+2. Importarla y registrarla en `src/slideConfig.js` (posición, `section`, `duration`).
+3. Verificar con `npm start`.
