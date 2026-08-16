@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Controls from './Controls.jsx';
 import ProgressIndicator from './ProgressIndicator.jsx';
 import SlideHeader from './SlideHeader.jsx';
 import Portada from './Portada.jsx';
-import slideConfig from './slideConfig.js';
+import defaultSlideConfig from './slideConfig.js';
 import './SlideShow.css';
 import './SlideShowV2.css';
 import 'katex/dist/katex.min.css';
@@ -12,8 +13,10 @@ const TOTAL_EXPECTED_TIME = 900000;
 const CANVAS_W = 1280;
 const CANVAS_H = 960;
 
-const SlideshowV2 = () => {
-    const totalSlides = slideConfig.length;
+const SlideshowV2 = ({ slides: slidesProp, sections, portadaDate }) => {
+    const navigate = useNavigate();
+    const slides = slidesProp ?? defaultSlideConfig;
+    const totalSlides = slides.length;
 
     const [index, setIndex] = useState(0);
     const [startTime] = useState(Date.now());
@@ -51,9 +54,9 @@ const SlideshowV2 = () => {
         return () => clearInterval(interval);
     }, [startTime]);
 
-    const realProgressTime = slideConfig
+    const realProgressTime = slides
         .slice(0, index)
-        .reduce((acc, slide) => acc + slide.duration * 1000, 0);
+        .reduce((acc, s) => acc + s.duration * 1000, 0);
 
     useEffect(() => {
         const handleKey = (e) => {
@@ -61,7 +64,7 @@ const SlideshowV2 = () => {
             if (['ArrowRight', 'ArrowDown', 'PageDown'].includes(e.key)) next();
             else if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(e.key)) prev();
             else if (e.key === 'Tab') {
-                const vm = slideConfig[indexRef.current]?.videoMetodo;
+                const vm = slides[indexRef.current]?.videoMetodo;
                 if (vm) window.open(
                     `${process.env.PUBLIC_URL}/#/video-player?metodo=${vm}&video=h.mp4`,
                     '_blank'
@@ -113,7 +116,7 @@ const SlideshowV2 = () => {
             window.removeEventListener('touchstart', handleTouchStart);
             window.removeEventListener('touchend', handleTouchEnd);
         };
-    }, [next, prev]);
+    }, [next, prev, slides]);
 
     useEffect(() => {
         const handleVideoClosed = () => {
@@ -126,11 +129,14 @@ const SlideshowV2 = () => {
         return () => window.removeEventListener('videoClosed', handleVideoClosed);
     }, []);
 
-    const slide = slideConfig[index];
+    const slide = slides[index];
     const SlideComponent = slide?.component;
 
     return (
         <div className="slideshow-container v2" ref={containerRef}>
+            <button className="ssv2-back-btn" onClick={() => navigate('/')} title="Volver al menú">
+                ← Menú
+            </button>
             <Controls
                 onNext={next}
                 onPrev={prev}
@@ -152,7 +158,7 @@ const SlideshowV2 = () => {
                     {index + 1} / {totalSlides}
                 </div>
                 <div className="slide-stack">
-                    <SlideHeader index={index} title={slide?.title} />
+                    <SlideHeader index={index} title={slide?.title} sections={sections} />
                     <ProgressIndicator
                         time={elapsedTime}
                         totalTime={TOTAL_EXPECTED_TIME}
@@ -167,7 +173,7 @@ const SlideshowV2 = () => {
                     />
                     <div className="slide-crop-wrapper">
                         {index === 0
-                            ? <Portada theme={theme} />
+                            ? <Portada theme={theme} date={portadaDate} />
                             : SlideComponent && <SlideComponent theme={theme} />
                         }
                     </div>

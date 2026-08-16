@@ -1,7 +1,7 @@
 import React from 'react';
 import './Portada.css';
 
-const Portada = ({ theme }) => (
+const Portada = ({ theme, date = '30 de mayo de 2026' }) => (
     <div className={`portada portada--${theme}`}>
         <div className="portada-title-box">
             <h1>
@@ -34,7 +34,7 @@ const Portada = ({ theme }) => (
             <p>Centro Universitario de Ciencias Exactas e Ingenierías</p>
         </div>
 
-        <div className="portada-date">30 de mayo de 2026</div>
+        <div className="portada-date">{date}</div>
     </div>
 );
 

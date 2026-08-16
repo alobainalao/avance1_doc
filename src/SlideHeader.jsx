@@ -1,7 +1,7 @@
 import React from 'react';
 import './SlideHeader.css';
 
-const SECTIONS = [
+const DEFAULT_SECTIONS = [
     { label: 'Portada',        start: 1,  end: 1  },
     { label: 'Precedente',     start: 2,  end: 10 },
     { label: 'Objetivos',      start: 11, end: 11 },
@@ -12,12 +12,12 @@ const SECTIONS = [
     { label: 'Referencias',    start: 40, end: 40 },
 ];
 
-const SlideHeader = ({ index, title }) => {
+const SlideHeader = ({ index, title, sections = DEFAULT_SECTIONS }) => {
     const slide = index + 1;
     return (
         <div className="slide-header">
             <div className="slide-header__tabs">
-                {SECTIONS.map((section) => {
+                {sections.map((section) => {
                     const isActive = slide >= section.start && slide <= section.end;
                     return (
                         <span
