@@ -10,7 +10,7 @@ const COLS = [
 ];
 
 const ROWS = [
-    { model: 'ADR',          fwdBFR: 'ok',  fwdFEM: 'ok',  adjBFR: 'ok',  adjFEM: 'wip' },
+    { model: 'ADR',          fwdBFR: 'ok',  fwdFEM: 'ok',  adjBFR: 'ok',  adjFEM: 'ok'  },
     { model: 'MRMT Semi',    fwdBFR: 'ok',  fwdFEM: 'ok',  adjBFR: 'ok',  adjFEM: 'ok'  },
     { model: 'MRMT Bloque',  fwdBFR: 'ok',  fwdFEM: 'ok',  adjBFR: 'ok',  adjFEM: 'ok'  },
 ];
@@ -91,7 +91,7 @@ const A3S10 = ({ theme = 'dark' }) => (
         {/* Nota */}
         <p style={{ color: 'var(--sl-muted)', fontSize: 20, fontStyle: 'italic',
                     margin: 0, flexShrink: 0 }}>
-            Forward completo (BFR + FEniCS, 3 modelos). Adj. BFR + FEniCS validados (FD &lt; 1e-8). ADR adj. FEniCS en progreso.
+            Todos los backends y modelos validados con diferencias finitas (FD &lt; 1e-7).
         </p>
     </SlideLayout>
 );
