@@ -10,9 +10,9 @@ const COLS = [
 ];
 
 const ROWS = [
-    { model: 'ADR',          fwdBFR: 'ok',  fwdFEM: 'ok',  adjBFR: 'ok',  adjFEM: 'ok'  },
-    { model: 'MRMT Semi',    fwdBFR: 'ok',  fwdFEM: 'ok',  adjBFR: 'ok',  adjFEM: 'ok'  },
-    { model: 'MRMT Bloque',  fwdBFR: 'ok',  fwdFEM: 'ok',  adjBFR: 'ok',  adjFEM: 'ok'  },
+    { model: 'ADR',          fwdBFR: 'ok',  fwdFEM: 'ok',  adjBFR: 'ok',  adjFEM: 'ok' },
+    { model: 'MRMT Semi',    fwdBFR: 'ok',  fwdFEM: 'ok',  adjBFR: 'ok',  adjFEM: 'ok' },
+    { model: 'MRMT Bloque',  fwdBFR: 'ok',  fwdFEM: 'ok',  adjBFR: 'ok',  adjFEM: 'ok' },
 ];
 
 const CFG = {
@@ -91,7 +91,7 @@ const A3S10 = ({ theme = 'dark' }) => (
         {/* Nota */}
         <p style={{ color: 'var(--sl-muted)', fontSize: 20, fontStyle: 'italic',
                     margin: 0, flexShrink: 0 }}>
-            Todos los backends y modelos validados con diferencias finitas (FD &lt; 1e-7).
+            Las 6 combinaciones (3 modelos × 2 backends) completas — forward y adjunto. ψ_H nan=0, ψ_C nan=0. Sep 2026.
         </p>
     </SlideLayout>
 );

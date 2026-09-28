@@ -2,6 +2,7 @@
 // Para añadir un avance nuevo: importar su slideConfig y agregar una entrada con available: true.
 
 import avance2Slides from '../slideConfig';
+import avance3Slides from './slideConfig.avance3';
 
 const avance2Sections = [
     { label: 'Portada',        start: 1,  end: 1  },
@@ -20,7 +21,8 @@ const registry = [
         date: 'Enero 2026',
         slides: null,
         sections: null,
-        available: false,
+        available: true,
+        type: 'v1',
     },
     {
         id: 'avance2',
@@ -36,9 +38,15 @@ const registry = [
         label: 'Avance 3',
         subtitle: 'Sem 3 · Ene 2027',
         date: 'Enero 2027',
-        slides: null,
-        sections: null,
-        available: false,
+        slides: avance3Slides,
+        sections: [
+            { label: 'Portada',       start: 1,  end: 1  },
+            { label: 'Contexto',      start: 2,  end: 3  },
+            { label: 'Adj. + sim.',   start: 4,  end: 7  },
+            { label: 'Optimización',  start: 8,  end: 12 },
+            { label: 'Cierre',        start: 13, end: 13 },
+        ],
+        available: true,
     },
     {
         id: 'avance4',
