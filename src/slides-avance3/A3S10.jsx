@@ -3,22 +3,25 @@ import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 
 // Datos extraídos de presentaciones/tracker-semestral/src/data/metas.js
 const COLS = [
-    { key: 'fwdBFR',  label: 'Forward\nBFR'    },
-    { key: 'fwdFEM',  label: 'Forward\nFEniCS'  },
-    { key: 'adjBFR',  label: 'Adjunto\nBFR'     },
-    { key: 'adjFEM',  label: 'Adjunto\nFEniCS'  },
+    { key: 'fwdBFR',  label: 'Forward\nBFR'     },
+    { key: 'fwdFEM',  label: 'Forward\nFEniCS'   },
+    { key: 'adjBFR',  label: 'Adjunto\nBFR'      },
+    { key: 'adjFEM',  label: 'Adjunto\nFEniCS'   },
+    { key: 'optBFR',  label: 'Optim.\nBFR'       },
+    { key: 'optFEM',  label: 'Optim.\nFEniCS'    },
 ];
 
 const ROWS = [
-    { model: 'ADR',          fwdBFR: 'ok',  fwdFEM: 'ok',  adjBFR: 'ok',  adjFEM: 'ok' },
-    { model: 'MRMT Semi',    fwdBFR: 'ok',  fwdFEM: 'ok',  adjBFR: 'ok',  adjFEM: 'ok' },
-    { model: 'MRMT Bloque',  fwdBFR: 'ok',  fwdFEM: 'ok',  adjBFR: 'ok',  adjFEM: 'ok' },
+    { model: 'ADR',          fwdBFR: 'ok',  fwdFEM: 'ok',  adjBFR: 'ok',  adjFEM: 'ok',  optBFR: 'test', optFEM: 'test' },
+    { model: 'MRMT Semi',    fwdBFR: 'ok',  fwdFEM: 'ok',  adjBFR: 'ok',  adjFEM: 'ok',  optBFR: 'test', optFEM: 'test' },
+    { model: 'MRMT Bloque',  fwdBFR: 'ok',  fwdFEM: 'ok',  adjBFR: 'ok',  adjFEM: 'ok',  optBFR: 'test', optFEM: 'test' },
 ];
 
 const CFG = {
-    ok:  { color: '#4ade80', bg: 'rgba(74,222,128,0.13)',  icon: '✓', label: 'Completo'     },
-    wip: { color: '#60a5fa', bg: 'rgba(96,165,250,0.13)',  icon: '◑', label: 'En progreso'  },
-    pen: { color: '#475569', bg: 'rgba(71,85,105,0.18)',   icon: '○', label: 'Pendiente'    },
+    ok:   { color: '#4ade80', bg: 'rgba(74,222,128,0.13)',  icon: '✓', label: 'Completo'   },
+    test: { color: '#fb923c', bg: 'rgba(251,146,60,0.13)',  icon: '▷', label: 'En prueba'  },
+    wip:  { color: '#60a5fa', bg: 'rgba(96,165,250,0.13)',  icon: '◑', label: 'En progreso' },
+    pen:  { color: '#475569', bg: 'rgba(71,85,105,0.18)',   icon: '○', label: 'Pendiente'  },
 };
 
 const A3S10 = ({ theme = 'dark' }) => (
@@ -91,7 +94,7 @@ const A3S10 = ({ theme = 'dark' }) => (
         {/* Nota */}
         <p style={{ color: 'var(--sl-muted)', fontSize: 20, fontStyle: 'italic',
                     margin: 0, flexShrink: 0 }}>
-            Las 6 combinaciones (3 modelos × 2 backends) completas — forward y adjunto. ψ_H nan=0, ψ_C nan=0. Sep 2026.
+            Forward + adjunto completos. Optimización (6 combinaciones) en prueba — sep/oct 2026.
         </p>
     </SlideLayout>
 );

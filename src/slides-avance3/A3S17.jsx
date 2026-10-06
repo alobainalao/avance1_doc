@@ -89,11 +89,11 @@ const A3S17 = ({ theme = 'dark' }) => {
             </div>
 
             {/* ── Gráficas ─────────────────────────────────────── */}
-            <div style={{ flex: 1, display: 'flex', gap: 14, minHeight: 0 }}>
+            <div style={{ flexShrink: 0, display: 'flex', gap: 14 }}>
 
                 {/* Panel J relativo */}
                 <svg viewBox={`0 0 ${WJ} ${HJ}`}
-                     style={{ flex: '0 0 auto', width: WJ,
+                     style={{ flex: WJ, width: 0, minWidth: 0,
                               border: '1px solid rgba(0,216,255,0.15)', borderRadius: 8 }}>
                     <rect x={PJ.l} y={PJ.t} width={PWJ} height={PHJ} fill="rgba(0,0,0,0.22)" />
                     {[1, 0.75, 0.5, 0.25, 0.08].map(v => (
@@ -141,7 +141,7 @@ const A3S17 = ({ theme = 'dark' }) => {
 
                 {/* Panel z_p ADR */}
                 <svg viewBox={`0 0 ${WZ} ${HZ}`}
-                     style={{ flex: '0 0 auto', width: WZ,
+                     style={{ flex: WZ, width: 0, minWidth: 0,
                               border: '1px solid rgba(192,132,252,0.18)', borderRadius: 8 }}>
                     <rect x={PZ.l} y={PZ.t} width={PWZ} height={PHZ} fill="rgba(0,0,0,0.22)" />
                     {[-700, -600, -500, -400, -300, -200].map(v => (
@@ -176,8 +176,10 @@ const A3S17 = ({ theme = 'dark' }) => {
                           transform={`rotate(-90,14,${(PZ.t+PHZ/2).toFixed(0)})`}>z_p (m)</text>
                 </svg>
 
-                {/* Tarjetas interpretación */}
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 10, justifyContent: 'center' }}>
+            </div>
+
+            {/* ── Tarjetas interpretación ── */}
+            <div style={{ flex: 1, display: 'flex', gap: 10, minHeight: 0 }}>
                     {[
                         {
                             color: '#4ade80',
@@ -191,8 +193,8 @@ const A3S17 = ({ theme = 'dark' }) => {
                         },
                         {
                             color: '#60a5fa',
-                            title: 'Q(t) bang-bang — ambos modelos',
-                            body: 'Q̄* ≈ 3.8×10⁻⁴ m³/s (−61–62 % vs Q₀). El optimizador apaga la bomba en los pasos donde bombear no reduce J, respetando la restricción del tanque S ∈ [0, 2 000] m³.',
+                            title: 'Q(t) perfil suave — ambos modelos',
+                            body: 'Q̄* ≈ 3.8×10⁻⁴ m³/s (−62 % vs Q₀ = 3.6 m³/h). El optimizador reduce el caudal de forma uniforme; la restricción del tanque S ∈ [0, 2 000] m³ se satisface en todos los pasos.',
                         },
                     ].map(({ color, title, body }) => (
                         <div key={title} style={{
@@ -204,7 +206,6 @@ const A3S17 = ({ theme = 'dark' }) => {
                             <div style={{ color: 'var(--sl-text)', fontSize: 18, lineHeight: 1.4 }}>{body}</div>
                         </div>
                     ))}
-                </div>
             </div>
         </SlideLayout>
     );

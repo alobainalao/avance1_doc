@@ -1,14 +1,14 @@
 import React from 'react';
 import './SlideLayout.css';
 
-const SlideLayout = ({ title, theme = 'dark', children, className = '' }) => (
+const SlideLayout = ({ title, theme = 'dark', children, className = '', justify = 'center' }) => (
     <div className={`slide-layout slide-layout--${theme} ${className}`}>
         {title && (
             <div className="slide-layout__titlebar">
                 <h2 className="slide-layout__title">{title}</h2>
             </div>
         )}
-        <div className="slide-layout__content">
+        <div className="slide-layout__content" style={{ justifyContent: justify }}>
             {children}
         </div>
     </div>

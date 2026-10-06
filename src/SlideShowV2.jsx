@@ -129,6 +129,13 @@ const SlideshowV2 = ({ slides: slidesProp, sections, portadaDate }) => {
         return () => window.removeEventListener('videoClosed', handleVideoClosed);
     }, []);
 
+    // Navegación directa desde slides: dispatchEvent(new CustomEvent('goToSlide', { detail: { index: N } }))
+    useEffect(() => {
+        const handler = (e) => setIndex(Math.max(0, Math.min(e.detail.index, totalSlides - 1)));
+        window.addEventListener('goToSlide', handler);
+        return () => window.removeEventListener('goToSlide', handler);
+    }, [totalSlides]);
+
     const slide = slides[index];
     const SlideComponent = slide?.component;
 

@@ -5,6 +5,18 @@ import './VideoPlayer.css';
 const base = process.env.PUBLIC_URL;
 
 const videosByMethod = {
+  mef: [
+    { filename: 'h.mp4',  label: 'Altura piezométrica' },
+    { filename: 'v.mp4',  label: 'Flujo del agua' },
+    { filename: 'c.mp4',  label: 'Contaminante' },
+    { filename: 'hv.mp4', label: 'Altura + Flujo' },
+    { filename: 'cv.mp4', label: 'Flujo + Contaminante' },
+  ],
+  bfr: [
+    { filename: 'h.mp4',  label: 'Altura piezométrica' },
+    { filename: 'v.mp4',  label: 'Flujo del agua' },
+    { filename: 'c.mp4',  label: 'Contaminante' },
+  ],
   adr: [
     { filename: 'h.mp4',  label: 'Altura piezométrica' },
     { filename: 'v.mp4',  label: 'Flujo del agua' },

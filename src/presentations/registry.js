@@ -42,9 +42,9 @@ const registry = [
         sections: [
             { label: 'Portada',       start: 1,  end: 1  },
             { label: 'Contexto',      start: 2,  end: 3  },
-            { label: 'Adj. + sim.',   start: 4,  end: 7  },
-            { label: 'Optimización',  start: 8,  end: 12 },
-            { label: 'Cierre',        start: 13, end: 13 },
+            { label: 'Adj. + sim.',   start: 4,  end: 10 },
+            { label: 'Optimización',  start: 11, end: 16 },
+            { label: 'Cierre',        start: 17, end: 18 },
         ],
         available: true,
     },

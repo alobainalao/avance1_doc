@@ -333,6 +333,12 @@
 .sl-block--example { border-color: #10b981; }
 .sl-block--example .sl-block__title { background: #10b981; }
 
+/* ── Grid slides — reduce lateral padding for wider grids ── */
+.slide-layout--wide .slide-layout__content {
+    padding-left: 2%;
+    padding-right: 2%;
+}
+
 /* ── EqCard — numbered equation box ─────────────────────── */
 .sl-eq-card {
     border: 1px solid rgba(0,216,255,0.35);

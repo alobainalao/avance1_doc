@@ -1,6 +1,7 @@
 import React from 'react';
 import { HashRouter as Router, Routes, Route, Navigate, useParams } from 'react-router-dom';
 import PresentationSelector from './PresentationSelector';
+import SlideshowV1 from './SlideShowV1';
 import SlideshowV2 from './SlideShowV2';
 import VideoPlayer from './VideoPlayer';
 import registry from './presentations/registry';
@@ -11,6 +12,10 @@ const SlideShowWrapper = () => {
 
     if (!presentation || !presentation.available) {
         return <Navigate to="/" replace />;
+    }
+
+    if (presentation.type === 'v1') {
+        return <SlideshowV1 />;
     }
 
     return (
