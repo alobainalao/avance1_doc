@@ -12,9 +12,9 @@ const COLS = [
 ];
 
 const ROWS = [
-    { model: 'ADR',          fwdBFR: 'ok',  fwdFEM: 'ok',  adjBFR: 'ok',  adjFEM: 'ok',  optBFR: 'test', optFEM: 'test' },
-    { model: 'MRMT Semi',    fwdBFR: 'ok',  fwdFEM: 'ok',  adjBFR: 'ok',  adjFEM: 'ok',  optBFR: 'test', optFEM: 'test' },
-    { model: 'MRMT Bloque',  fwdBFR: 'ok',  fwdFEM: 'ok',  adjBFR: 'ok',  adjFEM: 'ok',  optBFR: 'test', optFEM: 'test' },
+    { model: 'ADR',          fwdBFR: 'ok',  fwdFEM: 'ok',  adjBFR: 'ok',  adjFEM: 'ok',  optBFR: 'ok',   optFEM: 'test' },
+    { model: 'MRMT Semi',    fwdBFR: 'ok',  fwdFEM: 'ok',  adjBFR: 'ok',  adjFEM: 'ok',  optBFR: 'ok',   optFEM: 'test' },
+    { model: 'MRMT Bloque',  fwdBFR: 'ok',  fwdFEM: 'ok',  adjBFR: 'ok',  adjFEM: 'ok',  optBFR: 'test', optFEM: 'pen'  },
 ];
 
 const CFG = {
@@ -94,7 +94,8 @@ const A3S10 = ({ theme = 'dark' }) => (
         {/* Nota */}
         <p style={{ color: 'var(--sl-muted)', fontSize: 20, fontStyle: 'italic',
                     margin: 0, flexShrink: 0 }}>
-            Forward + adjunto completos. Optimización (6 combinaciones) en prueba — sep/oct 2026.
+            Forward + adjunto: 6/6 completos. Optim. BFR: ADR (−91.9 % J) y MRMT Semi (−77 % J) listos.
+            MRMT Bloque BFR en prueba. FEniCS optimización: pendiente.
         </p>
     </SlideLayout>
 );
