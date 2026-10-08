@@ -5,7 +5,7 @@ import EqCard from '../layouts-v2/EqCard.jsx';
 
 const eqAdjH = String.raw`-S_s\,\partial_t\psi_h + \nabla\!\cdot\!(K\nabla\psi_h) = -\nabla\!\cdot\!(K\psi_C\nabla C)`;
 
-const eqAdjC = String.raw`-\phi R\,\partial_t\psi_C + \nabla\!\cdot\!(\mathbf{D}\nabla\psi_C) +\bigl[\chi(Q)g(z_p)+\lambda\phi R\bigr]\psi_C = 2\gamma C\,\delta_p`;
+const eqAdjC = String.raw`-\phi R\,\partial_t\psi_C + \nabla\!\cdot\!(\mathbf{D}\nabla\psi_C) +\bigl[\chi(Q)g(z_p)+\lambda\phi R\bigr]\psi_C = 2\gamma\, g_p\, C`;
 
 const eqGradQ = String.raw`\nabla_Q\mathcal{J}(t) = 2|z_p\!-\!z_0|\,Q(t) - \int_\Omega g(z_p)\!\left[\psi_h(\chi+Q\chi') + \psi_C C\chi'\right]d\Omega`;
 
@@ -14,7 +14,7 @@ const eqGradzp = String.raw`
 \frac{\partial\mathcal{J}}{\partial z_p}
   &= 2\beta(z_p\!-\!z_0)
      - \int_0^T Q^2\,dt
-     + 2\gamma\!\int_0^T C\,\partial_z C\,dt \\[6pt]
+     + \gamma\!\int_0^T\!\!\int_\Omega \frac{\partial g_p}{\partial z_p} C^2\,d\Omega\,dt \\[6pt]
   &\quad - \int_0^T\!\!\int_\Omega
        \frac{\partial g}{\partial z_p}
        \bigl[\chi Q\psi_h + \chi\psi_C C\bigr]\,d\Omega\,dt

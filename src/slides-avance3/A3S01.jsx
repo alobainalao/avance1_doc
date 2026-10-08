@@ -3,13 +3,10 @@ import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 
 const GITHUB = 'https://github.com/alobainalao/Doctorado/blob/main/codigo';
 
-// Índices (0-based) de los slides en slideConfig.avance3.js
-// 0:Portada 1:A3S01 2:A3S02 3:A3S10 4:A3S03 5:A3S04 6:A3S05
-// 7:A3S13  8:A3S11 9:A3S12 10:A3S06 11:A3S07 12:A3S08 13:A3S09
-
 // Índices posicionales en slideConfig.avance3.js (0-based):
-// 0:Portada 1:A3S01 2:A3S02 3:A3S03 4:A3S05 5:A3S15 6:A3S16
-// 7:A3S13  8:A3S11 9:A3S12 10:A3S14 11:A3S17 12:A3S10 13:A3S09
+// 0:null  1:A3S01 2:A3S02 3:A3S03  4:A3S05  5:A3S19  6:A3S20
+// 7:A3S15 8:A3S16 9:A3S21 10:A3S13 11:A3S11 12:A3S12 13:A3S14
+// 14:A3S17 15:A3S18 16:A3S10 17:A3S09
 const items = [
     {
         fecha: 'Ago–Sep 2026',
@@ -25,8 +22,8 @@ const items = [
         tarea: '6 combinaciones completas: forward + adjunto (3 modelos × 2 backends)',
         tipo: 'ok',
         ev: [
-            { label: 'Forward C(t)', idx: 5 },
-            { label: 'Adjunto ψ_C', idx: 6 },
+            { label: 'Forward C(t)', idx: 7 },
+            { label: 'Adjunto ψ_C', idx: 8 },
         ],
     },
     {
@@ -34,7 +31,7 @@ const items = [
         tarea: 'Optimización ADR BFR (50 evals): J −91.9 %, z_p −700 → −200 m',
         tipo: 'ok',
         ev: [
-            { label: 'ADR resultado', idx: 10 },
+            { label: 'ADR resultado', idx: 13 },
             { label: 'Código', href: `${GITHUB}/view/animation.py` },
         ],
     },
@@ -43,7 +40,7 @@ const items = [
         tarea: 'Optimización MRMT Semi BFR (14 evals): J −77 %, convergencia en 3 iter',
         tipo: 'ok',
         ev: [
-            { label: 'ADR vs MRMT', idx: 11 },
+            { label: 'ADR vs MRMT', idx: 14 },
         ],
     },
     { fecha: 'Oct–Nov 2026', tarea: 'Barrido γ ∈ [10⁻³, 10³] — frente de Pareto ADR vs MRMT Semi', tipo: 'wip' },

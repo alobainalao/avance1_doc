@@ -55,7 +55,7 @@ const A3S05 = ({ theme = 'dark' }) => (
                 <ColTitle color="#a78bfa">Configuración de la simulación</ColTitle>
                 <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: 14 }}>
                     <tbody>
-                        <InfoRow label="Nodos RBF-FD" val="16 551" />
+                        <InfoRow label="Nodos RBF-FD" val="16 552" />
                         <InfoRow label="Horizonte T" val="30 días" />
                         <InfoRow label="Pasos Δt" val="72  ×  10 h" />
                     </tbody>
@@ -79,8 +79,8 @@ const A3S05 = ({ theme = 'dark' }) => (
                 <ColTitle color="#f87171">Estado adjunto</ColTitle>
                 <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: 10 }}>
                     <tbody>
-                        <InfoRow label="ψ_H rango" val="[−6.3×10⁻¹⁴, 5.8×10⁻¹⁴]" color="#f87171" />
-                        <InfoRow label="ψ_C rango" val="[−1.1×10⁻⁸, 1.7×10⁻⁷]"   color="#f87171" />
+                        <InfoRow label="ψ_H rango" val="[−1.9×10⁻²⁰, 1.9×10⁻²⁰]" color="#f87171" />
+                        <InfoRow label="ψ_C rango" val="[−7.3×10⁻⁹, 7.3×10⁻⁹]"   color="#f87171" />
                     </tbody>
                 </table>
                 <p style={{ color: 'var(--sl-muted)', fontSize: 17, fontStyle: 'italic',
