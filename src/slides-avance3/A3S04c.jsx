@@ -2,13 +2,16 @@ import React from 'react';
 import { InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 
+// Datos reales del test (oct 2026, fix escala Q — ver tests/test_taylor_adjoint.py)
+// dm normalizado solo en dirección Q (zp fijo), scale = ‖Q₀‖ = 1.732e-3
+// ratio_r0 → 2 (O(h)); ratio_r1 = 4.00 exacto (O(h²)) — 6/6 casos idénticos
 const RATIOS = [
-    { backend: 'BFR',    model: 'ADR',         r: [3.88, 3.94, 3.97, 3.99] },
-    { backend: 'BFR',    model: 'MRMT Semi',   r: [3.88, 3.94, 3.97, 3.99] },
-    { backend: 'BFR',    model: 'MRMT Bloque', r: [3.88, 3.94, 3.97, 3.99] },
-    { backend: 'FEniCS', model: 'ADR',         r: [3.88, 3.94, 3.97, 3.99] },
-    { backend: 'FEniCS', model: 'MRMT Semi',   r: [3.88, 3.94, 3.97, 3.99] },
-    { backend: 'FEniCS', model: 'MRMT Bloque', r: [3.88, 3.94, 3.97, 3.99] },
+    { backend: 'BFR',    model: 'ADR',         r0: [3.58, 3.31, 2.97, 2.64], r1: [4.00, 4.00, 4.00, 4.00] },
+    { backend: 'BFR',    model: 'MRMT Semi',   r0: [3.58, 3.31, 2.97, 2.64], r1: [4.00, 4.00, 4.00, 4.00] },
+    { backend: 'BFR',    model: 'MRMT Bloque', r0: [3.58, 3.31, 2.97, 2.64], r1: [4.00, 4.00, 4.00, 4.00] },
+    { backend: 'FEniCS', model: 'ADR',         r0: [3.58, 3.31, 2.97, 2.64], r1: [4.00, 4.00, 4.00, 4.00] },
+    { backend: 'FEniCS', model: 'MRMT Semi',   r0: [3.58, 3.31, 2.97, 2.64], r1: [4.00, 4.00, 4.00, 4.00] },
+    { backend: 'FEniCS', model: 'MRMT Bloque', r0: [3.58, 3.31, 2.97, 2.64], r1: [4.00, 4.00, 4.00, 4.00] },
 ];
 
 const A3S04c = ({ theme = 'dark' }) => (
@@ -27,7 +30,7 @@ const A3S04c = ({ theme = 'dark' }) => (
         }}>
             {[
                 { label: 'Malla',     val: 'Δx = 30 m,  N = 16 552 nodos' },
-                { label: 'Pasos h',   val: '70 → 35 → 17.5 → 8.75 → 4.4' },
+                { label: 'Pasos h',   val: '1.73e-4 → 8.66e-5 → 4.33e-5 → 2.17e-5 → 1.08e-5' },
                 { label: 'Criterio',  val: 'ratio r₁(h)/r₁(h/2) ≥ 3.5' },
             ].map(({ label, val }) => (
                 <div key={label} style={{ display: 'flex', gap: 8, alignItems: 'baseline' }}>
@@ -53,7 +56,7 @@ const A3S04c = ({ theme = 'dark' }) => (
                     </tr>
                 </thead>
                 <tbody>
-                    {RATIOS.map(({ backend, model, r }, i) => (
+                    {RATIOS.map(({ backend, model, r1 }, i) => (
                         <tr key={i} style={{
                             borderTop: '1px solid rgba(0,216,255,0.10)',
                             background: i % 2 === 0 ? 'rgba(0,0,0,0.15)' : 'transparent',
@@ -66,7 +69,7 @@ const A3S04c = ({ theme = 'dark' }) => (
                                 padding: '14px 20px', fontSize: 21, color: 'var(--sl-text)',
                                 borderLeft: '1px solid rgba(0,216,255,0.12)',
                             }}>{model}</td>
-                            {r.map((v, j) => (
+                            {r1.map((v, j) => (
                                 <td key={j} style={{
                                     textAlign: 'center', padding: '14px 14px',
                                     fontFamily: 'monospace', fontSize: 24, fontWeight: 700,
@@ -93,7 +96,7 @@ const A3S04c = ({ theme = 'dark' }) => (
                     6 / 6 casos — 4/4 refinamientos superan criterio ≥ 3.5
                 </p>
                 <p style={{ margin: '4px 0 0', color: 'var(--sl-text)', fontSize: 22 }}>
-                    Ratios 3.88 → 3.99 — convergencia monótona hacia 4.0 (valor teórico <InlineMath math={"\\mathcal{O}(h^2)"} />)
+                    ratio r₁ = 4.00 exacto (valor teórico <InlineMath math={"\\mathcal{O}(h^2)"} />) — idéntico en todos los casos
                 </p>
             </div>
             <p style={{ margin: 0, color: 'var(--sl-muted)', fontSize: 20, marginLeft: 'auto', flexShrink: 0, textAlign: 'right' }}>
