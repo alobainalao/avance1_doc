@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Controls from './Controls.jsx';
 import ProgressIndicator from './ProgressIndicator.jsx';
 import SlideHeader from './SlideHeader.jsx';
@@ -15,10 +15,12 @@ const CANVAS_H = 960;
 
 const SlideshowV2 = ({ slides: slidesProp, sections, portadaDate }) => {
     const navigate = useNavigate();
+    const location = useLocation();
     const slides = slidesProp ?? defaultSlideConfig;
     const totalSlides = slides.length;
 
-    const [index, setIndex] = useState(0);
+    const _s0 = parseInt(new URLSearchParams(location.search).get('s') || '0', 10);
+    const [index, setIndex] = useState(Math.min(Math.max(_s0, 0), totalSlides - 1));
     const [startTime] = useState(Date.now());
     const [elapsedTime, setElapsedTime] = useState(0);
     const [fullscreen, setFullscreen] = useState(false);
