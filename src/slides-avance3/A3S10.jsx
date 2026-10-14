@@ -94,8 +94,8 @@ const A3S10 = ({ theme = 'dark' }) => (
         {/* Nota */}
         <p style={{ color: 'var(--sl-muted)', fontSize: 20, fontStyle: 'italic',
                     margin: 0, flexShrink: 0 }}>
-            Forward + adjunto: 6/6 completos. Optim. BFR: ADR (−91.9 % J) y MRMT Semi (−77 % J) listos.
-            MRMT Bloque BFR en prueba. FEniCS optimización: pendiente.
+            Forward + adjunto: 6/6 completos. Test de Taylor oct 2026: 6/6 OK, ratios r₁ ≈ 3.88–3.99 → O(h²).
+            Optim. BFR: ADR (−91.9 % J) y MRMT Semi (−77 % J) listos. MRMT Bloque BFR en prueba. FEniCS optim.: pendiente.
         </p>
     </SlideLayout>
 );

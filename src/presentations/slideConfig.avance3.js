@@ -6,6 +6,8 @@
 import A3S01 from '../slides-avance3/A3S01.jsx';
 import A3S02 from '../slides-avance3/A3S02.jsx';
 import A3S03 from '../slides-avance3/A3S03.jsx';
+import A3S04b from '../slides-avance3/A3S04b.jsx';
+import A3S04c from '../slides-avance3/A3S04c.jsx';
 import A3S05 from '../slides-avance3/A3S05.jsx';
 import A3S10 from '../slides-avance3/A3S10.jsx';
 import A3S11 from '../slides-avance3/A3S11.jsx';
@@ -37,6 +39,8 @@ const avance3Slides = [
     // ── Método adjunto ───────────────────────────────────────────────────
     { id: 4,  title: 'Método adjunto — ecuaciones clave',                     component: A3S03, duration: 90,  section: 'Método adjunto',    special: null },
     { id: 5,  title: 'Simulación forward y estado adjunto',                   component: A3S05, duration: 75,  section: 'Método adjunto',    special: null },
+    { id: 19, title: 'Test de Taylor — fundamento teórico',                   component: A3S04b, duration: 60, section: 'Método adjunto',    special: null },
+    { id: 20, title: 'Test de Taylor — resultados',                           component: A3S04c, duration: 60, section: 'Método adjunto',    special: null },
     { id: 16, title: 'Simulación forward — carga hidráulica H(t)',            component: A3S19, duration: 60,  section: 'Método adjunto',    special: null },
     { id: 17, title: 'Simulación forward — velocidad de Darcy |U|(t)',        component: A3S20, duration: 60,  section: 'Método adjunto',    special: null },
     { id: 11, title: 'Simulación forward — campo de concentración C(t)',      component: A3S15, duration: 75,  section: 'Método adjunto',    special: null },

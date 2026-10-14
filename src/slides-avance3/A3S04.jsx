@@ -145,6 +145,21 @@ const A3S04 = ({ theme = 'dark' }) => (
                 Corridas de optimización desbloqueadas ✓
             </p>
         </div>
+
+        <div style={{
+            padding: '10px 24px',
+            border: '1px solid rgba(167,139,250,0.45)', borderRadius: 8,
+            background: 'rgba(167,139,250,0.07)',
+            display: 'flex', alignItems: 'center', gap: 18, flexShrink: 0,
+        }}>
+            <span style={{ fontSize: 24 }}>📐</span>
+            <p style={{ margin: 0, color: '#a78bfa', fontWeight: 700, fontSize: 23 }}>
+                Test de Taylor (oct 2026): 6/6 OK — ratios r₁ ≈ 3.88–3.99
+            </p>
+            <p style={{ margin: 0, color: 'var(--sl-muted)', fontSize: 21, marginLeft: 'auto', flexShrink: 0 }}>
+                convergencia <InlineMath math={"\\mathcal{O}(h^2)"} /> confirmada · 2 backends × 3 modelos
+            </p>
+        </div>
     </SlideLayout>
 );
 

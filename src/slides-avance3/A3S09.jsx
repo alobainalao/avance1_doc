@@ -3,6 +3,7 @@ import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 
 const conclusiones = [
     { icon: '✅', color: '#4ade80', texto: 'Checkpoint del gradiente validado: error mín. < 10⁻¹⁰ (∇_Q J) y ~10⁻¹⁵ (∂J/∂z_p) — muy por debajo de la tolerancia 10⁻³.' },
+    { icon: '✅', color: '#4ade80', texto: 'Test de Taylor: 6/6 casos (2 backends × 3 modelos), ratios r₁ ≈ 3.88–3.99 → convergencia O(h²) confirmada. Validación sin diferencias finitas. Oct 2026.' },
     { icon: '✅', color: '#4ade80', texto: '6 combinaciones (3 modelos × 2 backends) completas — forward y adjunto estables (ψ_H nan=0, ψ_C nan=0). Sep 2026.' },
     { icon: '✅', color: '#4ade80', texto: 'Optimización ADR BFR (50 eval): J −91.9 % (491 814 → 40 075), z_p óptimo −200 m (ascenso de 500 m desde −700 m).' },
     { icon: '✅', color: '#4ade80', texto: 'Optimización MRMT Semi BFR (14 eval): J −77 % (634 M → 146 M), convergencia en 3 iteraciones; fases inmóviles atenúan la respuesta en z_p.' },
