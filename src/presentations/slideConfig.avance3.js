@@ -33,6 +33,7 @@ import A3N23 from '../slides-avance3/A3N23.jsx';
 import A3N24 from '../slides-avance3/A3N24.jsx';
 import A3N25 from '../slides-avance3/A3N25.jsx';
 import { A3N26, A3N27, A3N28 } from '../slides-avance3/VideoCampo.jsx';
+import { A3N29, A3N30 } from '../slides-avance3/A3N29.jsx';
 
 // ── Slides del modelo anterior (con W₋ y χ(Q)): se conservan los archivos, ya no están en la secuencia ──
 // A3S03 (ecuaciones con χ), A3S04b/c (Taylor), A3S05, A3S10, A3S14, A3S15–A3S21 (resultados de optimización y videos anteriores), A3S09, A3S01
@@ -68,9 +69,11 @@ const avance3Slides = [
     { id: 28, title: 'Carga hidráulica H(t)', component: A3N26, duration: 60, section: 'Resultados', special: null },
     { id: 29, title: 'Velocidad de Darcy |u|(t)', component: A3N27, duration: 60, section: 'Resultados', special: null },
     { id: 30, title: 'Concentración C(t)', component: A3N28, duration: 75, section: 'Resultados', special: null },
-    { id: 31, title: 'Decisiones pendientes del autor', component: A3N20, duration: 60, section: 'Cierre', special: null },
-    { id: 32, title: 'Verificaciones adicionales', component: A3N21, duration: 60, section: 'Cierre', special: null },
-    { id: 33, title: 'Conclusiones y próximos pasos', component: A3N22, duration: 75, section: 'Cierre', special: null },
+    { id: 31, title: 'Adjunto ψ_C', component: A3N29, duration: 75, section: 'Resultados', special: null },
+    { id: 32, title: 'Adjunto ψ_h', component: A3N30, duration: 75, section: 'Resultados', special: null },
+    { id: 33, title: 'Decisiones pendientes del autor', component: A3N20, duration: 60, section: 'Cierre', special: null },
+    { id: 34, title: 'Verificaciones adicionales', component: A3N21, duration: 60, section: 'Cierre', special: null },
+    { id: 35, title: 'Conclusiones y próximos pasos', component: A3N22, duration: 75, section: 'Cierre', special: null },
 ];
 
 export default avance3Slides;
