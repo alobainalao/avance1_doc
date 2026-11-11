@@ -3,7 +3,7 @@ import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import { Punto } from './ui.jsx';
 import { COL, ETQ, segs, puntos, cruces } from './A3N32.jsx';
 import { INFO as INFO_BASE } from './mallaCompartida.js';
-import { INFO, PANORAMA, FRONTERA, VENTANAS, ELIPSES, EJE, CONO_POZO } from './mallaConos.js';
+import { INFO, PANORAMA, FRONTERA, VENTANAS, ELIPSES, FOCOS, EJE, CONO_POZO } from './mallaConos.js';
 
 // Malla con conos (data/input/malla_conos/malla.pkl, preprocessing/malla_conos.py): elipses de 4 m en el pozo
 // (vertical, sobre la zona de la optimización) y en la fuente (horizontal), el cono horizontal de la pluma y el
@@ -19,6 +19,7 @@ function Panorama() {
             <path d={d} stroke="#6E7F8D" strokeWidth={0.18} fill="none" />
             {Object.entries(FRONTERA).map(([k, a]) => puntos(a, 1.1, COL[k], k))}
             {ELIPSES.map((e, i) => <path key={i} d={linea(e) + 'Z'} fill="none" stroke="#10243E" strokeWidth={0.9} />)}
+            {FOCOS.map(([x, z], i) => <circle key={`f${i}`} cx={x} cy={z} r={2.2} fill="#10243E" />)}
             <path d={linea(CONO_POZO) + 'Z'} fill="none" stroke="#10243E" strokeWidth={1.1} strokeDasharray="4 3" />
             <path d={linea(EJE)} fill="none" stroke={EJE_COL} strokeWidth={1.6} strokeDasharray="7 4" />
         </svg>
@@ -56,7 +57,7 @@ export default function A3N34({ theme = 'dark' }) {
                 ))}
                 <span style={{ color: EJE_COL }}>– – eje de la pluma</span>
                 <span style={{ color: 'var(--sl-muted)' }}>- - cono vertical del pozo</span>
-                <span style={{ color: 'var(--sl-muted)' }}>○ elipses de 4 m</span>
+                <span style={{ color: 'var(--sl-muted)' }}>○ elipses de 4 m (• focos)</span>
                 <span style={{ marginLeft: 'auto', color: 'var(--sl-muted)', fontFamily: 'var(--a3-sans, sans-serif)', fontSize: 16 }}>
                     malla_conos · {INFO.fecha}
                 </span>
@@ -66,8 +67,8 @@ export default function A3N34({ theme = 'dark' }) {
                 {VENTANAS.map(v => <Ventana key={v.clave} v={v} />)}
             </div>
             <Punto color="#0F7A85" size={17} style={{ flexShrink: 0 }}>
-                4 m en dos elipses: la del pozo, vertical, con focos en el pozo actual y en la cota z<sub>max</sub> = −200 m de la
-                optimización (cubre lo que recorre z<sub>p</sub>), y la de la fuente, horizontal y más chica. 16 m en el cono de la pluma
+                4 m en dos elipses estrechas (5 : 1): la del pozo, vertical, con focos en el pozo y en la cota z<sub>max</sub> = −200 m de la
+                optimización (cubre lo que recorre z<sub>p</sub>), y la de la fuente, horizontal, con foco en la fuente y la mitad de larga. 16 m en el cono de la pluma
                 (línea de corriente de Darcy de la fuente a la salida) y en el cono vertical del pozo hasta la pluma; 30 m en la
                 frontera, también en el techo bajo la pluma; 60 m lejos.{' '}{miles(INFO.n_dominio)} nodos
                 ({extra > 0 ? '+' : '−'}{Math.abs(extra)} % frente a {miles(INFO_BASE.n_dominio)}), ángulo {INFO.ang_min}°–{INFO.ang_max}°.
