@@ -67,8 +67,9 @@ export default function A3N34({ theme = 'dark' }) {
                 {VENTANAS.map(v => <Ventana key={v.clave} v={v} />)}
             </div>
             <Punto color="#0F7A85" size={17} style={{ flexShrink: 0 }}>
-                4 m en dos elipses estrechas (5 : 1): la del pozo, vertical, con focos en el pozo y en la cota z<sub>max</sub> = −200 m de la
-                optimización (cubre lo que recorre z<sub>p</sub>), y la de la fuente, horizontal, con foco en la fuente y la mitad de larga. 16 m en el cono de la pluma
+                4 m en dos elipses con cada vértice a 50 m de su foco: la del pozo, vertical, con focos en el pozo y en la cota
+                z<sub>max</sub> = −200 m de la optimización (600 × 332 m, cubre lo que recorre z<sub>p</sub>), y la de la fuente, horizontal,
+                con focos en la fuente y 250 m aguas abajo (350 × 245 m). 16 m en el cono de la pluma
                 (línea de corriente de Darcy de la fuente a la salida) y en el cono vertical del pozo hasta la pluma; 30 m en la
                 frontera, también en el techo bajo la pluma; 60 m lejos.{' '}{miles(INFO.n_dominio)} nodos
                 ({extra > 0 ? '+' : '−'}{Math.abs(extra)} % frente a {miles(INFO_BASE.n_dominio)}), ángulo {INFO.ang_min}°–{INFO.ang_max}°.
