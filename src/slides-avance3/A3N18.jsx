@@ -5,10 +5,10 @@ import { Punto, Cols, Col, Titulo } from './ui.jsx';
 // Banco 1D independiente del simulador (tests/banco1d/runp1.py, runp1_extra.py; reejecutado el 4 nov 2026).
 const N = [100, 200, 400];
 const SERIES = [
-    { n: 'ADR, S_s=1',        c: '#4ade80', v: [2.61e-3, 1.30e-3, 6.47e-4] },
-    { n: 'ADR, S_s=4',        c: '#60a5fa', v: [9.31e-3, 4.62e-3, 2.31e-3] },
-    { n: 'MRMT N_r=2',        c: '#fb923c', v: [3.07e-3, 1.55e-3, 7.70e-4] },
-    { n: 'sin fuente −S_s∂ₜ(Cψ)', c: '#f87171', v: [8.19e-1, 8.33e-1, 8.33e-1] },
+    { n: 'ADR, S_s=1',        c: '#2E7D4F', v: [2.61e-3, 1.30e-3, 6.47e-4] },
+    { n: 'ADR, S_s=4',        c: '#0F7A85', v: [9.31e-3, 4.62e-3, 2.31e-3] },
+    { n: 'MRMT N_r=2',        c: '#C4511F', v: [3.07e-3, 1.55e-3, 7.70e-4] },
+    { n: 'sin fuente −S_s∂ₜ(Cψ)', c: '#C4511F', v: [8.19e-1, 8.33e-1, 8.33e-1] },
 ];
 const W = 560, H = 360, PX = 70, PY = 30;
 const ex = (n) => PX + (Math.log(n) - Math.log(100)) / (Math.log(400) - Math.log(100)) * (W - PX - 30);
@@ -43,10 +43,10 @@ export default function A3N18({ theme = 'dark' }) {
                 </Col>
                 <Col flex={4}>
                     <Titulo>Lectura</Titulo>
-                    <Punto color="#4ade80" size={20}>El error decrece como O(h) con la malla; con ∂ₜh = 0 coincide a 10⁻⁹.</Punto>
-                    <Punto color="#f87171" size={20}>Sin la fuente del almacenamiento el error es 0.8–1.6: la prueba discrimina.</Punto>
-                    <Punto color="#60a5fa" size={20}>Gradiente en x_p (análogo de z_p): 5·10⁻⁴–1·10⁻³ y <b>no decrece</b> con n; muy sensible al paso de diferencias finitas.</Punto>
-                    <Punto color="#a78bfa" size={20}>Forma conservativa vs no conservativa (P1): coinciden a 10⁻¹²–10⁻¹³; confirma el signo de −S_s∂ₜh·C.</Punto>
+                    <Punto color="#2E7D4F" size={20}>El error decrece como O(h) con la malla; con ∂ₜh = 0 coincide a 10⁻⁹.</Punto>
+                    <Punto color="#C4511F" size={20}>Sin la fuente del almacenamiento el error es 0.8–1.6: la prueba discrimina.</Punto>
+                    <Punto color="#0F7A85" size={20}>Gradiente en x_p (análogo de z_p): 5·10⁻⁴–1·10⁻³ y <b>no decrece</b> con n; muy sensible al paso de diferencias finitas.</Punto>
+                    <Punto color="#0F7A85" size={20}>Forma conservativa vs no conservativa (P1): coinciden a 10⁻¹²–10⁻¹³; confirma el signo de −S_s∂ₜh·C.</Punto>
                 </Col>
             </Cols>
         </SlideLayout>

@@ -4,7 +4,7 @@ import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import EqCard from '../layouts-v2/EqCard.jsx';
 
 // Modelo sin sumidero explícito (docs/adjunto_sin_sumidero.pdf, §2). Código de colores del documento.
-const rojo = '#f87171', azul = '#60a5fa', verde = '#4ade80';
+const rojo = '#C4511F', azul = '#0F7A85', verde = '#2E7D4F';
 
 const eqFlujo = String.raw`S_s\,\partial_t h-\nabla\!\cdot(K\nabla h)=f=-Q\,\varrho
 \;\;\Longrightarrow\;\;

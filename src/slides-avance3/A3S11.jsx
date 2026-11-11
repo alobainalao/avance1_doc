@@ -64,17 +64,17 @@ const DemandSVG = () => (
               stroke="rgba(255,255,255,0.22)" strokeWidth="1" strokeDasharray="5,4" />
 
         {/* Curvas */}
-        <path d={stepPath(DOMESTIC)} fill="none" stroke="#60a5fa" strokeWidth="2.4" strokeLinejoin="round" />
-        <path d={stepPath(AGRI)}     fill="none" stroke="#4ade80" strokeWidth="2.4" strokeLinejoin="round" />
+        <path d={stepPath(DOMESTIC)} fill="none" stroke="#0F7A85" strokeWidth="2.4" strokeLinejoin="round" />
+        <path d={stepPath(AGRI)}     fill="none" stroke="#2E7D4F" strokeWidth="2.4" strokeLinejoin="round" />
 
         {/* Anotaciones picos */}
-        <text x={xPx(7.5)} y={yPx(1.80) - 7} textAnchor="middle" fontSize="10.5" fill="#60a5fa" fontWeight="bold">1.80</text>
-        <text x={xPx(18.5)} y={yPx(1.70) - 7} textAnchor="middle" fontSize="10.5" fill="#60a5fa" fontWeight="bold">1.70</text>
-        <text x={xPx(13)}   y={yPx(1.50) - 7} textAnchor="middle" fontSize="10.5" fill="#4ade80" fontWeight="bold">1.50</text>
+        <text x={xPx(7.5)} y={yPx(1.80) - 7} textAnchor="middle" fontSize="10.5" fill="#0F7A85" fontWeight="bold">1.80</text>
+        <text x={xPx(18.5)} y={yPx(1.70) - 7} textAnchor="middle" fontSize="10.5" fill="#0F7A85" fontWeight="bold">1.70</text>
+        <text x={xPx(13)}   y={yPx(1.50) - 7} textAnchor="middle" fontSize="10.5" fill="#2E7D4F" fontWeight="bold">1.50</text>
 
         {/* Ejes */}
-        <line x1={PAD.l} x2={PAD.l}       y1={PAD.t} y2={PAD.t + PH} stroke="#00d8ff" strokeWidth="1.1" />
-        <line x1={PAD.l} x2={PAD.l + PW}  y1={PAD.t + PH} y2={PAD.t + PH} stroke="#00d8ff" strokeWidth="1.1" />
+        <line x1={PAD.l} x2={PAD.l}       y1={PAD.t} y2={PAD.t + PH} stroke="#0F7A85" strokeWidth="1.1" />
+        <line x1={PAD.l} x2={PAD.l + PW}  y1={PAD.t + PH} y2={PAD.t + PH} stroke="#0F7A85" strokeWidth="1.1" />
 
         {/* Ticks X */}
         {[0,2,4,6,8,10,12,14,16,18,20,22,24].map(h => (
@@ -95,8 +95,8 @@ const DemandSVG = () => (
         <rect x={PAD.l + PW - 320} y={PAD.t + 6} width={316} height={46} rx="4"
               fill="rgba(0,0,0,0.60)" stroke="rgba(255,255,255,0.10)" />
         {[
-            { color: '#60a5fa', label: 'Doméstico — AWWA M32 / Alvarado-Granados et al. (2023)', y: 21 },
-            { color: '#4ade80', label: 'Riego agrícola — FAO-56 (Allen et al. 1998)', y: 39 },
+            { color: '#0F7A85', label: 'Doméstico — AWWA M32 / Alvarado-Granados et al. (2023)', y: 21 },
+            { color: '#2E7D4F', label: 'Riego agrícola — FAO-56 (Allen et al. 1998)', y: 39 },
         ].map(({ color, label, y }) => (
             <g key={label}>
                 <line x1={PAD.l + PW - 315} x2={PAD.l + PW - 299}
@@ -111,7 +111,7 @@ const DemandSVG = () => (
 const cards = [
     {
         title: 'Consumo doméstico',
-        color: '#60a5fa',
+        color: '#0F7A85',
         bg: 'rgba(96,165,250,0.07)',
         items: [
             'Dos picos diarios: matutino 07h (×1.80) y vespertino 18h (×1.70)',
@@ -122,7 +122,7 @@ const cards = [
     },
     {
         title: 'Riego agrícola',
-        color: '#4ade80',
+        color: '#2E7D4F',
         bg: 'rgba(74,222,128,0.07)',
         items: [
             'Sin riego nocturno 00–05h (evapotranspiración nula)',

@@ -16,7 +16,7 @@ export default function A3N15({ theme = 'dark' }) {
             <EqCard title="ADR"><BlockMath math={eqADR} /></EqCard>
             <EqCard title="MRMT por bloque (Schur)"><Eq math={eqBlk} s={0.8} /></EqCard>
             <EqCard title="MRMT semi-analítico (splitting al revés)"><Eq math={eqSemi} s={0.8} /></EqCard>
-            <Punto color="#a78bfa" size={20}>
+            <Punto color="#0F7A85" size={20}>
                 <InlineMath math="M^n" />: máscara del recorte <InlineMath math="C\ge0" /> (la ecuación se evalúa sin recortar; <InlineMath math="j_n" /> y el paso siguiente usan la solución recortada).
                 Derivado del Lagrangiano discreto <InlineMath math="\mathcal L_h=J_h+\sum(\psi^{n+1})^{\!\top}r^{n+1}" />, no de las ecuaciones continuas.
             </Punto>

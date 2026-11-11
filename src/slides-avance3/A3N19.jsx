@@ -3,7 +3,7 @@ import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import { Tabla } from './ui.jsx';
 
 const cols = [
-    { k: 'v', label: '' }, { k: 'q', label: 'Qué se probó' }, { k: 's', label: 'Sustenta', color: '#4ade80' }, { k: 'n', label: 'No sustenta', color: '#fb923c' },
+    { k: 'v', label: '' }, { k: 'q', label: 'Qué se probó' }, { k: 's', label: 'Sustenta', color: '#2E7D4F' }, { k: 'n', label: 'No sustenta', color: '#C4511F' },
 ];
 const rows = [
     { v: 'V1', q: 'Adjunto discreto FEniCSx, 3 modelos (cierre B entonces; con (D) se repitió ADR y MRMT en la reejecución)', s: 'Adjunto discreto de FEniCSx', n: 'Adjunto continuo; BFR' },

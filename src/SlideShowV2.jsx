@@ -13,7 +13,7 @@ const TOTAL_EXPECTED_TIME = 900000;
 const CANVAS_W = 1280;
 const CANVAS_H = 960;
 
-const SlideshowV2 = ({ slides: slidesProp, sections, portadaDate }) => {
+const SlideshowV2 = ({ slides: slidesProp, sections, portadaDate, deckClass = '' }) => {
     const navigate = useNavigate();
     const location = useLocation();
     const slides = slidesProp ?? defaultSlideConfig;
@@ -142,7 +142,7 @@ const SlideshowV2 = ({ slides: slidesProp, sections, portadaDate }) => {
     const SlideComponent = slide?.component;
 
     return (
-        <div className="slideshow-container v2" ref={containerRef}>
+        <div className={`slideshow-container v2 ${deckClass}`} ref={containerRef}>
             <button className="ssv2-back-btn" onClick={() => navigate('/')} title="Volver al menú">
                 ← Menú
             </button>

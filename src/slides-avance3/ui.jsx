@@ -2,10 +2,18 @@ import React from 'react';
 import { BlockMath } from 'react-katex';
 
 // Piezas visuales comunes de las slides de la línea «sin sumidero».
+// Color con significado (avance3.css): verde = verificado, naranja/rojo = límite o pendiente,
+// el resto = acento agua. Los hex heredados (paleta neón) se traducen a la paleta del avance 3.
+const SEM = {
+    '#4ade80': 'var(--a3-valido, #2E7D4F)',
+    '#fb923c': 'var(--a3-pluma, #C4511F)', '#f87171': 'var(--a3-pluma, #C4511F)', '#fbbf24': 'var(--a3-pluma, #C4511F)',
+    '#60a5fa': 'var(--a3-agua, #0F7A85)', '#00d8ff': 'var(--a3-agua, #0F7A85)', '#a78bfa': 'var(--a3-agua, #0F7A85)',
+};
+export const sem = (c) => SEM[c] || c;
+
 export const Punto = ({ color = '#00d8ff', children, size = 22, style }) => (
-    <div style={{ borderLeft: `4px solid ${color}`, background: `${color}10`,
-                  borderRadius: '0 6px 6px 0', padding: '8px 14px', ...style }}>
-        <span style={{ color: 'var(--sl-text)', fontSize: size, lineHeight: 1.4 }}>{children}</span>
+    <div style={{ borderLeft: `3px solid ${sem(color)}`, padding: '4px 0 4px 16px', ...style }}>
+        <span style={{ color: 'var(--sl-text)', fontSize: size, lineHeight: 1.42 }}>{children}</span>
     </div>
 );
 
@@ -22,31 +30,30 @@ export const Col = ({ children, flex = 1, gap = 12 }) => (
 );
 
 // Tabla simple: cols = [{k, label, color?, mono?}], rows = [{...}]
+// Tabla en estilo booktabs: filete grueso arriba y abajo, fino bajo la cabecera, sin rayado.
 export const Tabla = ({ cols, rows, size = 21 }) => (
-    <div style={{ border: '1px solid rgba(0,216,255,0.22)', borderRadius: 10, overflow: 'hidden' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-            <thead>
-                <tr style={{ background: 'rgba(46,45,138,0.55)' }}>
+    <table style={{ width: '100%', borderCollapse: 'collapse', borderTop: '2px solid var(--sl-text)',
+                    borderBottom: '2px solid var(--sl-text)', fontVariantNumeric: 'tabular-nums' }}>
+        <thead>
+            <tr style={{ borderBottom: '1px solid var(--sl-muted)' }}>
+                {cols.map(c => (
+                    <th key={c.k} style={{ padding: '9px 14px', textAlign: 'left', color: 'var(--sl-muted)',
+                                           fontFamily: 'var(--a3-sans, sans-serif)', fontSize: size - 4, fontWeight: 500 }}>{c.label}</th>
+                ))}
+            </tr>
+        </thead>
+        <tbody>
+            {rows.map((r, i) => (
+                <tr key={i}>
                     {cols.map(c => (
-                        <th key={c.k} style={{ padding: '10px 14px', textAlign: 'left', color: '#e2e8f0',
-                                               fontSize: size - 2, fontWeight: 700 }}>{c.label}</th>
+                        <td key={c.k} style={{ padding: '8px 14px', fontSize: size, lineHeight: 1.3,
+                                               color: sem((r.colors && r.colors[c.k]) || c.color) || 'var(--sl-text)',
+                                               textAlign: c.mono ? 'right' : 'left' }}>{r[c.k]}</td>
                     ))}
                 </tr>
-            </thead>
-            <tbody>
-                {rows.map((r, i) => (
-                    <tr key={i} style={{ borderTop: '1px solid rgba(0,216,255,0.10)',
-                                         background: i % 2 === 0 ? 'rgba(46,45,138,0.05)' : 'transparent' }}>
-                        {cols.map(c => (
-                            <td key={c.k} style={{ padding: '10px 14px', fontSize: size, lineHeight: 1.3,
-                                                   color: (r.colors && r.colors[c.k]) || c.color || 'var(--sl-text)',
-                                                   fontFamily: c.mono ? 'monospace' : 'inherit' }}>{r[c.k]}</td>
-                        ))}
-                    </tr>
-                ))}
-            </tbody>
-        </table>
-    </div>
+            ))}
+        </tbody>
+    </table>
 );
 
 // Gráfico de líneas SVG nativo. series: [{n, c, y:[...]}]; x: [...]; logY opcional.

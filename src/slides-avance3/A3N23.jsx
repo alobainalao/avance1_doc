@@ -20,15 +20,12 @@ export default function A3N23({ theme = 'dark' }) {
         <SlideLayout title="Directo BFR vs FEniCSx — modelo nuevo, 30 días, configuración de main" theme={theme} justify="flex-start">
             <Tabla cols={cols} rows={rows} size={22} />
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 16 }}>
-                <Punto color="#4ade80" size={21}>
+                <Punto color="#2E7D4F" size={21}>
                     Misma malla refinada (15 626 nodos), Q_std = 0.3, misma salida libre, misma fuente (ε_z = 30 m, 5·10⁻¹²) y mismo decaimiento (solo ADR).
                     Rango de H del FEM: {f(r0.H_rango_fem_m)} m; ΔH rms del ADR = {f(100 * r0.H_rms_final_m / r0.H_rango_fem_m, 2)} % del rango.
                 </Punto>
-                <Punto color="#fb923c" size={21}>
+                <Punto color="#C4511F" size={21}>
                     Quedan diferencias de discretización (RBF-FD frente a elementos finitos) y de núcleo del pozo (Wendland en BFR); no se han separado.
-                </Punto>
-                <Punto color="#60a5fa" size={21}>
-                    Referencia: con el cierre Neumann de FEniCSx y <code>pfs</code> en BFR el error de |u| era 0.72; con ambos backends en salida libre es el de la tabla.
                 </Punto>
             </div>
         </SlideLayout>

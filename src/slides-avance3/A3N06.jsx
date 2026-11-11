@@ -13,7 +13,7 @@ const FILAS = [
     ['Esquema',             'θ = θ_C = 1, n_stencil = 25, r_pozo = 20 m', 'main'],
     ['MRMT',                'N_r = 3 (D_eff, β, φ_im de default.json)', 'main'],
 ];
-const COL = { nuevo: '#4ade80', cambio: '#fb923c', main: '#60a5fa' };
+const COL = { nuevo: '#2E7D4F', cambio: '#C4511F', main: '#0F7A85' };
 const ETQ = { nuevo: 'modelo nuevo', cambio: 'cambio acordado', main: 'como main' };
 
 export default function A3N06({ theme = 'dark' }) {
@@ -22,7 +22,7 @@ export default function A3N06({ theme = 'dark' }) {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8, flex: 1, minHeight: 0 }}>
                 {FILAS.map(([k, v, t]) => (
                     <div key={k} style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 16,
-                                          borderLeft: `4px solid ${COL[t]}`, background: `${COL[t]}10`,
+                                          borderLeft: `4px solid ${COL[t]}`, background: 'transparent',
                                           borderRadius: '0 6px 6px 0', padding: '0 14px' }}>
                         <span style={{ color: 'var(--sl-muted)', fontSize: 21, fontWeight: 700, minWidth: 190 }}>{k}</span>
                         <span style={{ color: 'var(--sl-text)', fontSize: 22, flex: 1, lineHeight: 1.3 }}>{v}</span>

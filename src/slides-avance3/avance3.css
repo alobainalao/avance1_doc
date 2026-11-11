@@ -1,0 +1,158 @@
+/* avance3.css — identidad visual del avance 3 (defensa: control óptimo en acuíferos profundos).
+   Todo cuelga de .deck-a3 (registry.js → deckClass), así que los avances 1–2 no cambian.
+
+   Paleta (con significado, no decorativa):
+     tinta   #10243E  títulos y cabecera (agua profunda)
+     agua    #0F7A85  único acento: ecuaciones, sección actual, lo que hay que mirar
+     pluma   #C4511F  contaminante, límites y pendientes
+     valido  #2E7D4F  solo lo verificado
+     estrato #6E7F8D  texto secundario y filetes
+     papel   #FAFBFC  fondo
+   Tipografía: Source Serif 4 (texto, armoniza con KaTeX) + IBM Plex Sans (navegación y cabeceras de tabla). */
+
+.deck-a3 {
+    --a3-tinta:   #10243E;
+    --a3-agua:    #0F7A85;
+    --a3-pluma:   #C4511F;
+    --a3-valido:  #2E7D4F;
+    --a3-estrato: #6E7F8D;
+    --a3-papel:   #FAFBFC;
+    --a3-filete:  #C9D3DB;
+    --a3-serif:   'Source Serif 4', 'Georgia', serif;
+    --a3-sans:    'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* ── Tokens del layout ───────────────────────────────────────────────── */
+.deck-a3 .slide-layout--light {
+    --sl-bg:          var(--a3-papel);
+    --sl-text:        #1C2B3A;
+    --sl-titlebar-bg: var(--a3-tinta);
+    --sl-accent:      var(--a3-agua);
+    --sl-secondary:   var(--a3-tinta);
+    --sl-muted:       var(--a3-estrato);
+}
+.deck-a3 .slide-layout--dark {
+    --sl-bg:          #0D1B2A;
+    --sl-text:        #DCE6EE;
+    --sl-titlebar-bg: #0A1522;
+    --sl-accent:      #4FB3BC;
+    --sl-secondary:   #9FB6C8;
+    --sl-muted:       #8597A6;
+    --a3-filete:      #2A3D52;
+}
+.deck-a3 .slide-layout,
+.deck-a3 .slide-layout__content {
+    font-family: var(--a3-serif);
+    font-feature-settings: 'tnum' 1, 'lnum' 1;
+}
+
+/* ── Cabecera: columna estratigráfica + título ───────────────────────── */
+.deck-a3 .slide-header {
+    background: var(--a3-tinta);
+    border: none;
+    box-shadow: none;
+    border-radius: 6px 6px 0 0;
+}
+.deck-a3 .slide-header::before { display: none; }
+
+.deck-a3 .slide-header__tabs {
+    height: 34px;
+    gap: 3px;
+    padding: 6px 4% 0;
+    align-items: flex-end;
+}
+.deck-a3 .slide-header__tab {
+    font-family: var(--a3-sans);
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 15px;
+    font-weight: 400;
+    color: rgba(220, 230, 238, 0.62);
+    border-right: none;
+    border-bottom: 4px solid rgba(220, 230, 238, 0.16);
+    justify-content: flex-start;
+    padding: 0 0 4px 2px;
+    text-shadow: none;
+    box-shadow: none;
+}
+.deck-a3 .slide-header__tab.active {
+    color: #FFFFFF;
+    font-weight: 600;
+    letter-spacing: 0;
+    text-shadow: none;
+    box-shadow: none;
+    border-bottom-color: #4FB3BC;
+}
+.deck-a3 .slide-header__title {
+    background: var(--a3-tinta);
+    font-family: var(--a3-serif);
+    font-weight: 600;
+    font-size: 40px;
+    letter-spacing: -0.005em;
+    padding: 14px 4% 14px;
+    box-shadow: none;
+}
+
+/* ── Tarjetas de ecuación: filete lateral, sin sombra ────────────────── */
+.deck-a3 .sl-eq-card,
+.deck-a3 .slide-layout--light .sl-eq-card {
+    border: none;
+    border-left: 3px solid var(--a3-agua);
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    padding: 2px 0 2px 18px;
+}
+.deck-a3 .slide-layout--dark .sl-eq-card { border-left-color: #4FB3BC; }
+.deck-a3 .sl-eq-card__label {
+    font-family: var(--a3-sans);
+    font-style: normal;
+    font-size: 16px;
+    color: var(--a3-estrato);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .deck-a3 * { transition: none !important; animation: none !important; }
+}
+
+/* ── Marco del lienzo: sobrio, sin halo neón ─────────────────────────── */
+.deck-a3 { --glow-color: #C9D3DB; }
+[data-theme="dark"] .deck-a3 { --glow-color: #2A3D52; }
+.deck-a3 .slide-canvas {
+    box-shadow: 0 0 0 1px var(--glow-color), 0 18px 48px rgba(16, 36, 62, 0.14);
+}
+.deck-a3.slideshow-container.v2 .slide-crop-wrapper {
+    border-color: var(--glow-color);
+    box-shadow: none;
+}
+
+/* ── Portada: título como pieza tipográfica, sin caja ────────────────── */
+.deck-a3 .portada { align-items: flex-start; padding: 7% 9%; font-family: var(--a3-serif); }
+.deck-a3 .portada::before { display: none; }
+.deck-a3 .portada--light { background: var(--a3-papel); }
+.deck-a3 .portada-title-box {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    border-left: 6px solid var(--a3-agua);
+    border-radius: 0;
+    padding: 0 0 0 36px;
+    text-align: left;
+    max-width: 1350px;
+}
+.deck-a3 .portada-title-box h1 {
+    color: var(--a3-tinta);
+    font-family: var(--a3-serif);
+    font-weight: 600;
+    font-size: 58px;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    text-shadow: none;
+}
+.deck-a3 .portada--dark .portada-title-box h1 { color: #F2F6F9; }
+.deck-a3 .portada-info { align-items: flex-start; text-align: left; margin-left: 42px; }
+.deck-a3 .portada-label { font-family: var(--a3-sans); font-weight: 500; font-size: 20px; color: var(--a3-estrato); }
+.deck-a3 .portada--light .portada-label { color: var(--a3-estrato); }
+.deck-a3 .portada--light .portada-value { color: var(--a3-tinta); }
+.deck-a3 .portada-institution, .deck-a3 .portada--light .portada-institution { color: var(--a3-tinta); text-align: left; margin-left: 42px; }
+.deck-a3 .portada-date, .deck-a3 .portada--light .portada-date { color: var(--a3-agua); margin-left: 42px; text-align: left; }

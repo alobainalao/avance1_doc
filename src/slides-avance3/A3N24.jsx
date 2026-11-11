@@ -3,10 +3,10 @@ import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import { LineChart } from './ui.jsx';
 import { MODELOS } from './modeloNuevo.js';
 
-const COL = ['#4ade80', '#60a5fa', '#fb923c'];
+const COL = ['#2E7D4F', '#0F7A85', '#C4511F'];
 const mk = (fn) => MODELOS.map((m, i) => ({ n: m.label, c: COL[i], y: fn(m) }));
 const Panel = ({ titulo, children }) => (
-    <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', border: '1px solid rgba(0,216,255,0.2)', borderRadius: 8, padding: 6 }}>
+    <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', border: '1px solid var(--a3-filete, #C9D3DB)', borderRadius: 8, padding: 6 }}>
         <span style={{ color: 'var(--sl-muted)', fontSize: 19, fontWeight: 700, paddingLeft: 8 }}>{titulo}</span>
         <div style={{ flex: 1, minHeight: 0 }}>{children}</div>
     </div>

@@ -33,9 +33,9 @@ const ParamTable = ({ title, color, rows }) => (
             <tbody>
                 {rows.map(([name, val]) => (
                     <tr key={name} style={{ borderBottom: '1px solid rgba(0,216,255,0.10)' }}>
-                        <td style={{ padding: '9px 0', color: 'var(--sl-muted)', fontSize: 22 }}>{name}</td>
-                        <td style={{ padding: '9px 0', color: 'var(--sl-text)', textAlign: 'right',
-                                     fontFamily: 'monospace', fontSize: 21 }}>{val}</td>
+                        <td style={{ padding: '5px 0', color: 'var(--sl-muted)', fontSize: 20 }}>{name}</td>
+                        <td style={{ padding: '5px 0', color: 'var(--sl-text)', textAlign: 'right',
+                                     fontSize: 20 }}>{val}</td>
                     </tr>
                 ))}
             </tbody>
@@ -59,17 +59,17 @@ const A3S02 = ({ theme = 'dark' }) => (
                     <stop offset="100%" stopColor="#980326" />
                 </linearGradient>
             </defs>
-            <text x="465" y="138" fontSize="8" fill="#a78bfa" textAnchor="middle" fontWeight="700">φ efectiva</text>
+            <text x="465" y="138" fontSize="8" fill="#0F7A85" textAnchor="middle" fontWeight="700">φ efectiva</text>
             <rect x="330" y="142" width="270" height="12" fill="url(#phiCbar-s02)" rx="2" />
-            <text x="330" y="157" fontSize="8" fill="#a78bfa" textAnchor="start">0.05</text>
-            <text x="465" y="157" fontSize="8" fill="#a78bfa" textAnchor="middle">0.50</text>
-            <text x="600" y="157" fontSize="8" fill="#a78bfa" textAnchor="end">0.95</text>
+            <text x="330" y="157" fontSize="8" fill="#0F7A85" textAnchor="start">0.05</text>
+            <text x="465" y="157" fontSize="8" fill="#0F7A85" textAnchor="middle">0.50</text>
+            <text x="600" y="157" fontSize="8" fill="#0F7A85" textAnchor="end">0.95</text>
         </DomainSVG>
 
         <div style={{ display: 'flex', gap: '3%', flex: 1, alignItems: 'flex-start' }}>
-            <ParamTable title="Geometría del dominio" color="#00d8ff" rows={geoParams} />
+            <ParamTable title="Geometría del dominio" color="#0F7A85" rows={geoParams} />
             <div style={{ width: 1, background: 'rgba(0,216,255,0.18)', alignSelf: 'stretch' }} />
-            <ParamTable title="Física y discretización" color="#a78bfa" rows={physParams} />
+            <ParamTable title="Física y discretización" color="#0F7A85" rows={physParams} />
         </div>
         <p style={{ color: 'var(--sl-muted)', fontSize: 20, fontStyle: 'italic', margin: 0 }}>
             φ interpolada de datos de campo (4 pozos reales, capas A–E). K calculada via Kozeny-Carman.

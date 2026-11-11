@@ -15,20 +15,20 @@ const A3S13 = ({ theme = 'dark' }) => (
 
         {/* Funcional */}
         <div style={{ textAlign: 'center', flexShrink: 0, padding: '2px 0 4px',
-                      borderBottom: '1.5px solid rgba(0,216,255,0.22)' }}>
+                      borderBottom: '1.5px solid var(--a3-filete, #C9D3DB)' }}>
             <BlockMath math={eqJ} />
         </div>
 
         {/* Términos Jm / Je */}
         <div style={{ display: 'flex', gap: 20, flexShrink: 0 }}>
             {[
-                { name: 'J_m', label: 'calidad — concentración alrededor del pozo', color: '#f87171', eq: eqJm },
-                { name: String.raw`J_{\rm inst}+J_{\rm op}`, label: 'costo — instalación y bombeo', color: '#fbbf24', eq: eqJe },
+                { name: 'J_m', label: 'calidad — concentración alrededor del pozo', color: '#C4511F', eq: eqJm },
+                { name: String.raw`J_{\rm inst}+J_{\rm op}`, label: 'costo — instalación y bombeo', color: '#C4511F', eq: eqJe },
             ].map(({ name, label, color, eq }) => (
                 <div key={name} style={{
                     flex: 1, padding: '10px 18px',
                     border: `1.5px solid ${color}44`, borderRadius: 10,
-                    background: `${color}08`,
+                    background: 'transparent',
                     display: 'flex', flexDirection: 'column', gap: 4,
                 }}>
                     <p style={{ margin: 0, fontSize: 19, fontWeight: 700, color }}>
@@ -43,14 +43,14 @@ const A3S13 = ({ theme = 'dark' }) => (
         {/* Controles + cotas */}
         <div style={{ display: 'flex', gap: 16, flexShrink: 0 }}>
             {[
-                { head: 'Espacio de control', color: '#00d8ff', eq: eqX },
-                { head: 'Cotas Q(t) — ciclo bomba', color: '#fbbf24', eq: eqBQ },
-                { head: 'Cotas de la profundidad', color: '#a78bfa', eq: eqBzp },
+                { head: 'Espacio de control', color: '#0F7A85', eq: eqX },
+                { head: 'Cotas Q(t) — ciclo bomba', color: '#C4511F', eq: eqBQ },
+                { head: 'Cotas de la profundidad', color: '#0F7A85', eq: eqBzp },
             ].map(({ head, color, eq }) => (
                 <div key={head} style={{
                     flex: 1, padding: '10px 16px',
                     border: `1px solid ${color}44`, borderRadius: 10,
-                    background: `${color}08`,
+                    background: 'transparent',
                     borderLeft: `3px solid ${color}`,
                 }}>
                     <p style={{ margin: '0 0 2px', fontSize: 17, fontWeight: 700, color }}>{head}</p>
@@ -64,9 +64,9 @@ const A3S13 = ({ theme = 'dark' }) => (
             flexShrink: 0, padding: '10px 20px',
             border: '1.5px solid rgba(96,165,250,0.45)', borderRadius: 10,
             background: 'rgba(96,165,250,0.06)',
-            borderLeft: '3px solid #60a5fa',
+            borderLeft: '3px solid #0F7A85',
         }}>
-            <p style={{ margin: '0 0 2px', fontSize: 17, fontWeight: 700, color: '#60a5fa' }}>
+            <p style={{ margin: '0 0 2px', fontSize: 17, fontWeight: 700, color: '#0F7A85' }}>
                 Restricción lineal de suministro &nbsp;
                 <span style={{ fontWeight: 400, color: 'var(--sl-muted)', fontSize: 16 }}>
                     (demanda diurna doméstica + riego, tanque de almacenamiento)
@@ -85,18 +85,18 @@ const A3S13 = ({ theme = 'dark' }) => (
                           background: 'rgba(74,222,128,0.07)' }}>
                 <p style={{ margin: '0 0 2px', fontSize: 17, color: 'var(--sl-muted)' }}>Optimizador</p>
                 <p style={{ margin: 0, fontFamily: 'monospace', fontSize: 22,
-                            fontWeight: 700, color: '#4ade80' }}>trust-constr</p>
+                            fontWeight: 700, color: '#2E7D4F' }}>trust-constr</p>
                 <p style={{ margin: 0, fontFamily: 'monospace', fontSize: 15,
                             fontWeight: 500, color: '#94a3b8' }}>BFR y FEniCSx · J normalizado</p>
             </div>
             {[
-                [String.raw`\gamma`, '0.12', '#f87171'],
-                [String.raw`\kappa_p`, '1.0', '#fbbf24'],
-                ['z_0', '220 m', '#a78bfa'],
-                [String.raw`Q_{\max}`, '0.2', '#00d8ff'],
-                ['V_s', '0.0836', '#4ade80'],
-                [String.raw`C_{\rm ref}`, '50 mg/L', '#fb923c'],
-                [String.raw`S_{\max}`, '2000 m³', '#60a5fa'],
+                [String.raw`\gamma`, '0.12', '#C4511F'],
+                [String.raw`\kappa_p`, '1.0', '#C4511F'],
+                ['z_0', '220 m', '#0F7A85'],
+                [String.raw`Q_{\max}`, '0.2', '#0F7A85'],
+                ['V_s', '0.0836', '#2E7D4F'],
+                [String.raw`C_{\rm ref}`, '50 mg/L', '#C4511F'],
+                [String.raw`S_{\max}`, '2000 m³', '#0F7A85'],
             ].map(([k, v, color]) => (
                 <div key={k} style={{ flex: 1, padding: '12px 8px',
                                       borderRight: '1px solid rgba(0,216,255,0.10)',

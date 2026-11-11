@@ -34,6 +34,7 @@ import A3N25 from '../slides-avance3/A3N25.jsx';
 import { A3N26, A3N27, A3N28 } from '../slides-avance3/VideoCampo.jsx';
 import { A3N29, A3N30 } from '../slides-avance3/A3N29.jsx';
 import A3N31 from '../slides-avance3/A3N31.jsx';
+import '../slides-avance3/avance3.css';
 import A3N32 from '../slides-avance3/A3N32.jsx';
 
 // ── Slides del modelo anterior (con W₋ y χ(Q)): se conservan los archivos, ya no están en la secuencia ──
@@ -46,8 +47,8 @@ const avance3Slides = [
     { id: 4, title: 'Modelo sin sumidero explícito: se cancela fC', component: A3N02, duration: 90, section: 'Modelo', special: null },
     { id: 5, title: 'Modelo MRMT: regiones móvil e inmóviles', component: A3N07, duration: 75, section: 'Modelo', special: null },
     { id: 6, title: 'Condiciones de frontera e hipótesis', component: A3N09, duration: 75, section: 'Modelo', special: null },
-    { id: 7, title: 'Salida libre: derivada normal de u nula', component: A3N03, duration: 90, section: 'Modelo', special: null },
-    { id: 8, title: 'Cierres de Γout y qué resuelve cada código', component: A3N08, duration: 75, section: 'Modelo', special: null },
+    { id: 7, title: 'Salida libre: condición y discretización', component: A3N03, duration: 90, section: 'Modelo', special: null },
+    { id: 8, title: 'Cierres posibles de Γout', component: A3N08, duration: 75, section: 'Modelo', special: null },
     { id: 9, title: 'Salida libre en FEniCSx: cómo se implementa', component: A3N31, duration: 75, section: 'Modelo', special: null },
     { id: 10, title: 'Problema de optimización — formulación completa', component: A3S13, duration: 75, section: 'Control óptimo', special: null },
     { id: 11, title: 'Funcional, controles admisibles y normalización', component: A3N10, duration: 75, section: 'Control óptimo', special: null },

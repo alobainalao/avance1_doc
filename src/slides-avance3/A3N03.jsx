@@ -1,57 +1,47 @@
 import React from 'react';
-import { BlockMath, InlineMath } from 'react-katex';
+import { InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import EqCard from '../layouts-v2/EqCard.jsx';
-import { Eq } from './ui.jsx';
+import { Eq, Punto, Cols, Col, Titulo } from './ui.jsx';
 
-// Condición de salida libre (docs/adjunto_sin_sumidero.pdf, §2.2): componente normal de ∂ₙu = 0.
-const eqCond = String.raw`\partial_{\mathbf n}\mathbf u=(\nabla\mathbf u)\,\mathbf n=\mathbf 0,\qquad \mathbf u=-K(\mathbf x)\nabla h`;
+// Condición de salida libre (docs/adjunto_sin_sumidero.pdf, §2.2) y la discretización que la hace implementable:
+// fila del fantasma = ∂ₙ(u·n) = 0 (make_H_bc, modo "libre"); fila del borde = ecuación de borde de 3 puntos en el
+// esquema θ (ecuacion_borde_libre en funtions/operators.py; la misma en fenicsx/salida_libre.py).
 const eqBorde = String.raw`\partial_n(\mathbf u\!\cdot\!\mathbf n)=0\;\Longleftrightarrow\;
 S_s\,\partial_t h-\partial_\tau\!\bigl(K_{\tau\tau}\,\partial_\tau h\bigr)=0\ \text{ en }\Gamma_{\rm out}`;
-
-const Punto = ({ color = '#00d8ff', children }) => (
-    <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start',
-                  borderLeft: `4px solid ${color}`, background: `${color}10`,
-                  borderRadius: '0 6px 6px 0', padding: '8px 14px' }}>
-        <span style={{ color: 'var(--sl-text)', fontSize: 22, lineHeight: 1.4 }}>{children}</span>
-    </div>
-);
+const eqFantasma = String.raw`\sum_{i,j} n_i n_j\,\partial_j\!\bigl(K_i\,\partial_i h\bigr)\Big|_{\mathbf x_g}=0`;
+const eqEsp = String.raw`(L h)_i=\frac{2}{s_i^++s_i^-}\Bigl[\bar K_i^+\,\frac{h_{i+1}-h_i}{s_i^+}-\bar K_i^-\,\frac{h_i-h_{i-1}}{s_i^-}\Bigr]`;
+const eqTmp = String.raw`\Bigl(\frac{S_s}{\Delta t}-\theta L\Bigr)h^{n+1}_\Gamma=\Bigl(\frac{S_s}{\Delta t}+(1-\theta)L\Bigr)h^{n}_\Gamma`;
 
 export default function A3N03({ theme = 'dark' }) {
     return (
-        <SlideLayout title="Salida libre: derivada normal de u nula" theme={theme} justify="flex-start">
-            <div style={{ display: 'flex', gap: '3%', flex: 1, minHeight: 0 }}>
-                <div style={{ flex: 5, display: 'flex', flexDirection: 'column', gap: 14 }}>
-                    <EqCard title="Condición en Γout (K variable)"><BlockMath math={eqCond} /></EqCard>
-                    <Punto color="#f87171">
-                        Vectorial, son 2 ecuaciones de orden 2 sobre un escalar de orden 2: <b>no cierra</b> el problema de flujo.
+        <SlideLayout title="Salida libre: condición y discretización" theme={theme} justify="flex-start">
+            <EqCard title="Componente normal de ∂ₙu = 0 en Γout (cierre adoptado)"><Eq math={eqBorde} s={0.9} /></EqCard>
+            <Cols gap="4%">
+                <Col flex={1} gap={10}>
+                    <Titulo>Espacial</Titulo>
+                    <EqCard title="Fila del nodo fantasma (RBF-FD): la condición"><Eq math={eqFantasma} s={0.8} /></EqCard>
+                    <EqCard title="Fila del nodo de borde: diferencias de 3 puntos a lo largo de Γout"><Eq math={eqEsp} s={0.72} /></EqCard>
+                    <Punto size={19}>
+                        <InlineMath math="s_i^\pm" />: distancias a los vecinos del mismo tramo; <InlineMath math={String.raw`\bar K_i^\pm`} />: media de <InlineMath math={String.raw`K_{\tau\tau}`} /> entre vecinos.
+                        La fila del borde ya no usa el estencil 2D: el borde no recibe información espuria del interior.
                     </Punto>
-                    <EqCard title="Componente normal — cierre adoptado">
-                        <Eq math={eqBorde} s={0.85} />
-                    </EqCard>
-                    <Punto color="#4ade80">
-                        La componente tangencial <b>no se impone</b> (decisión del autor).
+                </Col>
+                <Col flex={1} gap={10}>
+                    <Titulo>Temporal</Titulo>
+                    <EqCard title="Esquema θ, el mismo θ del flujo"><Eq math={eqTmp} s={0.78} /></EqCard>
+                    <Punto size={19}>
+                        Con <InlineMath math={String.raw`h^0_\Gamma=h_0|_{\Gamma_{\rm out}}`} />, <InlineMath math="h_\Gamma" /> avanza solo:
+                        no depende del interior ni de <InlineMath math="Q" /> o <InlineMath math="z_p" />, así que <InlineMath math={String.raw`\psi_h=0`} /> en Γout.
                     </Punto>
-                </div>
-                <div style={{ width: 1, background: 'rgba(0,216,255,0.20)', flexShrink: 0 }} />
-                <div style={{ flex: 5, display: 'flex', flexDirection: 'column', gap: 12 }}>
-                    <p style={{ color: 'var(--sl-accent)', fontWeight: 700, fontSize: 26, margin: 0 }}>Consecuencias</p>
-                    <Punto>
-                        <InlineMath math="h|_{\Gamma_{\rm out}}" /> evoluciona <b>solo</b> (condición de Wentzell sin término normal): el flujo es un
-                        problema de Dirichlet con ese dato.
+                    <Punto size={19}>
+                        Extremos del tramo (esquinas): sin vecino a un lado, <InlineMath math={String.raw`\partial_t h=0`} />.
                     </Punto>
-                    <Punto>
-                        En régimen estacionario <InlineMath math="h" /> es constante a lo largo de Γout; el flujo normal es una salida, no un dato.
+                    <Punto color="#2E7D4F" size={19}>
+                        La misma ecuación discreta en los dos códigos: fila del borde en BFR y dato de Dirichlet en FEniCSx.
                     </Punto>
-                    <Punto color="#a78bfa">
-                        Adjunto del flujo: <InlineMath math="\psi_h=0" /> en Γout (dato independiente de los controles).
-                    </Punto>
-                    <Punto color="#fb923c">
-                        Implementación: BFR <code>bc_outlet_mode="libre"</code>; FEniCSx por Dirichlet con el dato calculado por la
-                        misma ecuación de borde (diferencias de 3 puntos, θ del flujo).
-                    </Punto>
-                </div>
-            </div>
+                </Col>
+            </Cols>
         </SlideLayout>
     );
 }

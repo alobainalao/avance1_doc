@@ -45,7 +45,7 @@ const TankSVG = () => {
             {/* Área bajo la curva (agua en el tanque) */}
             <path d={area} fill="rgba(96,165,250,0.13)" stroke="none" />
             {/* Línea de nivel */}
-            <path d={line} fill="none" stroke="#60a5fa" strokeWidth="2.2" strokeLinejoin="round" />
+            <path d={line} fill="none" stroke="#0F7A85" strokeWidth="2.2" strokeLinejoin="round" />
             {/* Grid horizontal */}
             {[0, 0.5, 1.0].map(v => (
                 <g key={v}>
@@ -57,8 +57,8 @@ const TankSVG = () => {
                 </g>
             ))}
             {/* Ejes */}
-            <line x1={P.l} x2={P.l}      y1={P.t} y2={P.t + PH} stroke="#60a5fa" strokeWidth="1" />
-            <line x1={P.l} x2={P.l + PW} y1={P.t + PH} y2={P.t + PH} stroke="#60a5fa" strokeWidth="1" />
+            <line x1={P.l} x2={P.l}      y1={P.t} y2={P.t + PH} stroke="#0F7A85" strokeWidth="1" />
+            <line x1={P.l} x2={P.l + PW} y1={P.t + PH} y2={P.t + PH} stroke="#0F7A85" strokeWidth="1" />
             {/* Ticks horizontales */}
             {H_TICKS.map(h => (
                 <g key={h}>
@@ -68,8 +68,8 @@ const TankSVG = () => {
                 </g>
             ))}
             {/* Anotaciones */}
-            <text x={xH(2.5)} y={yV(0.30) - 5} textAnchor="middle" fontSize="8" fill="#f87171">drenaje nocturno</text>
-            <text x={xH(13)}  y={yV(0.88) - 5} textAnchor="middle" fontSize="8" fill="#4ade80">recarga diurna</text>
+            <text x={xH(2.5)} y={yV(0.30) - 5} textAnchor="middle" fontSize="8" fill="#C4511F">drenaje nocturno</text>
+            <text x={xH(13)}  y={yV(0.88) - 5} textAnchor="middle" fontSize="8" fill="#2E7D4F">recarga diurna</text>
         </svg>
     );
 };
@@ -91,7 +91,7 @@ const PumpSVG = () => (
         <rect x={xH(6)} y={P.t} width={xH(21) - xH(6)} height={PH}
               fill="rgba(74,222,128,0.06)" />
         <path d={stepPath(PUMP_AVAIL, true)} fill="rgba(251,191,36,0.10)" stroke="none" />
-        <path d={stepPath(PUMP_AVAIL)}  fill="none" stroke="#fbbf24" strokeWidth="2.2" strokeLinejoin="round" />
+        <path d={stepPath(PUMP_AVAIL)}  fill="none" stroke="#C4511F" strokeWidth="2.2" strokeLinejoin="round" />
         {[0.5, 1.0].map(v => (
             <g key={v}>
                 <line x1={P.l} x2={P.l + PW} y1={yV(v)} y2={yV(v)}
@@ -99,8 +99,8 @@ const PumpSVG = () => (
                 <text x={P.l - 4} y={yV(v) + 3.5} textAnchor="end" fontSize="8" fill="#7090aa">{v.toFixed(1)}</text>
             </g>
         ))}
-        <line x1={P.l} x2={P.l}      y1={P.t} y2={P.t + PH} stroke="#fbbf24" strokeWidth="1" />
-        <line x1={P.l} x2={P.l + PW} y1={P.t + PH} y2={P.t + PH} stroke="#fbbf24" strokeWidth="1" />
+        <line x1={P.l} x2={P.l}      y1={P.t} y2={P.t + PH} stroke="#C4511F" strokeWidth="1" />
+        <line x1={P.l} x2={P.l + PW} y1={P.t + PH} y2={P.t + PH} stroke="#C4511F" strokeWidth="1" />
         {H_TICKS.map(h => (
             <g key={h}>
                 <line x1={xH(h)} x2={xH(h)} y1={P.t + PH} y2={P.t + PH + 3}
@@ -108,8 +108,8 @@ const PumpSVG = () => (
                 <text x={xH(h)} y={P.t + PH + 12} textAnchor="middle" fontSize="8" fill="#8ab">{h}h</text>
             </g>
         ))}
-        <text x={xH(2.5)}  y={yV(0.3) - 5} textAnchor="middle" fontSize="8" fill="#fbbf24">reposo nocturno</text>
-        <text x={xH(13.5)} y={yV(1.0) - 5} textAnchor="middle" fontSize="8" fill="#4ade80">operación plena  06–21h</text>
+        <text x={xH(2.5)}  y={yV(0.3) - 5} textAnchor="middle" fontSize="8" fill="#C4511F">reposo nocturno</text>
+        <text x={xH(13.5)} y={yV(1.0) - 5} textAnchor="middle" fontSize="8" fill="#2E7D4F">operación plena  06–21h</text>
     </svg>
 );
 
@@ -142,19 +142,19 @@ const A3S12 = ({ theme = 'dark' }) => (
                     background: 'rgba(96,165,250,0.05)', padding: '8px 14px',
                     display: 'flex', flexDirection: 'column', gap: 4,
                 }}>
-                    <p style={{ margin: '0 0 2px', fontSize: 15, fontWeight: 700, color: '#60a5fa' }}>
+                    <p style={{ margin: '0 0 2px', fontSize: 15, fontWeight: 700, color: '#0F7A85' }}>
                         Balance del tanque (por paso)
                     </p>
                     <div style={{ margin: '-8px 0' }}><BlockMath math={eqBalance} /></div>
 
                     <div style={{ borderTop: '1px solid rgba(96,165,250,0.12)', paddingTop: 3 }}>
-                        <p style={{ margin: 0, fontSize: 14, fontWeight: 700, color: '#4ade80' }}>
+                        <p style={{ margin: 0, fontSize: 14, fontWeight: 700, color: '#2E7D4F' }}>
                             <InlineMath math="S_n \ge 0" /> — suministro siempre cubierto:
                         </p>
                         <div style={{ margin: '-8px 0' }}><BlockMath math={eqLB} /></div>
                     </div>
                     <div style={{ borderTop: '1px solid rgba(96,165,250,0.12)', paddingTop: 3 }}>
-                        <p style={{ margin: 0, fontSize: 14, fontWeight: 700, color: '#f87171' }}>
+                        <p style={{ margin: 0, fontSize: 14, fontWeight: 700, color: '#C4511F' }}>
                             <InlineMath math="S_n \le S_{\max}" /> — no extraer más de lo necesario:
                         </p>
                         <div style={{ margin: '-8px 0' }}><BlockMath math={eqUB} /></div>
@@ -168,7 +168,7 @@ const A3S12 = ({ theme = 'dark' }) => (
                     background: 'rgba(251,191,36,0.05)', padding: '8px 12px',
                     display: 'flex', flexDirection: 'column', gap: 5,
                 }}>
-                    <p style={{ margin: 0, fontSize: 15, fontWeight: 700, color: '#fbbf24' }}>
+                    <p style={{ margin: 0, fontSize: 15, fontWeight: 700, color: '#C4511F' }}>
                         Ciclo trabajo / descanso — ventana deslizante
                     </p>
                     <div style={{ margin: '-8px 0' }}><BlockMath math={eqDuty} /></div>
@@ -184,7 +184,7 @@ const A3S12 = ({ theme = 'dark' }) => (
                                 ['cota',  '0.50', 'f_d · Q_max · w  (Q_max = 0.2)'],
                             ].map(([k, v, desc]) => (
                                 <tr key={k} style={{ borderBottom: '1px solid rgba(251,191,36,0.12)' }}>
-                                    <td style={{ fontFamily: 'monospace', fontSize: 14, color: '#fbbf24',
+                                    <td style={{ fontFamily: 'monospace', fontSize: 14, color: '#C4511F',
                                                  padding: '3px 6px 3px 0', fontWeight: 700 }}>{k}</td>
                                     <td style={{ fontFamily: 'monospace', fontSize: 14, color: 'var(--sl-text)',
                                                  padding: '3px 6px', fontWeight: 600 }}>{v}</td>

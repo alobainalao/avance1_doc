@@ -33,8 +33,8 @@ function Panorama() {
             <polygon points={poly} fill="rgba(0,216,255,0.04)" stroke="rgba(0,216,255,0.6)" strokeWidth={1.5} />
             <path d={puntos} stroke="#94a3b8" strokeWidth={1.1} strokeLinecap="round" />
             <rect x={sx(POZO[0] - w)} y={sz(POZO[1] + w)} width={sx(POZO[0] + w) - sx(POZO[0] - w)} height={sz(POZO[1] - w) - sz(POZO[1] + w)}
-                  fill="none" stroke="#fb923c" strokeWidth={2} />
-            <circle cx={sx(POZO[0])} cy={sz(POZO[1])} r={4} fill="#f87171" />
+                  fill="none" stroke="#C4511F" strokeWidth={2} />
+            <circle cx={sx(POZO[0])} cy={sz(POZO[1])} r={4} fill="#C4511F" />
         </svg>
     );
 }
@@ -52,10 +52,10 @@ function Zoom() {
             <defs><clipPath id="zoomClip"><rect x={0} y={0} width={S} height={S} /></clipPath></defs>
             <g clipPath="url(#zoomClip)">
                 <path d={d} stroke="#94a3b8" strokeWidth={0.6} fill="none" />
-                <circle cx={sx(POZO[0])} cy={sz(POZO[1])} r={20 / (2 * w) * S} fill="none" stroke="#f87171" strokeWidth={1.5} strokeDasharray="4 3" />
-                <circle cx={sx(POZO[0])} cy={sz(POZO[1])} r={3} fill="#f87171" />
+                <circle cx={sx(POZO[0])} cy={sz(POZO[1])} r={20 / (2 * w) * S} fill="none" stroke="#C4511F" strokeWidth={1.5} strokeDasharray="4 3" />
+                <circle cx={sx(POZO[0])} cy={sz(POZO[1])} r={3} fill="#C4511F" />
             </g>
-            <rect x={0.5} y={0.5} width={S - 1} height={S - 1} fill="none" stroke="#fb923c" strokeWidth={2} />
+            <rect x={0.5} y={0.5} width={S - 1} height={S - 1} fill="none" stroke="#C4511F" strokeWidth={2} />
         </svg>
     );
 }
@@ -80,7 +80,7 @@ export default function A3N32({ theme = 'dark' }) {
                     <Punto size={19}>Espaciado en 4 niveles: 4 m en el pozo, 16 m en el cono (r ≤ 500 m), 30 m en la frontera y 60 m lejos.</Punto>
                     <Punto size={19}>Refinamiento extra donde <InlineMath math="\log_{10}K" /> cambia más de 0.3 décadas por espaciado (h ≥ 15 m).</Punto>
                     <Punto size={19}>Saneada: nodo exacto en el pozo y en cada esquina, sin nodos pegados al borde, triangulación restringida con ángulo ≥ 28°.</Punto>
-                    <Punto color="#4ade80" size={19}>BFR usa estos nodos (más 862 fantasmas) y FEniCSx los mismos triángulos sin retriangular: comparación nodo a nodo, sin interpolar.</Punto>
+                    <Punto color="#2E7D4F" size={19}>BFR usa estos nodos (más 862 fantasmas) y FEniCSx los mismos triángulos sin retriangular: comparación nodo a nodo, sin interpolar.</Punto>
                     <Tabla cols={cols} rows={rows} size={18} />
                 </Col>
             </Cols>

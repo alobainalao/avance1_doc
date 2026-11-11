@@ -10,7 +10,7 @@ const hechos = [
     'Banco 1D independiente: el adjunto continuo, con su fuente de almacenamiento, converge O(h).',
 ];
 const siguientes = [
-    ['Dic 26', 'Verificar el gradiente en configuración tipo main (pluma en el pozo) y BFR con otros cierres'],
+    ['Dic 26', 'Verificar el gradiente en configuración tipo main (pluma en el pozo)'],
     ['Dic 26', 'Cerrar almacenamiento (S_s), C de entrada, núcleos del pozo y forma final del funcional'],
     ['Ene 27', 'Optimización con el modelo nuevo (nitrato, J normalizado) en ambos backends'],
     ['Ene 27', 'Tesis y artículo con el modelo sin sumidero'],
@@ -22,12 +22,12 @@ export default function A3N22({ theme = 'dark' }) {
             <Cols>
                 <Col flex={6}>
                     <Titulo>Conclusiones</Titulo>
-                    {hechos.map((t, i) => <Punto key={i} color="#4ade80" size={21}>✅ {t}</Punto>)}
+                    {hechos.map((t, i) => <Punto key={i} color="#2E7D4F" size={21}>{t}</Punto>)}
                 </Col>
                 <Col flex={4}>
                     <Titulo>Próximos pasos</Titulo>
                     {siguientes.map(([m, t], i) => (
-                        <Punto key={i} color="#60a5fa" size={20}><b style={{ color: '#60a5fa' }}>{m}</b> · {t}</Punto>
+                        <Punto key={i} color="#0F7A85" size={20}><b style={{ color: '#0F7A85' }}>{m}</b> · {t}</Punto>
                     ))}
                 </Col>
             </Cols>

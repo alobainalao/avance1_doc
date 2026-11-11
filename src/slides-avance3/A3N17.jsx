@@ -19,17 +19,17 @@ export default function A3N17({ theme = 'dark' }) {
                     <Titulo>Polak–Ribière⁺ con Armijo proyectado (esquema teórico)</Titulo>
                     {pasos.map((t, i) => (
                         <div key={i} style={{ display: 'flex', gap: 12, background: 'rgba(46,45,138,0.05)', borderRadius: 6, padding: '8px 12px' }}>
-                            <span style={{ color: '#00d8ff', fontWeight: 700, fontSize: 22 }}>{i + 1}</span>
+                            <span style={{ color: '#0F7A85', fontWeight: 700, fontSize: 22 }}>{i + 1}</span>
                             <span style={{ color: 'var(--sl-text)', fontSize: 20, fontFamily: 'monospace', lineHeight: 1.4 }}>{t}</span>
                         </div>
                     ))}
                 </Col>
                 <Col flex={4}>
                     <Titulo>Alcance</Titulo>
-                    <Punto color="#f87171" size={20}>El test de Armijo evalúa el mismo punto que se acepta (corrige la versión que evaluaba <InlineMath math="x_k+\alpha d_k" /> y aceptaba su proyección).</Punto>
-                    <Punto color="#fb923c" size={20}>PR⁺ + Armijo no tiene garantía global; la proyección rompe la conjugación; escalas de <InlineMath math="Q_n" /> y <InlineMath math="z_p" /> muy distintas.</Punto>
-                    <Punto color="#4ade80" size={20}>Los experimentos usan <b>trust-constr</b> (SciPy) con el mismo gradiente adjunto, cotas y restricción de suministro; parada por <code>gtol</code> sobre <InlineMath math="\hat J/J_{\rm scale}" />.</Punto>
-                    <Punto color="#60a5fa" size={20}>Costo: un barrido directo y uno adjunto por <code>EvalJG</code>, independiente del número de controles.</Punto>
+                    <Punto color="#C4511F" size={20}>El test de Armijo evalúa el mismo punto que se acepta (corrige la versión que evaluaba <InlineMath math="x_k+\alpha d_k" /> y aceptaba su proyección).</Punto>
+                    <Punto color="#C4511F" size={20}>PR⁺ + Armijo no tiene garantía global; la proyección rompe la conjugación; escalas de <InlineMath math="Q_n" /> y <InlineMath math="z_p" /> muy distintas.</Punto>
+                    <Punto color="#2E7D4F" size={20}>Los experimentos usan <b>trust-constr</b> (SciPy) con el mismo gradiente adjunto, cotas y restricción de suministro; parada por <code>gtol</code> sobre <InlineMath math="\hat J/J_{\rm scale}" />.</Punto>
+                    <Punto color="#0F7A85" size={20}>Costo: un barrido directo y uno adjunto por <code>EvalJG</code>, independiente del número de controles.</Punto>
                 </Col>
             </Cols>
         </SlideLayout>

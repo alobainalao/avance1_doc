@@ -18,11 +18,11 @@ export default function A3N14({ theme = 'dark' }) {
             <Cols>
                 <Col flex={5}>
                     <EqCard title="Región inmóvil: memoria hacia el futuro"><BlockMath math={eqMem} /></EqCard>
-                    <Punto color="#4ade80" size={20}>Ni la extracción ni el almacenamiento actúan sobre las regiones inmóviles.</Punto>
+                    <Punto color="#2E7D4F" size={20}>Ni la extracción ni el almacenamiento actúan sobre las regiones inmóviles.</Punto>
                 </Col>
                 <Col flex={5}>
                     <EqCard title="Adjunto del flujo y gradiente"><Eq math={eqFl} s={0.8} /></EqCard>
-                    <Punto color="#60a5fa" size={20}>Gradiente: las mismas fórmulas con <InlineMath math="\psi_h^{M}" /> y <InlineMath math="C_m" />.</Punto>
+                    <Punto color="#0F7A85" size={20}>Gradiente: las mismas fórmulas con <InlineMath math="\psi_h^{M}" /> y <InlineMath math="C_m" />.</Punto>
                 </Col>
             </Cols>
         </SlideLayout>
