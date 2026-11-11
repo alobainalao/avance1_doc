@@ -2,7 +2,7 @@ import React from 'react';
 import { BlockMath, InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import EqCard from '../layouts-v2/EqCard.jsx';
-import { Punto, Cols, Col, Eq } from './ui.jsx';
+import { Punto, Col, Eq } from './ui.jsx';
 
 const verde = '#2E7D4F';
 const eqMRMT = String.raw`\begin{aligned}
@@ -14,23 +14,30 @@ const eqMRMT = String.raw`\begin{aligned}
 export default function A3N07({ theme = 'dark' }) {
     return (
         <SlideLayout title="Modelo MRMT: regiones móvil e inmóviles" theme={theme} justify="flex-start">
-            <Cols>
+            <div style={{ display: 'flex', gap: '3%' }}>
                 <Col flex={6}>
                     <EqCard title="Sistema MRMT (misma cancelación de fC sobre la ecuación móvil)"><Eq math={eqMRMT} s={0.8} /></EqCard>
+                </Col>
+                <Col flex={4}>
                     <Punto>El intercambio no contiene <InlineMath math="\mathbf u" /> ni <InlineMath math="f" />; la ecuación inmóvil es una EDO en cada punto y conserva la masa total.</Punto>
                     <Punto color="#C4511F">
                         Con <InlineMath math="N_r=0" /> se recupera ADR <b>con <InlineMath math="\lambda_d=0" /></b>: el decaimiento
                         <InlineMath math="\lambda_d\phi R C" /> pertenece solo al ADR (decisión tomada; en ambos backends).
                     </Punto>
-                </Col>
-                <Col flex={4}>
-                    <p style={{ color: 'var(--sl-accent)', fontWeight: 700, fontSize: 26, margin: 0 }}>Parámetros</p>
-                    <Punto color="#0F7A85"><InlineMath math="\nu_r=\lambda_r/(\phi_{{\rm im},r}R)" /> [1/s]: frecuencia de relajación; código: <InlineMath math="D_{{\rm eff},r}/(R\,\eta_r L^2)" />.</Punto>
-                    <Punto color="#0F7A85"><InlineMath math="\eta_r=\phi_{{\rm im},r}/\phi" />: razón de capacidades (<code>beta</code>).</Punto>
-                    <Punto color="#0F7A85">Trapezoidal: <InlineMath math="\kappa_r=\tfrac{\Delta t\,\nu_r}{2+\Delta t\,\nu_r}" />, <InlineMath math="\omega_r=\tfrac{\eta_r\nu_r}{2+\Delta t\,\nu_r}" />. Semi-analítico: <InlineMath math="e_r=e^{-\nu_r\Delta t}" />, <InlineMath math="a_r=\eta_r(1-e_r)" />.</Punto>
                     <Punto color="#2E7D4F">Tres variantes: ADR, MRMT semi-analítico y MRMT por bloque (Schur).</Punto>
                 </Col>
-            </Cols>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginTop: 18 }}>
+                <p style={{ color: 'var(--sl-accent)', fontWeight: 700, fontSize: 26, margin: 0 }}>Parámetros</p>
+                <Punto color="#0F7A85">
+                    <InlineMath math="\nu_r=\lambda_r/(\phi_{{\rm im},r}R)" /> [1/s]: frecuencia de relajación; código: <InlineMath math="D_{{\rm eff},r}/(R\,\eta_r L^2)" />.
+                    {' '}<InlineMath math="\eta_r=\phi_{{\rm im},r}/\phi" />: razón de capacidades (<code>beta</code>).
+                </Punto>
+                <Punto color="#0F7A85">
+                    Trapezoidal: <InlineMath math="\kappa_r=\tfrac{\Delta t\,\nu_r}{2+\Delta t\,\nu_r}" />, <InlineMath math="\omega_r=\tfrac{\eta_r\nu_r}{2+\Delta t\,\nu_r}" />.
+                    {' '}Semi-analítico: <InlineMath math="e_r=e^{-\nu_r\Delta t}" />, <InlineMath math="a_r=\eta_r(1-e_r)" />.
+                </Punto>
+            </div>
         </SlideLayout>
     );
 }
