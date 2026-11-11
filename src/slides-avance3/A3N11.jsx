@@ -12,15 +12,21 @@ const eqL = String.raw`\begin{aligned}\mathcal L=J+\int_0^T\Bigl[&(S_s\partial_t
 export default function A3N11({ theme = 'dark' }) {
     return (
         <SlideLayout title="Forma débil del estado y Lagrangiano" theme={theme} justify="flex-start">
-            <Col gap={8}>
-                <EqCard title="Flujo: V_h = {v ∈ H¹ : v = 0 en Γout}, h = h_out en Γout (dato de Dirichlet)"><Eq math={eqAh} s={0.72} /></EqCard>
-                <EqCard title="Transporte (a_C no depende de los controles, sí de h)"><Eq math={eqAC} s={0.72} /></EqCard>
-                <EqCard title="Lagrangiano ADR (ψ(T)=0)"><Eq math={eqL} s={0.66} /></EqCard>
-                <Punto color="#C4511F" size={19}>
+            <Col gap={10}>
+                <div style={{ display: 'flex', gap: '2.5%', alignItems: 'stretch' }}>
+                    <div style={{ flex: 0.8, minWidth: 0 }}>
+                        <EqCard title="Flujo: V_h = {v ∈ H¹ : v = 0 en Γout}, h = h_out en Γout"><Eq math={eqAh} s={0.9} /></EqCard>
+                    </div>
+                    <div style={{ flex: 1.2, minWidth: 0 }}>
+                        <EqCard title="Transporte (a_C no depende de los controles, sí de h)"><Eq math={eqAC} s={0.9} /></EqCard>
+                    </div>
+                </div>
+                <EqCard title="Lagrangiano ADR (ψ(T)=0)"><Eq math={eqL} s={0.9} /></EqCard>
+                <Punto color="#C4511F" size={20}>
                     El término <InlineMath math="-\!\int_{\Gamma_{\rm out}}(K\nabla h\!\cdot\!n)v" /> no está definido en <InlineMath math="H^1\times H^1" />; con{' '}
                     <InlineMath math="v|_{\Gamma_{\rm out}}=0" /> no aparece.
                 </Punto>
-                <Punto color="#2E7D4F" size={19}>
+                <Punto color="#2E7D4F" size={20}>
                     <b>Lema.</b> Si <InlineMath math="\partial_y\mathcal L=0" />, <InlineMath math="d\hat J/d\theta=\partial_\theta\mathcal L" />, <InlineMath math="\theta\in\{Q,z_p\}" />.
                     {' '}MRMT añade <InlineMath math="-\sum_r\lambda_r(C_{{\rm im},r},\psi_M)" /> y la ecuación inmóvil con su multiplicador.
                 </Punto>
