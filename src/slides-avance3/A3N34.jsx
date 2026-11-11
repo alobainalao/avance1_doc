@@ -5,8 +5,8 @@ import { COL, ETQ, segs, puntos, cruces } from './A3N32.jsx';
 import { INFO as INFO_BASE } from './mallaCompartida.js';
 import { INFO, PANORAMA, FRONTERA, VENTANAS, ELIPSES, FOCOS, EJE, CONO_POZO } from './mallaConos.js';
 
-// Malla con conos (data/input/malla_conos/malla.pkl, preprocessing/malla_conos.py): elipses de 4 m en el pozo
-// (vertical, sobre la zona de la optimización) y en la fuente (horizontal), el cono horizontal de la pluma y el
+// Malla con conos (data/input/malla_conos/malla.pkl, preprocessing/malla_conos.py): cápsulas de 4 m (rectángulo +
+// 2 círculos de 50 m) en el pozo (vertical, sobre la zona de la optimización) y en la fuente (horizontal), el cono horizontal de la pluma y el
 // vertical del pozo como nivel de 16 m, 30 m en la frontera y 60 m lejos. Aún no se usa en las corridas.
 const miles = (n) => n.toLocaleString('en-US').replace(/,/g, ' ');
 const EJE_COL = '#B3261E';
@@ -57,7 +57,7 @@ export default function A3N34({ theme = 'dark' }) {
                 ))}
                 <span style={{ color: EJE_COL }}>– – eje de la pluma</span>
                 <span style={{ color: 'var(--sl-muted)' }}>- - cono vertical del pozo</span>
-                <span style={{ color: 'var(--sl-muted)' }}>○ elipses de 4 m (• focos)</span>
+                <span style={{ color: 'var(--sl-muted)' }}>○ zonas de 4 m (• centros)</span>
                 <span style={{ marginLeft: 'auto', color: 'var(--sl-muted)', fontFamily: 'var(--a3-sans, sans-serif)', fontSize: 16 }}>
                     malla_conos · {INFO.fecha}
                 </span>
@@ -67,9 +67,9 @@ export default function A3N34({ theme = 'dark' }) {
                 {VENTANAS.map(v => <Ventana key={v.clave} v={v} />)}
             </div>
             <Punto color="#0F7A85" size={17} style={{ flexShrink: 0 }}>
-                4 m en dos elipses con cada vértice a 50 m de su foco: la del pozo, vertical, con focos en el pozo y en la cota
-                z<sub>max</sub> = −200 m de la optimización (600 × 332 m, cubre lo que recorre z<sub>p</sub>), y la de la fuente, horizontal,
-                con focos en la fuente y 250 m aguas abajo (350 × 245 m). 16 m en el cono de la pluma
+                4 m en dos zonas formadas por un rectángulo de 100 m de ancho y dos círculos de radio 50 m: la del pozo, vertical, del pozo
+                a la cota z<sub>max</sub> = −200 m de la optimización (600 × 100 m, cubre lo que recorre z<sub>p</sub>), y la de la fuente,
+                horizontal, de la fuente a 250 m aguas abajo (350 × 100 m). 16 m en el cono de la pluma
                 (línea de corriente de Darcy de la fuente a la salida) y en el cono vertical del pozo hasta la pluma; 30 m en la
                 frontera, también en el techo bajo la pluma; 60 m lejos.{' '}{miles(INFO.n_dominio)} nodos
                 ({extra > 0 ? '+' : '−'}{Math.abs(extra)} % frente a {miles(INFO_BASE.n_dominio)}), ángulo {INFO.ang_min}°–{INFO.ang_max}°.
