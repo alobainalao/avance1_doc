@@ -24,8 +24,9 @@ export const Titulo = ({ children, style }) => (
     <p style={{ color: 'var(--sl-accent)', fontWeight: 700, fontSize: 'var(--a3-fs-seccion)', margin: 0, ...style }}>{children}</p>
 );
 
+// Sin flex: 1 para que el contenido de la slide quede centrado en vertical (avance3.css) en lugar de estirarse.
 export const Cols = ({ children, gap = '3%' }) => (
-    <div style={{ display: 'flex', gap, flex: 1, minHeight: 0 }}>{children}</div>
+    <div style={{ display: 'flex', gap, flex: '0 1 auto', minHeight: 0 }}>{children}</div>
 );
 
 export const Col = ({ children, flex = 1, gap = 12 }) => (

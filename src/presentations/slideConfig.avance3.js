@@ -44,7 +44,7 @@ const avance3Slides = [
     { id: 3, title: 'Dominio físico y parámetros', component: A3S02, duration: 75, section: 'Contexto', special: null },
     { id: 4, title: 'Modelo sin sumidero explícito: se cancela fC', component: A3N02, duration: 90, section: 'Modelo', special: null },
     { id: 5, title: 'Modelo MRMT: regiones móvil e inmóviles', component: A3N07, duration: 75, section: 'Modelo', special: null },
-    { id: 6, title: 'Condiciones de frontera e hipótesis', component: A3N09, duration: 75, section: 'Modelo', special: null },
+    { id: 6, title: 'Condiciones de frontera', component: A3N09, duration: 75, section: 'Modelo', special: null },
     { id: 7, title: 'Salida libre: h_out avanza solo, paso a paso', component: A3N03, duration: 90, section: 'Modelo', special: null },
     { id: 8, title: 'Problema de optimización — formulación completa', component: A3S13, duration: 75, section: 'Control óptimo', special: null },
     { id: 9, title: 'Funcional, controles admisibles y normalización', component: A3N10, duration: 75, section: 'Control óptimo', special: null, oculta: true },

@@ -14,15 +14,19 @@ const eqFl = String.raw`\begin{aligned}&-S_s\partial_t\psi_h-\nabla\!\cdot(K\nab
 export default function A3N14({ theme = 'dark' }) {
     return (
         <SlideLayout title="Adjunto del modelo MRMT" theme={theme} justify="flex-start">
-            <EqCard title="Sistema adjunto del transporte (retrógrado)"><Eq math={eqSys} compacta id='adj-mrmt' /></EqCard>
+            <EqCard title="Sistema adjunto del transporte (retrógrado)"><Eq math={eqSys} id='adj-mrmt' /></EqCard>
             <Cols>
                 <Col flex={5}>
                     <EqCard title="Región inmóvil: memoria hacia el futuro"><Eq math={eqMem} id='adj-mrmt-im' /></EqCard>
-                    <Punto color="#2E7D4F" size={20}>Ni la extracción ni el almacenamiento actúan sobre las regiones inmóviles.</Punto>
+                    {false && ( /* oculto por ahora */
+                        <Punto color="#2E7D4F" size={20}>Ni la extracción ni el almacenamiento actúan sobre las regiones inmóviles.</Punto>
+                    )}
                 </Col>
                 <Col flex={5}>
                     <EqCard title="Adjunto del flujo y gradiente"><Eq math={eqFl} id='adj-mrmt-h' /></EqCard>
-                    <Punto color="#0F7A85" size={20}>Gradiente: las mismas fórmulas con <InlineMath math="\psi_h^{M}" /> y <InlineMath math="C_m" />.</Punto>
+                    {false && ( /* oculto por ahora */
+                        <Punto color="#0F7A85" size={20}>Gradiente: las mismas fórmulas con <InlineMath math="\psi_h^{M}" /> y <InlineMath math="C_m" />.</Punto>
+                    )}
                 </Col>
             </Cols>
         </SlideLayout>

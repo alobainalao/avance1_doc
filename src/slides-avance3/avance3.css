@@ -60,6 +60,8 @@
     font-family: var(--a3-serif);
     font-feature-settings: 'tnum' 1, 'lnum' 1;
 }
+/* Contenido centrado en vertical en todas las slides (las slides pasan justify="flex-start" al layout). */
+.deck-a3 .slide-layout__content { justify-content: center !important; }
 
 /* ── Cabecera: columna estratigráfica + título ───────────────────────── */
 .deck-a3 .slide-header {

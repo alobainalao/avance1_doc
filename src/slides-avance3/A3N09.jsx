@@ -6,16 +6,18 @@ import { Tabla, Punto, Col, Titulo } from './ui.jsx';
 const cols = [
     { k: 'g', label: '' }, { k: 'flujo', label: 'Flujo h' }, { k: 'tr', label: 'Transporte C' },
 ];
+const M = (t) => <InlineMath math={t} />;
 const rows = [
-    { g: 'Γin', flujo: '(K∇h)·n = f_in ≥ 0  (u·n = −f_in)', tr: '(D∇C)·n = 0' },
-    { g: 'Γwall', flujo: '(K∇h)·n = 0', tr: '(D∇C)·n = 0' },
-    { g: 'Γout', flujo: 'cierre (D): ∂ₙ(u·n) = 0', tr: '(D∇C)·n = 0' },
+    { g: M(String.raw`\Gamma_{\rm in}`), flujo: M(String.raw`(K\nabla h)\cdot\mathbf n=f_{\rm in}\ge0\quad(\mathbf u\cdot\mathbf n=-f_{\rm in})`), tr: M(String.raw`(D\nabla C)\cdot\mathbf n=0`) },
+    { g: M(String.raw`\Gamma_{\rm wall}`), flujo: M(String.raw`(K\nabla h)\cdot\mathbf n=0`), tr: M(String.raw`(D\nabla C)\cdot\mathbf n=0`) },
+    { g: M(String.raw`\Gamma_{\rm out}`), flujo: <>salida libre: {M(String.raw`\partial_n(\mathbf u\cdot\mathbf n)=0`)}</>, tr: M(String.raw`(D\nabla C)\cdot\mathbf n=0`) },
 ];
 
 export default function A3N09({ theme = 'dark' }) {
     return (
-        <SlideLayout title="Condiciones de frontera e hipótesis" theme={theme} justify="flex-start">
+        <SlideLayout title="Condiciones de frontera" theme={theme} justify="flex-start">
             <Tabla cols={cols} rows={rows} size={22} />
+            {false && ( /* hipótesis y decisiones: ocultas por ahora */
             <Col gap={10}>
                     <Titulo>Hipótesis del análisis</Titulo>
                     <Punto size={19}>H1–H2: dominio lipschitziano; <InlineMath math="K" /> simétrica definida positiva <b>variable</b>; coeficientes constantes en <InlineMath math="t" />.</Punto>
@@ -29,6 +31,7 @@ export default function A3N09({ theme = 'dark' }) {
                     <Punto color="#C4511F" size={19}><InlineMath math="\phi" /> constante con almacenamiento elástico y <InlineMath math="S_s=\phi" /> numérico (0.03–0.95 m⁻¹): pendiente confirmar.</Punto>
                     <Punto color="#2E7D4F" size={19}>Balance global de soluto: el soluto solo cruza <InlineMath math="\partial\Omega" /> por advección y sale por <InlineMath math="fC" />.</Punto>
             </Col>
+            )}
         </SlideLayout>
     );
 }
