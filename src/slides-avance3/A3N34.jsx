@@ -69,7 +69,7 @@ export default function A3N34({ theme = 'dark' }) {
             <Punto color="#0F7A85" size={17} style={{ flexShrink: 0 }}>
                 4 m en dos zonas formadas por un rectángulo de 100 m de ancho y dos círculos de radio 50 m: la del pozo, vertical, del pozo
                 a la cota z<sub>max</sub> = −200 m de la optimización (600 × 100 m, cubre lo que recorre z<sub>p</sub>), y la de la fuente,
-                horizontal, de la fuente a 250 m aguas abajo (350 × 100 m). 16 m en el cono de la pluma
+                horizontal, con un cuadrado de 100 m entre la fuente y 100 m aguas abajo (200 × 100 m). 16 m en el cono de la pluma
                 (línea de corriente de Darcy de la fuente a la salida) y en el cono vertical del pozo hasta la pluma; 30 m en la
                 frontera, también en el techo bajo la pluma; 60 m lejos.{' '}{miles(INFO.n_dominio)} nodos
                 ({extra > 0 ? '+' : '−'}{Math.abs(extra)} % frente a {miles(INFO_BASE.n_dominio)}), ángulo {INFO.ang_min}°–{INFO.ang_max}°.
