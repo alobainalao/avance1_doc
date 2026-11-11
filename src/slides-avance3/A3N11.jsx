@@ -15,13 +15,13 @@ export default function A3N11({ theme = 'dark' }) {
             <Col gap={10}>
                 <div style={{ display: 'flex', gap: '2.5%', alignItems: 'stretch' }}>
                     <div style={{ flex: 0.8, minWidth: 0 }}>
-                        <EqCard title="Flujo: V_h = {v ∈ H¹ : v = 0 en Γout}, h = h_out en Γout"><Eq math={eqAh} s={0.9} /></EqCard>
+                        <EqCard title="Flujo: V_h = {v ∈ H¹ : v = 0 en Γout}, h = h_out en Γout"><Eq math={eqAh} id='debil-flujo' /></EqCard>
                     </div>
                     <div style={{ flex: 1.2, minWidth: 0 }}>
-                        <EqCard title="Transporte (a_C no depende de los controles, sí de h)"><Eq math={eqAC} s={0.9} /></EqCard>
+                        <EqCard title="Transporte (a_C no depende de los controles, sí de h)"><Eq math={eqAC} id='debil-transporte' /></EqCard>
                     </div>
                 </div>
-                <EqCard title="Lagrangiano ADR (ψ(T)=0)"><Eq math={eqL} s={0.9} /></EqCard>
+                <EqCard title="Lagrangiano ADR (ψ(T)=0)"><Eq math={eqL} id='lagrangiano' /></EqCard>
                 <Punto color="#C4511F" size={20}>
                     El término <InlineMath math="-\!\int_{\Gamma_{\rm out}}(K\nabla h\!\cdot\!n)v" /> no está definido en <InlineMath math="H^1\times H^1" />; con{' '}
                     <InlineMath math="v|_{\Gamma_{\rm out}}=0" /> no aparece.
@@ -34,3 +34,5 @@ export default function A3N11({ theme = 'dark' }) {
         </SlideLayout>
     );
 }
+
+A3N11.ecuaciones = ['debil-flujo', 'debil-transporte', 'lagrangiano'];

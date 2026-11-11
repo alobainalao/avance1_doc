@@ -1,5 +1,5 @@
 import React from 'react';
-import { BlockMath, InlineMath } from 'react-katex';
+import { InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import EqCard from '../layouts-v2/EqCard.jsx';
 import { Punto, Cols, Col, Eq } from './ui.jsx';
@@ -13,8 +13,8 @@ const eqNC = String.raw`-\phi R\,\partial_t\psi_C-\nabla\!\cdot(D\nabla\psi_C)-\
 export default function A3N04({ theme = 'dark' }) {
     return (
         <SlideLayout title="Adjunto del transporte (ADR)" theme={theme} justify="flex-start">
-            <EqCard title="Variación respecto de C  →  problema retrógrado"><Eq math={eqAdjC} s={0.8} /><BlockMath math={eqBC} /></EqCard>
-            <EqCard title="Forma no conservativa: el almacenamiento se cancela y aparece el pozo"><BlockMath math={eqNC} /></EqCard>
+            <EqCard title="Variación respecto de C  →  problema retrógrado"><Eq math={eqAdjC} id='adj-C' /><Eq math={eqBC} id='adj-C-bc' /></EqCard>
+            <EqCard title="Forma no conservativa: el almacenamiento se cancela y aparece el pozo"><Eq math={eqNC} id='adj-C-nc' /></EqCard>
             <Cols>
                 <Col>
                     <Punto color="#0F7A85" size={20}>Por partes: <InlineMath math="\oint\eta(D\nabla\psi+\mathbf u\psi)\!\cdot\!\mathbf n" />, condición natural (sin Dirichlet en el transporte).</Punto>
@@ -26,3 +26,5 @@ export default function A3N04({ theme = 'dark' }) {
         </SlideLayout>
     );
 }
+
+A3N04.ecuaciones = ['adj-C', 'adj-C-bc', 'adj-C-nc'];

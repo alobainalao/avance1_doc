@@ -26,16 +26,16 @@ const physParams = [
 const ParamTable = ({ title, color, rows }) => (
     <div style={{ flex: 1, minWidth: 0 }}>
         <p style={{
-            color, fontWeight: 700, fontSize: 24, margin: '0 0 6px',
+            color, fontWeight: 700, fontSize: 'var(--a3-fs-seccion)', margin: '0 0 6px',
             borderBottom: `1.5px solid ${color}55`, paddingBottom: 4,
         }}>{title}</p>
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <tbody>
                 {rows.map(([name, val]) => (
                     <tr key={name} style={{ borderBottom: '1px solid rgba(0,216,255,0.10)' }}>
-                        <td style={{ padding: '5px 0', color: 'var(--sl-muted)', fontSize: 20 }}>{name}</td>
+                        <td style={{ padding: '5px 0', color: 'var(--sl-muted)', fontSize: 'var(--a3-fs-cuerpo)' }}>{name}</td>
                         <td style={{ padding: '5px 0', color: 'var(--sl-text)', textAlign: 'right',
-                                     fontSize: 20 }}>{val}</td>
+                                     fontSize: 'var(--a3-fs-cuerpo)' }}>{val}</td>
                     </tr>
                 ))}
             </tbody>
@@ -71,7 +71,7 @@ const A3S02 = ({ theme = 'dark' }) => (
             <div style={{ width: 1, background: 'rgba(0,216,255,0.18)', alignSelf: 'stretch' }} />
             <ParamTable title="Física y discretización" color="#0F7A85" rows={physParams} />
         </div>
-        <p style={{ color: 'var(--sl-muted)', fontSize: 20, fontStyle: 'italic', margin: 0 }}>
+        <p style={{ color: 'var(--sl-muted)', fontSize: 'var(--a3-fs-nota)', fontFamily: 'var(--a3-sans)', fontStyle: 'italic', margin: 0 }}>
             φ interpolada de datos de campo (4 pozos reales, capas A–E). K calculada via Kozeny-Carman.
         </p>
     </SlideLayout>

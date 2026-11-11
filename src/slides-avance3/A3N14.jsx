@@ -1,5 +1,5 @@
 import React from 'react';
-import { BlockMath, InlineMath } from 'react-katex';
+import { InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import EqCard from '../layouts-v2/EqCard.jsx';
 import { Punto, Cols, Col, Eq } from './ui.jsx';
@@ -14,17 +14,19 @@ const eqFl = String.raw`\begin{aligned}&-S_s\partial_t\psi_h-\nabla\!\cdot(K\nab
 export default function A3N14({ theme = 'dark' }) {
     return (
         <SlideLayout title="Adjunto del modelo MRMT" theme={theme} justify="flex-start">
-            <EqCard title="Sistema adjunto del transporte (retrógrado)"><Eq math={eqSys} s={0.72} /></EqCard>
+            <EqCard title="Sistema adjunto del transporte (retrógrado)"><Eq math={eqSys} compacta id='adj-mrmt' /></EqCard>
             <Cols>
                 <Col flex={5}>
-                    <EqCard title="Región inmóvil: memoria hacia el futuro"><BlockMath math={eqMem} /></EqCard>
+                    <EqCard title="Región inmóvil: memoria hacia el futuro"><Eq math={eqMem} id='adj-mrmt-im' /></EqCard>
                     <Punto color="#2E7D4F" size={20}>Ni la extracción ni el almacenamiento actúan sobre las regiones inmóviles.</Punto>
                 </Col>
                 <Col flex={5}>
-                    <EqCard title="Adjunto del flujo y gradiente"><Eq math={eqFl} s={0.8} /></EqCard>
+                    <EqCard title="Adjunto del flujo y gradiente"><Eq math={eqFl} id='adj-mrmt-h' /></EqCard>
                     <Punto color="#0F7A85" size={20}>Gradiente: las mismas fórmulas con <InlineMath math="\psi_h^{M}" /> y <InlineMath math="C_m" />.</Punto>
                 </Col>
             </Cols>
         </SlideLayout>
     );
 }
+
+A3N14.ecuaciones = ['adj-mrmt', 'adj-mrmt-im', 'adj-mrmt-h'];

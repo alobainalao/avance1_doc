@@ -1,7 +1,8 @@
 import React from 'react';
-import { BlockMath, InlineMath } from 'react-katex';
+import { InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import EqCard from '../layouts-v2/EqCard.jsx';
+import { Eq } from './ui.jsx';
 
 // Modelo sin sumidero explícito (docs/adjunto_sin_sumidero.pdf, §2). Código de colores del documento.
 const rojo = '#C4511F', azul = '#0F7A85', verde = '#2E7D4F';
@@ -24,16 +25,16 @@ export default function A3N02({ theme = 'dark' }) {
         <SlideLayout title="Modelo sin sumidero explícito: se cancela fC" theme={theme} justify="flex-start">
             <div style={{ display: 'flex', flexDirection: 'column', gap: 18, flex: 1, minHeight: 0 }}>
                 <EqCard title="1 · Balance de agua  →  divergencia de la velocidad">
-                    <BlockMath math={eqFlujo} />
+                    <Eq math={eqFlujo} id='flujo' />
                 </EqCard>
                 <EqCard title="2 · Balance de soluto conservativo (el pozo extrae soluto con el agua)">
-                    <BlockMath math={eqCons} />
+                    <Eq math={eqCons} id='soluto-cons' />
                 </EqCard>
                 <EqCard title="3 · Regla del producto y sustitución">
-                    <BlockMath math={eqDesarr} />
+                    <Eq math={eqDesarr} id='soluto-desarrollo' />
                 </EqCard>
                 <EqCard title="4 · Resultado (ADR); MRMT añade el intercambio con las regiones inmóviles">
-                    <BlockMath math={eqADR} />
+                    <Eq math={eqADR} id='adr' />
                 </EqCard>
                 <p style={{ margin: 0, color: 'var(--sl-text)', fontSize: 22, lineHeight: 1.4 }}>
                     El pozo no es un sumidero en la ecuación de <InlineMath math="C" />: el soluto sale porque{' '}
@@ -45,3 +46,5 @@ export default function A3N02({ theme = 'dark' }) {
         </SlideLayout>
     );
 }
+
+A3N02.ecuaciones = ['flujo', 'soluto-cons', 'soluto-desarrollo', 'adr'];

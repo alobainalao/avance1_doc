@@ -30,9 +30,9 @@ export default function A3N01({ theme = 'dark' }) {
                                               borderTop: i ? '1px solid var(--a3-filete, #C9D3DB)' : 'none', padding: '0 6px' }}>
                             <span style={{ width: 12, height: 12, borderRadius: 6, flexShrink: 0,
                                            background: it.tipo === 'ok' ? c.color : 'transparent', border: `2px solid ${c.color}` }} />
-                            <span style={{ color: 'var(--sl-muted)', fontSize: 19, minWidth: 118, flexShrink: 0 }}>{it.fecha}</span>
-                            <span style={{ color: 'var(--sl-text)', fontSize: 23, flex: 1, lineHeight: 1.35 }}>{it.tarea}</span>
-                            <span style={{ color: c.color, fontSize: 18, fontFamily: 'var(--a3-sans, sans-serif)', minWidth: 118, textAlign: 'right' }}>{c.label.replace(/^\S+\s/, '')}</span>
+                            <span style={{ color: 'var(--sl-muted)', fontSize: 'var(--a3-fs-etiqueta)', fontFamily: 'var(--a3-sans)', minWidth: 118, flexShrink: 0 }}>{it.fecha}</span>
+                            <span style={{ color: 'var(--sl-text)', fontSize: 'var(--a3-fs-cuerpo)', flex: 1, lineHeight: 1.35 }}>{it.tarea}</span>
+                            <span style={{ color: c.color, fontSize: 'var(--a3-fs-etiqueta)', fontFamily: 'var(--a3-sans, sans-serif)', minWidth: 118, textAlign: 'right' }}>{c.label.replace(/^\S+\s/, '')}</span>
                         </div>
                     );
                 })}

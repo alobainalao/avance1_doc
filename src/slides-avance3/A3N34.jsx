@@ -31,7 +31,7 @@ function Ventana({ v }) {
     const g = useMemo(() => cruces(v.fantasmas, 2.6), [v]);
     return (
         <div style={{ flex: v.w / v.h, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
-            <span style={{ color: 'var(--sl-muted)', fontSize: 17, fontFamily: 'var(--a3-sans, sans-serif)', whiteSpace: 'nowrap' }}>{v.titulo}</span>
+            <span style={{ color: 'var(--sl-muted)', fontSize: 'var(--a3-fs-etiqueta)', fontFamily: 'var(--a3-sans, sans-serif)', whiteSpace: 'nowrap' }}>{v.titulo}</span>
             <svg viewBox={`0 0 ${v.w} ${v.h}`} style={{ width: '100%', flex: 1, minHeight: 0 }} preserveAspectRatio="xMidYMid meet">
                 <defs><clipPath id={`clipc-${v.clave}`}><rect width={v.w} height={v.h} /></clipPath></defs>
                 <g clipPath={`url(#clipc-${v.clave})`}>
@@ -51,14 +51,14 @@ export default function A3N34({ theme = 'dark' }) {
     const extra = Math.round((INFO.n_dominio / INFO_BASE.n_dominio - 1) * 100);
     return (
         <SlideLayout title="Malla con conos: refinada en la pluma y sobre el pozo" theme={theme} justify="flex-start">
-            <div style={{ display: 'flex', gap: 24, alignItems: 'baseline', flexShrink: 0, fontSize: 17, color: 'var(--sl-text)', whiteSpace: 'nowrap' }}>
+            <div style={{ display: 'flex', gap: 24, alignItems: 'baseline', flexShrink: 0, fontSize: 'var(--a3-fs-etiqueta)', fontFamily: 'var(--a3-sans)', color: 'var(--sl-text)', whiteSpace: 'nowrap' }}>
                 {Object.keys(COL).map(k => (
                     <span key={k}><span style={{ display: 'inline-block', width: 11, height: 11, borderRadius: 6, background: COL[k], marginRight: 7 }} />{ETQ[k]}</span>
                 ))}
                 <span style={{ color: EJE_COL }}>– – eje de la pluma</span>
                 <span style={{ color: 'var(--sl-muted)' }}>- - cono vertical del pozo</span>
                 <span style={{ color: 'var(--sl-muted)' }}>○ zonas de 4 m (• centros)</span>
-                <span style={{ marginLeft: 'auto', color: 'var(--sl-muted)', fontFamily: 'var(--a3-sans, sans-serif)', fontSize: 16 }}>
+                <span style={{ marginLeft: 'auto', color: 'var(--sl-muted)', fontFamily: 'var(--a3-sans, sans-serif)', fontSize: 'var(--a3-fs-nota)' }}>
                     malla_conos · {INFO.fecha}
                 </span>
             </div>

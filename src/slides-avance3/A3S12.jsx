@@ -1,5 +1,6 @@
 import React from 'react';
-import { BlockMath, InlineMath } from 'react-katex';
+import { InlineMath } from 'react-katex';
+import { Eq } from './ui.jsx';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 
 // ── Datos ─────────────────────────────────────────────────────────
@@ -142,22 +143,22 @@ const A3S12 = ({ theme = 'dark' }) => (
                     background: 'rgba(96,165,250,0.05)', padding: '8px 14px',
                     display: 'flex', flexDirection: 'column', gap: 4,
                 }}>
-                    <p style={{ margin: '0 0 2px', fontSize: 15, fontWeight: 700, color: '#0F7A85' }}>
+                    <p style={{ margin: '0 0 2px', fontSize: 'var(--a3-fs-etiqueta)', fontFamily: 'var(--a3-sans)', fontWeight: 600, color: '#0F7A85' }}>
                         Balance del tanque (por paso)
                     </p>
-                    <div style={{ margin: '-8px 0' }}><BlockMath math={eqBalance} /></div>
+                    <Eq math={eqBalance} id='tanque' />
 
                     <div style={{ borderTop: '1px solid rgba(96,165,250,0.12)', paddingTop: 3 }}>
-                        <p style={{ margin: 0, fontSize: 14, fontWeight: 700, color: '#2E7D4F' }}>
+                        <p style={{ margin: 0, fontSize: 'var(--a3-fs-etiqueta)', fontFamily: 'var(--a3-sans)', fontWeight: 600, color: '#2E7D4F' }}>
                             <InlineMath math="S_n \ge 0" /> — suministro siempre cubierto:
                         </p>
-                        <div style={{ margin: '-8px 0' }}><BlockMath math={eqLB} /></div>
+                        <Eq math={eqLB} compacta />
                     </div>
                     <div style={{ borderTop: '1px solid rgba(96,165,250,0.12)', paddingTop: 3 }}>
-                        <p style={{ margin: 0, fontSize: 14, fontWeight: 700, color: '#C4511F' }}>
+                        <p style={{ margin: 0, fontSize: 'var(--a3-fs-etiqueta)', fontFamily: 'var(--a3-sans)', fontWeight: 600, color: '#C4511F' }}>
                             <InlineMath math="S_n \le S_{\max}" /> — no extraer más de lo necesario:
                         </p>
-                        <div style={{ margin: '-8px 0' }}><BlockMath math={eqUB} /></div>
+                        <Eq math={eqUB} compacta />
                     </div>
                 </div>
 
@@ -168,11 +169,11 @@ const A3S12 = ({ theme = 'dark' }) => (
                     background: 'rgba(251,191,36,0.05)', padding: '8px 12px',
                     display: 'flex', flexDirection: 'column', gap: 5,
                 }}>
-                    <p style={{ margin: 0, fontSize: 15, fontWeight: 700, color: '#C4511F' }}>
+                    <p style={{ margin: 0, fontSize: 'var(--a3-fs-etiqueta)', fontFamily: 'var(--a3-sans)', fontWeight: 600, color: '#C4511F' }}>
                         Ciclo trabajo / descanso — ventana deslizante
                     </p>
-                    <div style={{ margin: '-8px 0' }}><BlockMath math={eqDuty} /></div>
-                    <div style={{ margin: '-8px 0' }}><BlockMath math={eqFd} /></div>
+                    <Eq math={eqDuty} id='ciclo' />
+                    <Eq math={eqFd} compacta />
 
                     <table style={{ borderCollapse: 'collapse', width: '100%', marginTop: 2 }}>
                         <tbody>
@@ -184,16 +185,16 @@ const A3S12 = ({ theme = 'dark' }) => (
                                 ['cota',  '0.50', 'f_d · Q_max · w  (Q_max = 0.2)'],
                             ].map(([k, v, desc]) => (
                                 <tr key={k} style={{ borderBottom: '1px solid rgba(251,191,36,0.12)' }}>
-                                    <td style={{ fontFamily: 'monospace', fontSize: 14, color: '#C4511F',
+                                    <td style={{ fontFamily: 'monospace', fontSize: 'var(--a3-fs-nota)', color: '#C4511F',
                                                  padding: '3px 6px 3px 0', fontWeight: 700 }}>{k}</td>
-                                    <td style={{ fontFamily: 'monospace', fontSize: 14, color: 'var(--sl-text)',
+                                    <td style={{ fontFamily: 'monospace', fontSize: 'var(--a3-fs-nota)', color: 'var(--sl-text)',
                                                  padding: '3px 6px', fontWeight: 600 }}>{v}</td>
-                                    <td style={{ fontSize: 13, color: 'var(--sl-muted)', padding: '3px 0' }}>{desc}</td>
+                                    <td style={{ fontSize: 'var(--a3-fs-nota)', color: 'var(--sl-muted)', padding: '3px 0' }}>{desc}</td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
-                    <p style={{ margin: 0, fontSize: 13, color: 'var(--sl-muted)', fontStyle: 'italic' }}>
+                    <p style={{ margin: 0, fontSize: 'var(--a3-fs-nota)', color: 'var(--sl-muted)', fontStyle: 'italic' }}>
                         Grundfos MMS (2019) · NEMA MG-1 (2021)
                     </p>
                 </div>
@@ -205,3 +206,5 @@ const A3S12 = ({ theme = 'dark' }) => (
 );
 
 export default A3S12;
+
+A3S12.ecuaciones = ['tanque', 'ciclo'];

@@ -1,5 +1,6 @@
 import React from 'react';
 import { BlockMath } from 'react-katex';
+import { useNumEc } from '../layouts-v2/EcNum.js';
 
 // Piezas visuales comunes de las slides de la línea «sin sumidero».
 // Color con significado (avance3.css): verde = verificado, naranja/rojo = límite o pendiente,
@@ -11,14 +12,16 @@ const SEM = {
 };
 export const sem = (c) => SEM[c] || c;
 
-export const Punto = ({ color = '#00d8ff', children, size = 22, style }) => (
+// Tipografía por jerarquía (avance3.css): el texto usa siempre --a3-fs-cuerpo; `size` se ignora y queda
+// solo por compatibilidad con las slides que aún lo pasan.
+export const Punto = ({ color = '#00d8ff', children, style }) => (
     <div style={{ borderLeft: `3px solid ${sem(color)}`, padding: '4px 0 4px 16px', ...style }}>
-        <span style={{ color: 'var(--sl-text)', fontSize: size, lineHeight: 1.42 }}>{children}</span>
+        <span style={{ color: 'var(--sl-text)', fontSize: 'var(--a3-fs-cuerpo)', lineHeight: 1.42 }}>{children}</span>
     </div>
 );
 
-export const Titulo = ({ children }) => (
-    <p style={{ color: 'var(--sl-accent)', fontWeight: 700, fontSize: 26, margin: 0 }}>{children}</p>
+export const Titulo = ({ children, style }) => (
+    <p style={{ color: 'var(--sl-accent)', fontWeight: 700, fontSize: 'var(--a3-fs-seccion)', margin: 0, ...style }}>{children}</p>
 );
 
 export const Cols = ({ children, gap = '3%' }) => (
@@ -31,14 +34,14 @@ export const Col = ({ children, flex = 1, gap = 12 }) => (
 
 // Tabla simple: cols = [{k, label, color?, mono?}], rows = [{...}]
 // Tabla en estilo booktabs: filete grueso arriba y abajo, fino bajo la cabecera, sin rayado.
-export const Tabla = ({ cols, rows, size = 21 }) => (
+export const Tabla = ({ cols, rows }) => (
     <table style={{ width: '100%', borderCollapse: 'collapse', borderTop: '2px solid var(--sl-text)',
                     borderBottom: '2px solid var(--sl-text)', fontVariantNumeric: 'tabular-nums' }}>
         <thead>
             <tr style={{ borderBottom: '1px solid var(--sl-muted)' }}>
                 {cols.map(c => (
                     <th key={c.k} style={{ padding: '9px 14px', textAlign: 'left', color: 'var(--sl-muted)',
-                                           fontFamily: 'var(--a3-sans, sans-serif)', fontSize: size - 4, fontWeight: 500 }}>{c.label}</th>
+                                           fontFamily: 'var(--a3-sans, sans-serif)', fontSize: 'var(--a3-fs-etiqueta)', fontWeight: 500 }}>{c.label}</th>
                 ))}
             </tr>
         </thead>
@@ -46,7 +49,7 @@ export const Tabla = ({ cols, rows, size = 21 }) => (
             {rows.map((r, i) => (
                 <tr key={i}>
                     {cols.map(c => (
-                        <td key={c.k} style={{ padding: '8px 14px', fontSize: size, lineHeight: 1.3,
+                        <td key={c.k} style={{ padding: '8px 14px', fontSize: 'var(--a3-fs-cuerpo)', lineHeight: 1.3,
                                                color: sem((r.colors && r.colors[c.k]) || c.color) || 'var(--sl-text)',
                                                textAlign: c.mono ? 'right' : 'left' }}>{r[c.k]}</td>
                     ))}
@@ -103,7 +106,21 @@ export const SelectorModelo = ({ modelos, valor, onChange }) => (
     </div>
 );
 
-// Ecuación en bloque con escala (para fórmulas largas en tarjetas estrechas).
-export const Eq = ({ math, s = 0.75 }) => (
-    <div style={{ fontSize: `${s * 100}%`, overflowX: 'auto' }}><BlockMath math={math} /></div>
-);
+// Ecuación en bloque. Dos tamaños (avance3.css): el normal, común a todas, y `compacta` para las que no caben
+// (`s` < 0.8 de las versiones anteriores equivale a compacta). `id`: número dinámico a la derecha (\tag),
+// asignado por el orden de las slides visibles (layouts-v2/EcNum.js).
+export const Eq = ({ math, s, compacta, id }) => {
+    const n = useNumEc(id);
+    const comp = compacta || (s !== undefined && s < 0.8);
+    return (
+        <div className={comp ? 'a3-ec a3-ec--compacta' : 'a3-ec'} style={{ overflowX: 'auto' }}>
+            <BlockMath math={n ? `${math}\\tag{${n}}` : math} />
+        </div>
+    );
+};
+
+// Referencia en el texto a una ecuación numerada: «(n)».
+export const RefEc = ({ id }) => {
+    const n = useNumEc(id);
+    return <span style={{ whiteSpace: 'nowrap' }}>({n ?? '?'})</span>;
+};

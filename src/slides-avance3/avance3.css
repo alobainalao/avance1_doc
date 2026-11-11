@@ -20,7 +20,22 @@
     --a3-filete:  #C9D3DB;
     --a3-serif:   'Source Serif 4', 'Georgia', serif;
     --a3-sans:    'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+
+    /* Escala tipográfica por jerarquía (todas las slides la usan; no fijar tamaños sueltos). */
+    --a3-fs-titulo:      40px;   /* título de la slide (serif) */
+    --a3-fs-seccion:     26px;   /* encabezado dentro de la slide (serif, acento) */
+    --a3-fs-cuerpo:      20px;   /* texto (serif) */
+    --a3-fs-etiqueta:    17px;   /* etiqueta de tarjeta y cabecera de tabla (sans) */
+    --a3-fs-nota:        16px;   /* pie, leyenda, fuente (sans) */
+    --a3-fs-ec:          30px;   /* ecuación en bloque: tamaño común */
+    --a3-fs-ec-compacta: 25px;   /* ecuación en bloque que no cabe con el común */
 }
+
+/* ── Ecuaciones: un solo tamaño en todo el avance (también las BlockMath sueltas) ── */
+.deck-a3 .katex-display { margin: 0.3em 0; }
+.deck-a3 .katex-display > .katex { font-size: var(--a3-fs-ec); }
+.deck-a3 .a3-ec--compacta .katex-display > .katex { font-size: var(--a3-fs-ec-compacta); }
+.deck-a3 .katex-display .tag { color: var(--a3-estrato); font-size: 0.8em; padding-left: 0.6em; }
 
 /* ── Tokens del layout ───────────────────────────────────────────────── */
 .deck-a3 .slide-layout--light {
@@ -87,7 +102,7 @@
     background: var(--a3-tinta);
     font-family: var(--a3-serif);
     font-weight: 600;
-    font-size: 40px;
+    font-size: var(--a3-fs-titulo);
     letter-spacing: -0.005em;
     padding: 14px 4% 14px;
     box-shadow: none;
@@ -107,9 +122,10 @@
 .deck-a3 .sl-eq-card__label {
     font-family: var(--a3-sans);
     font-style: normal;
-    font-size: 16px;
+    font-size: var(--a3-fs-etiqueta);
     color: var(--a3-estrato);
 }
+.deck-a3 .sl-eq-card__body { font-size: var(--a3-fs-cuerpo); }
 
 @media (prefers-reduced-motion: reduce) {
     .deck-a3 * { transition: none !important; animation: none !important; }

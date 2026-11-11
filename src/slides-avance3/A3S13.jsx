@@ -1,10 +1,11 @@
 import React from 'react';
 import { BlockMath, InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
+import { Eq } from './ui.jsx';
 
 const eqJ   = String.raw`\min_{Q(\cdot),\,z_p}\;J = \gamma\,J_m + J_e`;
 const eqJm  = String.raw`J_m = \int_0^T\!\!\int_\Omega g_\varepsilon(\mathbf x;z_p)\,C(\mathbf x,t)^2\,\mathrm{d}\Omega\,\mathrm{d}t`;
-const eqJe  = String.raw`J_e = \alpha\,\kappa_p\,(z_p-z_0)^2+\beta\,d_p\!\int_0^T\!Q(t)^2\,\mathrm{d}t,\quad d_p=z_0-z_p`;
+const eqJe  = String.raw`J_e = \alpha\,\kappa_p\,(z_p-z_0)^2+\beta\,d_p\!\int_0^T\!Q(t)^2\,\mathrm{d}t`;
 const eqX   = String.raw`Q \in L^2([0,T]),\quad z_p \in \mathbb{R}`;
 const eqBQ  = String.raw`0 \le Q(t) \le Q_{\max}\cdot\mathrm{avail}(t)\quad\text{c.p.d.}`;
 const eqBzp = String.raw`z_{p,\min} \le z_p \le z_{p,\max}`;
@@ -16,26 +17,26 @@ const A3S13 = ({ theme = 'dark' }) => (
         {/* Funcional */}
         <div style={{ textAlign: 'center', flexShrink: 0, padding: '2px 0 4px',
                       borderBottom: '1.5px solid var(--a3-filete, #C9D3DB)' }}>
-            <BlockMath math={eqJ} />
+            <Eq math={eqJ} id='J' />
         </div>
 
         {/* Términos Jm / Je */}
         <div style={{ display: 'flex', gap: 20, flexShrink: 0 }}>
             {[
-                { name: 'J_m', label: 'calidad en el pozo', color: '#C4511F', eq: eqJm, flex: 0.8 },
-                { name: 'J_e', label: 'costo — instalación y bombeo', color: '#C4511F', eq: eqJe, flex: 1.25 },
-            ].map(({ name, label, color, eq, flex }) => (
+                { name: 'J_m', label: 'calidad en el pozo', color: '#C4511F', eq: eqJm, flex: 0.95, id: 'Jm' },
+                { name: 'J_e', label: 'costo — instalación y bombeo, con d_p = z₀ − z_p', color: '#C4511F', eq: eqJe, flex: 1.1, id: 'Je' },
+            ].map(({ name, label, color, eq, flex, id }) => (
                 <div key={name} style={{
                     flex, minWidth: 0, padding: '10px 18px',
                     border: `1.5px solid ${color}44`, borderRadius: 10,
                     background: 'transparent',
                     display: 'flex', flexDirection: 'column', gap: 4,
                 }}>
-                    <p style={{ margin: 0, fontSize: 19, fontWeight: 700, color }}>
+                    <p style={{ margin: 0, fontSize: 'var(--a3-fs-cuerpo)', fontWeight: 700, color }}>
                         <InlineMath math={name} />
-                        <span style={{ color: 'var(--sl-muted)', fontWeight: 400, marginLeft: 10, fontSize: 17 }}>{label}</span>
+                        <span style={{ color: 'var(--sl-muted)', fontWeight: 400, marginLeft: 10, fontSize: 'var(--a3-fs-etiqueta)', fontFamily: 'var(--a3-sans)' }}>{label}</span>
                     </p>
-                    <BlockMath math={eq} />
+                    <Eq math={eq} id={id} compacta />
                 </div>
             ))}
         </div>
@@ -53,7 +54,7 @@ const A3S13 = ({ theme = 'dark' }) => (
                     background: 'transparent',
                     borderLeft: `3px solid ${color}`,
                 }}>
-                    <p style={{ margin: '0 0 2px', fontSize: 17, fontWeight: 700, color }}>{head}</p>
+                    <p style={{ margin: '0 0 2px', fontSize: 'var(--a3-fs-etiqueta)', fontFamily: 'var(--a3-sans)', fontWeight: 600, color }}>{head}</p>
                     <BlockMath math={eq} />
                 </div>
             ))}
@@ -66,13 +67,13 @@ const A3S13 = ({ theme = 'dark' }) => (
             background: 'rgba(96,165,250,0.06)',
             borderLeft: '3px solid #0F7A85',
         }}>
-            <p style={{ margin: '0 0 2px', fontSize: 17, fontWeight: 700, color: '#0F7A85' }}>
+            <p style={{ margin: '0 0 2px', fontSize: 'var(--a3-fs-etiqueta)', fontFamily: 'var(--a3-sans)', fontWeight: 600, color: '#0F7A85' }}>
                 Restricción lineal de suministro &nbsp;
-                <span style={{ fontWeight: 400, color: 'var(--sl-muted)', fontSize: 16 }}>
+                <span style={{ fontWeight: 400, color: 'var(--sl-muted)', fontSize: 'var(--a3-fs-nota)' }}>
                     (demanda diurna doméstica + riego, tanque de almacenamiento)
                 </span>
             </p>
-            <BlockMath math={eqSup} />
+            <Eq math={eqSup} id='suministro' />
         </div>
 
         {/* Optimizador + defaults: oculto por ahora */}
@@ -114,3 +115,5 @@ const A3S13 = ({ theme = 'dark' }) => (
 );
 
 export default A3S13;
+
+A3S13.ecuaciones = ['J', 'Jm', 'Je', 'suministro'];

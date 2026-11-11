@@ -8,13 +8,14 @@ import defaultSlideConfig from './slideConfig.js';
 import './SlideShow.css';
 import './SlideShowV2.css';
 import 'katex/dist/katex.min.css';
+import { EcNumContext } from './layouts-v2/EcNum.js';
 
 const TOTAL_EXPECTED_TIME = 900000;
 const CANVAS_W = 1280;
 const CANVAS_H = 960;
 
 // canvasW: ancho del lienzo propio de un avance (registry.js); por defecto CANVAS_W.
-const SlideshowV2 = ({ slides: slidesProp, sections, portadaDate, deckClass = '', canvasW = CANVAS_W }) => {
+const SlideshowV2 = ({ slides: slidesProp, sections, portadaDate, deckClass = '', canvasW = CANVAS_W, ecuaciones }) => {
     const navigate = useNavigate();
     const location = useLocation();
     const slides = slidesProp ?? defaultSlideConfig;
@@ -184,7 +185,11 @@ const SlideshowV2 = ({ slides: slidesProp, sections, portadaDate, deckClass = ''
                     <div className="slide-crop-wrapper">
                         {index === 0
                             ? <Portada theme={theme} date={portadaDate} />
-                            : SlideComponent && <SlideComponent theme={theme} />
+                            : SlideComponent && (
+                                <EcNumContext.Provider value={ecuaciones || {}}>
+                                    <SlideComponent theme={theme} />
+                                </EcNumContext.Provider>
+                            )
                         }
                     </div>
                     <div className="logo">

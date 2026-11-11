@@ -3,6 +3,7 @@
 
 import avance2Slides from '../slideConfig';
 import avance3Slides from './slideConfig.avance3';
+import { numerarEcuaciones } from '../layouts-v2/EcNum.js';
 
 const avance2Sections = [
     { label: 'Portada',        start: 1,  end: 1  },
@@ -41,6 +42,7 @@ const registry = [
         slides: avance3Slides,
         deckClass: 'deck-a3',
         canvasW: 1408,      // 10 % más ancho que el lienzo por defecto (1280)
+        ecuaciones: numerarEcuaciones(avance3Slides),   // numeración dinámica (layouts-v2/EcNum.js)
         sections: [
             { label: 'Portada',        start: 1,  end: 1  },
             { label: 'Contexto',       start: 2,  end: 3  },

@@ -1,5 +1,5 @@
 import React from 'react';
-import { BlockMath, InlineMath } from 'react-katex';
+import { InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import EqCard from '../layouts-v2/EqCard.jsx';
 import { Punto, Cols, Col, Eq } from './ui.jsx';
@@ -13,9 +13,9 @@ const eqSemi = String.raw`\begin{aligned}\mu_{N_r}&=M^{n+1}[(\mathcal R_A^{n+1})
 export default function A3N15({ theme = 'dark' }) {
     return (
         <SlideLayout title="Adjunto discreto exacto por variante (transporte)" theme={theme} justify="flex-start">
-            <EqCard title="ADR"><BlockMath math={eqADR} /></EqCard>
-            <EqCard title="MRMT por bloque (Schur)"><Eq math={eqBlk} s={0.8} /></EqCard>
-            <EqCard title="MRMT semi-analítico (splitting al revés)"><Eq math={eqSemi} s={0.8} /></EqCard>
+            <EqCard title="ADR"><Eq math={eqADR} id='disc-adr' /></EqCard>
+            <EqCard title="MRMT por bloque (Schur)"><Eq math={eqBlk} id='disc-bloque' /></EqCard>
+            <EqCard title="MRMT semi-analítico (splitting al revés)"><Eq math={eqSemi} id='disc-semi' /></EqCard>
             <Punto color="#0F7A85" size={20}>
                 <InlineMath math="M^n" />: máscara del recorte <InlineMath math="C\ge0" /> (la ecuación se evalúa sin recortar; <InlineMath math="j_n" /> y el paso siguiente usan la solución recortada).
                 Derivado del Lagrangiano discreto <InlineMath math="\mathcal L_h=J_h+\sum(\psi^{n+1})^{\!\top}r^{n+1}" />, no de las ecuaciones continuas.
@@ -23,3 +23,5 @@ export default function A3N15({ theme = 'dark' }) {
         </SlideLayout>
     );
 }
+
+A3N15.ecuaciones = ['disc-adr', 'disc-bloque', 'disc-semi'];
