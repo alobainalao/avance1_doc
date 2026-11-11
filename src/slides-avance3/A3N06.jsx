@@ -3,13 +3,13 @@ import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 
 // Configuración de las corridas del grupo M_modelo_nuevo (experimentos/catalogo.py, MAIN_FUENTE).
 const FILAS = [
-    ['Modelo',              'sin W₋ (factor_sumidero_C = 0), con −S_s∂ₜh·C (S_s = φ)', 'nuevo'],
+    ['Modelo',              'sin sumidero del pozo (eliminado del código), con −S_s∂ₜh·C (S_s = φ)', 'nuevo'],
     ['Salida del flujo',    'libre: componente normal de ∂ₙu = 0 (BFR "libre" y FEniCSx)', 'nuevo'],
     ['Decaimiento λ_d',     'solo en ADR (MRMT sin decaimiento en ambos backends)', 'nuevo'],
     ['Fuente de soluto',    'ε_z = 30 m e intensidad 5·10⁻¹² (main: 60 m y 10⁻¹¹), igual en las 3 variantes', 'cambio'],
-    ['Malla',               'compartida BFR+FEniCSx: 15 626 nodos + 862 fantasmas (main genera la suya)', 'cambio'],
+    ['Malla',               'compartida y refinada BFR+FEniCSx: 15 626 nodos + 862 fantasmas, h = 4.9 m junto al pozo', 'cambio'],
     ['Paso y horizonte',    'Δt = 5 h, T = 30 d (144 pasos)', 'main'],
-    ['Caudal',              'Q_std = 10⁻³ m²/s (orden de main; Q_max = 10⁻²)', 'main'],
+    ['Caudal',              'Q_std = 0.3 (default.json de main desde el 28-oct)', 'main'],
     ['Esquema',             'θ = θ_C = 1, n_stencil = 25, r_pozo = 20 m', 'main'],
     ['MRMT',                'N_r = 3 (D_eff, β, φ_im de default.json)', 'main'],
 ];

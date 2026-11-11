@@ -38,7 +38,7 @@ const TankSVG = () => {
         <svg viewBox={`0 0 ${W} ${H}`}
              style={{ width: '100%', display: 'block', flexShrink: 0,
                       border: '1px solid rgba(96,165,250,0.25)', borderRadius: 8 }}>
-            <rect x={P.l} y={P.t} width={PW} height={PH} fill="rgba(0,0,0,0.22)" />
+            <rect x={P.l} y={P.t} width={PW} height={PH} fill="rgba(46,45,138,0.04)" />
             {/* Zona de rebose */}
             <rect x={P.l} y={P.t} width={PW} height={yV(0.9) - P.t}
                   fill="rgba(248,113,113,0.05)" />
@@ -86,7 +86,7 @@ const PumpSVG = () => (
     <svg viewBox={`0 0 ${W} ${H}`}
          style={{ width: '100%', display: 'block', flexShrink: 0,
                   border: '1px solid rgba(251,191,36,0.25)', borderRadius: 8 }}>
-        <rect x={P.l} y={P.t} width={PW} height={PH} fill="rgba(0,0,0,0.22)" />
+        <rect x={P.l} y={P.t} width={PW} height={PH} fill="rgba(46,45,138,0.04)" />
         {/* Franja operación plena */}
         <rect x={xH(6)} y={P.t} width={xH(21) - xH(6)} height={PH}
               fill="rgba(74,222,128,0.06)" />
@@ -139,7 +139,7 @@ const A3S12 = ({ theme = 'dark' }) => (
                 <div style={{
                     flex: 1, minWidth: 0,
                     border: '1px solid rgba(96,165,250,0.22)', borderRadius: 10,
-                    background: 'rgba(0,0,0,0.18)', padding: '8px 14px',
+                    background: 'rgba(96,165,250,0.05)', padding: '8px 14px',
                     display: 'flex', flexDirection: 'column', gap: 4,
                 }}>
                     <p style={{ margin: '0 0 2px', fontSize: 15, fontWeight: 700, color: '#60a5fa' }}>
@@ -181,7 +181,7 @@ const A3S12 = ({ theme = 'dark' }) => (
                                 ['τ_off',  '4 h',        'mín descanso'],
                                 ['f_d',   '0.833',       '= 20/24'],
                                 ['w',     '3 pasos',     '⌈24h/10h⌉ = 3'],
-                                ['cota',  '0.025 m²/s', 'f_d · Q_max · w'],
+                                ['cota',  '0.50', 'f_d · Q_max · w  (Q_max = 0.2)'],
                             ].map(([k, v, desc]) => (
                                 <tr key={k} style={{ borderBottom: '1px solid rgba(251,191,36,0.12)' }}>
                                     <td style={{ fontFamily: 'monospace', fontSize: 14, color: '#fbbf24',

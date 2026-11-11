@@ -42,7 +42,7 @@ const DemandSVG = () => (
     <svg viewBox={`0 0 ${W} ${H}`}
          style={{ width: '100%', display: 'block', flexShrink: 0,
                   border: '1px solid rgba(0,216,255,0.18)', borderRadius: 8 }}>
-        <rect x={PAD.l} y={PAD.t} width={PW} height={PH} fill="rgba(0,0,0,0.22)" />
+        <rect x={PAD.l} y={PAD.t} width={PW} height={PH} fill="rgba(46,45,138,0.04)" />
 
         {/* Área de fondo */}
         <path d={stepPath(AGRI,     true)} fill="rgba(74,222,128,0.10)"  stroke="none" />

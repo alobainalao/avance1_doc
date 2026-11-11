@@ -18,7 +18,7 @@ export default function A3N17({ theme = 'dark' }) {
                 <Col flex={6}>
                     <Titulo>Polak–Ribière⁺ con Armijo proyectado (esquema teórico)</Titulo>
                     {pasos.map((t, i) => (
-                        <div key={i} style={{ display: 'flex', gap: 12, background: 'rgba(0,0,0,0.18)', borderRadius: 6, padding: '8px 12px' }}>
+                        <div key={i} style={{ display: 'flex', gap: 12, background: 'rgba(46,45,138,0.05)', borderRadius: 6, padding: '8px 12px' }}>
                             <span style={{ color: '#00d8ff', fontWeight: 700, fontSize: 22 }}>{i + 1}</span>
                             <span style={{ color: 'var(--sl-text)', fontSize: 20, fontFamily: 'monospace', lineHeight: 1.4 }}>{t}</span>
                         </div>

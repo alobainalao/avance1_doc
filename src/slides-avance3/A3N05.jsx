@@ -46,7 +46,7 @@ export default function A3N05({ theme = 'dark' }) {
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 18 }}>
                 {[
-                    ['#4ade80', 'Salida libre (∂ₙ(u·n)=0) en ambos backends; modelo sin W₋ con −S_s∂ₜh·C y fuente −S_s∂ₜ(Cψ_C) en el adjunto del flujo.'],
+                    ['#4ade80', 'Salida libre (∂ₙ(u·n)=0) en ambos backends; modelo sin sumidero del pozo, con −S_s∂ₜh·C y fuente −S_s∂ₜ(Cψ_C) en el adjunto del flujo.'],
                     ['#60a5fa', 'Banco 1D independiente del simulador: adjunto continuo vs. diferencias finitas, error O(h); sin la fuente de almacenamiento el error es 0.8–1.6.'],
                     ['#fb923c', 'Aún no verificado: configuración tipo main con la pluma llegando al pozo, ni BFR con otros cierres de salida (pfs, fem).'],
                 ].map(([c, t]) => (

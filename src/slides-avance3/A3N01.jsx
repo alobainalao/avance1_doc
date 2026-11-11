@@ -6,9 +6,10 @@ const items = [
     { fecha: 'Nov 2026', tarea: 'Modelo sin sumidero explícito: se cancela fC, queda −S_s∂ₜh·C (ADR y MRMT)', tipo: 'ok' },
     { fecha: 'Nov 2026', tarea: 'Salida libre ∂ₙu = 0 (componente normal) implementada en BFR y FEniCSx', tipo: 'ok' },
     { fecha: 'Nov 2026', tarea: 'Adjunto continuo y discreto re-deducidos; gradiente verificado en FEniCSx (3 modelos) y BFR exacto', tipo: 'ok' },
+    { fecha: 'Nov 2026', tarea: 'Sumidero del pozo eliminado del código y malla compartida refinada en los dos backends', tipo: 'ok' },
     { fecha: 'Nov 2026', tarea: 'Directo BFR vs FEniCSx con la configuración de main (3 modelos, 30 días)', tipo: 'ok' },
     { fecha: 'Nov–Dic 2026', tarea: 'Verificación en configuración tipo main (pluma en el pozo) y adjunto BFR con otros cierres', tipo: 'wip' },
-    { fecha: 'Dic 2026', tarea: 'Optimización con el modelo nuevo (nitrato, J normalizado, fuente común) en los dos backends', tipo: 'pen' },
+    { fecha: 'Dic 2026', tarea: 'Optimización con el modelo nuevo (nitrato, J normalizado, malla compartida) en los dos backends', tipo: 'wip' },
     { fecha: 'Ene 2027', tarea: 'Capítulos de la tesis y artículo con el modelo sin sumidero', tipo: 'meta' },
 ];
 const cfg = {

@@ -36,7 +36,7 @@ export const Tabla = ({ cols, rows, size = 21 }) => (
             <tbody>
                 {rows.map((r, i) => (
                     <tr key={i} style={{ borderTop: '1px solid rgba(0,216,255,0.10)',
-                                         background: i % 2 === 0 ? 'rgba(0,0,0,0.15)' : 'transparent' }}>
+                                         background: i % 2 === 0 ? 'rgba(46,45,138,0.05)' : 'transparent' }}>
                         {cols.map(c => (
                             <td key={c.k} style={{ padding: '10px 14px', fontSize: size, lineHeight: 1.3,
                                                    color: (r.colors && r.colors[c.k]) || c.color || 'var(--sl-text)',

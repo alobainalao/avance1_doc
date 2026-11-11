@@ -21,7 +21,7 @@ export default function A3N23({ theme = 'dark' }) {
             <Tabla cols={cols} rows={rows} size={22} />
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 16 }}>
                 <Punto color="#4ade80" size={21}>
-                    Misma malla (15 626 nodos), misma salida libre, misma fuente (ε_z = 30 m, 5·10⁻¹²) y mismo decaimiento (solo ADR).
+                    Misma malla refinada (15 626 nodos), Q_std = 0.3, misma salida libre, misma fuente (ε_z = 30 m, 5·10⁻¹²) y mismo decaimiento (solo ADR).
                     Rango de H del FEM: {f(r0.H_rango_fem_m)} m; ΔH rms del ADR = {f(100 * r0.H_rms_final_m / r0.H_rango_fem_m, 2)} % del rango.
                 </Punto>
                 <Punto color="#fb923c" size={21}>

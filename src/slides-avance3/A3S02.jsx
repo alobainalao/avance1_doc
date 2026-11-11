@@ -19,8 +19,8 @@ const physParams = [
     ['K — Kozeny-Carman',    'Kᵧ(φ, dz=1 mm, ν) · Kₓ=4Kᵧ'],
     ['αₗ / αₜ',              '10 / 1 m'],
     ['ν — viscosidad',       '1.055×10⁻⁶ m²/s'],
-    ['Nodos RBF-FD',         '16 552  (h ≈ 30 m)'],
-    ['dt / T',               '10 h / 30 días'],
+    ['Malla compartida',     '15 626 nodos (4.9 m en pozo)'],
+    ['dt / T',               '5 h / 30 días'],
 ];
 
 const ParamTable = ({ title, color, rows }) => (

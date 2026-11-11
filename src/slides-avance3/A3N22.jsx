@@ -6,14 +6,14 @@ const hechos = [
     'Modelo sin sumidero explícito: fC se cancela y queda −S_s∂ₜh·C; adjunto y gradientes re-deducidos del Lagrangiano.',
     'Salida libre (componente normal de ∂ₙu = 0) implementada en BFR y FEniCSx; el vector completo no cierra el problema.',
     'Gradiente adjunto verificado: FEniCSx (3 modelos, 10⁻¹⁰–10⁻⁷) y BFR exacto (10⁻⁵–10⁻⁷, cierre libre).',
-    'Mismo modelo, malla, fuente y decaimiento en los dos backends; el directo BFR–FEniCSx se compara en los 3 modelos.',
+    'Mismo modelo, malla refinada, fuente y decaimiento en los dos backends; directo BFR–FEniCSx: C 5 %, |u| 15 %, masa 0.1 % (3 modelos).',
     'Banco 1D independiente: el adjunto continuo, con su fuente de almacenamiento, converge O(h).',
 ];
 const siguientes = [
     ['Dic 26', 'Verificar el gradiente en configuración tipo main (pluma en el pozo) y BFR con otros cierres'],
-    ['Dic 26', 'Decidir D2, D4, D5, D6, D7 (almacenamiento, C_in, núcleos, funcional, fila pfs)'],
+    ['Dic 26', 'Cerrar almacenamiento (S_s), C de entrada, núcleos del pozo y forma final del funcional'],
     ['Ene 27', 'Optimización con el modelo nuevo (nitrato, J normalizado) en ambos backends'],
-    ['Ene 27', 'Tesis y artículo con el modelo sin sumidero (rama sin-sumidero)'],
+    ['Ene 27', 'Tesis y artículo con el modelo sin sumidero'],
 ];
 
 export default function A3N22({ theme = 'dark' }) {

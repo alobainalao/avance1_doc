@@ -2,6 +2,7 @@ import React from 'react';
 import { BlockMath, InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import EqCard from '../layouts-v2/EqCard.jsx';
+import { Eq } from './ui.jsx';
 
 // Condición de salida libre (docs/adjunto_sin_sumidero.pdf, §2.2): componente normal de ∂ₙu = 0.
 const eqCond = String.raw`\partial_{\mathbf n}\mathbf u=(\nabla\mathbf u)\,\mathbf n=\mathbf 0,\qquad \mathbf u=-K(\mathbf x)\nabla h`;
@@ -26,7 +27,7 @@ export default function A3N03({ theme = 'dark' }) {
                         Vectorial, son 2 ecuaciones de orden 2 sobre un escalar de orden 2: <b>no cierra</b> el problema de flujo.
                     </Punto>
                     <EqCard title="Componente normal — cierre adoptado">
-                        <BlockMath math={eqBorde} />
+                        <Eq math={eqBorde} s={0.85} />
                     </EqCard>
                     <Punto color="#4ade80">
                         La componente tangencial <b>no se impone</b> (decisión del autor).
