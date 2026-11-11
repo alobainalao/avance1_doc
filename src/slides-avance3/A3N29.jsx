@@ -9,7 +9,7 @@ const AdjVideo = ({ campo, titulo, theme = 'dark' }) => (
         <video autoPlay loop muted playsInline src={`${B}/videos/sin-sumidero/adjunto/grid3_${campo}.mp4`}
                style={{ flex: 1, minHeight: 0, width: '100%', objectFit: 'contain' }} />
         <p style={{ margin: 0, color: 'var(--sl-muted)', fontSize: 18 }}>
-            Convención del código (L = J − ψ·R); el documento usa ψ = −ψ_código/Δt. Se muestran los modelos con corrida de adjunto terminada.
+            Adjunto en la convención del documento (L = J + ⟨ψ, R⟩), barrido retrógrado desde t = T. Filas: ADR, MRMT semi y MRMT bloque; columnas: BFR, FEniCSx y su diferencia.
         </p>
     </SlideLayout>
 );
