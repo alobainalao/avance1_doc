@@ -22,11 +22,11 @@ const A3S13 = ({ theme = 'dark' }) => (
         {/* Términos Jm / Je */}
         <div style={{ display: 'flex', gap: 20, flexShrink: 0 }}>
             {[
-                { name: 'J_m', label: 'calidad — concentración alrededor del pozo', color: '#C4511F', eq: eqJm },
-                { name: 'J_e', label: 'costo — instalación y bombeo', color: '#C4511F', eq: eqJe },
-            ].map(({ name, label, color, eq }) => (
+                { name: 'J_m', label: 'calidad en el pozo', color: '#C4511F', eq: eqJm, flex: 0.8 },
+                { name: 'J_e', label: 'costo — instalación y bombeo', color: '#C4511F', eq: eqJe, flex: 1.25 },
+            ].map(({ name, label, color, eq, flex }) => (
                 <div key={name} style={{
-                    flex: 1, padding: '10px 18px',
+                    flex, minWidth: 0, padding: '10px 18px',
                     border: `1.5px solid ${color}44`, borderRadius: 10,
                     background: 'transparent',
                     display: 'flex', flexDirection: 'column', gap: 4,
@@ -75,7 +75,8 @@ const A3S13 = ({ theme = 'dark' }) => (
             <BlockMath math={eqSup} />
         </div>
 
-        {/* Optimizador + defaults */}
+        {/* Optimizador + defaults: oculto por ahora */}
+        {false && (
         <div style={{
             flexShrink: 0, display: 'flex', alignItems: 'center', gap: 0,
             border: '1px solid rgba(0,216,255,0.18)', borderRadius: 10,
@@ -107,6 +108,7 @@ const A3S13 = ({ theme = 'dark' }) => (
                 </div>
             ))}
         </div>
+        )}
 
     </SlideLayout>
 );

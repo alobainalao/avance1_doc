@@ -15,7 +15,7 @@ export default function A3N07({ theme = 'dark' }) {
     return (
         <SlideLayout title="Modelo MRMT: regiones móvil e inmóviles" theme={theme} justify="flex-start">
             <Col gap={10}>
-                <EqCard title="Sistema MRMT (misma cancelación de fC sobre la ecuación móvil)"><Eq math={eqMRMT} s={0.74} /></EqCard>
+                <EqCard title="Sistema MRMT (misma cancelación de fC sobre la ecuación móvil)"><Eq math={eqMRMT} s={0.95} /></EqCard>
                 <Punto size={19}>El intercambio no contiene <InlineMath math="\mathbf u" /> ni <InlineMath math="f" />; la ecuación inmóvil es una EDO en cada punto y conserva la masa total.</Punto>
                 <Punto color="#C4511F" size={19}>
                     Con <InlineMath math="N_r=0" /> se recupera ADR <b>con <InlineMath math="\lambda_d=0" /></b>: el decaimiento{' '}
