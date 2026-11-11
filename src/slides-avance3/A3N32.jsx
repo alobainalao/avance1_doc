@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import { InlineMath } from 'react-katex';
 import { Punto } from './ui.jsx';
-import { INFO, PANORAMA, FRONTERA, VENTANAS } from './mallaCompartida.js';
+import { INFO, PANORAMA, FRONTERA, VENTANAS, CONOS } from './mallaCompartida.js';
 
 // La malla de la comparación BFR vs FEniCSx (data/input/malla_compartida/malla.pkl), dibujada como malla.png:
 // triangulación completa, frontera por grupos y ventanas del pozo y de dos esquinas con los nodos fantasma.
@@ -32,6 +32,14 @@ function Panorama() {
         <svg viewBox={`-6 -6 ${INFO.W + 12} ${INFO.H + 12}`} style={{ width: '100%', height: '100%' }} preserveAspectRatio="xMidYMid meet">
             <path d={d} stroke="#6E7F8D" strokeWidth={0.18} fill="none" />
             {Object.entries(FRONTERA).map(([k, a]) => puntos(a, 1.1, COL[k], k))}
+            {CONOS.map(c => (
+                <g key={c.nombre} fill="none" stroke="#10243E">
+                    <circle cx={c.x} cy={c.z} r={c.r_circulo} strokeWidth={0.9} />
+                    <circle cx={c.x} cy={c.z} r={c.r_cono} strokeWidth={0.9} strokeDasharray="4 3" />
+                    <text x={c.x} y={c.z + c.r_cono + 13} fontSize={11} textAnchor="middle" fill="#10243E" stroke="none"
+                          fontFamily="var(--a3-sans, sans-serif)">{c.nombre}</text>
+                </g>
+            ))}
         </svg>
     );
 }
@@ -59,13 +67,14 @@ function Ventana({ v }) {
 export default function A3N32({ theme = 'dark' }) {
     return (
         <SlideLayout title="Malla compartida y refinada (BFR y FEniCSx)" theme={theme} justify="flex-start">
-            <div style={{ display: 'flex', gap: 24, alignItems: 'baseline', flexShrink: 0, fontSize: 19, color: 'var(--sl-text)' }}>
+            <div style={{ display: 'flex', gap: 24, alignItems: 'baseline', flexShrink: 0, fontSize: 17, color: 'var(--sl-text)', whiteSpace: 'nowrap' }}>
                 {Object.keys(COL).map(k => (
                     <span key={k}><span style={{ display: 'inline-block', width: 11, height: 11, borderRadius: 6, background: COL[k], marginRight: 7 }} />{ETQ[k]}</span>
                 ))}
                 <span style={{ color: 'var(--sl-muted)' }}>× nodos fantasma (BFR)</span>
+                <span style={{ color: 'var(--sl-muted)' }}>círculo 100 m y cono 500 m</span>
                 <span style={{ marginLeft: 'auto', color: 'var(--sl-muted)', fontFamily: 'var(--a3-sans, sans-serif)', fontSize: 16 }}>
-                    data/input/malla_compartida/malla.pkl · {INFO.fecha}
+                    malla.pkl · {INFO.fecha}
                 </span>
             </div>
             <div style={{ flex: 1.15, minHeight: 0 }}><Panorama /></div>
@@ -73,9 +82,10 @@ export default function A3N32({ theme = 'dark' }) {
                 {VENTANAS.map(v => <Ventana key={v.clave} v={v} />)}
             </div>
             <Punto color="#2E7D4F" size={19} style={{ flexShrink: 0 }}>
-                {miles(INFO.n_dominio)} nodos y {miles(INFO.n_triangulos)} triángulos (ángulo {INFO.ang_min}°–{INFO.ang_max}°),
-                espaciado de 4 m en el pozo a 60 m lejos, refinada donde <InlineMath math={String.raw`\log_{10}K`} /> cambia rápido.
-                BFR usa estos nodos más {INFO.n_fantasmas} fantasmas; FEniCSx, los mismos triángulos sin retriangular: la comparación es nodo a nodo.
+                Espaciado en 4 niveles: 4 m dentro del círculo de 100 m y 16 m en el cono hasta 500 m, alrededor del pozo y de la fuente;
+                30 m junto a la frontera y 60 m lejos (más refinamiento donde <InlineMath math={String.raw`\log_{10}K`} /> cambia rápido).
+                {' '}{miles(INFO.n_dominio)} nodos, {miles(INFO.n_triangulos)} triángulos, ángulo {INFO.ang_min}°–{INFO.ang_max}°:
+                BFR usa estos nodos más {INFO.n_fantasmas} fantasmas y FEniCSx los mismos triángulos.
             </Punto>
         </SlideLayout>
     );
