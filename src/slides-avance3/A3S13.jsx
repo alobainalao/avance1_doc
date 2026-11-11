@@ -2,9 +2,9 @@ import React from 'react';
 import { BlockMath, InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 
-const eqJ   = String.raw`\min_{Q(\cdot),\,z_p}\;J = \gamma\,J_m + \alpha\,J_{\rm inst} + \beta\,J_{\rm op}`;
+const eqJ   = String.raw`\min_{Q(\cdot),\,z_p}\;J = \gamma\,J_m + J_e`;
 const eqJm  = String.raw`J_m = \int_0^T\!\!\int_\Omega g_\varepsilon(\mathbf x;z_p)\,C(\mathbf x,t)^2\,\mathrm{d}\Omega\,\mathrm{d}t`;
-const eqJe  = String.raw`J_{\rm inst} = \kappa_p\,(z_p-z_0)^2,\qquad J_{\rm op} = d_p\int_0^T\!Q(t)^2\,\mathrm{d}t,\quad d_p=z_0-z_p`;
+const eqJe  = String.raw`J_e = \alpha\,\kappa_p\,(z_p-z_0)^2+\beta\,d_p\!\int_0^T\!Q(t)^2\,\mathrm{d}t,\quad d_p=z_0-z_p`;
 const eqX   = String.raw`Q \in L^2([0,T]),\quad z_p \in \mathbb{R}`;
 const eqBQ  = String.raw`0 \le Q(t) \le Q_{\max}\cdot\mathrm{avail}(t)\quad\text{c.p.d.}`;
 const eqBzp = String.raw`z_{p,\min} \le z_p \le z_{p,\max}`;
@@ -23,7 +23,7 @@ const A3S13 = ({ theme = 'dark' }) => (
         <div style={{ display: 'flex', gap: 20, flexShrink: 0 }}>
             {[
                 { name: 'J_m', label: 'calidad — concentración alrededor del pozo', color: '#C4511F', eq: eqJm },
-                { name: String.raw`J_{\rm inst}+J_{\rm op}`, label: 'costo — instalación y bombeo', color: '#C4511F', eq: eqJe },
+                { name: 'J_e', label: 'costo — instalación y bombeo', color: '#C4511F', eq: eqJe },
             ].map(({ name, label, color, eq }) => (
                 <div key={name} style={{
                     flex: 1, padding: '10px 18px',
