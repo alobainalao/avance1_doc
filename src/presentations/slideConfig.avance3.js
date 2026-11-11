@@ -62,7 +62,7 @@ const avance3Slides = [
     { id: 17, title: 'Gradientes del funcional reducido', component: A3N13, duration: 75, section: 'Adjunto', special: null },
     { id: 18, title: 'Adjunto del modelo MRMT', component: A3N14, duration: 75, section: 'Adjunto', special: null },
     { id: 19, title: 'Malla compartida y refinada (BFR y FEniCSx)', component: A3N32, duration: 75, section: 'Discreto', special: null },
-    { id: 20, title: 'Malla refinada en la pluma y sobre el pozo (oct 2026)', component: A3N34, duration: 60, section: 'Discreto', special: null },
+    { id: 20, title: 'Malla con conos: refinada en la pluma y sobre el pozo', component: A3N34, duration: 60, section: 'Discreto', special: null },
     { id: 21, title: 'Adjunto discreto exacto por variante', component: A3N15, duration: 90, section: 'Discreto', special: null },
     { id: 22, title: 'Adjunto discreto del flujo y regla de la cadena RBF-FD', component: A3N16, duration: 90, section: 'Discreto', special: null },
     { id: 23, title: 'Algoritmos de optimización', component: A3N17, duration: 75, section: 'Discreto', special: null },
