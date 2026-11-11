@@ -81,11 +81,12 @@ export default function A3N32({ theme = 'dark' }) {
             <div style={{ display: 'flex', gap: 22, flex: 1, minHeight: 0 }}>
                 {VENTANAS.map(v => <Ventana key={v.clave} v={v} />)}
             </div>
-            <Punto color="#2E7D4F" size={19} style={{ flexShrink: 0 }}>
+            <Punto color="#2E7D4F" size={17} style={{ flexShrink: 0 }}>
                 Espaciado en 4 niveles: 4 m dentro del círculo de 100 m y 16 m en el cono hasta 500 m, alrededor del pozo y de la fuente;
                 30 m junto a la frontera y 60 m lejos (más refinamiento donde <InlineMath math={String.raw`\log_{10}K`} /> cambia rápido).
-                {' '}{miles(INFO.n_dominio)} nodos, {miles(INFO.n_triangulos)} triángulos, ángulo {INFO.ang_min}°–{INFO.ang_max}°:
-                BFR usa estos nodos más {INFO.n_fantasmas} fantasmas y FEniCSx los mismos triángulos.
+                {' '}Esquinas saneadas: nodo exacto en cada vértice (grupo pared, normal bisectriz), frontera sin nodos desplazados
+                y fantasmas a una distancia de vecino, todos fuera del dominio. {miles(INFO.n_dominio)} nodos, {miles(INFO.n_triangulos)} triángulos,
+                ángulo {INFO.ang_min}°–{INFO.ang_max}°; BFR usa estos nodos más {INFO.n_fantasmas} fantasmas y FEniCSx los mismos triángulos.
             </Punto>
         </SlideLayout>
     );
