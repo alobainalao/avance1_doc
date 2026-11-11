@@ -37,6 +37,7 @@ import A3N31 from '../slides-avance3/A3N31.jsx';
 import '../slides-avance3/avance3.css';
 import A3N32 from '../slides-avance3/A3N32.jsx';
 import A3N33 from '../slides-avance3/A3N33.jsx';
+import A3N34 from '../slides-avance3/A3N34.jsx';
 
 // ── Slides del modelo anterior (con W₋ y χ(Q)): se conservan los archivos, ya no están en la secuencia ──
 // A3S03 (ecuaciones con χ), A3S04b/c (Taylor), A3S05, A3S10, A3S14, A3S15–A3S21 (resultados de optimización y videos anteriores), A3S09, A3S01
@@ -61,24 +62,25 @@ const avance3Slides = [
     { id: 17, title: 'Gradientes del funcional reducido', component: A3N13, duration: 75, section: 'Adjunto', special: null },
     { id: 18, title: 'Adjunto del modelo MRMT', component: A3N14, duration: 75, section: 'Adjunto', special: null },
     { id: 19, title: 'Malla compartida y refinada (BFR y FEniCSx)', component: A3N32, duration: 75, section: 'Discreto', special: null },
-    { id: 20, title: 'Adjunto discreto exacto por variante', component: A3N15, duration: 90, section: 'Discreto', special: null },
-    { id: 21, title: 'Adjunto discreto del flujo y regla de la cadena RBF-FD', component: A3N16, duration: 90, section: 'Discreto', special: null },
-    { id: 22, title: 'Algoritmos de optimización', component: A3N17, duration: 75, section: 'Discreto', special: null },
-    { id: 23, title: 'Verificación del gradiente adjunto', component: A3N05, duration: 75, section: 'Verificación', special: null },
-    { id: 24, title: 'Banco 1D independiente', component: A3N18, duration: 75, section: 'Verificación', special: null },
-    { id: 25, title: 'Verificaciones V1–V6', component: A3N19, duration: 75, section: 'Verificación', special: null },
-    { id: 26, title: 'Configuración de las corridas', component: A3N06, duration: 60, section: 'Resultados', special: null },
-    { id: 27, title: 'Directo BFR vs FEniCSx — métricas', component: A3N23, duration: 75, section: 'Resultados', special: null },
-    { id: 28, title: 'Evolución del error BFR vs FEniCSx', component: A3N24, duration: 60, section: 'Resultados', special: null },
-    { id: 29, title: 'En el pozo: H y C', component: A3N25, duration: 60, section: 'Resultados', special: null },
-    { id: 30, title: 'Carga hidráulica H(t)', component: A3N26, duration: 60, section: 'Resultados', special: null },
-    { id: 31, title: 'Velocidad de Darcy |u|(t)', component: A3N27, duration: 60, section: 'Resultados', special: null },
-    { id: 32, title: 'Concentración C(t)', component: A3N28, duration: 75, section: 'Resultados', special: null },
-    { id: 33, title: 'Adjunto ψ_C', component: A3N29, duration: 75, section: 'Resultados', special: null },
-    { id: 34, title: 'Adjunto ψ_h', component: A3N30, duration: 75, section: 'Resultados', special: null },
-    { id: 35, title: 'Control óptimo con la configuración de nitrato', component: A3N33, duration: 90, section: 'Resultados', special: null },
-    { id: 36, title: 'Verificaciones adicionales', component: A3N21, duration: 60, section: 'Cierre', special: null },
-    { id: 37, title: 'Conclusiones y próximos pasos', component: A3N22, duration: 75, section: 'Cierre', special: null },
+    { id: 20, title: 'Variante: malla con conos de pluma y pozo', component: A3N34, duration: 60, section: 'Discreto', special: null },
+    { id: 21, title: 'Adjunto discreto exacto por variante', component: A3N15, duration: 90, section: 'Discreto', special: null },
+    { id: 22, title: 'Adjunto discreto del flujo y regla de la cadena RBF-FD', component: A3N16, duration: 90, section: 'Discreto', special: null },
+    { id: 23, title: 'Algoritmos de optimización', component: A3N17, duration: 75, section: 'Discreto', special: null },
+    { id: 24, title: 'Verificación del gradiente adjunto', component: A3N05, duration: 75, section: 'Verificación', special: null },
+    { id: 25, title: 'Banco 1D independiente', component: A3N18, duration: 75, section: 'Verificación', special: null },
+    { id: 26, title: 'Verificaciones V1–V6', component: A3N19, duration: 75, section: 'Verificación', special: null },
+    { id: 27, title: 'Configuración de las corridas', component: A3N06, duration: 60, section: 'Resultados', special: null },
+    { id: 28, title: 'Directo BFR vs FEniCSx — métricas', component: A3N23, duration: 75, section: 'Resultados', special: null },
+    { id: 29, title: 'Evolución del error BFR vs FEniCSx', component: A3N24, duration: 60, section: 'Resultados', special: null },
+    { id: 30, title: 'En el pozo: H y C', component: A3N25, duration: 60, section: 'Resultados', special: null },
+    { id: 31, title: 'Carga hidráulica H(t)', component: A3N26, duration: 60, section: 'Resultados', special: null },
+    { id: 32, title: 'Velocidad de Darcy |u|(t)', component: A3N27, duration: 60, section: 'Resultados', special: null },
+    { id: 33, title: 'Concentración C(t)', component: A3N28, duration: 75, section: 'Resultados', special: null },
+    { id: 34, title: 'Adjunto ψ_C', component: A3N29, duration: 75, section: 'Resultados', special: null },
+    { id: 35, title: 'Adjunto ψ_h', component: A3N30, duration: 75, section: 'Resultados', special: null },
+    { id: 36, title: 'Control óptimo con la configuración de nitrato', component: A3N33, duration: 90, section: 'Resultados', special: null },
+    { id: 37, title: 'Verificaciones adicionales', component: A3N21, duration: 60, section: 'Cierre', special: null },
+    { id: 38, title: 'Conclusiones y próximos pasos', component: A3N22, duration: 75, section: 'Cierre', special: null },
 ];
 
 export default avance3Slides;

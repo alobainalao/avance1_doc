@@ -7,20 +7,20 @@ import { INFO, PANORAMA, FRONTERA, VENTANAS, CONOS } from './mallaCompartida.js'
 // La malla de la comparación BFR vs FEniCSx (data/input/malla_compartida/malla.pkl), dibujada como malla.png:
 // triangulación completa, frontera por grupos y ventanas del pozo y de dos esquinas con los nodos fantasma.
 const miles = (n) => n.toLocaleString('en-US').replace(/,/g, '\u2009');
-const COL = { inlet: '#0F7A85', outlet: '#2E7D4F', wall: '#C4511F' };
-const ETQ = { inlet: 'entrada', outlet: 'salida Γout', wall: 'paredes' };
+export const COL = { inlet: '#0F7A85', outlet: '#2E7D4F', wall: '#C4511F' };
+export const ETQ = { inlet: 'entrada', outlet: 'salida Γout', wall: 'paredes' };
 
-const segs = (a) => {
+export const segs = (a) => {
     let d = '';
     for (let i = 0; i < a.length; i += 4) d += `M${a[i]} ${a[i + 1]}L${a[i + 2]} ${a[i + 3]}`;
     return d;
 };
-const puntos = (a, r, c, k) => {
+export const puntos = (a, r, c, k) => {
     const out = [];
     for (let i = 0; i < a.length; i += 2) out.push(<circle key={`${k}${i}`} cx={a[i]} cy={a[i + 1]} r={r} fill={c} />);
     return out;
 };
-const cruces = (a, r) => {
+export const cruces = (a, r) => {
     let d = '';
     for (let i = 0; i < a.length; i += 2) d += `M${a[i] - r} ${a[i + 1] - r}L${a[i] + r} ${a[i + 1] + r}M${a[i] - r} ${a[i + 1] + r}L${a[i] + r} ${a[i + 1] - r}`;
     return d;
