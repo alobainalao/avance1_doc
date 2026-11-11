@@ -8,12 +8,13 @@ const hechos = [
     'Gradiente adjunto verificado: FEniCSx (3 modelos, 10⁻¹⁰–10⁻⁷) y BFR exacto (10⁻⁵–10⁻⁷, cierre libre).',
     'Mismo modelo, malla refinada, fuente y decaimiento en los dos backends; directo BFR–FEniCSx: C 5 %, |u| 15 %, masa 0.1 % (3 modelos).',
     'Banco 1D independiente: el adjunto continuo, con su fuente de almacenamiento, converge O(h).',
+    'Óptimo ADR (nitrato, malla compartida): cubre la demanda, pozo a −200 m, C captada ≈ 27 mg/L < 50 mg/L.',
 ];
 const siguientes = [
     ['Dic 26', 'Verificar el gradiente en configuración tipo main (pluma en el pozo)'],
     ['Dic 26', 'Cerrar almacenamiento (S_s), C de entrada, núcleos del pozo y forma final del funcional'],
-    ['Ene 27', 'Optimización con el modelo nuevo (nitrato, J normalizado) en ambos backends'],
-    ['Ene 27', 'Tesis y artículo con el modelo sin sumidero'],
+    ['Ene 27', 'Optimización MRMT y barrido de γ (frente de Pareto) desde un punto admisible'],
+    ['Ene 27', 'Revisión de la tesis y del artículo actualizados al modelo sin sumidero'],
 ];
 
 export default function A3N22({ theme = 'dark' }) {

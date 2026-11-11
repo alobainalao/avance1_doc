@@ -36,6 +36,7 @@ import { A3N29, A3N30 } from '../slides-avance3/A3N29.jsx';
 import A3N31 from '../slides-avance3/A3N31.jsx';
 import '../slides-avance3/avance3.css';
 import A3N32 from '../slides-avance3/A3N32.jsx';
+import A3N33 from '../slides-avance3/A3N33.jsx';
 
 // ── Slides del modelo anterior (con W₋ y χ(Q)): se conservan los archivos, ya no están en la secuencia ──
 // A3S03 (ecuaciones con χ), A3S04b/c (Taylor), A3S05, A3S10, A3S14, A3S15–A3S21 (resultados de optimización y videos anteriores), A3S09, A3S01
@@ -75,8 +76,9 @@ const avance3Slides = [
     { id: 32, title: 'Concentración C(t)', component: A3N28, duration: 75, section: 'Resultados', special: null },
     { id: 33, title: 'Adjunto ψ_C', component: A3N29, duration: 75, section: 'Resultados', special: null },
     { id: 34, title: 'Adjunto ψ_h', component: A3N30, duration: 75, section: 'Resultados', special: null },
-    { id: 35, title: 'Verificaciones adicionales', component: A3N21, duration: 60, section: 'Cierre', special: null },
-    { id: 36, title: 'Conclusiones y próximos pasos', component: A3N22, duration: 75, section: 'Cierre', special: null },
+    { id: 35, title: 'Control óptimo con la configuración de nitrato', component: A3N33, duration: 90, section: 'Resultados', special: null },
+    { id: 36, title: 'Verificaciones adicionales', component: A3N21, duration: 60, section: 'Cierre', special: null },
+    { id: 37, title: 'Conclusiones y próximos pasos', component: A3N22, duration: 75, section: 'Cierre', special: null },
 ];
 
 export default avance3Slides;
