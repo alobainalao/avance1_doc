@@ -40,6 +40,7 @@ const registry = [
         date: 'Enero 2027',
         slides: avance3Slides,
         deckClass: 'deck-a3',
+        canvasW: 1408,      // 10 % más ancho que el lienzo por defecto (1280)
         sections: [
             { label: 'Portada',        start: 1,  end: 1  },
             { label: 'Contexto',       start: 2,  end: 3  },

@@ -24,6 +24,7 @@ const SlideShowWrapper = () => {
             sections={presentation.sections}
             portadaDate={presentation.date}
             deckClass={presentation.deckClass}
+            canvasW={presentation.canvasW}
         />
     );
 };

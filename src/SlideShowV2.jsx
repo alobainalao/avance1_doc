@@ -13,7 +13,8 @@ const TOTAL_EXPECTED_TIME = 900000;
 const CANVAS_W = 1280;
 const CANVAS_H = 960;
 
-const SlideshowV2 = ({ slides: slidesProp, sections, portadaDate, deckClass = '' }) => {
+// canvasW: ancho del lienzo propio de un avance (registry.js); por defecto CANVAS_W.
+const SlideshowV2 = ({ slides: slidesProp, sections, portadaDate, deckClass = '', canvasW = CANVAS_W }) => {
     const navigate = useNavigate();
     const location = useLocation();
     const slides = slidesProp ?? defaultSlideConfig;
@@ -43,11 +44,11 @@ const SlideshowV2 = ({ slides: slidesProp, sections, portadaDate, deckClass = ''
         if (!el) return;
         const obs = new ResizeObserver(([entry]) => {
             const { width, height } = entry.contentRect;
-            setScale(Math.min(width / CANVAS_W, height / CANVAS_H));
+            setScale(Math.min(width / canvasW, height / CANVAS_H));
         });
         obs.observe(el);
         return () => obs.disconnect();
-    }, []);
+    }, [canvasW]);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -157,7 +158,7 @@ const SlideshowV2 = ({ slides: slidesProp, sections, portadaDate, deckClass = ''
             <div
                 className="slide-canvas"
                 style={{
-                    width: CANVAS_W,
+                    width: canvasW,
                     height: CANVAS_H,
                     transform: `scale(${scale})`,
                     transformOrigin: 'center center',
