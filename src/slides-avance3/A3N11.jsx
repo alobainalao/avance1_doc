@@ -1,8 +1,8 @@
 import React from 'react';
-import { BlockMath, InlineMath } from 'react-katex';
+import { InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import EqCard from '../layouts-v2/EqCard.jsx';
-import { Punto, Cols, Col, Eq } from './ui.jsx';
+import { Punto, Col, Eq } from './ui.jsx';
 
 const verde = '#2E7D4F';
 const eqAC = String.raw`\begin{aligned}a_C(C,v;h)=&\int_\Omega D(\mathbf u)\nabla C\!\cdot\!\nabla v+\int_\Omega(\mathbf u\!\cdot\!\nabla C)v\\&+\int_\Omega c_0Cv\;\textcolor{${verde}}{-\int_\Omega S_s\,\partial_t h\,C\,v}\end{aligned}`;
@@ -12,19 +12,19 @@ const eqL = String.raw`\begin{aligned}\mathcal L=J+\int_0^T\Bigl[&(S_s\partial_t
 export default function A3N11({ theme = 'dark' }) {
     return (
         <SlideLayout title="Forma débil del estado y Lagrangiano" theme={theme} justify="flex-start">
-            <Cols>
-                <Col flex={6}>
-                    <EqCard title="Flujo (sin flujo normal desconocido en Γout)"><Eq math={eqAh} s={0.8} /></EqCard>
-                    <EqCard title="Transporte (a_C no depende de los controles, sí de h)"><Eq math={eqAC} s={0.8} /></EqCard>
-                    <EqCard title="Lagrangiano ADR (ψ(T)=0)"><Eq math={eqL} s={0.68} /></EqCard>
-                </Col>
-                <Col flex={4}>
-                    <Punto color="#0F7A85">Cierres (A) y (D): <InlineMath math="V_h=\{v\in H^1:\,v|_{\Gamma_{\rm out}}=0\}" /> y dato de Dirichlet; cierre (B): <InlineMath math="V_h=H^1" /> con <InlineMath math="-\!\int f_{\rm out}v" /> en <InlineMath math="\ell_h" />.</Punto>
-                    <Punto color="#C4511F">El término <InlineMath math="-\!\int_{\Gamma_{\rm out}}(K\nabla h\!\cdot\!n)v" /> no está definido en <InlineMath math="H^1\times H^1" />: no se conserva.</Punto>
-                    <Punto color="#2E7D4F"><b>Lema.</b> Si <InlineMath math="\partial_y\mathcal L=0" />, <InlineMath math="d\hat J/d\theta=\partial_\theta\mathcal L" />, <InlineMath math="\theta\in\{Q,z_p\}" />.</Punto>
-                    <Punto color="#0F7A85">MRMT añade <InlineMath math="-\sum_r\lambda_r(C_{{\rm im},r},\psi_M)" /> y la ecuación inmóvil con su multiplicador.</Punto>
-                </Col>
-            </Cols>
+            <Col gap={8}>
+                <EqCard title="Flujo: V_h = {v ∈ H¹ : v = 0 en Γout}, h = h_out en Γout (dato de Dirichlet)"><Eq math={eqAh} s={0.72} /></EqCard>
+                <EqCard title="Transporte (a_C no depende de los controles, sí de h)"><Eq math={eqAC} s={0.72} /></EqCard>
+                <EqCard title="Lagrangiano ADR (ψ(T)=0)"><Eq math={eqL} s={0.66} /></EqCard>
+                <Punto color="#C4511F" size={19}>
+                    El término <InlineMath math="-\!\int_{\Gamma_{\rm out}}(K\nabla h\!\cdot\!n)v" /> no está definido en <InlineMath math="H^1\times H^1" />; con{' '}
+                    <InlineMath math="v|_{\Gamma_{\rm out}}=0" /> no aparece.
+                </Punto>
+                <Punto color="#2E7D4F" size={19}>
+                    <b>Lema.</b> Si <InlineMath math="\partial_y\mathcal L=0" />, <InlineMath math="d\hat J/d\theta=\partial_\theta\mathcal L" />, <InlineMath math="\theta\in\{Q,z_p\}" />.
+                    {' '}MRMT añade <InlineMath math="-\sum_r\lambda_r(C_{{\rm im},r},\psi_M)" /> y la ecuación inmóvil con su multiplicador.
+                </Punto>
+            </Col>
         </SlideLayout>
     );
 }
