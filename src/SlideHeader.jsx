@@ -29,9 +29,7 @@ const SlideHeader = ({ index, title, sections = DEFAULT_SECTIONS }) => {
                     );
                 })}
             </div>
-            {title && (
-                <div className="slide-header__title">{title}</div>
-            )}
+            {/* El título se muestra una sola vez, dentro del slide (SlideLayout). */}
         </div>
     );
 };
