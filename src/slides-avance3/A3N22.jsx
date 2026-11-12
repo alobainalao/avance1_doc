@@ -6,7 +6,8 @@ const hechos = [
     'Modelo sin sumidero explícito: fC se cancela y queda −S_s∂ₜh·C; adjunto y gradientes re-deducidos del Lagrangiano.',
     'Salida libre (componente normal de ∂ₙu = 0) implementada en BFR y FEniCSx; el vector completo no cierra el problema.',
     'Gradiente adjunto verificado: FEniCSx (3 modelos, 10⁻¹⁰–10⁻⁷) y BFR exacto (10⁻⁵–10⁻⁷, cierre libre).',
-    'Mismo modelo, malla refinada, fuente y decaimiento en los dos backends; directo BFR–FEniCSx: C 5 %, |u| 15 %, masa 0.1 % (3 modelos).',
+    'Mismo modelo y malla con conos en los dos backends; directo BFR–FEniCSx: C 3 %, |u| 12.5 %, masa 0.1 % (3 modelos).',
+    'Adjuntos ψ_C y ψ_h de los dos códigos en la misma región y del mismo orden; el de BFR es más sensible a la malla.',
     'Banco 1D independiente: el adjunto continuo, con su fuente de almacenamiento, converge O(h).',
 ];
 const siguientes = [
