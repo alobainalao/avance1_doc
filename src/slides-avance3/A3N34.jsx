@@ -73,7 +73,7 @@ export default function A3N34({ theme = 'dark' }) {
                 (línea de corriente de Darcy de la fuente a la salida) y en el cono vertical del pozo hasta la pluma; 30 m en la
                 frontera, también en el techo bajo la pluma; 60 m lejos.{' '}{miles(INFO.n_dominio)} nodos
                 ({extra > 0 ? '+' : '−'}{Math.abs(extra)} % frente a {miles(INFO_BASE.n_dominio)}), ángulo {INFO.ang_min}°–{INFO.ang_max}°.
-                Los resultados de esta presentación usan todavía la malla compartida.
+                La comparación BFR–FEniCSx y los grids de resultados usan esta malla.
             </Punto>
         </SlideLayout>
     );
