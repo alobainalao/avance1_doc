@@ -11,7 +11,7 @@ export default function VideoCampo({ campo, titulo, nota, theme = 'dark' }) {
             <video key={campo} autoPlay loop muted playsInline src={`${B}/videos/sin-sumidero/conos/grid3_${campo}.mp4`}
                    style={{ flex: 1, minHeight: 0, width: '100%', objectFit: 'contain' }} />
             <p style={{ margin: 0, color: 'var(--sl-muted)', fontSize: 'var(--a3-fs-nota)', fontFamily: 'var(--a3-sans)' }}>
-                Malla con conos. Filas: ADR, MRMT semi y MRMT bloque; columnas: BFR, FEniCSx y su diferencia.{nota ? ` ${nota}` : ''}
+                Malla con conos. Filas: ADR, MRMT semi, MRMT bloque; columnas: BFR, FEniCSx, diferencia.{nota ? ` ${nota}` : ''}
             </p>
         </SlideLayout>
     );
