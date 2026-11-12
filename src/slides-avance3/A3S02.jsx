@@ -19,7 +19,7 @@ const physParams = [
     ['K — Kozeny-Carman',    'Kᵧ(φ, dz=1 mm, ν) · Kₓ=4Kᵧ'],
     ['αₗ / αₜ',              '10 / 1 m'],
     ['ν — viscosidad',       '1.055×10⁻⁶ m²/s'],
-    ['Malla compartida',     '15 626 nodos (4.9 m en pozo)'],
+    ['Malla compartida',     '20 348 nodos (4 m en pozo y fuente)'],
     ['dt / T',               '5 h / 30 días'],
 ];
 
