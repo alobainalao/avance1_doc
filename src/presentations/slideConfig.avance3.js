@@ -30,7 +30,7 @@ import A3N23 from '../slides-avance3/A3N23.jsx';
 import A3N24 from '../slides-avance3/A3N24.jsx';
 import A3N25 from '../slides-avance3/A3N25.jsx';
 import { A3N26, A3N27, A3N28 } from '../slides-avance3/VideoCampo.jsx';
-import { A3N29, A3N30 } from '../slides-avance3/A3N29.jsx';
+import { A3N29, A3N30, A3N35, A3N36, A3N37 } from '../slides-avance3/A3N29.jsx';
 import '../slides-avance3/avance3.css';
 import A3N33 from '../slides-avance3/A3N33.jsx';
 import A3N34 from '../slides-avance3/A3N34.jsx';
@@ -79,10 +79,13 @@ const avance3Slides = [
     { id: 21, title: 'Verificación del gradiente adjunto', component: A3D11, duration: 60, section: 'Gradiente', special: null },
     { id: 22, title: 'Adjunto ψ_h', component: A3N30, duration: 60, section: 'Adjunto', special: null },
     { id: 23, title: 'Adjunto ψ_C', component: A3N29, duration: 60, section: 'Adjunto', special: null },
-    { id: 24, title: 'Gradiente conjugado: usar la dirección anterior', component: A3D12, duration: 75, section: 'Optimización', special: null },
-    { id: 25, title: 'Con el tanque, proyectar deja de ser trivial', component: A3D13, duration: 75, section: 'Optimización', special: null },
-    { id: 26, title: 'Óptimo: el pozo sube a −441 m y el tanque nunca se vacía', component: A3D14, duration: 90, section: 'Resultados', special: null },
-    { id: 27, title: 'Conclusiones y próximos pasos', component: A3N22, duration: 75, section: 'Resultados', special: null },
+    { id: 24, title: 'Adjunto de la región inmóvil 1 (intercambio rápido)', component: A3N35, duration: 40, section: 'Adjunto', special: null },
+    { id: 25, title: 'Adjunto de la región inmóvil 2 (intermedio)', component: A3N36, duration: 40, section: 'Adjunto', special: null },
+    { id: 26, title: 'Adjunto de la región inmóvil 3 (lento)', component: A3N37, duration: 40, section: 'Adjunto', special: null },
+    { id: 27, title: 'Gradiente conjugado: usar la dirección anterior', component: A3D12, duration: 75, section: 'Optimización', special: null },
+    { id: 28, title: 'Con el tanque, proyectar deja de ser trivial', component: A3D13, duration: 75, section: 'Optimización', special: null },
+    { id: 29, title: 'Óptimo: el pozo sube a −441 m y el tanque nunca se vacía', component: A3D14, duration: 90, section: 'Resultados', special: null },
+    { id: 30, title: 'Conclusiones y próximos pasos', component: A3N22, duration: 75, section: 'Resultados', special: null },
 
     // ── Ocultas: versión anterior de la secuencia, se conservan para reactivarlas ──
     { id: 101, title: 'Semestre 3 — agenda y estado (modelo sin sumidero)', component: A3N01, section: 'Pregunta', oculta: true },
