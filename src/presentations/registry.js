@@ -2,7 +2,7 @@
 // Para añadir un avance nuevo: importar su slideConfig y agregar una entrada con available: true.
 
 import avance2Slides from '../slideConfig';
-import avance3Slides from './slideConfig.avance3';
+import avance3Slides, { avance3Secciones } from './slideConfig.avance3';
 import { numerarEcuaciones } from '../layouts-v2/EcNum.js';
 
 const avance2Sections = [
@@ -43,17 +43,7 @@ const registry = [
         deckClass: 'deck-a3',
         canvasW: 1408,      // 10 % más ancho que el lienzo por defecto (1280)
         ecuaciones: numerarEcuaciones(avance3Slides),   // numeración dinámica (layouts-v2/EcNum.js)
-        sections: [
-            { label: 'Portada',        start: 1,  end: 1  },
-            { label: 'Contexto',       start: 2,  end: 3  },
-            { label: 'Modelo',         start: 4,  end: 7  },
-            { label: 'Optimización',   start: 8,  end: 10 },
-            { label: 'Adjunto',        start: 11, end: 14 },
-            { label: 'Discreto',       start: 15, end: 16 },
-            { label: 'Verificación',   start: 17, end: 18 },
-            { label: 'Resultados',     start: 19, end: 23 },
-            { label: 'Cierre',         start: 24, end: 24 },
-        ],
+        sections: avance3Secciones,
         available: true,
     },
     {

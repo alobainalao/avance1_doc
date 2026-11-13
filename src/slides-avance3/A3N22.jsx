@@ -3,18 +3,17 @@ import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import { Punto, Cols, Col, Titulo } from './ui.jsx';
 
 const hechos = [
-    'Modelo sin sumidero explícito: fC se cancela y queda −S_s∂ₜh·C; adjunto y gradientes re-deducidos del Lagrangiano.',
-    'Salida libre (componente normal de ∂ₙu = 0) implementada en BFR y FEniCSx; el vector completo no cierra el problema.',
-    'Gradiente adjunto verificado: FEniCSx (3 modelos, 10⁻¹⁰–10⁻⁷) y BFR exacto (10⁻⁵–10⁻⁷, cierre libre).',
-    'Mismo modelo y malla con conos en los dos backends; directo BFR–FEniCSx: C 3 %, |u| 12.5 %, masa 0.1 % (3 modelos).',
-    'Adjuntos ψ_C y ψ_h de los dos códigos en la misma región y del mismo orden; el de BFR es más sensible a la malla.',
-    'Banco 1D independiente: el adjunto continuo, con su fuente de almacenamiento, converge O(h).',
+    'Modelo coherente: sin sumidero explícito (fC se cancela), con almacenamiento −S_s∂ₜh·C y salida libre en Γ_out.',
+    'Seis implementaciones (ADR, MRMT semi y bloque × RBF-FD y elementos finitos) sobre la misma malla con conos: C 3 %, |u| 12.5 %, masa 0.12 %.',
+    'Gradiente por el método adjunto: una simulación directa y una adjunta frente a 146 por diferencias finitas.',
+    'Gradiente verificado en las seis: redondeo en elementos finitos (10⁻¹⁰–10⁻⁷); en RBF-FD el error decrece como O(ε²).',
+    'Optimización ADR (γ = 1): el pozo sube de −700 a −441 m, el bombeo respeta bomba y tanque, y Ĵ baja de 0.467 a 0.459 desde un punto no admisible.',
 ];
 const siguientes = [
-    ['Dic 26', 'Verificar el gradiente en configuración tipo main (pluma en el pozo)'],
-    ['Dic 26', 'Cerrar almacenamiento (S_s), C de entrada, núcleos del pozo y forma final del funcional'],
-    ['Ene 27', 'Optimización de los tres modelos y barrido de γ (frente de Pareto) desde un punto admisible'],
-    ['Ene 27', 'Revisión de la tesis y del artículo actualizados al modelo sin sumidero'],
+    ['Nov 26', 'Optimización de MRMT semi y bloque con γ = 1 (en curso) y comparación con ADR'],
+    ['Dic 26', 'Barrido de γ (frente de Pareto) y unicidad del óptimo desde varios arranques'],
+    ['Dic 26', 'Optimización con BFR sobre la misma malla y comparación con elementos finitos'],
+    ['Ene 27', 'Tesis y artículo con los resultados de optimización de γ = 1'],
 ];
 
 export default function A3N22({ theme = 'dark' }) {
