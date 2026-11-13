@@ -7,13 +7,13 @@ const hechos = [
     'Seis implementaciones (ADR, MRMT semi y bloque × RBF-FD y elementos finitos) sobre la misma malla con conos: C 3 %, |u| 12.5 %, masa 0.12 %.',
     'Gradiente por el método adjunto: una simulación directa y una adjunta frente a 146 por diferencias finitas.',
     'Gradiente verificado en las seis: redondeo en elementos finitos (10⁻¹⁰–10⁻⁷); en RBF-FD el error decrece como O(ε²).',
-    'Optimización ADR (γ = 1): el pozo sube de −700 a −441 m, el bombeo respeta bomba y tanque, y Ĵ baja de 0.467 a 0.459 desde un punto no admisible.',
+    'Optimización con γ = 1 en los tres modelos: el pozo sube de −700 m a −441 (ADR), −419 (MRMT semi) y −469 m (MRMT bloque), con el mismo caudal medio y respetando bomba y tanque.',
+    'Los cinco estados adjuntos (ψ_h, ψ_C y ψ_im de tres regiones) tienen la misma escala y forma en RBF-FD y en elementos finitos.',
 ];
 const siguientes = [
-    ['Nov 26', 'Optimización de MRMT semi y bloque con γ = 1 (en curso) y comparación con ADR'],
     ['Dic 26', 'Barrido de γ (frente de Pareto) y unicidad del óptimo desde varios arranques'],
     ['Dic 26', 'Optimización con BFR sobre la misma malla y comparación con elementos finitos'],
-    ['Ene 27', 'Tesis y artículo con los resultados de optimización de γ = 1'],
+    ['Dic 26', 'Tesis y artículo con los resultados de optimización de γ = 1'],
 ];
 
 export default function A3N22({ theme = 'dark' }) {

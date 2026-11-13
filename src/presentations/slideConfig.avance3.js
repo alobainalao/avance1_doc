@@ -48,6 +48,7 @@ import A3D11 from '../slides-avance3/A3D11.jsx';
 import A3D12 from '../slides-avance3/A3D12.jsx';
 import A3D13 from '../slides-avance3/A3D13.jsx';
 import A3D14 from '../slides-avance3/A3D14.jsx';
+import A3D15 from '../slides-avance3/A3D15.jsx';
 
 // ── Slides del modelo anterior (con W₋ y χ(Q)): se conservan los archivos, ya no están en la secuencia ──
 // A3S03 (ecuaciones con χ), A3S04b/c (Taylor), A3S05, A3S10, A3S14, A3S15–A3S21 (resultados de optimización y videos anteriores), A3S09, A3S01
@@ -85,7 +86,8 @@ const avance3Slides = [
     { id: 27, title: 'Gradiente conjugado: usar la dirección anterior', component: A3D12, duration: 75, section: 'Optimización', special: null },
     { id: 28, title: 'Con el tanque, proyectar deja de ser trivial', component: A3D13, duration: 75, section: 'Optimización', special: null },
     { id: 29, title: 'Óptimo: el pozo sube a −441 m y el tanque nunca se vacía', component: A3D14, duration: 90, section: 'Resultados', special: null },
-    { id: 30, title: 'Conclusiones y próximos pasos', component: A3N22, duration: 75, section: 'Resultados', special: null },
+    { id: 30, title: 'Óptimo por modelo: ADR, MRMT semi y MRMT bloque', component: A3D15, duration: 75, section: 'Resultados', special: null },
+    { id: 31, title: 'Conclusiones y próximos pasos', component: A3N22, duration: 75, section: 'Resultados', special: null },
 
     // ── Ocultas: versión anterior de la secuencia, se conservan para reactivarlas ──
     { id: 101, title: 'Semestre 3 — agenda y estado (modelo sin sumidero)', component: A3N01, section: 'Pregunta', oculta: true },
