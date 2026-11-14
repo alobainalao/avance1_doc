@@ -13,7 +13,7 @@ const pasos = [
     ['Barrera', 'las desigualdades pasan a holguras s > 0 penalizadas con −μ log s; μ → 0'],
     ['Modelo cuadrático', 'gradiente adjunto + Hessiana BFGS armada con gradientes sucesivos'],
     ['Región de confianza', 'el paso se busca en ‖p‖ ≤ Δ; Δ crece o se reduce según la predicción'],
-    ['Multiplicadores', 'se actualizan en cada iteración; al final cumplen KKT'],
+    ['Paro', 'cuando la medida de criticidad χ < 10⁻⁴ (siguiente lámina)'],
 ];
 
 export default function A3D13({ theme = 'dark' }) {
