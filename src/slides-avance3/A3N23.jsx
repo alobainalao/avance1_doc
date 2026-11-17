@@ -25,7 +25,7 @@ export default function A3N23({ theme = 'dark' }) {
                     Rango de H del FEM: {f(r0.H_rango_fem_m)} m; ΔH rms del ADR = {f(100 * r0.H_rms_final_m / r0.H_rango_fem_m, 2)} % del rango.
                 </Punto>
                 <Punto color="#C4511F" size={21}>
-                    Quedan diferencias de discretización (RBF-FD frente a elementos finitos) y de núcleo del pozo (Wendland en BFR); no se han separado.
+                    Quedan diferencias de discretización (RBF-FD frente a elementos finitos). Estos valores se calcularon con el núcleo de Wendland en BFR; ahora los dos usan el mismo núcleo gaussiano del pozo.
                 </Punto>
             </div>
         </SlideLayout>
