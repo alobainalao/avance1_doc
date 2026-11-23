@@ -4,9 +4,15 @@ import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import { useProgreso, tramo, suave, lerp } from './anim.js';
 import { OPT } from './optimoNitrato.js';
 
-// Resultado de la optimización (FEniCSx, malla con conos, γ = 1). J y z_p por evaluación, tal como las registró el
+// Resultado de la optimización (FEniCSx, malla con conos y eje de 1 m, γ = 1). J y z_p por evaluación, tal como las registró el
 // optimizador; las barras de Q pasan del control inicial al óptimo (no son iteraciones intermedias).
 const AGUA = '#0F7A85', PLUMA = '#C4511F', GRIS = '#6E7F8D';
+
+// 5.3e-3 → «5.3·10⁻³»
+const cientifico = v => {
+    const [m, e] = v.toExponential(1).split('e');
+    return `${m}·10${[...e.replace('+', '')].map(c => '⁻⁰¹²³⁴⁵⁶⁷⁸⁹'['-0123456789'.indexOf(c)]).join('')}`;
+};
 
 function Serie({ y, f, color, W = 400, H = 210, etiqueta, fmt, lo, hi }) {
     const n = y.length, k = Math.max(1, Math.round(f * (n - 1)));
@@ -63,6 +69,10 @@ export default function A3D14({ theme = 'dark' }) {
                             </tbody>
                         </table>
                         <p style={nota}>Inicio: <InlineMath math="Q_n=0.1" />, <InlineMath math="z_p=-700" /> m, que no es admisible (vacía el tanque): el óptimo baja Ĵ y además cumple todas las restricciones.</p>
+                        <p style={nota}>
+                            Elementos finitos, malla con eje de 1 m. Iteración {o.nit}: <InlineMath math="z_p" /> no se mueve más de 0.2 m en
+                            las últimas 20 iteraciones; <InlineMath math="\chi" /> = {o.chi ? cientifico(o.chi) : '—'} (meta 10⁻⁴), el caudal aún se afina.
+                        </p>
                     </div>
                 </div>
                 <p style={{ ...tit, marginTop: 14 }}>

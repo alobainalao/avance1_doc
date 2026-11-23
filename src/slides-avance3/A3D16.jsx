@@ -102,14 +102,14 @@ export default function A3D16({ theme = 'dark' }) {
                     <Esquema p={p} />
                 </div>
                 <div>
-                    <p style={tit}><InlineMath math="\hat J" /> entre donde paró MRMT bloque y el óptimo semi</p>
+                    <p style={tit}><InlineMath math="\hat J" /> entre donde paró MRMT bloque y el óptimo semi (primera corrida)</p>
                     <Segmento p={p} />
                     <p style={nota}>
                         El segmento es admisible porque <InlineMath math="\mathcal U_{ad}" /> es convexo, y <InlineMath math="\hat J" /> baja
                         en todo él: el punto donde paró no era estacionario. El criterio por defecto estima los multiplicadores
                         por mínimos cuadrados, sin signo; con 73 variables y más de 200 filas de restricción, el gradiente
                         del Lagrangiano se anula también fuera del óptimo. χ no tiene ese problema y solo pide resolver un
-                        problema cuadrático pequeño, sin simulaciones.
+                        problema cuadrático pequeño, sin simulaciones. (Malla con conos, antes de refinar el eje del pozo.)
                     </p>
                 </div>
             </div>

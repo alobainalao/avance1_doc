@@ -4,10 +4,16 @@ import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import { useProgreso, tramo, suave, lerp } from './anim.js';
 import { OPT } from './optimoNitrato.js';
 
-// Óptimo de los tres modelos de transporte (FEniCSx, malla con conos, γ = 1), todos desde Q_n = 0.1, z_p = −700 m.
-// Izquierda: los tres pozos suben de z_p⁰ a su óptimo; centro: Ĵ por evaluación; derecha: términos del funcional.
+// Óptimo de los tres modelos de transporte (FEniCSx, malla con conos y eje de 1 m, γ = 1), todos desde Q_n = 0.1,
+// z_p = −700 m. Izquierda: los tres pozos suben de z_p⁰ a donde paró el optimizador; centro: evaluación cruzada (Ĵ de
+// cada modelo en el punto de cada corrida, experimentos/evaluar_optimos.py); derecha: términos del funcional.
 const COLOR = { adr: '#C4511F', mrmt_semi: '#0F7A85', mrmt_block: '#5B4B8A' };
-const GRIS = '#6E7F8D';
+const GRIS = '#6E7F8D', VALIDO = '#2E7D4F';
+
+// Bloque paró antes de su óptimo: su Ĵ es menor en el punto de semi (evaluación cruzada) y semi y bloque dan el mismo Ĵ
+// a 4·10⁻⁴ en cualquier punto. ADR también mejora con el caudal de semi, pero su z_p lo confirma el barrido de Ĵ(z_p).
+const PARO_ANTES = ['mrmt_block'];
+const paroAntes = m => PARO_ANTES.includes(m.id);
 
 function Pozos({ f }) {
     const W = 380, H = 430, z0 = -150, z1 = -760;
@@ -27,10 +33,11 @@ function Pozos({ f }) {
                 return (
                     <g key={m.id}>
                         <line x1={x} x2={x} y1={sy(z0)} y2={sy(z)} stroke={COLOR[m.id]} strokeWidth="5" />
-                        <circle cx={x} cy={sy(z)} r="8" fill={COLOR[m.id]} />
+                        <circle cx={x} cy={sy(z)} r="8" fill={paroAntes(m) ? 'var(--sl-bg, #fff)' : COLOR[m.id]} stroke={COLOR[m.id]} strokeWidth="3" />
                         <text x={x + 13} y={sy(z) + 5} style={{ ...eje, fontSize: 16, fill: COLOR[m.id], opacity: tramo(f, 0.9, 1) }}>
                             {Math.round(m.zp).toString().replace('-', '−')}
                         </text>
+                        {paroAntes(m) && <text x={x + 13} y={sy(z) + 24} style={{ ...eje, fontSize: 13, fill: COLOR[m.id], opacity: tramo(f, 0.9, 1) }}>paró antes</text>}
                         <text x={x} y={H - 6} textAnchor="middle" style={{ ...eje, fontSize: 15, fill: COLOR[m.id] }}>{m.nombre}</text>
                     </g>
                 );
@@ -39,30 +46,33 @@ function Pozos({ f }) {
     );
 }
 
-function Historias({ f }) {
-    const W = 440, H = 430, ms = OPT.modelos;
-    const nmax = Math.max(...ms.map(m => m.historia.J.length));
-    const todos = ms.flatMap(m => m.historia.J);
-    // escala log: las evaluaciones de prueba de la búsqueda lineal llegan a Ĵ ≈ 3.4
-    const a = Math.log10(Math.min(...todos)), b = Math.log10(Math.max(...todos));
-    const sx = i => 52 + i / (nmax - 1) * (W - 62), sy = v => 20 + (b - Math.log10(v)) / (b - a) * (H - 70);
-    const marcas = [0.5, 1, 2, 3].filter(v => Math.log10(v) >= a - 0.01 && Math.log10(v) <= b + 0.01);
+// Ĵ del modelo de la fila en el punto donde paró la corrida de la columna; en verde el menor de cada fila
+function Cruce({ f }) {
+    const ms = OPT.modelos;
+    const J = (fila, x) => (fila === x ? ms.find(m => m.id === fila).J.J : (OPT.cruce.find(c => c.modelo === fila && c.x_de === x) || {}).J);
     return (
-        <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%' }}>
-            {marcas.map(v => (
-                <g key={v}><line x1={52} x2={W - 10} y1={sy(v)} y2={sy(v)} stroke={GRIS} strokeOpacity="0.2" />
-                    <text x={46} y={sy(v) + 5} textAnchor="end" style={eje}>{v}</text></g>
-            ))}
-            {ms.map(m => {
-                const k = Math.max(1, Math.round(f * (m.historia.J.length - 1)));
-                return <polyline key={m.id} points={m.historia.J.slice(0, k + 1).map((v, i) => `${sx(i)},${sy(v)}`).join(' ')}
-                                 fill="none" stroke={COLOR[m.id]} strokeWidth="2.4" />;
-            })}
-            <text x={52} y={H - 22} style={eje}>evaluación del funcional</text>
-            {ms.map((m, i) => (
-                <text key={m.id} x={52 + i * 125} y={H - 2} style={{ ...eje, fill: COLOR[m.id] }}>— {m.nombre}</text>
-            ))}
-        </svg>
+        <table style={{ width: '100%', borderCollapse: 'collapse', fontVariantNumeric: 'tabular-nums', borderTop: '2px solid var(--sl-text)', borderBottom: '2px solid var(--sl-text)' }}>
+            <thead>
+                <tr><th style={th}>modelo \ punto de</th>
+                    {ms.map(m => <th key={m.id} style={{ ...th, textAlign: 'right', color: COLOR[m.id] }}>{m.nombre}<br />{Math.round(m.zp).toString().replace('-', '−')} m</th>)}</tr>
+            </thead>
+            <tbody>
+                {ms.map((fila, i) => {
+                    const vals = ms.map(x => J(fila.id, x.id)), min = Math.min(...vals.filter(v => v !== undefined));
+                    return (
+                        <tr key={fila.id} style={{ borderTop: '1px solid var(--a3-filete, #C9D3DB)', opacity: 0.25 + 0.75 * tramo(f, 0.2 + 0.2 * i, 0.4 + 0.2 * i) }}>
+                            <td style={{ ...td, color: COLOR[fila.id] }}>{fila.nombre}</td>
+                            {vals.map((v, k) => (
+                                <td key={k} style={{ ...td, textAlign: 'right', color: v === min ? VALIDO : 'var(--sl-text)', fontWeight: v === min ? 700 : 400,
+                                                     outline: k === i ? '1.5px dashed var(--sl-muted)' : 'none', outlineOffset: -4 }}>
+                                    {v === undefined ? '—' : v.toFixed(4)}
+                                </td>
+                            ))}
+                        </tr>
+                    );
+                })}
+            </tbody>
+        </table>
     );
 }
 
@@ -87,8 +97,13 @@ export default function A3D15({ theme = 'dark' }) {
                     <Pozos f={f} />
                 </div>
                 <div>
-                    <p style={tit}>Funcional <InlineMath math="\hat J" /> (escala log)</p>
-                    <Historias f={f} />
+                    <p style={tit}>Evaluación cruzada de <InlineMath math="\hat J" /></p>
+                    <Cruce f={f} />
+                    <p style={nota}>
+                        Cada fila evalúa un modelo en el punto donde paró cada corrida (en verde, el menor; punteado, el propio).
+                        El punto de semi es el mejor en las tres filas. Semi y bloque difieren menos de 4·10⁻⁴ en cualquier punto:
+                        son el mismo modelo, así que bloque paró antes de su óptimo (≈ −405 m). En ADR el caudal aún se afina.
+                    </p>
                 </div>
                 <div>
                     <p style={tit}>Términos en el óptimo</p>
@@ -115,10 +130,8 @@ export default function A3D15({ theme = 'dark' }) {
                         </tbody>
                     </table>
                     <p style={nota}>
-                        Los tres óptimos quedan entre −470 y −420 m, por encima de los 300 m pedidos, con el mismo caudal medio
-                        (<InlineMath math="\bar Q\approx 0.136" /> m²/s). El pozo semi queda más arriba y extrae agua con más nitrato
-                        (<InlineMath math="\gamma J_m" /> mayor); el de bloque queda más hondo. En bloque, Ĵ termina por encima del valor inicial porque el
-                        arranque no es admisible.
+                        Mismo caudal medio (<InlineMath math="\bar Q\approx 0.136" /> m²/s) y el tanque nunca se vacía. MRMT pide un pozo
+                        más hondo que ADR (siguiente lámina). Todos bajan Ĵ respecto al arranque (0.467), que además no es admisible.
                     </p>
                 </div>
             </div>

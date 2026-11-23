@@ -50,46 +50,54 @@ import A3D13 from '../slides-avance3/A3D13.jsx';
 import A3D14 from '../slides-avance3/A3D14.jsx';
 import A3D15 from '../slides-avance3/A3D15.jsx';
 import A3D16 from '../slides-avance3/A3D16.jsx';
+import A3D17 from '../slides-avance3/A3D17.jsx';
+import A3D18 from '../slides-avance3/A3D18.jsx';
+import A3D19 from '../slides-avance3/A3D19.jsx';
+import A3D20 from '../slides-avance3/A3D20.jsx';
 
 // ── Slides del modelo anterior (con W₋ y χ(Q)): se conservan los archivos, ya no están en la secuencia ──
 // A3S03 (ecuaciones con χ), A3S04b/c (Taylor), A3S05, A3S10, A3S14, A3S15–A3S21 (resultados de optimización y videos anteriores), A3S09, A3S01
 
-// Narrativa (nov 2026): pregunta → modelo coherente → seis implementaciones → problema de control → gradiente por el
-// adjunto → solución del adjunto → optimizador → resultados. Las slides anteriores que la narrativa no usa quedan
-// con `oculta: true` al final.
+// Narrativa (nov 2026): pregunta y objetivos → modelo coherente → seis implementaciones → problema de control → gradiente
+// por el adjunto → solución del adjunto → optimizador → resultados (malla con eje de 1 m) → avance del documento. Las
+// slides anteriores que la narrativa no usa quedan con `oculta: true` al final.
 const avance3Slides = [
     { id: 1, title: null, component: null, duration: 45, section: 'Portada', special: null },
     { id: 2, title: 'La pregunta', component: A3D01, duration: 60, section: 'Pregunta', special: null },
-    { id: 3, title: 'Dominio físico y parámetros', component: A3S02, duration: 60, section: 'Modelo', special: null },
-    { id: 4, title: 'Modelo sin sumidero explícito: se cancela fC', component: A3N02, duration: 90, section: 'Modelo', special: null },
-    { id: 5, title: 'Modelo MRMT: regiones móvil e inmóviles', component: A3N07, duration: 60, section: 'Modelo', special: null },
-    { id: 6, title: 'Condiciones de frontera', component: A3N09, duration: 45, section: 'Modelo', special: null },
-    { id: 7, title: 'Salida libre: h_out avanza solo, paso a paso', component: A3N03, duration: 75, section: 'Modelo', special: null },
-    { id: 8, title: 'Del modelo anterior al modelo nuevo', component: A3D02, duration: 75, section: 'Modelo', special: null },
-    { id: 9, title: 'Seis implementaciones del mismo problema', component: A3D03, duration: 75, section: 'Implementación', special: null },
-    { id: 10, title: 'Malla con conos: refinada en la pluma y sobre el pozo', component: A3N34, duration: 60, section: 'Implementación', special: null },
-    { id: 11, title: 'Carga hidráulica H(t)', component: A3N26, duration: 45, section: 'Implementación', special: null },
-    { id: 12, title: 'Velocidad de Darcy |u|(t)', component: A3N27, duration: 45, section: 'Implementación', special: null },
-    { id: 13, title: 'Concentración C(t)', component: A3N28, duration: 60, section: 'Implementación', special: null },
-    { id: 14, title: 'El problema de control óptimo', component: A3D04, duration: 90, section: 'Control', special: null },
-    { id: 15, title: 'Conjunto admisible: bomba, pozo y tanque', component: A3D05, duration: 75, section: 'Control', special: null },
-    { id: 16, title: 'Demanda, bomba y tanque', component: A3D06, duration: 75, section: 'Control', special: null },
-    { id: 17, title: 'El gradiente: ¿por qué no diferencias finitas?', component: A3D07, duration: 75, section: 'Gradiente', special: null },
-    { id: 18, title: 'Método adjunto: el Lagrangiano en cinco pasos', component: A3D08, duration: 90, section: 'Gradiente', special: null },
-    { id: 19, title: 'El sistema adjunto se resuelve hacia atrás', component: A3D09, duration: 90, section: 'Gradiente', special: null },
-    { id: 20, title: 'Del adjunto al gradiente', component: A3D10, duration: 75, section: 'Gradiente', special: null },
-    { id: 21, title: 'Verificación del gradiente adjunto', component: A3D11, duration: 60, section: 'Gradiente', special: null },
-    { id: 22, title: 'Adjunto ψ_h', component: A3N30, duration: 60, section: 'Adjunto', special: null },
-    { id: 23, title: 'Adjunto ψ_C', component: A3N29, duration: 60, section: 'Adjunto', special: null },
-    { id: 24, title: 'Adjunto de la región inmóvil 1 (intercambio rápido)', component: A3N35, duration: 40, section: 'Adjunto', special: null },
-    { id: 25, title: 'Adjunto de la región inmóvil 2 (intermedio)', component: A3N36, duration: 40, section: 'Adjunto', special: null },
-    { id: 26, title: 'Adjunto de la región inmóvil 3 (lento)', component: A3N37, duration: 40, section: 'Adjunto', special: null },
-    { id: 27, title: 'Gradiente conjugado: usar la dirección anterior', component: A3D12, duration: 75, section: 'Optimización', special: null },
-    { id: 28, title: 'Con el tanque, proyectar deja de ser trivial', component: A3D13, duration: 75, section: 'Optimización', special: null },
-    { id: 29, title: '¿Cuándo parar? La medida de criticidad', component: A3D16, duration: 75, section: 'Optimización', special: null },
-    { id: 30, title: 'Óptimo: el pozo sube a −441 m y el tanque nunca se vacía', component: A3D14, duration: 90, section: 'Resultados', special: null },
-    { id: 31, title: 'Óptimo por modelo: ADR, MRMT semi y MRMT bloque', component: A3D15, duration: 75, section: 'Resultados', special: null },
-    { id: 32, title: 'Conclusiones y próximos pasos', component: A3N22, duration: 75, section: 'Resultados', special: null },
+    { id: 3, title: 'Objetivos del semestre y su estado', component: A3D17, duration: 60, section: 'Pregunta', special: null },
+    { id: 4, title: 'Dominio físico y parámetros', component: A3S02, duration: 60, section: 'Modelo', special: null },
+    { id: 5, title: 'Modelo sin sumidero explícito: se cancela fC', component: A3N02, duration: 90, section: 'Modelo', special: null },
+    { id: 6, title: 'Modelo MRMT: regiones móvil e inmóviles', component: A3N07, duration: 60, section: 'Modelo', special: null },
+    { id: 7, title: 'Condiciones de frontera', component: A3N09, duration: 45, section: 'Modelo', special: null },
+    { id: 8, title: 'Salida libre: h_out avanza solo, paso a paso', component: A3N03, duration: 75, section: 'Modelo', special: null },
+    { id: 9, title: 'Del modelo anterior al modelo nuevo', component: A3D02, duration: 75, section: 'Modelo', special: null },
+    { id: 10, title: 'Seis implementaciones del mismo problema', component: A3D03, duration: 75, section: 'Implementación', special: null },
+    { id: 11, title: 'Malla con conos: refinada en la pluma y sobre el pozo', component: A3N34, duration: 60, section: 'Implementación', special: null },
+    { id: 12, title: 'Carga hidráulica H(t)', component: A3N26, duration: 45, section: 'Implementación', special: null },
+    { id: 13, title: 'Velocidad de Darcy |u|(t)', component: A3N27, duration: 45, section: 'Implementación', special: null },
+    { id: 14, title: 'Concentración C(t)', component: A3N28, duration: 60, section: 'Implementación', special: null },
+    { id: 15, title: 'El problema de control óptimo', component: A3D04, duration: 90, section: 'Control', special: null },
+    { id: 16, title: 'Conjunto admisible: bomba, pozo y tanque', component: A3D05, duration: 75, section: 'Control', special: null },
+    { id: 17, title: 'Demanda, bomba y tanque', component: A3D06, duration: 75, section: 'Control', special: null },
+    { id: 18, title: 'El gradiente: ¿por qué no diferencias finitas?', component: A3D07, duration: 75, section: 'Gradiente', special: null },
+    { id: 19, title: 'Método adjunto: el Lagrangiano en cinco pasos', component: A3D08, duration: 90, section: 'Gradiente', special: null },
+    { id: 20, title: 'El sistema adjunto se resuelve hacia atrás', component: A3D09, duration: 90, section: 'Gradiente', special: null },
+    { id: 21, title: 'Del adjunto al gradiente', component: A3D10, duration: 75, section: 'Gradiente', special: null },
+    { id: 22, title: 'Verificación del gradiente adjunto', component: A3D11, duration: 60, section: 'Gradiente', special: null },
+    { id: 23, title: 'Adjunto ψ_h', component: A3N30, duration: 60, section: 'Adjunto', special: null },
+    { id: 24, title: 'Adjunto ψ_C', component: A3N29, duration: 60, section: 'Adjunto', special: null },
+    { id: 25, title: 'Adjunto de la región inmóvil 1 (intercambio rápido)', component: A3N35, duration: 40, section: 'Adjunto', special: null },
+    { id: 26, title: 'Adjunto de la región inmóvil 2 (intermedio)', component: A3N36, duration: 40, section: 'Adjunto', special: null },
+    { id: 27, title: 'Adjunto de la región inmóvil 3 (lento)', component: A3N37, duration: 40, section: 'Adjunto', special: null },
+    { id: 28, title: 'Gradiente conjugado: usar la dirección anterior', component: A3D12, duration: 75, section: 'Optimización', special: null },
+    { id: 29, title: 'Con el tanque, proyectar deja de ser trivial', component: A3D13, duration: 75, section: 'Optimización', special: null },
+    { id: 30, title: '¿Cuándo parar? La medida de criticidad', component: A3D16, duration: 75, section: 'Optimización', special: null },
+    { id: 31, title: 'Antes de leer el óptimo: Ĵ(zₚ) ondulaba con la malla', component: A3D18, duration: 75, section: 'Resultados', special: null },
+    { id: 32, title: 'Óptimo: el pozo sube a −383 m y el bombeo sigue la demanda', component: A3D14, duration: 90, section: 'Resultados', special: null },
+    { id: 33, title: 'Óptimo por modelo: ADR, MRMT semi y MRMT bloque', component: A3D15, duration: 75, section: 'Resultados', special: null },
+    { id: 34, title: '¿Por qué MRMT pide un pozo más hondo?', component: A3D19, duration: 75, section: 'Resultados', special: null },
+    { id: 35, title: 'Avance del documento de tesis y del artículo', component: A3D20, duration: 60, section: 'Avance', special: null },
+    { id: 36, title: 'Conclusiones y próximos pasos', component: A3N22, duration: 75, section: 'Avance', special: null },
 
     // ── Ocultas: versión anterior de la secuencia, se conservan para reactivarlas ──
     { id: 101, title: 'Semestre 3 — agenda y estado (modelo sin sumidero)', component: A3N01, section: 'Pregunta', oculta: true },
