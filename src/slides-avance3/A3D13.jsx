@@ -12,7 +12,8 @@ const eqBarrera = String.raw`\min_{\mathbf u,\ \mathbf s>0}\ \hat J(\mathbf u)-\
 
 const pasos = [
     ['Barrera', <>cada desigualdad <InlineMath math="c_i(\mathbf u)\ge0" /> se escribe <InlineMath math="c_i(\mathbf u)=s_i" /> con
-        holgura <InlineMath math="s_i>0" />; el término <InlineMath math="-\mu\log s_i" /> impide tocar la frontera, y <InlineMath math="\mu\to0" /> lleva al óptimo</>],
+        holgura <InlineMath math="s_i>0" />; <InlineMath math="-\mu\log s_i" /> mantiene positivas las holguras y{' '}
+        <InlineMath math="\mu\to0" /> lleva al óptimo. Los iterados pueden violar las restricciones mientras no converge</>],
     ['Modelo cuadrático', <>cerca del iterado, <InlineMath math="\hat J" /> se aproxima con el gradiente adjunto y una Hessiana BFGS
         armada con los gradientes de las iteraciones anteriores</>],
     ['Región de confianza', <>el paso <InlineMath math="\mathbf p" /> se busca solo donde el modelo es fiable,{' '}

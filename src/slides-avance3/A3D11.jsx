@@ -84,7 +84,7 @@ export default function A3D11({ theme = 'dark' }) {
             </svg>
             <div style={{ display: 'flex', gap: 34, fontFamily: 'var(--a3-sans)', fontSize: 'var(--a3-fs-nota)', color: 'var(--sl-muted)', margin: '2px 0 0' }}>
                 <span>○ η = 10⁻²</span><span>● η = 3·10⁻³</span>
-                <span>cada par unido es una dirección: Q uniforme, Q aleatoria, (Q, z<sub>p</sub>) aleatoria, −∇Ĵ (en ADR con RBF-FD solo η = 10⁻²)</span>
+                <span>cada par unido es una dirección: Q uniforme, Q aleatoria, (Q, z<sub>p</sub>) aleatoria, −∇Ĵ (en ADR solo η = 10⁻²)</span>
             </div>
             <p style={{ ...txt, marginTop: 10 }}>
                 En RBF-FD el error baja 11 veces al pasar de <InlineMath math="\eta=10^{-2}" /> a <InlineMath math="3\cdot10^{-3}" />:
