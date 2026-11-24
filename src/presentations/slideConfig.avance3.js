@@ -39,6 +39,7 @@ import { referenciasLamina, tituloReferencias, N_LAMINAS } from '../slides-avanc
 import A3D22 from '../slides-avance3/A3D22.jsx';
 import A3D23 from '../slides-avance3/A3D23.jsx';
 import A3D24 from '../slides-avance3/A3D24.jsx';
+import A3D25 from '../slides-avance3/A3D25.jsx';
 import A3D02 from '../slides-avance3/A3D02.jsx';
 import A3D03 from '../slides-avance3/A3D03.jsx';
 import A3D04 from '../slides-avance3/A3D04.jsx';
@@ -98,10 +99,11 @@ const avance3Slides = [
     { id: 30, title: '¿Cuándo parar? La medida de criticidad', component: A3D16, duration: 75, section: 'Optimización', special: null },
     { id: 30.5, title: 'Configuración de las corridas', component: A3D22, duration: 60, section: 'Resultados', special: null },
     { id: 31, title: 'Antes de leer el resultado: Ĵ(zₚ) ondulaba con la malla', component: A3D18, duration: 75, section: 'Resultados', special: null },
+    { id: 31.5, title: 'Validación con casos triviales', component: A3D25, duration: 75, section: 'Resultados', special: null },
     { id: 32, title: 'Mejor iterado (preliminar): el pozo sube a −383 m', component: A3D14, duration: 90, section: 'Resultados', special: null },
     { id: 33, title: 'Mejor iterado por modelo (preliminar): ADR, MRMT semi y bloque', component: A3D15, duration: 75, section: 'Resultados', special: null },
     { id: 34, title: '¿Por qué MRMT pide un pozo más hondo?', component: A3D19, duration: 75, section: 'Resultados', special: null },
-    { id: 34.2, title: 'Calidad frente a costo: hacia el frente de Pareto', component: A3D24, duration: 75, section: 'Resultados', special: null },
+    { id: 34.2, title: '¿Qué es un frente de Pareto?', component: A3D24, duration: 75, section: 'Resultados', special: null },
     { id: 34.5, title: 'Supuestos y limitaciones', component: A3D23, duration: 60, section: 'Resultados', special: null },
     { id: 35, title: 'Avance del documento de tesis y del artículo', component: A3D20, duration: 60, section: 'Avance', special: null },
     { id: 36, title: 'Conclusiones y próximos pasos', component: A3N22, duration: 75, section: 'Avance', special: null },
