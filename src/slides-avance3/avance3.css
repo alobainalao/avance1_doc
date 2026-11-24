@@ -15,6 +15,7 @@
     --a3-agua:    #0F7A85;
     --a3-pluma:   #C4511F;
     --a3-valido:  #2E7D4F;
+    --a3-riego:   #A8740F;
     --a3-estrato: #6E7F8D;
     --a3-papel:   #FAFBFC;
     --a3-filete:  #C9D3DB;
@@ -58,6 +59,7 @@
     --a3-agua:        #5CC4CC;
     --a3-pluma:       #EE8B5E;
     --a3-valido:      #63C08A;
+    --a3-riego:       #E0B54A;
     --a3-estrato:     #95A7B6;
 }
 /* KaTeX escribe \textcolor como estilo en línea: en oscuro se aclaran los tres colores de la paleta. */

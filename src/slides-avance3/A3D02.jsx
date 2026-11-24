@@ -17,12 +17,15 @@ const cambios = [
       ahora: String.raw`\partial_n(\mathbf u\!\cdot\!\mathbf n)=0`, ahoraTxt: 'salida libre: la misma ecuación de borde en ambos' },
 ];
 
-// Discrepancia relativa RBF-FD vs FEM al final (t = 30 d), en %.
+// Discrepancia relativa RBF-FD vs FEM al final (t = 30 d), en %, en el caso con fuente y pozo (Q_std = 0.3, ADR).
+// Antes: A3_fuente_pozo (codigo/archivo/resultados_json/codigo/experimentos/resumen.csv); ahora: M0_adr
+// (codigo/data/output/experimentos/resumen.csv).
 const barras = [
-    { nombre: '|u|  velocidad', antes: 72, ahora: 12.5 },
-    { nombre: 'C  concentración', antes: 19, ahora: 3.0 },
-    { nombre: 'masa de soluto (ADR)', antes: 15, ahora: 0.02 },
+    { nombre: '|u|  velocidad', antes: 13.0, ahora: 12.5 },
+    { nombre: 'C  concentración', antes: 24.5, ahora: 3.0 },
+    { nombre: 'masa de soluto', antes: 1.8, ahora: 0.02 },
 ];
+const ESCALA = 25;
 
 export default function A3D02({ theme = 'dark' }) {
     const [p] = useProgreso(3600, 500);
@@ -62,8 +65,8 @@ export default function A3D02({ theme = 'dark' }) {
                         <div key={b.nombre} style={{ display: 'grid', gridTemplateColumns: '230px 1fr 110px', alignItems: 'center', gap: 16, margin: '8px 0' }}>
                             <span style={{ fontSize: 'var(--a3-fs-cuerpo)', color: 'var(--sl-text)' }}>{b.nombre}</span>
                             <div style={{ position: 'relative', height: 26 }}>
-                                <div style={{ position: 'absolute', inset: 0, width: `${b.antes / 72 * 100}%`, border: '1px dashed var(--a3-pluma)', opacity: 0.6 }} />
-                                <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, width: `${v / 72 * 100}%`,
+                                <div style={{ position: 'absolute', inset: 0, width: `${b.antes / ESCALA * 100}%`, border: '1px dashed var(--a3-pluma)', opacity: 0.6 }} />
+                                <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, width: `${v / ESCALA * 100}%`,
                                               background: q < 1 ? 'var(--a3-pluma)' : 'var(--a3-valido)' }} />
                             </div>
                             <span style={{ fontSize: 'var(--a3-fs-seccion)', textAlign: 'right', color: 'var(--sl-text)', fontVariantNumeric: 'tabular-nums' }}>
@@ -73,8 +76,9 @@ export default function A3D02({ theme = 'dark' }) {
                     );
                 })}
                 <p style={{ ...nota, marginTop: 10 }}>
-                    Antes: condición de salida distinta en cada método. Ahora: salida libre en ambos, sobre la malla con conos
-                    (20 348 nodos) compartida.
+                    Mismo caso, ADR con fuente y pozo. Antes: condición de salida distinta en cada método, malla común anterior
+                    (15 626 nodos). Ahora: salida libre en ambos, malla con conos (20 348 nodos). La diferencia en |u| se concentra
+                    junto al pozo y casi no cambia.
                 </p>
             </div>
         </SlideLayout>

@@ -36,6 +36,7 @@ function Dilema() {
             <polyline points={xs.map(l => `${sx(l)},${sy(err(l))}`).join(' ')} fill="none" stroke="var(--a3-pluma)" strokeWidth="3" />
             <text x={W / 2} y={H - 8} textAnchor="middle" style={eje}>log δ</text>
             <text x={L + 6} y={22} style={eje}>log error</text>
+            <text x={W - 14} y={22} textAnchor="end" style={eje}>esquema</text>
             <text x={sx(-7.2)} y={sy(err(-7.2)) - 10} style={eje}>redondeo</text>
             <text x={sx(-1.8) - 10} y={sy(err(-1.8)) - 6} textAnchor="end" style={eje}>truncamiento</text>
         </svg>

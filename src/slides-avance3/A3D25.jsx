@@ -5,7 +5,7 @@ import { OPT } from './optimoNitrato.js';
 
 // Validación con casos triviales (ADR): lo que la intuición predice y lo que da el optimizador con EDP y adjunto
 // (OPT.validaciones: experimentos/validacion_esperada.py y optimizacion_<variante>_<caso>/), más el pozo muy hondo del
-// barrido de z_p (OPT.pareto). Mientras una corrida no termina se muestra su último iterado aceptado.
+// barrido de z_p (OPT.pareto). Mientras una corrida no termina se muestra su último iterado aceptado, si ya es admisible.
 const AGUA = 'var(--a3-agua)', PLUMA = 'var(--a3-pluma)', VALIDO = 'var(--a3-valido)', GRIS = 'var(--a3-estrato)';
 const M = (t) => <InlineMath math={t} />;
 const V = OPT.validaciones || {};
@@ -47,10 +47,13 @@ function Tarjeta({ titulo, caso, intuicion, children, estado }) {
 }
 
 const fmtZ = z => `${String(Math.round(z)).replace('-', '−')} m`;
+// iterado que ya se puede comparar: el final, o uno en curso que cumple las restricciones
+const admisible = o => o && (o.estado === 'final' || (o.violacion ?? 1) < 1e-6);
+const Pendiente = ({ o }) => <p style={nota}>Optimizador en la iteración {o.nit}: su iterado aún no cumple las restricciones del tanque.</p>;
 
 export default function A3D25({ theme = 'dark' }) {
     const sn = V.sin_nitrato || {}, sd = V.sin_demanda || {};
-    const e1 = sn.esperado, o1 = sn.optimizador, o2 = sd.optimizador;
+    const e1 = sn.esperado, o1 = admisible(sn.optimizador) ? sn.optimizador : null, o2 = admisible(sd.optimizador) ? sd.optimizador : null;
     const ok1 = e1 && o1 && o1.estado === 'final' ? Math.abs(o1.zp - e1.zp) < 5 && Math.abs(o1.J - e1.J) / e1.J < 0.01 : null;
     const qmax2 = o2 ? Math.max(...o2.Q) : null;
     const ok2 = o2 && o2.estado === 'final' ? qmax2 < 1e-3 : null;
@@ -68,6 +71,7 @@ export default function A3D25({ theme = 'dark' }) {
                              ({M('z_p=z_{\\max}=-200')} m) y bombea lo mínimo que cubre la demanda.</>}
                          estado={<Estado ok={ok1} texto={ok1 === true ? 'coincide' : ok1 === false ? 'no coincide' : 'corrida en curso'} />}>
                     {e1 && <p style={txt}>Exacto (problema cuadrático, sin EDP): {M(`z_p=${e1.zp.toFixed(0)}`)} m, {M(`\\hat J=${e1.J.toFixed(3)}`)}</p>}
+                    {!o1 && sn.optimizador && <Pendiente o={sn.optimizador} />}
                     {o1 && <p style={txt}>Optimizador (it. {o1.nit}): {M(`z_p=${o1.zp.toFixed(0)}`)} m, {M(`\\hat J=${o1.J.toFixed(3)}`)}</p>}
                     <Barras series={[{ Q: e1 && e1.Q, c: GRIS }, { Q: o1 && o1.Q, c: AGUA }]} />
                     <p style={nota}><span style={{ color: GRIS }}>■</span> exacto <span style={{ color: AGUA }}>■</span> optimizador; {M('Q_n')} en 30 días</p>
@@ -76,11 +80,12 @@ export default function A3D25({ theme = 'dark' }) {
                          intuicion={<>No hace falta agua: bombear solo cuesta, así que {M('Q_n=0')} y el tanque se queda en{' '}
                              {M('S_0=500')} m³. La profundidad equilibra instalación y calidad.</>}
                          estado={<Estado ok={ok2} texto={ok2 === true ? 'coincide' : ok2 === false ? 'no coincide' : 'corrida en curso'} />}>
+                    {!o2 && sd.optimizador && <Pendiente o={sd.optimizador} />}
                     {o2 && <p style={txt}>Optimizador (it. {o2.nit}): {M(`\\max_n Q_n=${qmax2.toFixed(4)}`)}, {M(`z_p=`)} {fmtZ(o2.zp)}</p>}
                     {o2 && <p style={txt}>Tanque entre {Math.min(...o2.S).toFixed(0)} y {Math.max(...o2.S).toFixed(0)} m³</p>}
                     <Barras series={[{ Q: o2 && o2.Q, c: AGUA }]} />
                 </Tarjeta>
-                <Tarjeta titulo="Pozo muy hondo" caso="Mismo caudal, z_p cada vez más profundo (barrido)"
+                <Tarjeta titulo="Pozo muy hondo" caso={<>Mismo caudal, {M('z_p')} cada vez más profundo (barrido)</>}
                          intuicion={<>La pluma está cerca de la superficie: un pozo muy hondo no la ve y{' '}
                              {M('J_m\\to0')}, mientras el costo sigue subiendo.</>}
                          estado={<Estado ok={hondo ? hondo.filter(o => o.z <= -1000).every(o => o.q < 1e-4) : null}
@@ -90,7 +95,7 @@ export default function A3D25({ theme = 'dark' }) {
                             <tbody>
                                 {hondo.filter((o, i) => i % 2 === 0 || o.z <= -1000).map(o => (
                                     <tr key={o.z}><td style={{ ...td, color: 'var(--sl-muted)' }}>{fmtZ(o.z)}</td>
-                                        <td style={{ ...td, textAlign: 'right' }}>{M(`J_m=${o.q < 1e-4 ? '0' : o.q.toFixed(3)}`)}</td></tr>
+                                        <td style={{ ...td, textAlign: 'right' }}>{M(o.q < 1e-4 ? 'J_m<10^{-4}' : `J_m=${o.q.toFixed(3)}`)}</td></tr>
                                 ))}
                             </tbody>
                         </table>
