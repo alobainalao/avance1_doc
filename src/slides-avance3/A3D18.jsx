@@ -65,15 +65,17 @@ export default function A3D18({ theme = 'dark' }) {
                     <div style={{ ...caja, borderColor: PLUMA, opacity: 0.3 + 0.7 * tramo(p, 0.3, 0.45) }}>
                         <p style={{ ...cab, color: PLUMA }}>Síntoma</p>
                         <p style={txt}>
-                            La primera optimización paró en profundidades distintas para modelos casi iguales
-                            (−441, −436 y −469 m) con <InlineMath math="\partial\hat J/\partial z_p\approx 0" />.
+                            En la malla con conos, las corridas detenidas por el tope de evaluaciones terminaron en −441 m (ADR), −436 m
+                            (MRMT semi) y −469 m (MRMT bloque) con <InlineMath math="\partial\hat J/\partial z_p\approx 0" />: semi y bloque, dos
+                            esquemas del mismo modelo, diferían 33 m.
                         </p>
                     </div>
                     <div style={{ ...caja, borderColor: GRIS, opacity: 0.3 + 0.7 * tramo(p, 0.4, 0.55) }}>
                         <p style={{ ...cab, color: GRIS }}>Causa</p>
                         <p style={txt}>
-                            El núcleo del pozo (<InlineMath math="\varepsilon=r_{\rm pozo}/3\approx 6.7" /> m) se muestrea con nodos
-                            separados <InlineMath math="h\approx 4.9" /> m: <InlineMath math="\hat J" /> ondula con periodo ≈ h y
+                            El núcleo del pozo (<InlineMath math="\varepsilon=r_{\rm pozo}/3\approx 6.7" /> m, con radio{' '}
+                            <InlineMath math="r_{\rm pozo}=20" /> m) se muestrea con nodos separados <InlineMath math="h\approx 4.9" /> m (4 m
+                            nominal): <InlineMath math="\hat J" /> ondula con periodo ≈ h y
                             amplitud ≈ 3·10⁻⁴, del orden de su pendiente (≈ 2·10⁻⁴ por metro). Cada valle es un mínimo local
                             espurio.
                         </p>

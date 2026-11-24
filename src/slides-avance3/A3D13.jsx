@@ -8,10 +8,10 @@ import { Eq } from './ui.jsx';
 const eqCaja = String.raw`P(\mathbf v)_n=\min\{\overline Q_n,\ \max\{0,\ v_n\}\}`;
 const eqTanque = String.raw`\begin{aligned}P_{\mathcal U_{ad}}(\mathbf v)&=\arg\min_{\mathbf w}\ \|\mathbf w-\mathbf v\|^2\\
 \text{s.a.}\quad 0&\le S_n(\mathbf w)\le S_{\max},\quad n=1,\dots,72\end{aligned}`;
-const eqBarrera = String.raw`\min_{\mathbf u,\ \mathbf s>0}\ \hat J(\mathbf u)-\mu\sum_i\log s_i\quad\text{s.a.}\quad \mathbf c(\mathbf u)-\mathbf s=0`;
+const eqBarrera = String.raw`\min_{u,\ \mathbf s>0}\ \hat J(u)-\mu\sum_i\log s_i\quad\text{s.a.}\quad \mathbf c(u)-\mathbf s=0`;
 
 const pasos = [
-    ['Barrera', <>cada desigualdad <InlineMath math="c_i(\mathbf u)\ge0" /> se escribe <InlineMath math="c_i(\mathbf u)=s_i" /> con
+    ['Barrera', <>cada desigualdad <InlineMath math="c_i(u)\ge0" /> se escribe <InlineMath math="c_i(u)=s_i" /> con
         holgura <InlineMath math="s_i>0" />; <InlineMath math="-\mu\log s_i" /> mantiene positivas las holguras y{' '}
         <InlineMath math="\mu\to0" /> lleva al óptimo. Los iterados pueden violar las restricciones mientras no converge</>],
     ['Modelo cuadrático', <>cerca del iterado, <InlineMath math="\hat J" /> se aproxima con el gradiente adjunto y una Hessiana BFGS
@@ -44,7 +44,7 @@ export default function A3D13({ theme = 'dark' }) {
             </p>
             <Eq math={eqBarrera} id="barrera" compacta />
             <p style={{ ...eti, margin: '-4px 0 0', textAlign: 'center' }}>
-                <InlineMath math="\mathbf c(\mathbf u)\ge0" />: todas las restricciones del conjunto admisible (cotas de{' '}
+                <InlineMath math="\mathbf c(u)\ge0" />: todas las restricciones del conjunto admisible (cotas de{' '}
                 <InlineMath math="Q_n" /> y <InlineMath math="z_p" />, tanque y ciclo de la bomba), que entran en cada subproblema
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24, marginTop: 12 }}>

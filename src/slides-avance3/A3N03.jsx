@@ -20,11 +20,11 @@ M=\Bigl(\tfrac{S_s}{\Delta t}I-\theta L\Bigr)^{-1}\Bigl(\tfrac{S_s}{\Delta t}I+(
 export default function A3N03({ theme = 'dark' }) {
     const v = MODELOS.length ? MODELOS[0].resumen.V_L2_rel_final : null;
     return (
-        <SlideLayout title="Salida libre: h_out avanza solo, paso a paso" theme={theme} justify="flex-start">
+        <SlideLayout title="Salida libre: la carga de salida avanza sola, paso a paso" theme={theme} justify="flex-start">
             <EqCard title="Formulación: componente normal de ∂ₙu = 0 en Γout (cierre adoptado)"><Eq math={eqForm} id='salida-libre' /></EqCard>
             <EqCard title="Discretización espacial: 3 puntos a lo largo de Γout"><Eq math={eqEsp} id='salida-espacial' /></EqCard>
             <EqCard title="Discretización temporal: esquema θ (el mismo θ del flujo)"><Eq math={eqTmp} id='salida-temporal' /></EqCard>
-            <EqCard title="Resultado: h_out en el paso n+1 es función de h_out en el paso n"><Eq math={eqMapa} id='salida-mapa' /></EqCard>
+            <EqCard title="Resultado: la carga de salida en el paso n+1 es función de la del paso n"><Eq math={eqMapa} id='salida-mapa' /></EqCard>
             <Col gap={8}>
                 <Punto color={azul} size={19}>
                     <InlineMath math="M" /> solo depende de la geometría de <InlineMath math={String.raw`\Gamma_{\rm out}`} />{' '}

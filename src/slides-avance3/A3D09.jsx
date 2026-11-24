@@ -10,7 +10,7 @@ const eqC = String.raw`-\phi R\,\partial_t\psi_C-\nabla\!\cdot(\mathbf D\nabla\p
 const eqIm = String.raw`\phi_{\mathrm{im},r}R\,\partial_t\psi_{\mathrm{im},r}=\lambda_r\,(\psi_{\mathrm{im},r}-\psi_C),\qquad r=1,2,3`;
 const eqH = String.raw`-S_s\,\partial_t\psi_h-\nabla\!\cdot(\mathbf K\nabla\psi_h)=-\nabla\!\cdot(\mathbf K\,\mathbf b)-S_s\,\partial_t(C_m\psi_C),
 \qquad \mathbf b=\psi_C\nabla C_m+\mathbf d`;
-const eqBC = String.raw`\begin{aligned}&\boldsymbol\psi(\cdot,T)=0,\qquad (\mathbf D\nabla\psi_C+\mathbf u\,\psi_C)\cdot\mathbf n=0\ \text{en}\ \partial\Omega,\\
+const eqBC = String.raw`\begin{aligned}&\psi(\cdot,T)=0,\qquad (\mathbf D\nabla\psi_C+\mathbf u\,\psi_C)\cdot\mathbf n=0\ \text{en}\ \partial\Omega,\\
 &\psi_h=0\ \text{en}\ \Gamma_{\rm out},\qquad (\mathbf K\nabla\psi_h-\mathbf K\mathbf b)\cdot\mathbf n=0\ \text{en}\ \Gamma_{\rm in}\cup\Gamma_{\rm wall}\end{aligned}`;
 
 const bloques = [

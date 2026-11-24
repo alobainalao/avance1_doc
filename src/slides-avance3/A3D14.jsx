@@ -4,8 +4,9 @@ import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import { useProgreso, tramo, suave, lerp } from './anim.js';
 import { OPT } from './optimoNitrato.js';
 
-// Resultado de la optimización (FEniCSx, malla con conos y eje de 1 m, γ = 1). J y z_p por evaluación, tal como las registró el
-// optimizador; las barras de Q pasan del control inicial al óptimo (no son iteraciones intermedias).
+// Resultado preliminar de la optimización (FEniCSx, malla con conos y eje de 1 m, γ = 1; χ aún sobre la meta). J y z_p por
+// evaluación, tal como las registró el optimizador (incluye pasos de prueba rechazados, algunos fuera de U_ad); las barras de Q
+// pasan del control inicial al mejor iterado (no son iteraciones intermedias).
 const AGUA = '#0F7A85', PLUMA = '#C4511F', GRIS = '#6E7F8D';
 
 // 5.3e-3 → «5.3·10⁻³»
@@ -40,9 +41,11 @@ export default function A3D14({ theme = 'dark' }) {
     const W = 1260, H = 210, n = o.Q.length, bw = (W - 70) / n;
     const sy = q => 12 + (1 - q / 0.22) * (H - 40);
     const J0 = o.J0, Jf = o.J;
-    const filas = [['nitrato captado', String.raw`\gamma J_m`, 'J1'], ['instalación', String.raw`\alpha J_{\rm inst}`, 'J2'], ['bombeo', String.raw`\beta J_{\rm op}`, 'J3'], ['total', String.raw`\hat J`, 'J']];
+    const ult = o.historia.zp.slice(-20), mov = Math.max(...ult) - Math.min(...ult);
+    const zfuera = Math.max(...o.historia.zp), Jmin = Math.min(...o.historia.J);
+    const filas = [['calidad del agua', String.raw`\gamma J_m`, 'J1'], ['instalación', String.raw`\alpha J_{\rm inst}`, 'J2'], ['bombeo', String.raw`\beta J_{\rm op}`, 'J3'], ['total', String.raw`\hat J`, 'J']];
     return (
-        <SlideLayout title={`Óptimo: el pozo sube a ${o.zp.toFixed(0)} m y el bombeo sigue la demanda`} theme={theme} justify="flex-start">
+        <SlideLayout title={`Mejor iterado (preliminar): el pozo sube a ${o.zp.toFixed(0)} m y el bombeo sigue la demanda`} theme={theme} justify="flex-start">
             <div onClick={repetir} title="clic para repetir" style={{ cursor: 'pointer' }}>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1.05fr', gap: 28, alignItems: 'start' }}>
                     <div>
@@ -57,7 +60,7 @@ export default function A3D14({ theme = 'dark' }) {
                         <p style={tit}>Términos del funcional</p>
                         <table style={{ width: '100%', borderCollapse: 'collapse', fontVariantNumeric: 'tabular-nums', borderTop: '2px solid var(--sl-text)', borderBottom: '2px solid var(--sl-text)' }}>
                             <thead><tr style={{ borderBottom: '1px solid var(--sl-muted)' }}>
-                                <th style={th}></th><th style={{ ...th, textAlign: 'right' }}>inicio</th><th style={{ ...th, textAlign: 'right' }}>óptimo</th></tr></thead>
+                                <th style={th}></th><th style={{ ...th, textAlign: 'right' }}>inicio</th><th style={{ ...th, textAlign: 'right' }}>mejor iterado</th></tr></thead>
                             <tbody>
                                 {filas.map(([nm, m, k]) => (
                                     <tr key={k} style={{ fontWeight: k === 'J' ? 700 : 400 }}>
@@ -68,16 +71,22 @@ export default function A3D14({ theme = 'dark' }) {
                                 ))}
                             </tbody>
                         </table>
-                        <p style={nota}>Inicio: <InlineMath math="Q_n=0.1" />, <InlineMath math="z_p=-700" /> m, que no es admisible (vacía el tanque): el óptimo baja Ĵ y además cumple todas las restricciones.</p>
+                        <p style={nota}>Inicio: <InlineMath math="Q_n=0.1" />, <InlineMath math="z_p=-700" /> m, que no es admisible (vacía el
+                            tanque); el mejor iterado cumple todas las restricciones. Subir el pozo cambia instalación por nitrato:{' '}
+                            <InlineMath math="\alpha J_{\rm inst}" /> baja y <InlineMath math="\gamma J_m" /> sube; con{' '}
+                            <InlineMath math="\gamma=\alpha=\beta=1" /> domina el costo, y el balance depende de los pesos (Pareto, pendiente).</p>
                         <p style={nota}>
-                            Elementos finitos, malla con eje de 1 m. Iteración {o.nit}: <InlineMath math="z_p" /> no se mueve más de 0.2 m en
-                            las últimas 20 iteraciones; <InlineMath math="\chi" /> = {o.chi ? cientifico(o.chi) : '—'} (meta 10⁻⁴), el caudal aún se afina.
+                            Iteración {o.nit}: en las últimas 20 evaluaciones <InlineMath math="z_p" /> varía {mov.toFixed(1)} m;{' '}
+                            <InlineMath math="\chi" /> = {o.chi ? cientifico(o.chi) : '—'} (meta 10⁻⁴), el caudal aún se afina. Las curvas incluyen pasos de
+                            prueba rechazados, algunos fuera de <InlineMath math="\mathcal U_{ad}" /> (<InlineMath math="z_p" /> hasta{' '}
+                            {zfuera.toFixed(0)} m, <InlineMath math="\hat J" /> = {Jmin.toFixed(3)}): trust-constr solo exige las restricciones al
+                            converger.
                         </p>
                     </div>
                 </div>
                 <p style={{ ...tit, marginTop: 14 }}>
                     Caudal <InlineMath math="Q_n" /> [m²/s] en los 72 intervalos: <span style={{ color: GRIS }}>inicial</span> →{' '}
-                    <span style={{ color: AGUA }}>óptimo</span>, con la cota <span style={{ color: PLUMA }}><InlineMath math="Q_{\max}a(\tau)" /></span>
+                    <span style={{ color: AGUA }}>mejor iterado</span>, con la cota <span style={{ color: PLUMA }}><InlineMath math="Q_{\max}a(\tau)" /></span>
                 </p>
                 <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%' }}>
                     {[0, 0.1, 0.2].map(v => <g key={v}><line x1={60} x2={W - 10} y1={sy(v)} y2={sy(v)} stroke={GRIS} strokeOpacity="0.2" />
@@ -87,7 +96,7 @@ export default function A3D14({ theme = 'dark' }) {
                         const v = lerp(OPT.Q0[k], q, f);
                         return <rect key={k} x={60 + k * bw + 1.5} width={bw - 3} y={sy(v)} height={sy(0) - sy(v)} fill={f < 1 ? GRIS : AGUA} opacity={0.35 + 0.5 * f} />;
                     })}
-                    {[0, 10, 20, 30].map(d => <text key={d} x={60 + d / 30 * (W - 70)} y={H - 6} textAnchor="middle" style={eje}>{d} d</text>)}
+                    {[0, 10, 20, 30].map(d => <text key={d} x={60 + d / 30 * (W - 70)} y={H - 6} textAnchor={d === 30 ? 'end' : 'middle'} style={eje}>{d} d</text>)}
                 </svg>
             </div>
         </SlideLayout>

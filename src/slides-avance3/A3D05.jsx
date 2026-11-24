@@ -6,10 +6,10 @@ import { Eq } from './ui.jsx';
 // Conjunto admisible (tesis, Cap. III: eq:cota_Q, eq:cota_zp, eq:demanda_variable, eq:balance_tanque,
 // eq:cota_tanque, eq:duty_cycle, eq:Uad). Valores de config/nitrato_vscale_malla_g1.json.
 const bloques = [
-    { t: 'Caudal: disponibilidad horaria de la bomba', m: String.raw`0\le Q_n\le \overline Q_n:=Q_{\max}\,a(\tau_n),\qquad Q(t)=Q_n\ \text{en}\ (t_n,t_{n+1}]`, id: 'cota-Q' },
+    { t: 'Caudal: disponibilidad horaria de la bomba', m: String.raw`0\le Q_n\le \overline Q_n:=Q_{\max}\,a(\tau_n),\qquad Q(t)=Q_n\ \text{en}\ (t_{n-1},t_n],\ \ n=1,\dots,72`, id: 'cota-Q' },
     { t: 'Profundidad del pozo', m: String.raw`z_{\min}\le z_p\le z_{\max}<z_0`, id: 'cota-zp' },
-    { t: 'Tanque: balance y capacidad', m: String.raw`S_n=S_0+V_s\,\Delta t\sum_{k=0}^{n}Q_k-\sum_{k=0}^{n}d_k,\qquad 0\le S_n\le S_{\max}`, id: 'tanque' },
-    { t: 'Ciclo de la bomba (ventana deslizante)', m: String.raw`\sum_{k=n}^{n+W-1}Q_k\le f_d\,Q_{\max}\,W,\qquad f_d=\frac{T_{\rm on}}{T_{\rm on}+T_{\rm off}}`, id: 'ciclo' },
+    { t: 'Tanque: balance y capacidad', m: String.raw`S_n=S_0+V_s\,\Delta t\sum_{k=1}^{n}Q_k-\sum_{k=1}^{n}d_k,\qquad 0\le S_n\le S_{\max}`, id: 'tanque' },
+    { t: 'Ciclo de la bomba (ventana deslizante)', m: String.raw`\sum_{k=n}^{n+N_w-1}Q_k\le f_d\,Q_{\max}\,N_w,\qquad f_d=\frac{T_{\rm on}}{T_{\rm on}+T_{\rm off}}`, id: 'ciclo' },
 ];
 
 const valores = [
@@ -30,7 +30,13 @@ export default function A3D05({ theme = 'dark' }) {
             <p style={{ margin: '10px 0 6px', fontSize: 'var(--a3-fs-cuerpo)', color: 'var(--sl-text)', lineHeight: 1.4 }}>
                 Todas las restricciones son lineales en <InlineMath math="(Q_1,\dots,Q_{72},z_p)" />: <InlineMath math="\mathcal U_{ad}" /> es un
                 poliedro convexo y compacto. El tanque acopla todos los pasos de tiempo: cada <InlineMath math="S_n" /> depende de{' '}
-                <InlineMath math="Q_0,\dots,Q_n" />.
+                <InlineMath math="Q_1,\dots,Q_n" />.
+            </p>
+            <p style={{ margin: '0 0 8px', fontFamily: 'var(--a3-sans)', fontSize: 'var(--a3-fs-nota)', color: 'var(--sl-muted)', lineHeight: 1.4 }}>
+                <InlineMath math="a(\tau_n)\in[0,1]" />: disponibilidad de la bomba a la hora del día <InlineMath math="\tau_n" />;{' '}
+                <InlineMath math="V_s" />: factor que convierte el caudal del corte (por metro de ancho) en volumen del tanque;{' '}
+                <InlineMath math="d_n" />: demanda del intervalo <InlineMath math="n" /> [m³]; <InlineMath math="N_w" />: pasos de la ventana del
+                ciclo; <InlineMath math="z_0" />: cota de referencia de la superficie.
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px 30px', borderTop: '1px solid var(--a3-filete)', paddingTop: 10 }}>
                 {valores.map(([k, v]) => (

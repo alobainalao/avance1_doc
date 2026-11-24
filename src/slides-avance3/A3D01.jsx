@@ -377,7 +377,7 @@ export default function A3D01({ theme = 'dark', entrada = 1 }) {
                         <BlockMath math={PREGUNTA} />
                         <div className="a3-ec--compacta"><BlockMath math={SUJETO} /></div>
                         <p style={{ margin: '2px 0 0', fontFamily: 'var(--a3-sans)', fontSize: 'var(--a3-fs-nota)', color: 'var(--sl-muted)' }}>
-                            <InlineMath math="J_m" />: nitrato captado · <InlineMath math="J_{\rm inst}" />: profundidad de instalación ·{' '}
+                            <InlineMath math="J_m" />: calidad del agua extraída · <InlineMath math="J_{\rm inst}" />: profundidad de instalación ·{' '}
                             <InlineMath math="J_{\rm op}" />: costo de bombeo · tanque <InlineMath math="S_n=S_0+V_s\Delta t\sum Q_k-\sum d_k" />
                         </p>
                     </div>

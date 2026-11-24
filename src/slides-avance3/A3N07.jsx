@@ -18,18 +18,19 @@ export default function A3N07({ theme = 'dark' }) {
                 <EqCard title="Sistema MRMT (misma cancelación de fC sobre la ecuación móvil)"><Eq math={eqMRMT} id='mrmt' /></EqCard>
                 <Punto size={19}>El intercambio no contiene <InlineMath math="\mathbf u" /> ni <InlineMath math="f" />; la ecuación inmóvil es una EDO en cada punto y conserva la masa total.</Punto>
                 <Punto color="#C4511F" size={19}>
-                    Con <InlineMath math="N_r=0" /> se recupera ADR <b>con <InlineMath math="\lambda_d=0" /></b>: el decaimiento{' '}
-                    <InlineMath math="\lambda_d\phi R C" /> pertenece solo al ADR (decisión tomada; en ambos backends).
-                    Tres variantes: ADR, MRMT semi-analítico y MRMT por bloque (Schur).
+                    Sin regiones inmóviles (<InlineMath math="N_r=0" />) se recupera ADR. El decaimiento{' '}
+                    <InlineMath math="\lambda_d\phi R C" /> solo se incluye en ADR; en MRMT <InlineMath math="\lambda_d=0" />.
+                    Tres variantes: ADR, MRMT semianalítico y MRMT por bloques (complemento de Schur).
                 </Punto>
                 <Titulo style={{ marginTop: 6 }}>Parámetros</Titulo>
                 <Punto color="#0F7A85" size={19}>
-                    <InlineMath math="\nu_r=\lambda_r/(\phi_{{\rm im},r}R)" /> [1/s]: frecuencia de relajación; código: <InlineMath math="D_{{\rm eff},r}/(R\,\eta_r L^2)" />.
-                    {' '}<InlineMath math="\eta_r=\phi_{{\rm im},r}/\phi" />: razón de capacidades (<code>beta</code>).
+                    <InlineMath math="\nu_r=\lambda_r/(\phi_{{\rm im},r}R)" /> [1/s]: frecuencia de relajación; tiempo de relajación{' '}
+                    <InlineMath math="\tau_r=1/\nu_r" />, de 4 a 14 h en las tres regiones.
+                    {' '}<InlineMath math="\eta_r=\phi_{{\rm im},r}/\phi" />: razón de capacidades, <InlineMath math="\sum_r\eta_r=0.3" />.
                 </Punto>
                 <Punto color="#0F7A85" size={19}>
-                    Trapezoidal: <InlineMath math="\kappa_r=\tfrac{\Delta t\,\nu_r}{2+\Delta t\,\nu_r}" />, <InlineMath math="\omega_r=\tfrac{\eta_r\nu_r}{2+\Delta t\,\nu_r}" />.
-                    {' '}Semi-analítico: <InlineMath math="e_r=e^{-\nu_r\Delta t}" />, <InlineMath math="a_r=\eta_r(1-e_r)" />.
+                    En cada paso de tiempo la ecuación inmóvil se integra con el trapecio (MRMT por bloques) o con la solución exacta de
+                    la EDO lineal (MRMT semianalítico); detalles en el Cap. II.
                 </Punto>
             </Col>
         </SlideLayout>

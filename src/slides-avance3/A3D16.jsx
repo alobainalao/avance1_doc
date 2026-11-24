@@ -102,16 +102,16 @@ function Segmento({ p }) {
     );
 }
 
-const eqChi = String.raw`\chi(\mathbf u_k)=\big\|\,\mathbf u_k-P_{\mathcal U_{ad}}\big(\mathbf u_k-\nabla\hat J(\mathbf u_k)\big)\big\|_\infty,
-\qquad \text{se para cuando}\ \ \chi(\mathbf u_k)<10^{-4}`;
-const eqKKT = String.raw`\chi(\hat{\mathbf u})=0\iff\nabla\hat J(\hat{\mathbf u})\cdot(\mathbf u-\hat{\mathbf u})\ge 0\quad\forall\,\mathbf u\in\mathcal U_{ad}`;
+const eqChi = String.raw`\chi(u_k)=\big\|\,u_k-P_{\mathcal U_{ad}}\big(u_k-\nabla\hat J(u_k)\big)\big\|_\infty,
+\qquad \text{se para cuando}\ \ \chi(u_k)<10^{-4}`;
+const eqKKT = String.raw`\chi(\hat u)=0\iff\nabla\hat J(\hat u)\cdot(u-\hat u)\ge 0\quad\forall\,u\in\mathcal U_{ad}`;
 
 export default function A3D16({ theme = 'dark' }) {
     const [p, repetir] = useProgreso(9000, 400);
     return (
         <SlideLayout title="¿Cuándo parar? La medida de criticidad" theme={theme} justify="flex-start">
             <p style={{ ...tit, margin: 0 }}>
-                Desde el iterado <InlineMath math="\mathbf u_k" /> se da un paso de gradiente y se proyecta de vuelta al conjunto
+                Desde el iterado <InlineMath math="u_k" /> se da un paso de gradiente y se proyecta de vuelta al conjunto
                 admisible; <InlineMath math="\chi" /> mide cuánto se movió el punto:
             </p>
             <Eq math={eqChi} id="criticidad" compacta />
@@ -125,7 +125,7 @@ export default function A3D16({ theme = 'dark' }) {
                         profundidad pesen igual en <InlineMath math="\|\cdot\|_\infty" />.</p>
                 </div>
                 <div>
-                    <p style={tit}>¿Por qué no el criterio por defecto de scipy? Primera corrida, modelo MRMT bloque</p>
+                    <p style={tit}>¿Por qué no el criterio por defecto de scipy? Corrida que paró por ese criterio (malla con conos), MRMT bloque</p>
                     <Segmento p={p} />
                     <p style={nota}>
                         Ĵ de MRMT bloque sobre el segmento entre el punto donde scipy lo detuvo y el punto de MRMT semi. El segmento es

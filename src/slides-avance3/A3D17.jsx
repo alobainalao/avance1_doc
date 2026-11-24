@@ -8,7 +8,7 @@ const general = 'Resolver el problema de control óptimo del pozo (caudal y prof
 const objetivos = [
     { t: 'Modelo de flujo y transporte coherente (ADR y MRMT): sin sumidero explícito, con almacenamiento y salida libre', e: 'ok' },
     { t: 'Dos discretizaciones (RBF-FD y elementos finitos) sobre la misma malla y su comparación cuantitativa', e: 'ok' },
-    { t: 'Sistema adjunto continuo y discreto; gradiente verificado contra diferencias finitas en las seis variantes', e: 'ok' },
+    { t: 'Sistema adjunto continuo y discreto; gradiente verificado contra diferencias finitas en las seis variantes', e: 'ok', nota: 'en horizonte corto; el adjunto RBF-FD depende de la malla' },
     { t: 'Optimización con bomba y tanque en los tres modelos con elementos finitos', e: 'wip', nota: 'resultados preliminares; falta χ ≤ 10⁻⁴' },
     { t: 'Optimización con RBF-FD sobre la misma malla y comparación de óptimos', e: 'pen', nota: 'su adjunto aún depende de la malla' },
     { t: 'Frente de Pareto (barrido de γ)', e: 'pen' },

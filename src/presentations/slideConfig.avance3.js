@@ -36,6 +36,8 @@ import A3N33 from '../slides-avance3/A3N33.jsx';
 import A3N34 from '../slides-avance3/A3N34.jsx';
 import A3D01 from '../slides-avance3/A3D01.jsx';
 import A3D21 from '../slides-avance3/A3D21.jsx';
+import A3D22 from '../slides-avance3/A3D22.jsx';
+import A3D23 from '../slides-avance3/A3D23.jsx';
 import A3D02 from '../slides-avance3/A3D02.jsx';
 import A3D03 from '../slides-avance3/A3D03.jsx';
 import A3D04 from '../slides-avance3/A3D04.jsx';
@@ -70,11 +72,11 @@ const avance3Slides = [
     { id: 5, title: 'Modelo sin sumidero explícito: se cancela fC', component: A3N02, duration: 90, section: 'Modelo', special: null, refs: ['bear1972dynamics', 'domenico1998'] },
     { id: 6, title: 'Modelo MRMT: regiones móvil e inmóviles', component: A3N07, duration: 60, section: 'Modelo', special: null, refs: ['haggerty1995multirate', 'harvey1999quantifying', 'feehley2000dual'] },
     { id: 7, title: 'Condiciones de frontera', component: A3N09, duration: 45, section: 'Modelo', special: null },
-    { id: 8, title: 'Salida libre: h_out avanza solo, paso a paso', component: A3N03, duration: 75, section: 'Modelo', special: null },
+    { id: 8, title: 'Salida libre: la carga de salida avanza sola, paso a paso', component: A3N03, duration: 75, section: 'Modelo', special: null },
     { id: 9, title: 'Del modelo anterior al modelo nuevo', component: A3D02, duration: 75, section: 'Modelo', special: null },
     { id: 10, title: 'Seis implementaciones del mismo problema', component: A3D03, duration: 75, section: 'Implementación', special: null, refs: ['fornberg2015primer', 'flyer2016polynomials', 'LoggMardalEtAl2012', 'baratta2023dolfinx'] },
     { id: 11, title: 'Malla con conos: refinada en la pluma y sobre el pozo', component: A3N34, duration: 60, section: 'Implementación', special: null, refs: ['shewchuk1996triangle'] },
-    { id: 12, title: 'Carga hidráulica H(t)', component: A3N26, duration: 45, section: 'Implementación', special: null },
+    { id: 12, title: 'Carga hidráulica h(t)', component: A3N26, duration: 45, section: 'Implementación', special: null },
     { id: 13, title: 'Velocidad de Darcy |u|(t)', component: A3N27, duration: 45, section: 'Implementación', special: null },
     { id: 14, title: 'Concentración C(t)', component: A3N28, duration: 60, section: 'Implementación', special: null },
     { id: 15, title: 'El problema de control óptimo', component: A3D04, duration: 90, section: 'Control', special: null, refs: ['troltzsch2010optimal', 'Hinze2009', 'manzoni2021optimal'] },
@@ -85,18 +87,20 @@ const avance3Slides = [
     { id: 20, title: 'El sistema adjunto se resuelve hacia atrás', component: A3D09, duration: 90, section: 'Gradiente', special: null, refs: ['manzoni2021optimal', 'troltzsch2010optimal'] },
     { id: 21, title: 'Del adjunto al gradiente', component: A3D10, duration: 75, section: 'Gradiente', special: null },
     { id: 22, title: 'Verificación del gradiente adjunto', component: A3D11, duration: 60, section: 'Gradiente', special: null },
-    { id: 23, title: 'Adjunto ψ_h', component: A3N30, duration: 60, section: 'Adjunto', special: null },
-    { id: 24, title: 'Adjunto ψ_C', component: A3N29, duration: 60, section: 'Adjunto', special: null },
-    { id: 25, title: 'Adjunto de la región inmóvil 1 (intercambio rápido)', component: A3N35, duration: 40, section: 'Adjunto', special: null },
-    { id: 26, title: 'Adjunto de la región inmóvil 2 (intermedio)', component: A3N36, duration: 40, section: 'Adjunto', special: null },
-    { id: 27, title: 'Adjunto de la región inmóvil 3 (lento)', component: A3N37, duration: 40, section: 'Adjunto', special: null },
+    { id: 23, title: 'Adjunto del flujo ψₕ', component: A3N30, duration: 60, section: 'Adjunto', special: null },
+    { id: 24, title: 'Adjunto del transporte', component: A3N29, duration: 60, section: 'Adjunto', special: null },
+    { id: 25, title: 'Adjuntos de las regiones inmóviles', component: A3N35, duration: 40, section: 'Adjunto', special: null },
+    { id: 26, title: 'Adjunto de la región inmóvil 2 (intermedio)', component: A3N36, duration: 40, section: 'Adjunto', oculta: true },
+    { id: 27, title: 'Adjunto de la región inmóvil 3 (lento)', component: A3N37, duration: 40, section: 'Adjunto', oculta: true },
     { id: 28, title: 'Gradiente conjugado: usar la dirección anterior', component: A3D12, duration: 75, section: 'Optimización', special: null },
     { id: 29, title: 'Con el tanque, proyectar deja de ser trivial', component: A3D13, duration: 75, section: 'Optimización', special: null, refs: ['byrd1999interior', 'Nocedal2006', 'virtanen2020scipy'] },
     { id: 30, title: '¿Cuándo parar? La medida de criticidad', component: A3D16, duration: 75, section: 'Optimización', special: null, refs: ['conn2000trust', 'Nocedal2006'] },
-    { id: 31, title: 'Antes de leer el óptimo: Ĵ(zₚ) ondulaba con la malla', component: A3D18, duration: 75, section: 'Resultados', special: null },
-    { id: 32, title: 'Óptimo: el pozo sube a −383 m y el bombeo sigue la demanda', component: A3D14, duration: 90, section: 'Resultados', special: null },
-    { id: 33, title: 'Óptimo por modelo: ADR, MRMT semi y MRMT bloque', component: A3D15, duration: 75, section: 'Resultados', special: null },
+    { id: 30.5, title: 'Configuración de las corridas', component: A3D22, duration: 60, section: 'Resultados', special: null },
+    { id: 31, title: 'Antes de leer el resultado: Ĵ(zₚ) ondulaba con la malla', component: A3D18, duration: 75, section: 'Resultados', special: null },
+    { id: 32, title: 'Mejor iterado (preliminar): el pozo sube a −383 m y el bombeo sigue la demanda', component: A3D14, duration: 90, section: 'Resultados', special: null },
+    { id: 33, title: 'Mejor iterado por modelo (preliminar): ADR, MRMT semi y bloque', component: A3D15, duration: 75, section: 'Resultados', special: null },
     { id: 34, title: '¿Por qué MRMT pide un pozo más hondo?', component: A3D19, duration: 75, section: 'Resultados', special: null, refs: ['haggerty1995multirate'] },
+    { id: 34.5, title: 'Supuestos y limitaciones', component: A3D23, duration: 60, section: 'Resultados', special: null },
     { id: 35, title: 'Avance del documento de tesis y del artículo', component: A3D20, duration: 60, section: 'Avance', special: null },
     { id: 36, title: 'Conclusiones y próximos pasos', component: A3N22, duration: 75, section: 'Avance', special: null },
     { id: 37, title: 'Bibliografía', component: A3D21, duration: 20, section: 'Avance', special: null },

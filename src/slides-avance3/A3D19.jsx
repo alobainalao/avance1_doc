@@ -84,13 +84,14 @@ export default function A3D19({ theme = 'dark' }) {
     if (!OPT.analisis || !OPT.analisis.diag.adr || !OPT.analisis.diag.mrmt_semi)
         return <SlideLayout title="¿Por qué MRMT pide un pozo más hondo?" theme={theme}><p>Sin datos.</p></SlideLayout>;
     const f = suave(tramo(p, 0, 0.8));
-    const D = OPT.analisis.diag, r = D.mrmt_semi.J1 / D.adr.J1;
+    const B = OPT.analisis.barrido, cocientes = B.adr.J1.map((v, i) => B.mrmt_semi.J1[i] / v);
+    const rmin = Math.min(...cocientes), rmax = Math.max(...cocientes);
     return (
         <SlideLayout title="¿Por qué MRMT pide un pozo más hondo?" theme={theme} justify="flex-start">
             <div onClick={repetir} title="clic para repetir"
                  style={{ cursor: 'pointer', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 36, alignItems: 'start' }}>
                 <div>
-                    <p style={tit}><InlineMath math="\hat J(z_p)" /> con el mismo caudal (el óptimo ADR)</p>
+                    <p style={tit}><InlineMath math="\hat J(z_p)" /> con el mismo caudal (iterado 38 de ADR)</p>
                     <Barrido f={f} />
                 </div>
                 <div>
@@ -99,12 +100,14 @@ export default function A3D19({ theme = 'dark' }) {
                 </div>
             </div>
             <p style={{ ...nota, opacity: tramo(p, 0.8, 1) }}>
-                El intercambio con las regiones inmóviles es rápido (<InlineMath math="\tau_r" /> de 4 a 14 h ≪ 30 días): MRMT se comporta
-                como ADR retardado (<InlineMath math="1+\sum\beta_r=1.3" />). En ADR la concentración del pozo llega a su pico hacia el día 12
-                y baja; en MRMT la masa queda retenida y la concentración sigue subiendo hasta <InlineMath math="T" />. Así{' '}
-                <InlineMath math="J_m" /> es {Math.round((r - 1) * 100)} % mayor en MRMT a cualquier profundidad, con la misma pendiente, y el
-                equilibrio <InlineMath math="\partial_{z_p}(\gamma J_m)=-\partial_{z_p}(\alpha J_{\rm inst}+\beta J_{\rm op})" /> se alcanza
-                unos 20 m más abajo. Las diferencias no vienen ni del caudal ni del optimizador.
+                El intercambio con las regiones inmóviles es rápido (tiempos de relajación <InlineMath math="\tau_r=1/\nu_r" /> de 4 a
+                14 h ≪ 30 días): MRMT se comporta como ADR retardado (<InlineMath math="1+\sum_r\eta_r=1.3" />). En ADR la concentración del
+                pozo llega a su pico hacia el día 12 y baja; en MRMT la masa queda retenida y la concentración sigue subiendo hasta{' '}
+                <InlineMath math="T" />. Así <InlineMath math="J_m" /> es entre {Math.round((rmin - 1) * 100)} y {Math.round((rmax - 1) * 100)} %
+                mayor en MRMT entre −460 y −360 m, y el equilibrio{' '}
+                <InlineMath math="\partial_{z_p}(\gamma J_m)=-\partial_{z_p}(\alpha J_{\rm inst}+\beta J_{\rm op})" /> se alcanza unos 20 m
+                más abajo. Barrido cada 20 m con el caudal del iterado 38 de ADR (no el final), por eso los mínimos (−385 y −406 m) difieren
+                un poco de los iterados finales.
             </p>
         </SlideLayout>
     );

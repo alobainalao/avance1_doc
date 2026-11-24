@@ -8,18 +8,18 @@ import { useProgreso, tramo } from './anim.js';
 // Prop. de representación adjunta y Teo. KKT). Notación de la tesis: L = J + ⟨ψ, e⟩, ψ = (ψ_h, ψ_C, ψ_im,r), û minimizador
 // local. El libro usa L = J + (p, g) con g = −e, así que ψ = −p respecto de su convención.
 const pasos = [
-    { t: 'Lagrangiano', m: String.raw`\mathcal L(\mathbf y,\mathbf u,\boldsymbol\psi)=J(\mathbf y,\mathbf u)+\langle\boldsymbol\psi,\,e(\mathbf y,\mathbf u)\rangle,\qquad \boldsymbol\psi=(\psi_h,\psi_C,\psi_{\mathrm{im},r})`,
+    { t: 'Lagrangiano', m: String.raw`\mathcal L(y,u,\psi)=J(y,u)+\langle\psi,\,e(y,u)\rangle,\qquad \psi=(\psi_h,\psi_C,\psi_{\mathrm{im},r})`,
       d: <>un multiplicador por ecuación de estado: <InlineMath math="\psi_h" /> del flujo (<InlineMath math="h" />),{' '}
           <InlineMath math="\psi_C" /> del transporte (<InlineMath math="C_m" />), <InlineMath math="\psi_{\mathrm{im},r}" /> de las
           regiones inmóviles (<InlineMath math="C_{\mathrm{im},r}" />, <InlineMath math="r=1,2,3" />)</> },
-    { t: 'Estado', m: String.raw`\partial_{\boldsymbol\psi}\mathcal L=0\ \Longleftrightarrow\ e(\mathbf y,\mathbf u)=0`,
+    { t: 'Estado', m: String.raw`\partial_{\psi}\mathcal L=0\ \Longleftrightarrow\ e(y,u)=0`,
       d: 'hacia adelante en el tiempo, desde las condiciones iniciales' },
-    { t: 'Adjunto', m: String.raw`\partial_{\mathbf y}\mathcal L=0\ \Longleftrightarrow\ \big(\partial_{\mathbf y}e\big)^{*}\boldsymbol\psi=-\partial_{\mathbf y}J,\qquad \boldsymbol\psi(\cdot,T)=0`,
+    { t: 'Adjunto', m: String.raw`\partial_{y}\mathcal L=0\ \Longleftrightarrow\ \big(\partial_{y}e\big)^{*}\psi=-\partial_{y}J,\qquad \psi(\cdot,T)=0`,
       d: 'lineal, hacia atrás en el tiempo, con la fuente puesta por el funcional' },
-    { t: 'Gradiente', m: String.raw`\nabla\hat J(\mathbf u)=\partial_{\mathbf u}\mathcal L\big(\mathbf y(\mathbf u),\mathbf u,\boldsymbol\psi(\mathbf u)\big)=\partial_{\mathbf u}J+\big(\partial_{\mathbf u}e\big)^{*}\boldsymbol\psi`,
-      d: <>la sensibilidad <InlineMath math="d\mathbf y/d\mathbf u" /> no aparece: no hay que resolver una EDP por cada control</> },
-    { t: 'Optimalidad', m: String.raw`\nabla\hat J(\hat{\mathbf u})\cdot(\mathbf u-\hat{\mathbf u})\ge0\qquad\forall\,\mathbf u\in\mathcal U_{ad}`,
-      d: <><InlineMath math="\hat{\mathbf u}" />: minimizador local. Las restricciones son lineales, así que equivale a las condiciones KKT
+    { t: 'Gradiente', m: String.raw`\nabla\hat J(u)=\partial_{u}\mathcal L\big(y(u),u,\psi(u)\big)=\partial_{u}J+\big(\partial_{u}e\big)^{*}\psi`,
+      d: <>la sensibilidad <InlineMath math="dy/du" /> no aparece: no hay que resolver una EDP por cada control</> },
+    { t: 'Optimalidad', m: String.raw`\nabla\hat J(\hat u)\cdot(u-\hat u)\ge0\qquad\forall\,u\in\mathcal U_{ad}`,
+      d: <><InlineMath math="\hat u" />: minimizador local. Las restricciones son lineales, así que equivale a las condiciones KKT
           con multiplicadores para las cotas de <InlineMath math="Q_n" /> y <InlineMath math="z_p" />, el tanque y el ciclo de la bomba</> },
 ];
 

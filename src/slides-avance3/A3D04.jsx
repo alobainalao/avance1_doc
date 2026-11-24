@@ -5,11 +5,11 @@ import { Eq } from './ui.jsx';
 import { useProgreso, tramo } from './anim.js';
 
 // Planteamiento del problema de control (tesis, Cap. III: eq:J_escalar, eq:Jm, eq:Jinst, eq:Jop, eq:Uad).
-const eqP = String.raw`\min_{\mathbf u=(Q,\,z_p)\,\in\,\mathcal U_{ad}}\ \hat J(\mathbf u)=J\big(\mathbf y(\mathbf u),\mathbf u\big)
-\quad\text{s.a.}\quad e(\mathbf y,\mathbf u)=0,\qquad \mathbf y=(h,\,C_m,\,C_{\mathrm{im},r})`;
-const eqJ = String.raw`J=\gamma\underbrace{\int_0^T\!\!\int_\Omega g_\varepsilon(\mathbf x;z_p)\,C_m^2\,d\Omega\,dt}_{J_m:\ \text{nitrato captado}}
+const eqP = String.raw`\min_{u=(Q,\,z_p)\,\in\,\mathcal U_{ad}}\ \hat J(u)=J\big(y(u),u\big)
+\quad\text{s.a.}\quad e(y,u)=0,\qquad y=(h,\,C_m,\,C_{\mathrm{im},r})`;
+const eqJ = String.raw`J=\gamma\underbrace{\int_0^T\!\!\int_\Omega g_\varepsilon(\mathbf x;z_p)\,C_m^2\,d\Omega\,dt}_{J_m:\ \text{calidad del agua extraída}}
 +\alpha\underbrace{\kappa_p\,(z_p-z_0)^2}_{J_{\rm inst}}+\beta\underbrace{d_p\!\int_0^T\!Q(t)^2\,dt}_{J_{\rm op}}`;
-const eqE = String.raw`e(\mathbf y,\mathbf u)=\begin{cases}
+const eqE = String.raw`e(y,u)=\begin{cases}
 S_s\,\partial_t h-\nabla\!\cdot(\mathbf K\nabla h)+Q\,g_\varepsilon(\cdot;z_p) & \text{flujo}\\[2pt]
 \phi R\,\partial_t C_m+\mathbf u\!\cdot\!\nabla C_m-\nabla\!\cdot(\mathbf D\nabla C_m)-S_s\partial_t h\,C_m+\textstyle\sum_r\lambda_r(C_m-C_{\mathrm{im},r})-W_+ & \text{transporte}\\[2pt]
 \phi_{\mathrm{im},r}R\,\partial_t C_{\mathrm{im},r}-\lambda_r(C_m-C_{\mathrm{im},r}),\quad r=1,2,3 & \text{inmóviles}
@@ -18,7 +18,7 @@ S_s\,\partial_t h-\nabla\!\cdot(\mathbf K\nabla h)+Q\,g_\varepsilon(\cdot;z_p) &
 const nodos = [
     { t: 'Controles', m: String.raw`Q_1,\dots,Q_{72},\ z_p`, c: 'var(--a3-agua)' },
     { t: 'Estado', m: String.raw`h\ \to\ \mathbf u=-\mathbf K\nabla h\ \to\ C_m,\ C_{\mathrm{im},r}`, c: 'var(--sl-text)' },
-    { t: 'Funcional', m: String.raw`\hat J(\mathbf u)`, c: 'var(--a3-pluma)' },
+    { t: 'Funcional', m: String.raw`\hat J(u)`, c: 'var(--a3-pluma)' },
 ];
 
 export default function A3D04({ theme = 'dark' }) {
@@ -50,9 +50,13 @@ export default function A3D04({ theme = 'dark' }) {
                 <Eq math={eqE} id="estado" compacta />
             </div>
             <p style={{ margin: '6px 0 0', fontSize: 'var(--a3-fs-cuerpo)', color: 'var(--sl-text)', opacity: tramo(p, 0.8, 1) }}>
-                Con las condiciones de frontera e iniciales del modelo (salida libre en <InlineMath math="\Gamma_{\rm out}" />).{' '}
-                <InlineMath math="d_p=z_0-z_p" />; el mismo núcleo gaussiano <InlineMath math="g_\varepsilon" /> del pozo reparte el caudal
-                extraído y observa la concentración a su alrededor. Cada término se normaliza; aquí <InlineMath math="\gamma=\alpha=\beta=1" />.
+                Control <InlineMath math="u=(Q,z_p)" />; velocidad de Darcy <InlineMath math="\mathbf u=-\mathbf K\nabla h" /> (en negrita).
+                Condiciones de frontera e iniciales del modelo (salida libre en <InlineMath math="\Gamma_{\rm out}" />).{' '}
+                <InlineMath math="d_p=z_0-z_p" />, con <InlineMath math="z_0=220" /> m la cota de referencia de la superficie; <InlineMath math="\kappa_p>0" />:
+                coeficiente del costo de instalación. El mismo núcleo gaussiano <InlineMath math="g_\varepsilon" /> reparte el caudal extraído y
+                pesa la concentración alrededor del pozo. Cada término se divide por su escala (<InlineMath math="J_m" /> por{' '}
+                <InlineMath math="C_{\rm ref}^2T" /> con <InlineMath math="C_{\rm ref}" /> = 50 mg/L; <InlineMath math="J_{\rm inst}" /> y{' '}
+                <InlineMath math="J_{\rm op}" /> por sus valores en las cotas); aquí <InlineMath math="\gamma=\alpha=\beta=1" />.
             </p>
         </SlideLayout>
     );

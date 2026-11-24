@@ -1,41 +1,38 @@
 import React from 'react';
+import { InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
-import DomainSVG from './DomainSVG.jsx';
+import { POLIGONO, POZO, FUENTE, X, Z } from './escena.jsx';
+import { ESQ } from './esquema.js';
 
-// Campo φ — matplotlib tricontourf coolwarm, mismo extent que dominio real
-const PHI_IMG = process.env.PUBLIC_URL + '/phi_field.png';
+// Dominio físico y parámetros: corte vertical con la porosidad interpolada de los sondeos (bandas de esquema.js, las mismas
+// de la apertura), fronteras, pozo en su profundidad inicial y fuente. Valores de config/nitrato_vscale_malla_eje_g1.json.
+const AGUA = '#0F7A85', PLUMA = '#C4511F';
+const M = (t) => <InlineMath math={t} />;
 
-const geoParams = [
-    ['Vértices',             '5 (pentágono irregular)'],
-    ['Ancho  Lx',            '9 939 m  ≈ 10 km'],
-    ['Profundidad  Ly',      '2 941 m  ≈ 2.9 km'],
-    ['Fondo',                'diagonal (inclinado)'],
-    ['Pozo  (x_p, z_p)',     '(3 700, −700) m'],
-    ['Fuente  (x_s, z_s)',   '(9 116, 109) m'],
+const geo = [
+    ['Ancho', '9 939 m (sondeos 6 a 2, SO → NE)'],
+    ['Superficie', M(String.raw`z = 250.5`), ' m'],
+    ['Fondo', '−2 690.5 m (SO) a −768.5 m (NE)'],
+    ['Pozo', <>{M('x_p = 3\\,700')} m; {M('z_p^0=-700')} m (inicial; {M('z_p')} es control)</>],
+    ['Fuente de nitrato', <>{M('(x_s, z_s) = (9\\,116,\\ 109)')} m</>],
+];
+const fis = [
+    ['Porosidad', <>{M('\\phi\\in[0.03,\\,0.95]')}: 4 sondeos, capas A–E</>],
+    ['Conductividad', <>Kozeny–Carman {M('K_z(\\phi)')}, grano de 1 mm; {M('K_x=4K_z')}</>],
+    ['Dispersividades', <>{M('\\alpha_L=10')} m, {M('\\alpha_T=1')} m</>],
+    ['Mallas', '20 348 nodos (comparación directa); 25 871 (optimización, eje del pozo a 1 m)'],
+    ['Tiempo', <>{M('T=30')} días; {M('\\Delta t=5')} h (comparación directa), 10 h (optimización)</>],
 ];
 
-const physParams = [
-    ['φ — porosidad',        '[0.05, 0.95]  (4 pozos, capas A–E)'],
-    ['K — Kozeny-Carman',    'Kᵧ(φ, dz=1 mm, ν) · Kₓ=4Kᵧ'],
-    ['αₗ / αₜ',              '10 / 1 m'],
-    ['ν — viscosidad',       '1.055×10⁻⁶ m²/s'],
-    ['Malla compartida',     '20 348 nodos (4 m en pozo y fuente)'],
-    ['dt / T',               '5 h / 30 días'],
-];
-
-const ParamTable = ({ title, color, rows }) => (
+const Tabla = ({ titulo, filas }) => (
     <div style={{ flex: 1, minWidth: 0 }}>
-        <p style={{
-            color, fontWeight: 700, fontSize: 'var(--a3-fs-seccion)', margin: '0 0 6px',
-            borderBottom: `1.5px solid ${color}55`, paddingBottom: 4,
-        }}>{title}</p>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <p style={{ margin: '0 0 4px', fontSize: 'var(--a3-fs-seccion)', color: 'var(--sl-accent)' }}>{titulo}</p>
+        <table style={{ width: '100%', borderCollapse: 'collapse', borderTop: '2px solid var(--sl-text)', borderBottom: '2px solid var(--sl-text)' }}>
             <tbody>
-                {rows.map(([name, val]) => (
-                    <tr key={name} style={{ borderBottom: '1px solid rgba(0,216,255,0.10)' }}>
-                        <td style={{ padding: '5px 0', color: 'var(--sl-muted)', fontSize: 'var(--a3-fs-cuerpo)' }}>{name}</td>
-                        <td style={{ padding: '5px 0', color: 'var(--sl-text)', textAlign: 'right',
-                                     fontSize: 'var(--a3-fs-cuerpo)' }}>{val}</td>
+                {filas.map(([n, v, u], i) => (
+                    <tr key={i} style={{ borderTop: i ? '1px solid var(--a3-filete)' : 'none' }}>
+                        <td style={{ padding: '5px 10px 5px 0', color: 'var(--sl-muted)', fontFamily: 'var(--a3-sans)', fontSize: 'var(--a3-fs-nota)', whiteSpace: 'nowrap' }}>{n}</td>
+                        <td style={{ padding: '5px 0', color: 'var(--sl-text)', fontSize: 'var(--a3-fs-cuerpo)' }}>{v}{u}</td>
                     </tr>
                 ))}
             </tbody>
@@ -43,38 +40,39 @@ const ParamTable = ({ title, color, rows }) => (
     </div>
 );
 
-const A3S02 = ({ theme = 'dark' }) => (
-    <SlideLayout title="Dominio físico y parámetros" theme={theme} justify="flex-start">
-        <DomainSVG uid="s02">
-            <image href={PHI_IMG}
-                   x="55" y="22" width="563" height="168"
-                   clipPath="url(#clip-s02)"
-                   preserveAspectRatio="none" opacity="0.90" />
-            <defs>
-                <linearGradient id="phiCbar-s02" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0%"   stopColor="#044EBF" />
-                    <stop offset="25%"  stopColor="#80A3EF" />
-                    <stop offset="50%"  stopColor="#DBDBDB" />
-                    <stop offset="75%"  stopColor="#E38F68" />
-                    <stop offset="100%" stopColor="#980326" />
-                </linearGradient>
-            </defs>
-            <text x="465" y="138" fontSize="8" fill="#0F7A85" textAnchor="middle" fontWeight="700">φ efectiva</text>
-            <rect x="330" y="142" width="270" height="12" fill="url(#phiCbar-s02)" rx="2" />
-            <text x="330" y="157" fontSize="8" fill="#0F7A85" textAnchor="start">0.05</text>
-            <text x="465" y="157" fontSize="8" fill="#0F7A85" textAnchor="middle">0.50</text>
-            <text x="600" y="157" fontSize="8" fill="#0F7A85" textAnchor="end">0.95</text>
-        </DomainSVG>
-
-        <div style={{ display: 'flex', gap: '3%', flex: 1, alignItems: 'flex-start' }}>
-            <ParamTable title="Geometría del dominio" color="#0F7A85" rows={geoParams} />
-            <div style={{ width: 1, background: 'rgba(0,216,255,0.18)', alignSelf: 'stretch' }} />
-            <ParamTable title="Física y discretización" color="#0F7A85" rows={physParams} />
-        </div>
-        <p style={{ color: 'var(--sl-muted)', fontSize: 'var(--a3-fs-nota)', fontFamily: 'var(--a3-sans)', fontStyle: 'italic', margin: 0 }}>
-            φ interpolada de datos de campo (4 pozos reales, capas A–E). K calculada via Kozeny-Carman.
-        </p>
-    </SlideLayout>
-);
-
-export default A3S02;
+export default function A3S02({ theme = 'dark' }) {
+    const etq = { fontFamily: 'var(--a3-sans)', fontSize: 16, fill: 'var(--sl-muted)' };
+    return (
+        <SlideLayout title="Dominio físico y parámetros" theme={theme} justify="flex-start">
+            <svg viewBox="-20 -34 1040 362" style={{ width: '100%', display: 'block' }}>
+                <defs><clipPath id="s02-clip"><polygon points={POLIGONO} /></clipPath></defs>
+                <g clipPath="url(#s02-clip)">
+                    {ESQ.phi.bandas.map((d, i) => <path key={i} d={d} fill={AGUA} fillOpacity={0.05 + 0.13 * i} />)}
+                </g>
+                <polygon points={POLIGONO} fill="none" stroke="var(--sl-text)" strokeWidth="1.6" />
+                {/* fronteras */}
+                <line x1={1000} y1={0} x2={1000} y2={Z(-768.5)} stroke={AGUA} strokeWidth="5" />
+                <line x1={0} y1={0} x2={0} y2={Z(-2690.5)} stroke={PLUMA} strokeWidth="5" />
+                <text x={992} y={Z(-768.5) + 22} textAnchor="end" style={{ ...etq, fill: AGUA }}>Γ<tspan dy="5" fontSize="12">in</tspan><tspan dy="-5">: entrada</tspan></text>
+                <text x={10} y={Z(-1900)} style={{ ...etq, fill: PLUMA }}>Γ<tspan dy="5" fontSize="12">out</tspan><tspan dy="-5">: salida libre</tspan></text>
+                <text x={500} y={-10} textAnchor="middle" style={etq}>Γ<tspan dy="5" fontSize="12">wall</tspan><tspan dy="-5">: superficie y fondo, sin flujo</tspan></text>
+                {/* pozo inicial y fuente */}
+                <line x1={X(POZO.x)} y1={0} x2={X(POZO.x)} y2={Z(POZO.z)} stroke={AGUA} strokeWidth="4" />
+                <circle cx={X(POZO.x)} cy={Z(POZO.z)} r="7" fill={AGUA} />
+                <text x={X(POZO.x) + 12} y={Z(POZO.z) + 6} style={{ ...etq, fill: 'var(--sl-text)' }}>pozo, z<tspan dy="5" fontSize="12">p</tspan><tspan dy="-5">⁰ = −700 m</tspan></text>
+                <circle cx={X(FUENTE.x)} cy={Z(FUENTE.z)} r="7" fill={PLUMA} />
+                <text x={X(FUENTE.x) - 12} y={Z(FUENTE.z) + 26} textAnchor="end" style={{ ...etq, fill: PLUMA }}>fuente de nitrato</text>
+                {/* leyenda de φ */}
+                <text x={700} y={Z(-1500)} style={etq}>porosidad φ</text>
+                {[0, 1, 2, 3, 4].map(i => <rect key={i} x={700 + 40 * i} y={Z(-1500) + 8} width={40} height={14} fill={AGUA} fillOpacity={0.05 + 0.13 * i} stroke="var(--sl-muted)" strokeWidth="0.5" />)}
+                {[0, 0.4, 0.8].map((v, i) => <text key={v} x={700 + 80 * i} y={Z(-1500) + 40} textAnchor="middle" style={{ ...etq, fontSize: 13 }}>{v}</text>)}
+                <text x={900} y={Z(-1500) + 40} textAnchor="end" style={{ ...etq, fontSize: 13 }}>1</text>
+                <text x={500} y={322} textAnchor="middle" style={{ ...etq, fontSize: 13 }}>sin exageración vertical</text>
+            </svg>
+            <div style={{ display: 'flex', gap: 40, marginTop: 8 }}>
+                <Tabla titulo="Geometría" filas={geo} />
+                <Tabla titulo="Física y discretización" filas={fis} />
+            </div>
+        </SlideLayout>
+    );
+}

@@ -4,7 +4,7 @@ import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import { useProgreso, tramo, suave, lerp } from './anim.js';
 import { OPT } from './optimoNitrato.js';
 
-// Óptimo de los tres modelos de transporte (FEniCSx, malla con conos y eje de 1 m, γ = 1), todos desde Q_n = 0.1,
+// Mejor iterado (preliminar) de los tres modelos de transporte (FEniCSx, malla con conos y eje de 1 m, γ = 1), todos desde Q_n = 0.1,
 // z_p = −700 m. Izquierda: los tres pozos suben de z_p⁰ a donde paró el optimizador; centro: evaluación cruzada (Ĵ de
 // cada modelo en el punto de cada corrida, experimentos/evaluar_optimos.py); derecha: términos del funcional.
 const COLOR = { adr: '#C4511F', mrmt_semi: '#0F7A85', mrmt_block: '#5B4B8A' };
@@ -77,7 +77,7 @@ function Cruce({ f }) {
 }
 
 const filas = [
-    ['nitrato captado', String.raw`\gamma J_m`, 'J1'],
+    ['calidad del agua', String.raw`\gamma J_m`, 'J1'],
     ['instalación', String.raw`\alpha J_{\rm inst}`, 'J2'],
     ['bombeo', String.raw`\beta J_{\rm op}`, 'J3'],
     ['total', String.raw`\hat J`, 'J'],
@@ -87,13 +87,13 @@ export default function A3D15({ theme = 'dark' }) {
     const [p, repetir] = useProgreso(5500, 400);
     const f = suave(tramo(p, 0, 0.85));
     const ms = OPT.modelos;
-    if (ms.length < 3) return <SlideLayout title="Óptimo por modelo" theme={theme}><p>Sin resultados.</p></SlideLayout>;
+    if (ms.length < 3) return <SlideLayout title="Mejor iterado por modelo (preliminar)" theme={theme}><p>Sin resultados.</p></SlideLayout>;
     return (
-        <SlideLayout title="Óptimo por modelo" theme={theme} justify="flex-start">
+        <SlideLayout title="Mejor iterado por modelo (preliminar)" theme={theme} justify="flex-start">
             <div onClick={repetir} title="clic para repetir"
                  style={{ cursor: 'pointer', display: 'grid', gridTemplateColumns: '0.85fr 1fr 1.15fr', gap: 30, alignItems: 'start' }}>
                 <div>
-                    <p style={tit}>Profundidad óptima <InlineMath math="z_p" /> [m]</p>
+                    <p style={tit}>Profundidad <InlineMath math="z_p" /> donde paró cada corrida [m]</p>
                     <Pozos f={f} />
                 </div>
                 <div>
@@ -101,12 +101,13 @@ export default function A3D15({ theme = 'dark' }) {
                     <Cruce f={f} />
                     <p style={nota}>
                         Cada fila evalúa un modelo en el punto donde paró cada corrida (en verde, el menor; punteado, el propio).
-                        El punto de semi es el mejor en las tres filas. Semi y bloque difieren menos de 4·10⁻⁴ en cualquier punto:
-                        son el mismo modelo, así que bloque paró antes de su óptimo (≈ −405 m). En ADR el caudal aún se afina.
+                        El punto de semi es el mejor en las tres filas. Semi y bloque difieren menos de 4·10⁻⁴ en los tres puntos
+                        evaluados: son dos esquemas del mismo modelo continuo, así que bloque paró antes de su óptimo (≈ −405 m). En ADR el
+                        caudal aún se afina.
                     </p>
                 </div>
                 <div>
-                    <p style={tit}>Términos en el óptimo</p>
+                    <p style={tit}>Términos en el mejor iterado</p>
                     <table style={{ width: '100%', borderCollapse: 'collapse', fontVariantNumeric: 'tabular-nums', borderTop: '2px solid var(--sl-text)', borderBottom: '2px solid var(--sl-text)' }}>
                         <thead><tr style={{ borderBottom: '1px solid var(--sl-muted)' }}>
                             <th style={th}></th>
@@ -124,13 +125,17 @@ export default function A3D15({ theme = 'dark' }) {
                                 {ms.map(m => <td key={m.id} style={{ ...td, textAlign: 'right' }}>{m.nit}</td>)}
                             </tr>
                             <tr>
+                                <td style={td}><span style={{ color: 'var(--sl-muted)', fontSize: 'var(--a3-fs-nota)' }}>criticidad χ (meta 10⁻⁴)</span></td>
+                                {ms.map(m => <td key={m.id} style={{ ...td, textAlign: 'right' }}>{m.chi ? m.chi.toExponential(1).replace('e-', '·10⁻').replace(/(\d)$/, d => '⁰¹²³⁴⁵⁶⁷⁸⁹'[d]) : '—'}</td>)}
+                            </tr>
+                            <tr>
                                 <td style={td}><span style={{ color: 'var(--sl-muted)', fontSize: 'var(--a3-fs-nota)' }}>tanque mínimo [m³]</span></td>
                                 {ms.map(m => <td key={m.id} style={{ ...td, textAlign: 'right' }}>{Math.min(...m.S).toFixed(1)}</td>)}
                             </tr>
                         </tbody>
                     </table>
                     <p style={nota}>
-                        Mismo caudal medio (<InlineMath math="\bar Q\approx 0.136" /> m²/s) y el tanque nunca se vacía. MRMT pide un pozo
+                        Mismo caudal medio (<InlineMath math="\bar Q\approx 0.136" /> m²/s); la cota inferior del tanque queda activa. MRMT pide un pozo
                         más hondo que ADR (siguiente lámina). Todos bajan Ĵ respecto al arranque (0.467), que además no es admisible.
                     </p>
                 </div>

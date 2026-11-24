@@ -6,15 +6,15 @@ import { useProgreso, tramo, suave } from './anim.js';
 import { VERIF } from './verificacion.js';
 
 // Verificación del gradiente adjunto en las seis implementaciones (data/output/verificacion_adjunto/*_alm1.json):
-// error relativo de la derivada direccional del adjunto frente a diferencias centradas con pasos η = 10⁻² y 3·10⁻³,
+// error relativo de la derivada direccional del adjunto frente a diferencias centradas con pasos δ = 10⁻² y 3·10⁻³,
 // un par de puntos por dirección d, en escala log. Si el error es de las diferencias finitas, baja (10/3)² ≈ 11 veces.
 const MOD = [['adr', 'ADR'], ['mrmt_semi', 'MRMT semi'], ['mrmt_block', 'MRMT bloque']];
 const BK = [['bfr', 'RBF-FD', '#0F7A85'], ['fenicsx', 'Elementos finitos', '#10243E']];
 const LO = -10.5, HI = -2.5;
 
-const eqError = String.raw`e(\mathbf d)=\frac{\Big|\,\nabla\hat J(\mathbf u)\cdot\mathbf d\;-\;\dfrac{\hat J(\mathbf u+\eta\,\mathbf d)-\hat J(\mathbf u-\eta\,\mathbf d)}{2\eta}\,\Big|}{\big|\nabla\hat J(\mathbf u)\cdot\mathbf d\big|}`;
+const eqError = String.raw`e(\mathbf d)=\frac{\Big|\,\nabla\hat J(u)\cdot\mathbf d\;-\;\dfrac{\hat J(u+\delta\,\mathbf d)-\hat J(u-\delta\,\mathbf d)}{2\delta}\,\Big|}{\big|\nabla\hat J(u)\cdot\mathbf d\big|}`;
 
-// cociente medio (geométrico) entre los errores con η = 10⁻² y con η = 3·10⁻³ de un grupo
+// cociente medio (geométrico) entre los errores con δ = 10⁻² y con δ = 3·10⁻³ de un grupo
 function cociente(filas) {
     const a = filas.filter(r => r.eps === 0.01), b = filas.filter(r => r.eps !== 0.01);
     if (!a.length || !b.length) return null;
@@ -34,8 +34,9 @@ export default function A3D11({ theme = 'dark' }) {
                 <Eq math={eqError} compacta />
                 <p style={txt}>
                     Para una dirección <InlineMath math="\mathbf d" /> se compara la derivada que da el adjunto con la de diferencias
-                    centradas de paso <InlineMath math="\eta" />. Si el adjunto es exacto, solo queda el error de las diferencias,
-                    proporcional a <InlineMath math="\eta^2" />.
+                    centradas de paso <InlineMath math="\delta" /> (relativo a la escala de <InlineMath math="u" />). Si el adjunto es
+                    exacto, solo queda el error de las diferencias, proporcional a <InlineMath math="\delta^2" />. Horizonte corto: 3 pasos de
+                    10 h con <InlineMath math="C" /> inicial ≡ 1, para que el pozo vea soluto desde el primer paso.
                 </p>
             </div>
             <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', cursor: 'pointer' }} onClick={repetir}>
@@ -79,15 +80,15 @@ export default function A3D11({ theme = 'dark' }) {
                     );
                 })}
                 <text x={L + 4.5 * ancho} y={sy(10 ** -5.1)} textAnchor="middle" style={{ ...eje, fill: '#10243E', fontSize: 16, opacity: tramo(p, 0.7, 0.9) }}>
-                    nivel del redondeo: no depende de η
+                    nivel del redondeo: no depende de δ
                 </text>
             </svg>
             <div style={{ display: 'flex', gap: 34, fontFamily: 'var(--a3-sans)', fontSize: 'var(--a3-fs-nota)', color: 'var(--sl-muted)', margin: '2px 0 0' }}>
-                <span>○ η = 10⁻²</span><span>● η = 3·10⁻³</span>
-                <span>cada par unido es una dirección: Q uniforme, Q aleatoria, (Q, z<sub>p</sub>) aleatoria, −∇Ĵ (en ADR solo η = 10⁻²)</span>
+                <span>○ δ = 10⁻²</span><span>● δ = 3·10⁻³</span>
+                <span>cada par unido es una dirección: Q uniforme, Q aleatoria, (Q, z<sub>p</sub>) aleatoria, −∇Ĵ (en ADR solo δ = 10⁻²)</span>
             </div>
             <p style={{ ...txt, marginTop: 10 }}>
-                En RBF-FD el error baja 11 veces al pasar de <InlineMath math="\eta=10^{-2}" /> a <InlineMath math="3\cdot10^{-3}" />:
+                En RBF-FD el error baja 11 veces al pasar de <InlineMath math="\delta=10^{-2}" /> a <InlineMath math="3\cdot10^{-3}" />:
                 justo <InlineMath math="(10/3)^2" />, lo que predice el error de las diferencias centradas. El error es de las diferencias
                 finitas, no del adjunto. En elementos finitos todo está en <InlineMath math="10^{-10}" />–<InlineMath math="10^{-7}" />, el
                 redondeo de los solucionadores.

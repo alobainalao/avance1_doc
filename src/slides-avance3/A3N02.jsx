@@ -7,7 +7,7 @@ import { Eq } from './ui.jsx';
 // Modelo sin sumidero explícito (docs/adjunto_sin_sumidero.pdf, §2). Código de colores del documento.
 const rojo = '#C4511F', azul = '#0F7A85', verde = '#2E7D4F';
 
-const eqFlujo = String.raw`S_s\,\partial_t h-\nabla\!\cdot(K\nabla h)=f=-Q\,\varrho
+const eqFlujo = String.raw`S_s\,\partial_t h-\nabla\!\cdot(\mathbf K\nabla h)=f=-Q\,g_\varepsilon(\cdot;z_p)
 \;\;\Longrightarrow\;\;
 \textcolor{${azul}}{\nabla\!\cdot\mathbf u}=\textcolor{${rojo}}{f}-\textcolor{${verde}}{S_s\,\partial_t h}`;
 
@@ -37,10 +37,15 @@ export default function A3N02({ theme = 'dark' }) {
                     <Eq math={eqADR} id='adr' />
                 </EqCard>
                 <p style={{ margin: 0, color: 'var(--sl-text)', fontSize: 22, lineHeight: 1.4 }}>
-                    El pozo no es un sumidero en la ecuación de <InlineMath math="C" />: el soluto sale porque{' '}
-                    <InlineMath math="\mathbf u" /> converge hacia él. Solo queda el almacenamiento{' '}
-                    <span style={{ color: verde }}><InlineMath math="-S_s\partial_t h\,C" /></span>
-                    {' '}(con <InlineMath math="\phi" /> constante y <InlineMath math="S_s=\phi" /> numérico).
+                    El pozo no es un sumidero en la ecuación de <InlineMath math="C" />: el soluto sale porque la velocidad de Darcy{' '}
+                    <InlineMath math="\mathbf u=-\mathbf K\nabla h" /> converge hacia él. Solo queda el almacenamiento{' '}
+                    <span style={{ color: verde }}><InlineMath math="-S_s\partial_t h\,C" /></span>.
+                </p>
+                <p style={{ margin: 0, color: 'var(--sl-muted)', fontFamily: 'var(--a3-sans)', fontSize: 'var(--a3-fs-nota)', lineHeight: 1.4 }}>
+                    <InlineMath math="g_\varepsilon" />: núcleo gaussiano del pozo (masa 1); <InlineMath math="W_+" />: fuente de nitrato;{' '}
+                    <InlineMath math="R" />: retardo; <InlineMath math="\lambda_d" />: decaimiento; <InlineMath math="D" />: dispersión.{' '}
+                    <InlineMath math="\phi" /> no depende del tiempo. <InlineMath math="S_s=\phi" /> [1/m] es una elección numérica provisional,
+                    mucho mayor que los valores típicos de campo (10⁻⁶–10⁻⁴ m⁻¹); su efecto está pendiente de evaluar.
                 </p>
             </div>
         </SlideLayout>

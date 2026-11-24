@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import { Eq } from './ui.jsx';
 import { useProgreso, tramo } from './anim.js';
@@ -69,10 +70,10 @@ function Curvas({ p }) {
 }
 
 const eqPR = String.raw`\begin{aligned}
-&\mathbf d_0=-\nabla\hat J(\mathbf u_0)\\
-&\mathbf u_{k+1}=P_{\mathcal U_{ad}}\big(\mathbf u_k+\alpha_k\mathbf d_k\big),\quad \alpha_k:\ \text{Armijo}\\
-&\beta_k^{\rm PR+}=\max\Big\{0,\ \frac{\nabla\hat J_{k+1}^{\top}\big(\nabla\hat J_{k+1}-\nabla\hat J_k\big)}{\|\nabla\hat J_k\|^2}\Big\}\\
-&\mathbf d_{k+1}=-\nabla\hat J(\mathbf u_{k+1})+\beta_k^{\rm PR+}\,\mathbf d_k
+&\mathbf d_0=-\nabla\hat J(u_0)\\
+&u_{k+1}=P_{\mathcal U_{ad}}\big(u_k+\rho_k\mathbf d_k\big),\quad \rho_k:\ \text{paso de Armijo}\\
+&\vartheta_k=\max\Big\{0,\ \frac{\nabla\hat J_{k+1}^{\top}\big(\nabla\hat J_{k+1}-\nabla\hat J_k\big)}{\|\nabla\hat J_k\|^2}\Big\}\\
+&\mathbf d_{k+1}=-\nabla\hat J(u_{k+1})+\vartheta_k\,\mathbf d_k
 \end{aligned}`;
 
 export default function A3D12({ theme = 'dark' }) {
@@ -87,6 +88,10 @@ export default function A3D12({ theme = 'dark' }) {
                     <p style={txt}>
                         Cada iteración pide un gradiente, es decir, una simulación directa y una adjunta. La dirección mezcla el
                         gradiente nuevo con la anterior y evita el zigzag del máximo descenso en los valles alargados.
+                    </p>
+                    <p style={txt}>
+                        Todo descansa en la proyección <InlineMath math="P_{\mathcal U_{ad}}" />: con solo cotas es recortar, pero con el tanque
+                        deja de ser explícita (siguiente lámina).
                     </p>
                     <p style={nota}>
                         Manzoni et al. (2021), § 6.3 y Alg. 6.1; Nocedal y Wright (2006), cap. 5. Figura: cuadrática ilustrativa

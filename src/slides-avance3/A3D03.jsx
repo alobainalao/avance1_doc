@@ -5,7 +5,7 @@ import { MODELOS } from './modeloNuevo.js';
 import { VERIF } from './verificacion.js';
 
 // Matriz de las seis implementaciones: modelo de transporte × discretización espacial. En cada celda, el error
-// máximo del gradiente adjunto frente a diferencias finitas (ε = 10⁻²); a la derecha, la concordancia del directo.
+// máximo del gradiente adjunto frente a diferencias finitas (paso δ = 10⁻²); a la derecha, la concordancia del directo.
 const filas = [
     { id: 'adr', mid: 'M0_adr', nombre: 'ADR', desc: 'advección, dispersión, reacción' },
     { id: 'mrmt_semi', mid: 'M1_mrmt_semi', nombre: 'MRMT semianalítico', desc: 'pasos fraccionados, intercambio exacto' },
@@ -67,8 +67,8 @@ export default function A3D03({ theme = 'dark' }) {
             </div>
             <p style={{ ...nota, marginTop: 18 }}>
                 Mismos nodos, misma geometría, mismos parámetros y la misma salida libre. Error del gradiente: máximo
-                relativo frente a diferencias finitas centradas con ε = 10⁻², en 3–4 direcciones (C ≡ 1, tres pasos de 10 h).
-                En elementos finitos es redondeo; en RBF-FD decrece como O(ε²).
+                relativo frente a diferencias finitas centradas con paso δ = 10⁻², en 3–4 direcciones, en un horizonte corto (3 pasos de 10 h, C inicial ≡ 1).
+                En elementos finitos es redondeo; en RBF-FD decrece como O(δ²).
             </p>
         </SlideLayout>
     );

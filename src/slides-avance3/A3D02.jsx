@@ -21,7 +21,7 @@ const cambios = [
 const barras = [
     { nombre: '|u|  velocidad', antes: 72, ahora: 12.5 },
     { nombre: 'C  concentración', antes: 19, ahora: 3.0 },
-    { nombre: 'masa de soluto', antes: 15, ahora: 0.02 },
+    { nombre: 'masa de soluto (ADR)', antes: 15, ahora: 0.02 },
 ];
 
 export default function A3D02({ theme = 'dark' }) {
