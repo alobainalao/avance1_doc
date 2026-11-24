@@ -32,6 +32,7 @@ import A3N25 from '../slides-avance3/A3N25.jsx';
 import { A3N26, A3N27, A3N28 } from '../slides-avance3/VideoCampo.jsx';
 import { A3N29, A3N30, A3N35, A3N36, A3N37 } from '../slides-avance3/A3N29.jsx';
 import '../slides-avance3/avance3.css';
+import { enVersion } from '../slides-avance3/version.jsx';
 import A3N33 from '../slides-avance3/A3N33.jsx';
 import A3N34 from '../slides-avance3/A3N34.jsx';
 import A3D01 from '../slides-avance3/A3D01.jsx';
@@ -136,6 +137,9 @@ const avance3Slides = [
 // Las marcadas con `oculta: true` no se muestran por ahora (se conservan para reactivarlas); el resto se
 // renumera en orden.
 export const avance3Visibles = avance3Slides.filter(sl => !sl.oculta).map((sl, i) => ({ ...sl, id: i + 1 }));
+
+// Versión pública: las mismas láminas, con el texto marcado `a3-completa` oculto y letra más grande (version.jsx).
+export const avance3Publica = avance3Visibles.map(sl => ({ ...sl, component: enVersion(sl.component, 'publica') }));
 
 // Secciones de la cabecera calculadas del campo `section` de las visibles (tramos consecutivos).
 export const avance3Secciones = avance3Visibles.reduce((acc, sl) => {

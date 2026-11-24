@@ -32,6 +32,17 @@
     --a3-fs-ec-compacta: 25px;   /* ecuación en bloque que no cabe con el común */
 }
 
+/* ── Versión pública (#/avance3, version.jsx): menos texto y letra más grande, para leerse desde el fondo del salón.
+   Las láminas marcan con `a3-completa` lo que solo va en la versión completa y con `a3-publica` la frase que lo resume. ── */
+.deck-a3.deck-a3-publica {
+    --a3-fs-seccion:     30px;
+    --a3-fs-cuerpo:      25px;
+    --a3-fs-etiqueta:    20px;
+    --a3-fs-nota:        20px;
+}
+.deck-a3-publica .a3-completa { display: none !important; }
+.deck-a3:not(.deck-a3-publica) .a3-publica { display: none !important; }
+
 /* ── Ecuaciones: un solo tamaño en todo el avance (también las BlockMath sueltas) ── */
 .deck-a3 .katex-display { margin: 0.3em 0; }
 .deck-a3 .katex-display > .katex { font-size: var(--a3-fs-ec); }

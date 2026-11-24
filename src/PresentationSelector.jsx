@@ -75,7 +75,7 @@ const PresentationSelector = () => {
                             available
                             onClick={() => window.open('https://alobainalao.github.io/beamer_Maestria', '_blank')}
                         />
-                        {registry.map((p) => (
+                        {registry.filter((p) => !p.oculta).map((p) => (
                             <Card
                                 key={p.id}
                                 label={p.label}

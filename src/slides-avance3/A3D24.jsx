@@ -3,6 +3,7 @@ import { InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import { useFases, reducida, suave, tramo } from './anim.js';
 import { OPT } from './optimoNitrato.js';
+import { usePublica } from './version.jsx';
 
 // Qué es un frente de Pareto, en seis fases que avanza el expositor: dos objetivos en conflicto, diseños posibles,
 // dominancia, frente, pesos (suma ponderada con γ) y el caso del pozo. Las fases 1–5 son un esquema (curva y nube
@@ -10,12 +11,18 @@ import { OPT } from './optimoNitrato.js';
 const AGUA = 'var(--a3-agua)', PLUMA = 'var(--a3-pluma)', VALIDO = 'var(--a3-valido)', GRIS = 'var(--a3-estrato)';
 
 const FASES = [
-    { n: 'Dos objetivos', dur: 2.5, d: <>Queremos poco nitrato en el agua extraída y poco costo a la vez. El punto ideal (los dos en su mínimo) no es alcanzable.</> },
-    { n: 'Diseños posibles', dur: 2.5, d: <>Cada elección de caudal y profundidad <InlineMath math="u=(Q,z_p)" /> da un punto: cuánto nitrato y cuánto cuesta.</> },
-    { n: 'Dominancia', dur: 3, d: <>Un diseño domina a otro si es mejor o igual en los dos objetivos y estrictamente mejor en uno. Los dominados se descartan.</> },
-    { n: 'Frente de Pareto', dur: 3, d: <>Los no dominados forman el frente: sobre él, mejorar la calidad obliga a pagar más. No hay un único óptimo, sino un compromiso.</> },
-    { n: 'Un peso elige un punto', dur: 7, d: <>Minimizar <InlineMath math="\gamma J_m+J_{\rm inst}+J_{\rm op}" /> es buscar la recta de pendiente <InlineMath math="-\gamma" /> que toca el frente. Al variar <InlineMath math="\gamma" /> se recorre el frente; las corridas actuales usan <InlineMath math="\gamma=1" />.</> },
-    { n: 'En el pozo', dur: 3, d: <>Pozo hondo: menos nitrato, más caro. Pozo somero: barato, más nitrato. El frente completo (reoptimizar <InlineMath math="Q" /> y <InlineMath math="z_p" /> para cada <InlineMath math="\gamma" />) es el siguiente paso.</> },
+    { n: 'Dos objetivos', dur: 2.5, d: <><span className="a3-completa">Queremos poco nitrato en el agua extraída y poco costo a la vez. El punto ideal (los dos en su mínimo) no es alcanzable.</span>
+        <span className="a3-publica">Poco nitrato y poco costo a la vez: el ideal no es alcanzable.</span></> },
+    { n: 'Diseños posibles', dur: 2.5, d: <><span className="a3-completa">Cada elección de caudal y profundidad <InlineMath math="u=(Q,z_p)" /> da un punto: cuánto nitrato y cuánto cuesta.</span>
+        <span className="a3-publica">Cada diseño <InlineMath math="u=(Q,z_p)" /> es un punto: nitrato y costo.</span></> },
+    { n: 'Dominancia', dur: 3, d: <><span className="a3-completa">Un diseño domina a otro si es mejor o igual en los dos objetivos y estrictamente mejor en uno. Los dominados se descartan.</span>
+        <span className="a3-publica">Domina el que es mejor o igual en ambos y mejor en uno; los dominados se descartan.</span></> },
+    { n: 'Frente de Pareto', dur: 3, d: <><span className="a3-completa">Los no dominados forman el frente: sobre él, mejorar la calidad obliga a pagar más. No hay un único óptimo, sino un compromiso.</span>
+        <span className="a3-publica">Los no dominados forman el frente: más calidad cuesta más.</span></> },
+    { n: 'Un peso elige un punto', dur: 7, d: <><span className="a3-completa">Minimizar <InlineMath math="\gamma J_m+J_{\rm inst}+J_{\rm op}" /> es buscar la recta de pendiente <InlineMath math="-\gamma" /> que toca el frente. Al variar <InlineMath math="\gamma" /> se recorre el frente; las corridas actuales usan <InlineMath math="\gamma=1" />.</span>
+        <span className="a3-publica">Cada <InlineMath math="\gamma" /> elige el punto donde la recta de pendiente <InlineMath math="-\gamma" /> toca el frente; hoy, <InlineMath math="\gamma=1" />.</span></> },
+    { n: 'En el pozo', dur: 3, d: <><span className="a3-completa">Pozo hondo: menos nitrato, más caro. Pozo somero: barato, más nitrato. El frente completo (reoptimizar <InlineMath math="Q" /> y <InlineMath math="z_p" /> para cada <InlineMath math="\gamma" />) es el siguiente paso.</span>
+        <span className="a3-publica">Siguiente paso: el frente completo, reoptimizando <InlineMath math="Q" /> y <InlineMath math="z_p" /> para cada <InlineMath math="\gamma" />.</span></> },
 ];
 const [DOS, NUBE, DOM, FRENTE, PESO, POZO] = FASES.map((_, i) => i);
 
@@ -157,9 +164,10 @@ export default function A3D24({ theme = 'dark', entrada = 1 }) {
     const { fase, l, ir } = useFases(FASES.map(x => x.dur), entrada < 0);
     const P = k => (fase > k ? 1 : fase < k ? 0 : l / FASES[k].dur);
     const saltar = k => ir(k, reducida());
+    const pub = usePublica();
     return (
         <SlideLayout title="¿Qué es un frente de Pareto?" theme={theme} justify="flex-start">
-            <div style={{ display: 'grid', gridTemplateColumns: '1.45fr 1fr', gap: 34, alignItems: 'start' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: pub ? '1.6fr 1fr' : '1.45fr 1fr', gap: 34, alignItems: 'start' }}>
                 <div onClick={() => saltar(fase + 1 < FASES.length ? fase + 1 : 0)} title="clic: siguiente fase" style={{ cursor: 'pointer' }}>
                     <Esquema fase={fase} P={P} />
                 </div>
@@ -174,7 +182,7 @@ export default function A3D24({ theme = 'dark', entrada = 1 }) {
             <div style={{ display: 'grid', gridTemplateColumns: `repeat(${FASES.length}, 1fr)`, gap: 10, marginTop: 10 }}>
                 {FASES.map((x, k) => (
                     <button key={x.n} onClick={() => saltar(k)} title={`ir a: ${x.n}`}
-                            style={{ all: 'unset', cursor: 'pointer', fontFamily: 'var(--a3-sans)', fontSize: 14, lineHeight: 1.2,
+                            style={{ all: 'unset', cursor: 'pointer', fontFamily: 'var(--a3-sans)', fontSize: pub ? 17 : 14, lineHeight: 1.2,
                                      color: k === fase ? 'var(--sl-accent)' : 'var(--sl-muted)', fontWeight: k === fase ? 600 : 400 }}>
                         <span style={{ display: 'block', height: 3, background: 'var(--a3-filete, #C9D3DB)', marginBottom: 5 }}>
                             <span style={{ display: 'block', height: 3, width: `${k < fase ? 100 : k > fase ? 0 : 100 * l / x.dur}%`, background: 'var(--sl-accent)' }} />

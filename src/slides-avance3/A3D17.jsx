@@ -4,15 +4,17 @@ import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 // Objetivos del semestre 3 (ROADMAP.md, pista A: gradiente → optimización → Pareto → artículo) y su estado al
 // cierre de noviembre de 2026.
 const general = 'Resolver el problema de control óptimo del pozo (caudal y profundidad) con el gradiente adjunto, en los modelos ADR y MRMT, y verificarlo con dos discretizaciones independientes.';
+const generalPub = 'Optimizar caudal y profundidad del pozo con el gradiente adjunto, en ADR y MRMT.';
 
+// t: texto de la versión completa; p: el corto de la pública (si falta, se usa t).
 const objetivos = [
-    { t: 'Modelo de flujo y transporte coherente (ADR y MRMT): sin sumidero explícito, con almacenamiento y salida libre', e: 'ok' },
-    { t: 'Dos discretizaciones (RBF-FD y elementos finitos) sobre la misma malla y su comparación cuantitativa', e: 'ok' },
-    { t: 'Sistema adjunto continuo y discreto; gradiente verificado contra diferencias finitas en las seis variantes', e: 'ok', nota: 'en horizonte corto; el adjunto RBF-FD depende de la malla' },
-    { t: 'Optimización con bomba y tanque en los tres modelos con elementos finitos', e: 'wip', nota: 'resultados preliminares; falta χ ≤ 10⁻⁴' },
-    { t: 'Optimización con RBF-FD sobre la misma malla y comparación de óptimos', e: 'pen', nota: 'su adjunto aún depende de la malla' },
+    { t: 'Modelo de flujo y transporte coherente (ADR y MRMT): sin sumidero explícito, con almacenamiento y salida libre', p: 'Modelo coherente de flujo y transporte (ADR y MRMT)', e: 'ok' },
+    { t: 'Dos discretizaciones (RBF-FD y elementos finitos) sobre la misma malla y su comparación cuantitativa', p: 'Dos discretizaciones sobre la misma malla, comparadas', e: 'ok' },
+    { t: 'Sistema adjunto continuo y discreto; gradiente verificado contra diferencias finitas en las seis variantes', p: 'Gradiente adjunto verificado en las seis variantes (horizonte corto)', e: 'ok', nota: 'en horizonte corto; el adjunto RBF-FD depende de la malla' },
+    { t: 'Optimización con bomba y tanque en los tres modelos con elementos finitos', p: 'Optimización con elementos finitos: resultados preliminares', e: 'wip', nota: 'resultados preliminares; falta χ ≤ 10⁻⁴' },
+    { t: 'Optimización con RBF-FD sobre la misma malla y comparación de óptimos', p: 'Optimización con RBF-FD y comparación de óptimos', e: 'pen', nota: 'su adjunto aún depende de la malla' },
     { t: 'Frente de Pareto (barrido de γ)', e: 'pen' },
-    { t: 'Artículo de optimización', e: 'wip', nota: 'borrador; faltan resultados y revisión a fondo' },
+    { t: 'Artículo de optimización', p: 'Artículo de optimización (borrador)', e: 'wip', nota: 'borrador; faltan resultados y revisión a fondo' },
 ];
 const cfg = {
     ok:  { color: 'var(--a3-valido)', label: 'hecho' },
@@ -24,7 +26,8 @@ export default function A3D17({ theme = 'dark' }) {
     return (
         <SlideLayout title="Objetivos del semestre y su estado" theme={theme} justify="flex-start">
             <p style={{ margin: '0 0 4px', fontFamily: 'var(--a3-sans)', fontSize: 'var(--a3-fs-etiqueta)', color: 'var(--sl-muted)' }}>Objetivo general</p>
-            <p style={{ margin: '0 0 16px', fontSize: 'var(--a3-fs-cuerpo)', color: 'var(--sl-text)', lineHeight: 1.4 }}>{general}</p>
+            <p className="a3-completa" style={{ margin: '0 0 16px', fontSize: 'var(--a3-fs-cuerpo)', color: 'var(--sl-text)', lineHeight: 1.4 }}>{general}</p>
+            <p className="a3-publica" style={{ margin: '0 0 16px', fontSize: 'var(--a3-fs-cuerpo)', color: 'var(--sl-text)', lineHeight: 1.4 }}>{generalPub}</p>
             <div style={{ display: 'flex', flexDirection: 'column', borderTop: '2px solid var(--sl-text)', borderBottom: '2px solid var(--sl-text)' }}>
                 {objetivos.map((o, i) => {
                     const c = cfg[o.e];
@@ -33,8 +36,9 @@ export default function A3D17({ theme = 'dark' }) {
                                               borderTop: i ? '1px solid var(--a3-filete, #C9D3DB)' : 'none' }}>
                             <span style={{ width: 12, height: 12, borderRadius: 6, flexShrink: 0,
                                            background: o.e === 'ok' ? c.color : 'transparent', border: `2px solid ${c.color}` }} />
-                            <span style={{ color: 'var(--sl-text)', fontSize: 'var(--a3-fs-cuerpo)', flex: 1, lineHeight: 1.3 }}>{o.t}</span>
-                            {o.nota && <span style={{ color: 'var(--sl-muted)', fontSize: 'var(--a3-fs-nota)', fontFamily: 'var(--a3-sans)', textAlign: 'right' }}>{o.nota}</span>}
+                            <span className="a3-completa" style={{ color: 'var(--sl-text)', fontSize: 'var(--a3-fs-cuerpo)', flex: 1, lineHeight: 1.3 }}>{o.t}</span>
+                            <span className="a3-publica" style={{ color: 'var(--sl-text)', fontSize: 'var(--a3-fs-cuerpo)', flex: 1, lineHeight: 1.3 }}>{o.p || o.t}</span>
+                            {o.nota && <span className="a3-completa" style={{ color: 'var(--sl-muted)', fontSize: 'var(--a3-fs-nota)', fontFamily: 'var(--a3-sans)', textAlign: 'right' }}>{o.nota}</span>}
                             <span style={{ color: c.color, fontSize: 'var(--a3-fs-etiqueta)', fontFamily: 'var(--a3-sans)', minWidth: 92, textAlign: 'right', fontWeight: 600 }}>{c.label}</span>
                         </div>
                     );

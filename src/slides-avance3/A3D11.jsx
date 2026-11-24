@@ -4,6 +4,7 @@ import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import { Eq } from './ui.jsx';
 import { useProgreso, tramo, suave } from './anim.js';
 import { VERIF } from './verificacion.js';
+import { usePublica } from './version.jsx';
 
 // Verificación del gradiente adjunto en las seis implementaciones (data/output/verificacion_adjunto/*_alm1.json):
 // error relativo de la derivada direccional del adjunto frente a diferencias centradas con pasos δ = 10⁻² y 3·10⁻³,
@@ -28,25 +29,29 @@ export default function A3D11({ theme = 'dark' }) {
     const sy = e => T + (HI - Math.log10(e)) / (HI - LO) * (H - T - B);
     const grupos = BK.flatMap(([b, nb, c]) => MOD.map(([m, nm]) => ({ b, nb, c, m, nm })));
     const ancho = (W - L - 20) / grupos.length;
+    // en la pública, letra de la gráfica 20 % más grande
+    const pub = usePublica();
+    const fs = n => (pub ? Math.round(n * 1.2) : n);
+    const ej = { ...eje, fontSize: fs(eje.fontSize) };
     return (
         <SlideLayout title="Verificación: el gradiente adjunto coincide con diferencias finitas" theme={theme} justify="flex-start">
             <div style={{ display: 'grid', gridTemplateColumns: '1.15fr 1fr', gap: 30, alignItems: 'center' }}>
                 <Eq math={eqError} compacta />
                 <p style={txt}>
-                    Para una dirección <InlineMath math="\mathbf d" /> se compara la derivada que da el adjunto con la de diferencias
-                    centradas de paso <InlineMath math="\delta" /> (relativo a la escala de <InlineMath math="u" />). Si el adjunto es
-                    exacto, solo queda el error de las diferencias, proporcional a <InlineMath math="\delta^2" />. Horizonte corto: 3 pasos de
-                    10 h con <InlineMath math="C" /> inicial ≡ 1, para que el pozo vea soluto desde el primer paso.
+                    <span className="a3-completa">Para una dirección <InlineMath math="\mathbf d" /> se compara la derivada que da el adjunto con la de diferencias
+                    centradas de paso <InlineMath math="\delta" /> (relativo a la escala de <InlineMath math="u" />). </span>Si el adjunto es
+                    exacto, solo queda el error de las diferencias, proporcional a <InlineMath math="\delta^2" />.<span className="a3-completa"> Horizonte corto: 3 pasos de
+                    10 h con <InlineMath math="C" /> inicial ≡ 1, para que el pozo vea soluto desde el primer paso.</span>
                 </p>
             </div>
             <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', cursor: 'pointer' }} onClick={repetir}>
                 {[-10, -8, -6, -4].map(e => (
                     <g key={e}>
                         <line x1={L} x2={W - 20} y1={sy(10 ** e)} y2={sy(10 ** e)} stroke="var(--a3-estrato)" strokeOpacity="0.2" />
-                        <text x={L - 10} y={sy(10 ** e) + 5} textAnchor="end" style={eje}>10<tspan dy="-8" fontSize="11">{e}</tspan></text>
+                        <text x={L - 10} y={sy(10 ** e) + 5} textAnchor="end" style={ej}>10<tspan dy="-8" fontSize={fs(11)}>{e}</tspan></text>
                     </g>
                 ))}
-                <text x={18} y={sy(10 ** -6.5)} transform={`rotate(-90 18 ${sy(10 ** -6.5)})`} textAnchor="middle" style={eje}>error relativo e(d)</text>
+                <text x={18} y={sy(10 ** -6.5)} transform={`rotate(-90 18 ${sy(10 ** -6.5)})`} textAnchor="middle" style={ej}>error relativo e(d)</text>
                 {grupos.map((g, i) => {
                     const x0 = L + i * ancho;
                     const filas = VERIF.filter(r => r.backend === g.b && r.modelo === g.m);
@@ -69,29 +74,29 @@ export default function A3D11({ theme = 'dark' }) {
                                 );
                             })}
                             {g.b === 'bfr' && q && (
-                                <text x={x0 + ancho / 2} y={sy(1e-3) - 4} textAnchor="middle" style={{ ...eje, fill: g.c, fontSize: 16, opacity: tramo(p, 0.6, 0.8) }}>
+                                <text x={x0 + ancho / 2} y={sy(1e-3) - 4} textAnchor="middle" style={{ ...eje, fill: g.c, fontSize: fs(16), opacity: tramo(p, 0.6, 0.8) }}>
                                     baja {q.toFixed(0)} veces
                                 </text>
                             )}
-                            <text x={x0 + ancho / 2} y={H - B + 24} textAnchor="middle" style={{ ...eje, fill: 'var(--sl-text)', fontSize: 16 }}>{g.nm}</text>
-                            {i % 3 === 1 && <text x={x0 + ancho / 2} y={H - B + 50} textAnchor="middle" style={{ ...eje, fill: g.c, fontSize: 17 }}>{g.nb}</text>}
+                            <text x={x0 + ancho / 2} y={H - B + 24} textAnchor="middle" style={{ ...eje, fill: 'var(--sl-text)', fontSize: fs(16) }}>{g.nm}</text>
+                            {i % 3 === 1 && <text x={x0 + ancho / 2} y={H - B + 50} textAnchor="middle" style={{ ...eje, fill: g.c, fontSize: fs(17) }}>{g.nb}</text>}
                             {i === 3 && <line x1={x0} x2={x0} y1={T} y2={H - B + 48} stroke="var(--a3-estrato)" strokeOpacity="0.4" />}
                         </g>
                     );
                 })}
-                <text x={L + 4.5 * ancho} y={sy(10 ** -5.1)} textAnchor="middle" style={{ ...eje, fill: 'var(--sl-text)', fontSize: 16, opacity: tramo(p, 0.7, 0.9) }}>
+                <text x={L + 4.5 * ancho} y={sy(10 ** -5.1)} textAnchor="middle" style={{ ...eje, fill: 'var(--sl-text)', fontSize: fs(16), opacity: tramo(p, 0.7, 0.9) }}>
                     nivel del redondeo: no depende de δ
                 </text>
             </svg>
             <div style={{ display: 'flex', gap: 34, fontFamily: 'var(--a3-sans)', fontSize: 'var(--a3-fs-nota)', color: 'var(--sl-muted)', margin: '2px 0 0' }}>
                 <span>○ δ = 10⁻²</span><span>● δ = 3·10⁻³</span>
-                <span>cada par unido es una dirección: Q uniforme, Q aleatoria, (Q, z<sub>p</sub>) aleatoria, −∇Ĵ (en ADR solo δ = 10⁻²)</span>
+                <span>cada par unido es una dirección<span className="a3-completa">: Q uniforme, Q aleatoria, (Q, z<sub>p</sub>) aleatoria, −∇Ĵ (en ADR solo δ = 10⁻²)</span></span>
             </div>
             <p style={{ ...txt, marginTop: 10 }}>
-                En RBF-FD el error baja 11 veces al pasar de <InlineMath math="\delta=10^{-2}" /> a <InlineMath math="3\cdot10^{-3}" />:
-                justo <InlineMath math="(10/3)^2" />, lo que predice el error de las diferencias centradas. El error es de las diferencias
-                finitas, no del adjunto. En elementos finitos todo está en <InlineMath math="10^{-10}" />–<InlineMath math="10^{-7}" />, el
-                redondeo de los solucionadores.
+                En RBF-FD el error baja 11 veces<span className="a3-completa"> al pasar de <InlineMath math="\delta=10^{-2}" /> a <InlineMath math="3\cdot10^{-3}" /></span>:
+                justo <InlineMath math="(10/3)^2" /><span className="a3-completa">, lo que predice el error de las diferencias centradas</span>. El error es de las diferencias
+                finitas, no del adjunto.<span className="a3-completa"> En elementos finitos todo está en <InlineMath math="10^{-10}" />–<InlineMath math="10^{-7}" />, el
+                redondeo de los solucionadores.</span>
             </p>
         </SlideLayout>
     );

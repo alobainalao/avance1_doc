@@ -3,6 +3,7 @@ import { InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import { Eq, Cita } from './ui.jsx';
 import { useProgreso, tramo } from './anim.js';
+import { usePublica } from './version.jsx';
 
 // Gradiente conjugado frente a máximo descenso sobre una cuadrática mal condicionada J(x) = ½ xᵀAx − bᵀx
 // (ilustrativa, dos variables). Con búsqueda lineal exacta, CG llega en n = 2 pasos; el descenso zigzaguea.
@@ -53,6 +54,7 @@ function Curvas({ p }) {
     };
     const fsd = tramo(p, 0.05, 1), fcg = tramo(p, 0.05, 0.4);
     const nsd = Math.min(sd.length - 1, Math.floor((sd.length - 1) * fsd));
+    const pub = usePublica();
     return (
         <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%' }}>
             {anillos.map((a, i) => <polyline key={i} points={a} fill="none" stroke="var(--a3-estrato)" strokeOpacity={0.25 + 0.04 * i} strokeWidth="1.3" />)}
@@ -61,7 +63,7 @@ function Curvas({ p }) {
             <polyline points={parcial(cg, fcg)} fill="none" stroke="var(--a3-agua)" strokeWidth="3.6" />
             {cg.slice(0, 1 + Math.floor(2 * fcg)).map((q, i) => <circle key={i} cx={sx(q[0])} cy={sy(q[1])} r="6" fill="var(--a3-agua)" />)}
             <circle cx={sx(xs[0])} cy={sy(xs[1])} r="7" fill="none" stroke="var(--a3-valido)" strokeWidth="3" />
-            <g style={{ fontFamily: 'var(--a3-sans)', fontSize: 17 }}>
+            <g style={{ fontFamily: 'var(--a3-sans)', fontSize: pub ? 20 : 17 }}>
                 <text x={14} y={26} style={{ fill: 'var(--a3-pluma)' }}>máximo descenso: {nsd} pasos{fsd >= 1 && sd.length > 60 ? ' y sigue' : ''}</text>
                 <text x={14} y={50} style={{ fill: 'var(--a3-agua)' }}>gradiente conjugado: {Math.floor(2 * fcg)} pasos</text>
             </g>
@@ -86,16 +88,16 @@ export default function A3D12({ theme = 'dark' }) {
                     <p style={{ margin: '0 0 4px', fontSize: 'var(--a3-fs-seccion)', color: 'var(--sl-accent)' }}>Polak–Ribière⁺ proyectado</p>
                     <Eq math={eqPR} id="cg" compacta />
                     <p style={txt}>
-                        Cada iteración pide un gradiente, es decir, una simulación directa y una adjunta. La dirección mezcla el
-                        gradiente nuevo con la anterior y evita el zigzag del máximo descenso en los valles alargados.
+                        <span className="a3-completa">Cada iteración pide un gradiente, es decir, una simulación directa y una adjunta. </span>La dirección mezcla el
+                        gradiente nuevo con la anterior y evita el zigzag del máximo descenso<span className="a3-completa"> en los valles alargados</span>.
                     </p>
                     <p style={txt}>
                         Todo descansa en la proyección <InlineMath math="P_{\mathcal U_{ad}}" />: con solo cotas es recortar, pero con el tanque
-                        deja de ser explícita (siguiente lámina).
+                        deja de ser explícita<span className="a3-completa"> (siguiente lámina)</span>.
                     </p>
                     <p style={nota}>
-                        <Cita k="manzoni2021optimal" p="§ 6.3 y Alg. 6.1" />; <Cita k="Nocedal2006" p="cap. 5" />. Figura: cuadrática
-                        ilustrativa con búsqueda lineal exacta, donde CG termina en 2 pasos.
+                        <span className="a3-completa"><Cita k="manzoni2021optimal" p="§ 6.3 y Alg. 6.1" />; <Cita k="Nocedal2006" p="cap. 5" />. </span>Figura: cuadrática
+                        ilustrativa<span className="a3-completa"> con búsqueda lineal exacta, donde CG termina en 2 pasos</span>.
                     </p>
                 </div>
             </div>

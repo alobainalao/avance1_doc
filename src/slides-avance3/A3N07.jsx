@@ -15,25 +15,51 @@ export default function A3N07({ theme = 'dark' }) {
     return (
         <SlideLayout title="Modelo MRMT: regiones móvil e inmóviles" theme={theme} justify="flex-start">
             <Col gap={10}>
-                <EqCard title="Sistema MRMT (misma cancelación de fC sobre la ecuación móvil)"><Eq math={eqMRMT} id='mrmt' /></EqCard>
-                <Punto size={19}>Transferencia de masa multitasa: la región móvil intercambia soluto con varias regiones inmóviles, cada una con su
-                    tasa <Cita k="haggerty1995multirate" />.</Punto>
-                <Punto size={19}>El intercambio no contiene <InlineMath math="\mathbf u" /> ni <InlineMath math="f" />; la ecuación inmóvil es una EDO en cada punto y conserva la masa total.</Punto>
-                <Punto color="#C4511F" size={19}>
-                    Sin regiones inmóviles (<InlineMath math="N_r=0" />) se recupera ADR. El decaimiento{' '}
-                    <InlineMath math="\lambda_d\phi R C" /> solo se incluye en ADR; en MRMT <InlineMath math="\lambda_d=0" />.
-                    Tres variantes: ADR, MRMT semianalítico y MRMT por bloques (complemento de Schur).
-                </Punto>
+                <EqCard title={<>Sistema MRMT<span className="a3-completa"> (misma cancelación de fC sobre la ecuación móvil)</span></>}><Eq math={eqMRMT} id='mrmt' /></EqCard>
+                <div className="a3-completa">
+                    <Punto size={19}>Transferencia de masa multitasa: la región móvil intercambia soluto con varias regiones inmóviles, cada una con su
+                        tasa <Cita k="haggerty1995multirate" />.</Punto>
+                </div>
+                <div className="a3-completa">
+                    <Punto size={19}>El intercambio no contiene <InlineMath math="\mathbf u" /> ni <InlineMath math="f" />; la ecuación inmóvil es una EDO en cada punto y conserva la masa total.</Punto>
+                </div>
+                <div className="a3-completa">
+                    <Punto color="#C4511F" size={19}>
+                        Sin regiones inmóviles (<InlineMath math="N_r=0" />) se recupera ADR. El decaimiento{' '}
+                        <InlineMath math="\lambda_d\phi R C" /> solo se incluye en ADR; en MRMT <InlineMath math="\lambda_d=0" />.
+                        Tres variantes: ADR, MRMT semianalítico y MRMT por bloques (complemento de Schur).
+                    </Punto>
+                </div>
+                {/* versión pública: una idea por viñeta */}
+                <div className="a3-publica">
+                    <Punto>Intercambio móvil–inmóvil con varias tasas <Cita k="haggerty1995multirate" />.</Punto>
+                </div>
+                <div className="a3-publica">
+                    <Punto>Ecuación inmóvil: una EDO en cada punto; conserva la masa.</Punto>
+                </div>
+                <div className="a3-publica">
+                    <Punto color="#C4511F">Sin regiones inmóviles (<InlineMath math="N_r=0" />) se recupera ADR.</Punto>
+                </div>
                 <Titulo style={{ marginTop: 6 }}>Parámetros</Titulo>
-                <Punto color="#0F7A85" size={19}>
-                    <InlineMath math="\nu_r=\lambda_r/(\phi_{{\rm im},r}R)" /> [1/s]: frecuencia de relajación; tiempo de relajación{' '}
-                    <InlineMath math="\tau_r=1/\nu_r" />, de 4 a 14 h en las tres regiones.
-                    {' '}<InlineMath math="\eta_r=\phi_{{\rm im},r}/\phi" />: razón de capacidades, <InlineMath math="\sum_r\eta_r=0.3" />.
-                </Punto>
-                <Punto color="#0F7A85" size={19}>
-                    En cada paso de tiempo la ecuación inmóvil se integra con el trapecio (MRMT por bloques) o con la solución exacta de
-                    la EDO lineal (MRMT semianalítico); detalles en el Cap. II.
-                </Punto>
+                <div className="a3-completa">
+                    <Punto color="#0F7A85" size={19}>
+                        <InlineMath math="\nu_r=\lambda_r/(\phi_{{\rm im},r}R)" /> [1/s]: frecuencia de relajación; tiempo de relajación{' '}
+                        <InlineMath math="\tau_r=1/\nu_r" />, de 4 a 14 h en las tres regiones.
+                        {' '}<InlineMath math="\eta_r=\phi_{{\rm im},r}/\phi" />: razón de capacidades, <InlineMath math="\sum_r\eta_r=0.3" />.
+                    </Punto>
+                </div>
+                <div className="a3-completa">
+                    <Punto color="#0F7A85" size={19}>
+                        En cada paso de tiempo la ecuación inmóvil se integra con el trapecio (MRMT por bloques) o con la solución exacta de
+                        la EDO lineal (MRMT semianalítico); detalles en el Cap. II.
+                    </Punto>
+                </div>
+                <div className="a3-publica">
+                    <Punto color="#0F7A85">Relajación: <InlineMath math="\tau_r=1/\nu_r" />, de 4 a 14 h, con <InlineMath math="\nu_r=\lambda_r/(\phi_{{\rm im},r}R)" />.</Punto>
+                </div>
+                <div className="a3-publica">
+                    <Punto color="#0F7A85">Capacidades: <InlineMath math="\eta_r=\phi_{{\rm im},r}/\phi" />, <InlineMath math="\sum_r\eta_r=0.3" />.</Punto>
+                </div>
             </Col>
         </SlideLayout>
     );

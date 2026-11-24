@@ -3,6 +3,7 @@ import { InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import { useProgreso, tramo, suave } from './anim.js';
 import { OPT } from './optimoNitrato.js';
+import { usePublica } from './version.jsx';
 
 // Ĵ(z_p) cada metro con el mismo caudal (óptimo ADR de la primera corrida), FEniCSx: en la malla con conos
 // (h ≈ 4.9 m en el eje del pozo) Ĵ ondula y tiene mínimos locales; con la franja de 1 m en el eje es monótona
@@ -13,6 +14,7 @@ const AGUA = 'var(--a3-agua)', PLUMA = 'var(--a3-pluma)', VALIDO = 'var(--a3-val
 const minimos = J => J.map((v, i) => (i > 0 && i < J.length - 1 && v < J[i - 1] && v < J[i + 1] ? i : -1)).filter(i => i >= 0);
 
 function Barrido({ p }) {
+    const ley = usePublica() ? 19 : 16;
     const { conos, eje: fina } = OPT.ondulacion;
     const W = 700, H = 400, x0 = 70, x1 = W - 20;
     const zs = conos.zp, za = Math.min(...zs), zb = Math.max(...zs);
@@ -39,10 +41,10 @@ function Barrido({ p }) {
             {fc > 0 && <polyline points={linea(conos, fc)} fill="none" stroke={PLUMA} strokeWidth="2.6" />}
             {fc >= 1 && mins.map(i => <circle key={i} cx={sx(conos.zp[i])} cy={sy(conos.J[i])} r="7" fill="none" stroke={PLUMA} strokeWidth="2.4" />)}
             {fe > 0 && <polyline points={linea(fina, fe)} fill="none" stroke={AGUA} strokeWidth="3" />}
-            <text x={x1} y={36} textAnchor="end" style={{ ...eje, fontSize: 16, fill: PLUMA, opacity: fc }}>
+            <text x={x1} y={36} textAnchor="end" style={{ ...eje, fontSize: ley, fill: PLUMA, opacity: fc }}>
                 malla con conos (h ≈ 4.9 m en el eje): {mins.length} mínimos locales
             </text>
-            <text x={x1} y={60} textAnchor="end" style={{ ...eje, fontSize: 16, fill: AGUA, opacity: fe }}>
+            <text x={x1} y={60} textAnchor="end" style={{ ...eje, fontSize: ley, fill: AGUA, opacity: fe }}>
                 eje refinado a 1 m: monótona
             </text>
         </svg>
@@ -64,27 +66,37 @@ export default function A3D18({ theme = 'dark' }) {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 14, paddingTop: 6 }}>
                     <div style={{ ...caja, borderColor: PLUMA, opacity: 0.3 + 0.7 * tramo(p, 0.3, 0.45) }}>
                         <p style={{ ...cab, color: PLUMA }}>Síntoma</p>
-                        <p style={txt}>
+                        <p className="a3-completa" style={txt}>
                             En la malla con conos, las corridas detenidas por el tope de evaluaciones terminaron en −441 m (ADR), −436 m
                             (MRMT semi) y −469 m (MRMT bloque) con <InlineMath math="\partial\hat J/\partial z_p\approx 0" />: semi y bloque, dos
                             esquemas del mismo modelo, diferían 33 m.
                         </p>
+                        <p className="a3-publica" style={txt}>
+                            Las corridas paraban en mínimos distintos: semi y bloque, el mismo modelo, a 33 m.
+                        </p>
                     </div>
                     <div style={{ ...caja, borderColor: GRIS, opacity: 0.3 + 0.7 * tramo(p, 0.4, 0.55) }}>
                         <p style={{ ...cab, color: GRIS }}>Causa</p>
-                        <p style={txt}>
+                        <p className="a3-completa" style={txt}>
                             El núcleo del pozo (<InlineMath math="\varepsilon=r_{\rm pozo}/3\approx 6.7" /> m, con radio{' '}
                             <InlineMath math="r_{\rm pozo}=20" /> m) se muestrea con nodos separados <InlineMath math="h\approx 4.9" /> m (4 m
                             nominal): <InlineMath math="\hat J" /> ondula con periodo ≈ h y
                             amplitud ≈ 3·10⁻⁴, del orden de su pendiente (≈ 2·10⁻⁴ por metro). Cada valle es un mínimo local
                             espurio.
                         </p>
+                        <p className="a3-publica" style={txt}>
+                            Nodos a <InlineMath math="h\approx 4.9" /> m en el eje del pozo: <InlineMath math="\hat J" /> ondula con
+                            periodo ≈ h y cada valle es un mínimo espurio.
+                        </p>
                     </div>
                     <div style={{ ...caja, borderColor: VALIDO, opacity: 0.3 + 0.7 * tramo(p, 0.6, 0.8) }}>
                         <p style={{ ...cab, color: VALIDO }}>Remedio</p>
-                        <p style={txt}>
+                        <p className="a3-completa" style={txt}>
                             Franja con <InlineMath math="h=1" /> m a ±5 m del eje del pozo: 25 871 nodos (+27 %). La curva queda
                             monótona y la optimización se repite con esta malla.
+                        </p>
+                        <p className="a3-publica" style={txt}>
+                            Franja de <InlineMath math="h=1" /> m junto al eje: curva monótona; se reoptimiza con esta malla.
                         </p>
                     </div>
                 </div>

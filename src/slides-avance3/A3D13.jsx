@@ -11,15 +11,15 @@ const eqTanque = String.raw`\begin{aligned}P_{\mathcal U_{ad}}(\mathbf v)&=\arg\
 const eqBarrera = String.raw`\min_{u,\ \mathbf s>0}\ \hat J(u)-\mu\sum_i\log s_i\quad\text{s.a.}\quad \mathbf c(u)-\mathbf s=0`;
 
 const pasos = [
-    ['Barrera', <>cada desigualdad <InlineMath math="c_i(u)\ge0" /> se escribe <InlineMath math="c_i(u)=s_i" /> con
-        holgura <InlineMath math="s_i>0" />; <InlineMath math="-\mu\log s_i" /> mantiene positivas las holguras y{' '}
-        <InlineMath math="\mu\to0" /> lleva al óptimo. Los iterados pueden violar las restricciones mientras no converge</>],
-    ['Modelo cuadrático', <>cerca del iterado, <InlineMath math="\hat J" /> se aproxima con el gradiente adjunto y una Hessiana BFGS
-        armada con los gradientes de las iteraciones anteriores</>],
+    ['Barrera', <><span className="a3-completa">cada desigualdad <InlineMath math="c_i(u)\ge0" /> se escribe <InlineMath math="c_i(u)=s_i" /> con
+        holgura <InlineMath math="s_i>0" />; </span><InlineMath math="-\mu\log s_i" /> mantiene positivas las holguras y{' '}
+        <InlineMath math="\mu\to0" /> lleva al óptimo<span className="a3-completa">. Los iterados pueden violar las restricciones mientras no converge</span></>],
+    ['Modelo cuadrático', <><span className="a3-completa">cerca del iterado, </span><InlineMath math="\hat J" /> se aproxima con el gradiente adjunto y una Hessiana BFGS<span className="a3-completa">
+        {' '}armada con los gradientes de las iteraciones anteriores</span></>],
     ['Región de confianza', <>el paso <InlineMath math="\mathbf p" /> se busca solo donde el modelo es fiable,{' '}
-        <InlineMath math="\|\mathbf p\|\le\Delta" />: si <InlineMath math="\hat J" /> baja lo previsto, <InlineMath math="\Delta" /> crece;
-        si no, el paso se rechaza y <InlineMath math="\Delta" /> se reduce</>],
-    ['Paro', <>cuando la medida de criticidad <InlineMath math="\chi<10^{-4}" /> (siguiente lámina)</>],
+        <InlineMath math="\|\mathbf p\|\le\Delta" /><span className="a3-completa">: si <InlineMath math="\hat J" /> baja lo previsto, <InlineMath math="\Delta" /> crece;
+        si no, el paso se rechaza y <InlineMath math="\Delta" /> se reduce</span></>],
+    ['Paro', <>cuando la medida de criticidad <InlineMath math="\chi<10^{-4}" /><span className="a3-completa"> (siguiente lámina)</span></>],
 ];
 
 export default function A3D13({ theme = 'dark' }) {
@@ -32,24 +32,24 @@ export default function A3D13({ theme = 'dark' }) {
                 </div>
                 <div style={{ ...blq, borderLeftColor: 'var(--a3-pluma)' }}>
                     <p style={eti}>
-                        Con el tanque, el nivel <InlineMath math="S_n(\mathbf w)=S_0+V_s\Delta t\sum_{k\le n}w_k-\sum_{k\le n}d_k" /> depende
-                        de todos los caudales anteriores: recortar un <InlineMath math="Q_n" /> mueve el tanque en los pasos siguientes, y
+                        Con el tanque,<span className="a3-completa"> el nivel <InlineMath math="S_n(\mathbf w)=S_0+V_s\Delta t\sum_{k\le n}w_k-\sum_{k\le n}d_k" /> depende
+                        de todos los caudales anteriores: recortar un <InlineMath math="Q_n" /> mueve el tanque en los pasos siguientes, y</span>{' '}
                         proyectar es un problema cuadrático con 144 restricciones acopladas
                     </p>
                     <Eq math={eqTanque} compacta />
                 </div>
             </div>
             <p style={{ margin: '14px 0 2px', fontSize: 'var(--a3-fs-seccion)', color: 'var(--sl-accent)' }}>
-                Por eso: región de confianza con puntos interiores (trust-constr), sin proyectar
+                Por eso: región de confianza con puntos interiores<span className="a3-completa"> (trust-constr)</span>, sin proyectar
             </p>
             <p style={{ ...eti, margin: '0 0 2px' }}>
-                Implementación: <code>scipy.optimize.minimize(method="trust-constr")</code> de SciPy 1.17 <Cita k="virtanen2020scipy" />,
-                que sigue el algoritmo de <Cita k="byrd1999interior" />; véase también <Cita k="Nocedal2006" p="caps. 4 y 19" />.
+                <span className="a3-completa">Implementación: <code>scipy.optimize.minimize(method="trust-constr")</code> de SciPy 1.17 <Cita k="virtanen2020scipy" />,
+                que sigue el algoritmo de </span><span className="a3-publica">Algoritmo de </span><Cita k="byrd1999interior" /><span className="a3-completa">; véase también <Cita k="Nocedal2006" p="caps. 4 y 19" /></span>.
             </p>
             <Eq math={eqBarrera} id="barrera" compacta />
             <p style={{ ...eti, margin: '-4px 0 0', textAlign: 'center' }}>
-                <InlineMath math="\mathbf c(u)\ge0" />: todas las restricciones del conjunto admisible (cotas de{' '}
-                <InlineMath math="Q_n" /> y <InlineMath math="z_p" />, tanque y ciclo de la bomba), que entran en cada subproblema
+                <InlineMath math="\mathbf c(u)\ge0" />: todas las restricciones del conjunto admisible<span className="a3-completa"> (cotas de{' '}
+                <InlineMath math="Q_n" /> y <InlineMath math="z_p" />, tanque y ciclo de la bomba), que entran en cada subproblema</span>
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24, marginTop: 12 }}>
                 {pasos.map(([t, d], i) => (
@@ -59,10 +59,13 @@ export default function A3D13({ theme = 'dark' }) {
                     </div>
                 ))}
             </div>
-            <p style={{ margin: '16px 0 0', fontSize: 'var(--a3-fs-cuerpo)', color: 'var(--sl-text)', lineHeight: 1.4 }}>
+            <p className="a3-completa" style={{ margin: '16px 0 0', fontSize: 'var(--a3-fs-cuerpo)', color: 'var(--sl-text)', lineHeight: 1.4 }}>
                 Cada iteración cuesta lo mismo que con gradiente conjugado: una resolución directa (<InlineMath math="\hat J" />) y una
                 adjunta (<InlineMath math="\nabla\hat J" />), más una directa por cada paso rechazado. El cuasi-Newton además aprovecha la
                 curvatura: en los casos de prueba del libro (Graetz, pozos transitorios), L-BFGS-B resultó entre 1.8 y 7 veces más barato que PR⁺.
+            </p>
+            <p className="a3-publica" style={{ margin: '16px 0 0', fontSize: 'var(--a3-fs-cuerpo)', color: 'var(--sl-text)', lineHeight: 1.4 }}>
+                Mismo costo por iteración que gradiente conjugado. En casos de prueba, el cuasi-Newton L-BFGS-B fue 1.8–7 veces más barato que PR⁺.
             </p>
         </SlideLayout>
     );

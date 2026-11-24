@@ -21,26 +21,37 @@ export default function A3N03({ theme = 'dark' }) {
     const v = MODELOS.length ? MODELOS[0].resumen.V_L2_rel_final : null;
     return (
         <SlideLayout title="Salida libre: la carga de salida avanza sola, paso a paso" theme={theme} justify="flex-start">
-            <EqCard title="Formulación: componente normal de ∂ₙu = 0 en Γout (cierre adoptado)"><Eq math={eqForm} id='salida-libre' /></EqCard>
+            <EqCard title={<>Formulación: componente normal de ∂ₙu = 0 en Γout<span className="a3-completa"> (cierre adoptado)</span></>}><Eq math={eqForm} id='salida-libre' /></EqCard>
             <EqCard title="Discretización espacial: 3 puntos a lo largo de Γout"><Eq math={eqEsp} id='salida-espacial' /></EqCard>
-            <EqCard title="Discretización temporal: esquema θ (el mismo θ del flujo)"><Eq math={eqTmp} id='salida-temporal' /></EqCard>
-            <EqCard title="Resultado: la carga de salida en el paso n+1 es función de la del paso n"><Eq math={eqMapa} id='salida-mapa' /></EqCard>
+            <EqCard title={<>Discretización temporal: esquema θ<span className="a3-completa"> (el mismo θ del flujo)</span></>}><Eq math={eqTmp} id='salida-temporal' /></EqCard>
+            <EqCard title={<>Resultado<span className="a3-completa">: la carga de salida en el paso n+1 es función de la del paso n</span></>}><Eq math={eqMapa} id='salida-mapa' /></EqCard>
             <Col gap={8}>
-                <Punto color={azul} size={19}>
-                    <InlineMath math="M" /> solo depende de la geometría de <InlineMath math={String.raw`\Gamma_{\rm out}`} />{' '}
-                    (<InlineMath math="s_i^\pm" />), de <InlineMath math={String.raw`K_{\tau\tau}`} />, <InlineMath math="S_s" />,{' '}
-                    <InlineMath math={String.raw`\Delta t`} /> y <InlineMath math={String.raw`\theta`} />: no del interior ni de{' '}
-                    <InlineMath math="Q" /> o <InlineMath math="z_p" />. Cada paso <InlineMath math={String.raw`h^{n+1}_{\rm out}`} /> es un
-                    dato de Dirichlet ya conocido, y por eso <InlineMath math={String.raw`\psi_h=0`} /> en Γout.
-                </Punto>
-                <Punto size={19}>
-                    Implementación: en BFR la fila del nodo fantasma impone <InlineMath math={String.raw`\partial_n(\mathbf u\cdot\mathbf n)=0`} /> y
-                    la del nodo de borde es la ecuación temporal; en FEniCSx se factoriza <InlineMath math={String.raw`\tfrac{S_s}{\Delta t}I-\theta L`} /> una
-                    vez y se impone <InlineMath math={String.raw`h=h^{n+1}_{\rm out}`} /> como Dirichlet. Las dos esquinas quedan con{' '}
-                    <InlineMath math={String.raw`\partial_t h=0`} />.
-                </Punto>
+                <div className="a3-publica">
+                    <Punto color={azul}>
+                        <InlineMath math="M" /> no depende del interior ni de <InlineMath math="Q" /> o <InlineMath math="z_p" />: en{' '}
+                        <InlineMath math={String.raw`\Gamma_{\rm out}`} />, <InlineMath math="h" /> es dato de Dirichlet y{' '}
+                        <InlineMath math={String.raw`\psi_h=0`} />.
+                    </Punto>
+                </div>
+                <div className="a3-completa">
+                    <Punto color={azul} size={19}>
+                        <InlineMath math="M" /> solo depende de la geometría de <InlineMath math={String.raw`\Gamma_{\rm out}`} />{' '}
+                        (<InlineMath math="s_i^\pm" />), de <InlineMath math={String.raw`K_{\tau\tau}`} />, <InlineMath math="S_s" />,{' '}
+                        <InlineMath math={String.raw`\Delta t`} /> y <InlineMath math={String.raw`\theta`} />: no del interior ni de{' '}
+                        <InlineMath math="Q" /> o <InlineMath math="z_p" />. Cada paso <InlineMath math={String.raw`h^{n+1}_{\rm out}`} /> es un
+                        dato de Dirichlet ya conocido, y por eso <InlineMath math={String.raw`\psi_h=0`} /> en Γout.
+                    </Punto>
+                </div>
+                <div className="a3-completa">
+                    <Punto size={19}>
+                        Implementación: en BFR la fila del nodo fantasma impone <InlineMath math={String.raw`\partial_n(\mathbf u\cdot\mathbf n)=0`} /> y
+                        la del nodo de borde es la ecuación temporal; en FEniCSx se factoriza <InlineMath math={String.raw`\tfrac{S_s}{\Delta t}I-\theta L`} /> una
+                        vez y se impone <InlineMath math={String.raw`h=h^{n+1}_{\rm out}`} /> como Dirichlet. Las dos esquinas quedan con{' '}
+                        <InlineMath math={String.raw`\partial_t h=0`} />.
+                    </Punto>
+                </div>
                 <Punto color="#2E7D4F" size={19}>
-                    La misma ecuación discreta en los dos códigos{v !== null ? <>: diferencia L2 de <InlineMath math={String.raw`|\mathbf u|`} /> BFR↔FEniCSx = {v.toFixed(3)} (ADR, 30 d)</> : null}.
+                    La misma ecuación discreta en los dos códigos{v !== null ? <>: diferencia L2 de <InlineMath math={String.raw`|\mathbf u|`} /><span className="a3-completa"> BFR↔FEniCSx</span> = {v.toFixed(3)} (ADR, 30 d)</> : null}.
                 </Punto>
             </Col>
         </SlideLayout>

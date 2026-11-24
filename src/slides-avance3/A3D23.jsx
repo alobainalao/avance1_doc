@@ -19,6 +19,21 @@ const limitaciones = [
     <>El gradiente se verificó en un horizonte corto (3 pasos) y mallas de prueba, no en el problema completo.</>,
     <>trust-constr evalúa puntos fuera de {M('\\mathcal U_{ad}')} mientras busca; solo el resultado final es admisible.</>,
 ];
+// versión pública: una línea por viñeta (null = solo en la completa)
+const supuestosPub = [
+    <>Corte vertical 2D; caudal por metro de ancho (m²/s).</>,
+    <>Porosidad de 4 sondeos; conductividad por Kozeny–Carman.</>,
+    <>{M('S_s=\\phi')}: provisional, mucho mayor que en campo.</>,
+    <>Pesos {M('\\gamma=\\alpha=\\beta=1')}: el óptimo depende de ellos.</>,
+    <>MRMT ({M('\\tau_r')} de 4 a 14 h) ≈ ADR retardado.</>,
+];
+const limitacionesPub = [
+    <>Solo elementos finitos: el adjunto RBF-FD cambia con la malla.</>,
+    <>Óptimos preliminares: {M('\\chi')} entre 10⁻³ y 10⁻² (meta 10⁻⁴).</>,
+    <>{M('\\Delta t=10')} h, mayor que el intercambio MRMT más rápido (≈ 4 h).</>,
+    <>Gradiente verificado solo en horizonte corto y mallas de prueba.</>,
+    null,
+];
 
 export default function A3D23({ theme = 'dark' }) {
     return (
@@ -26,11 +41,19 @@ export default function A3D23({ theme = 'dark' }) {
             <Cols>
                 <Col flex={1}>
                     <Titulo>Supuestos del modelo</Titulo>
-                    {supuestos.map((t, i) => <Punto key={i} color="var(--a3-agua)" size={20}>{t}</Punto>)}
+                    {supuestos.map((t, i) => (
+                        <Punto key={i} color="var(--a3-agua)" size={20}>
+                            <span className="a3-completa">{t}</span><span className="a3-publica">{supuestosPub[i]}</span>
+                        </Punto>
+                    ))}
                 </Col>
                 <Col flex={1}>
                     <Titulo>Limitaciones de los resultados actuales</Titulo>
-                    {limitaciones.map((t, i) => <Punto key={i} color="var(--a3-pluma)" size={20}>{t}</Punto>)}
+                    {limitaciones.map((t, i) => (limitacionesPub[i]
+                        ? <Punto key={i} color="var(--a3-pluma)" size={20}>
+                              <span className="a3-completa">{t}</span><span className="a3-publica">{limitacionesPub[i]}</span>
+                          </Punto>
+                        : <div key={i} className="a3-completa"><Punto color="var(--a3-pluma)" size={20}>{t}</Punto></div>))}
                 </Col>
             </Cols>
         </SlideLayout>

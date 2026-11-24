@@ -28,11 +28,11 @@ export default function A3D05({ theme = 'dark' }) {
                 </div>
             ))}
             <p style={{ margin: '10px 0 6px', fontSize: 'var(--a3-fs-cuerpo)', color: 'var(--sl-text)', lineHeight: 1.4 }}>
-                Todas las restricciones son lineales en <InlineMath math="(Q_1,\dots,Q_{72},z_p)" />: <InlineMath math="\mathcal U_{ad}" /> es un
-                poliedro convexo y compacto. El tanque acopla todos los pasos de tiempo: cada <InlineMath math="S_n" /> depende de{' '}
-                <InlineMath math="Q_1,\dots,Q_n" />.
+                Todas las restricciones son lineales<span className="a3-completa"> en <InlineMath math="(Q_1,\dots,Q_{72},z_p)" /></span>: <InlineMath math="\mathcal U_{ad}" /> es un
+                poliedro convexo y compacto. El tanque acopla todos los pasos de tiempo<span className="a3-completa">: cada <InlineMath math="S_n" /> depende de{' '}
+                <InlineMath math="Q_1,\dots,Q_n" /></span>.
             </p>
-            <p style={{ margin: '0 0 8px', fontFamily: 'var(--a3-sans)', fontSize: 'var(--a3-fs-nota)', color: 'var(--sl-muted)', lineHeight: 1.4 }}>
+            <p className="a3-completa" style={{ margin: '0 0 8px', fontFamily: 'var(--a3-sans)', fontSize: 'var(--a3-fs-nota)', color: 'var(--sl-muted)', lineHeight: 1.4 }}>
                 <InlineMath math="a(\tau_n)\in[0,1]" />: disponibilidad de la bomba a la hora del día <InlineMath math="\tau_n" />;{' '}
                 <InlineMath math="V_s" />: factor que convierte el caudal del corte (por metro de ancho) en volumen del tanque;{' '}
                 <InlineMath math="d_n" />: demanda del intervalo <InlineMath math="n" /> [m³]; <InlineMath math="N_w" />: pasos de la ventana del

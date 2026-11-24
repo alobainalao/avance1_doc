@@ -2,6 +2,7 @@ import React from 'react';
 import { InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import { useProgreso, suave, tramo, lerp } from './anim.js';
+import { usePublica } from './version.jsx';
 
 // Qué se corrigió del modelo anterior y su efecto en la concordancia RBF-FD ↔ elementos finitos
 // (tesis, Cap. IV §Efecto de la condición de salida; malla con conos: grupo M_modelo_nuevo, 12-nov-2026).
@@ -30,9 +31,10 @@ const ESCALA = 25;
 export default function A3D02({ theme = 'dark' }) {
     const [p] = useProgreso(3600, 500);
     const q = suave(tramo(p, 0.35, 1));
+    const pub = usePublica();
     return (
         <SlideLayout title="Del modelo anterior al modelo nuevo" theme={theme} justify="flex-start">
-            <div style={{ display: 'grid', gridTemplateColumns: '210px 1fr 40px 1fr', rowGap: 18, columnGap: 18, alignItems: 'center' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: pub ? '250px 1fr 40px 1fr' : '210px 1fr 40px 1fr', rowGap: 18, columnGap: 18, alignItems: 'center' }}>
                 <span />
                 <span style={cab}>antes</span><span />
                 <span style={{ ...cab, color: 'var(--a3-valido)' }}>ahora</span>
@@ -43,7 +45,7 @@ export default function A3D02({ theme = 'dark' }) {
                             <span style={{ fontSize: 'var(--a3-fs-seccion)', color: 'var(--sl-text)', fontWeight: 600 }}>{c.tema}</span>
                             <div style={{ ...celda, opacity: 0.55 }}>
                                 <InlineMath math={c.antes} />
-                                <span style={nota}>{c.antesTxt}</span>
+                                <span className="a3-completa" style={nota}>{c.antesTxt}</span>
                             </div>
                             <span style={{ color: 'var(--sl-muted)', fontSize: 30, textAlign: 'center', opacity: v }}>→</span>
                             <div style={{ ...celda, borderLeftColor: 'var(--a3-valido)', opacity: v }}>
@@ -75,7 +77,10 @@ export default function A3D02({ theme = 'dark' }) {
                         </div>
                     );
                 })}
-                <p style={{ ...nota, marginTop: 10 }}>
+                <p className="a3-publica" style={{ ...nota, marginTop: 10 }}>
+                    Antes y ahora difieren también en la malla; la diferencia en <InlineMath math="|\mathbf u|" /> está junto al pozo.
+                </p>
+                <p className="a3-completa" style={{ ...nota, marginTop: 10 }}>
                     Mismo caso, ADR con fuente y pozo. Antes: condición de salida distinta en cada método, malla común anterior
                     (15 626 nodos). Ahora: salida libre en ambos, malla con conos (20 348 nodos). La diferencia en |u| se concentra
                     junto al pozo y casi no cambia.

@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { BlockMath, InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import { Cita } from './ui.jsx';
+import { usePublica } from './version.jsx';
 import { POLIGONO, POZO, FUENTE, X, Z } from './escena.jsx';
 import { useFases, reducida, suave, tramo, lerp } from './anim.js';
 import { OPT } from './optimoNitrato.js';
@@ -12,18 +13,19 @@ import { ESQ } from './esquema.js';
 // digitalizada de tesis/Figures/ubicacion.png (sondeos, traza del corte, poblados); capas y porosidad de los sondeos
 // (funtions/get_phi.py); líneas de corriente y pluma de nitrato del simulador (FEniCSx, malla con eje de 1 m, ADR) sin
 // bombeo y con el óptimo ADR; tanque y demanda de optimoNitrato.js (codigo/scripts/exportar_esquema_presentacion.py).
+// Cada fase: d = texto de la versión completa, p = el corto de la pública.
 const AGUA = 'var(--a3-agua)', PLUMA = 'var(--a3-pluma)', GRIS = 'var(--a3-estrato)';
 
 const FASES = [
-    { n: 'Ubicación', dur: 3, d: <>el acuífero de estudio está en Sabinas, en el noreste de Coahuila</> },
-    { n: 'Sondeos', dur: 4, d: <>seis sondeos eléctricos midieron la conductividad del subsuelo a varias profundidades; de ella se estimó la porosidad efectiva de cada capa <Cita k="DanielRivas" /></> },
-    { n: 'Traza del corte', dur: 4, d: <>cuatro sondeos están casi alineados: se proyectan sobre la recta roja, que será la traza del corte</> },
-    { n: 'Corte vertical', dur: 5, d: <>si las propiedades no cambian en la dirección transversal, basta un corte vertical de 9.9 km entre los sondeos extremos, con las capas que midió cada sondeo</> },
-    { n: 'Porosidad', dur: 3, d: <>la porosidad <InlineMath math="\phi" /> de las capas se interpola a todo el corte; de ella sale la conductividad <InlineMath math="\mathbf K" /> <Cita k="Kozeny-Carman" /></> },
-    { n: 'Flujo', dur: 3, d: <>el agua entra por el noreste y sale libre por el suroeste; corre más rápido donde <InlineMath math="\phi" /> y <InlineMath math="\mathbf K" /> son altas</> },
-    { n: 'Derrame', dur: 10, d: <>una fuente de nitrato dejó una pluma (estado inicial del modelo); en 30 días el agua la arrastra, la dispersa y se degrada; el valor guía es 50 mg/L <Cita k="oms2022" /></> },
-    { n: 'Pozo', dur: 10, d: <>el pozo bombea <InlineMath math="Q(t)" /> a la profundidad <InlineMath math="z_p" />: desvía el flujo y capta parte del nitrato</> },
-    { n: 'Tanque y demanda', dur: 10, d: <>lo bombeado entra a un tanque de 2 000 m³ que entrega 1 000 m³ al día a la población y al riego</> },
+    { n: 'Ubicación', dur: 3, p: <>acuífero de Sabinas, noreste de Coahuila</>,  d: <>el acuífero de estudio está en Sabinas, en el noreste de Coahuila</> },
+    { n: 'Sondeos', dur: 4, p: <>seis sondeos eléctricos dan la porosidad de cada capa <Cita k="DanielRivas" /></>,  d: <>seis sondeos eléctricos midieron la conductividad del subsuelo a varias profundidades; de ella se estimó la porosidad efectiva de cada capa <Cita k="DanielRivas" /></> },
+    { n: 'Traza del corte', dur: 4, p: <>cuatro sondeos casi alineados definen el corte</>,  d: <>cuatro sondeos están casi alineados: se proyectan sobre la recta roja, que será la traza del corte</> },
+    { n: 'Corte vertical', dur: 5, p: <>corte vertical de 9.9 km con las capas medidas</>,  d: <>si las propiedades no cambian en la dirección transversal, basta un corte vertical de 9.9 km entre los sondeos extremos, con las capas que midió cada sondeo</> },
+    { n: 'Porosidad', dur: 3, p: <>porosidad <InlineMath math="\phi" /> interpolada; de ella, la conductividad <InlineMath math="\mathbf K" /></>,  d: <>la porosidad <InlineMath math="\phi" /> de las capas se interpola a todo el corte; de ella sale la conductividad <InlineMath math="\mathbf K" /> <Cita k="Kozeny-Carman" /></> },
+    { n: 'Flujo', dur: 3, p: <>el agua entra por el noreste y sale libre por el suroeste</>,  d: <>el agua entra por el noreste y sale libre por el suroeste; corre más rápido donde <InlineMath math="\phi" /> y <InlineMath math="\mathbf K" /> son altas</> },
+    { n: 'Derrame', dur: 10, p: <>la pluma de nitrato avanza 30 días; guía: 50 mg/L <Cita k="oms2022" /></>,  d: <>una fuente de nitrato dejó una pluma (estado inicial del modelo); en 30 días el agua la arrastra, la dispersa y se degrada; el valor guía es 50 mg/L <Cita k="oms2022" /></> },
+    { n: 'Pozo', dur: 10, p: <>el pozo bombea <InlineMath math="Q(t)" /> a la profundidad <InlineMath math="z_p" /> y capta nitrato</>,  d: <>el pozo bombea <InlineMath math="Q(t)" /> a la profundidad <InlineMath math="z_p" />: desvía el flujo y capta parte del nitrato</> },
+    { n: 'Tanque y demanda', dur: 10, p: <>el tanque entrega 1 000 m³ diarios a la población y al riego</>,  d: <>lo bombeado entra a un tanque de 2 000 m³ que entrega 1 000 m³ al día a la población y al riego</> },
     { n: 'La pregunta', dur: 2, d: <>¿cómo operar el pozo?</> },
 ];
 const [UBI, SON, TRAZA, CORTE, PHI, FLUJO, DERRAME, POZOF, TANQUE, PREG] = FASES.map((_, i) => i);
@@ -250,8 +252,8 @@ function Escena({ fase, l, w }) {
                 <clipPath id="d01-clip"><polygon points={POLIGONO} /></clipPath>
                 <clipPath id="d01-crece"><rect x={-30} y={-5} width={1100} height={340 * seccion + 5} /></clipPath>
                 <clipPath id="d01-descubre"><rect x={lerp(X(FUENTE.x) + 25, -20, descubre)} y={-20} width={1100} height={340} /></clipPath>
-                <marker id="d01-flecha" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-                    <path d="M0,10 L5,0 L10,10 z" fill="var(--sl-text)" />
+                <marker id="d01-flecha" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                    <path d="M0,0 L10,5 L0,10 z" fill="var(--sl-text)" />
                 </marker>
             </defs>
 
@@ -347,20 +349,21 @@ function Escena({ fase, l, w }) {
     );
 }
 
-const PREGUNTA = String.raw`\min_{Q_1,\dots,Q_{72},\;z_p}\ \hat J=\gamma\,J_m+\alpha\,J_{\rm inst}+\beta\,J_{\rm op}`;
-const SUJETO = String.raw`\text{s.a.}\ \ \text{flujo y transporte},\quad 0\le Q_n\le\overline Q_n,\quad z_{\min}\le z_p\le z_{\max},\quad 0\le S_n\le S_{\max}`;
+const PREGUNTA = String.raw`\min_{Q(t),\;z_p}\ \hat J=\gamma\,J_m+\alpha\,J_{\rm inst}+\beta\,J_{\rm op}`;
+const SUJETO = String.raw`\text{s.a.}\ \ \text{flujo y transporte},\quad 0\le Q(t)\le\overline Q(t),\quad z_{\min}\le z_p\le z_{\max},\quad 0\le S(t)\le S_{\max}`;
 
 export default function A3D01({ theme = 'dark', entrada = 1 }) {
     const { fase, l, w, ir } = useFases(FASES.map(f => f.dur), entrada < 0);
     const q = fase === PREG ? suave(l / FASES[PREG].dur) : 0;
     const saltar = k => ir(k, reducida());
+    const pub = usePublica();
     return (
         <SlideLayout title="Del acuífero de Sabinas a la pregunta de la tesis" theme={theme} justify="flex-start">
             <p style={{ margin: '0 0 2px', minHeight: 58, fontSize: 'var(--a3-fs-cuerpo)', color: 'var(--sl-text)', lineHeight: 1.35, opacity: 1 - q }}>
                 <span style={{ fontFamily: 'var(--a3-sans)', fontSize: 'var(--a3-fs-etiqueta)', color: AGUA, fontWeight: 600, marginRight: 12 }}>
                     {fase + 1} · {FASES[fase].n}
                 </span>
-                {FASES[fase].d}
+                {pub && FASES[fase].p ? FASES[fase].p : FASES[fase].d}
             </p>
             <div style={{ position: 'relative' }}>
                 <div onClick={() => saltar(fase + 1 < FASES.length ? fase + 1 : 0)} title="clic: siguiente fase"
@@ -372,14 +375,14 @@ export default function A3D01({ theme = 'dark', entrada = 1 }) {
                                   opacity: q, width: '88%', padding: '18px 28px', background: 'var(--sl-bg)', borderLeft: `5px solid ${AGUA}`,
                                   boxShadow: '0 6px 28px rgba(0,0,0,0.18)' }}>
                         <p style={{ margin: '0 0 4px', fontSize: 'var(--a3-fs-seccion)', color: 'var(--sl-text)', lineHeight: 1.3 }}>
-                            ¿Cuánto bombear en cada intervalo de 10 h y a qué profundidad, para captar el menor nitrato posible
+                            ¿Cómo bombear a lo largo del tiempo y a qué profundidad, para captar el menor nitrato posible
                             al menor costo, sin vaciar ni desbordar el tanque?
                         </p>
                         <BlockMath math={PREGUNTA} />
                         <div className="a3-ec--compacta"><BlockMath math={SUJETO} /></div>
                         <p style={{ margin: '2px 0 0', fontFamily: 'var(--a3-sans)', fontSize: 'var(--a3-fs-nota)', color: 'var(--sl-muted)' }}>
                             <InlineMath math="J_m" />: calidad del agua extraída · <InlineMath math="J_{\rm inst}" />: profundidad de instalación ·{' '}
-                            <InlineMath math="J_{\rm op}" />: costo de bombeo · tanque <InlineMath math="S_n=S_0+V_s\Delta t\sum Q_k-\sum d_k" />
+                            <InlineMath math="J_{\rm op}" />: costo de bombeo · tanque <InlineMath math="S(t)=S_0+V_s\int_0^t Q\,ds-\int_0^t d\,ds" />
                         </p>
                     </div>
                 )}

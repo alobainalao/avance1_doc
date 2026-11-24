@@ -30,11 +30,11 @@ export default function A3D09({ theme = 'dark' }) {
                 </div>
             ))}
             <p style={{ margin: '10px 0 0', fontSize: 'var(--a3-fs-cuerpo)', color: 'var(--sl-text)', lineHeight: 1.4 }}>
-                Como en el caso parabólico lineal, el adjunto va hacia atrás desde <InlineMath math="T" /> con dato final
-                nulo <Cita k="manzoni2021optimal" p="Teo. 7.2" />. El orden se invierte: <InlineMath math="\psi_C" /> y <InlineMath math="\psi_{\mathrm{im},r}" /> primero (necesitan{' '}
-                <InlineMath math="C_m" />), después <InlineMath math="\psi_h" />. El término <InlineMath math="\mathbf d" /> viene de la
-                dependencia de la dispersión <InlineMath math="\mathbf D(\mathbf u)" /> en la velocidad. Con la salida libre,{' '}
-                <InlineMath math="h|_{\Gamma_{\rm out}}" /> no depende del control y el adjunto del flujo recibe una sola condición.
+                <span className="a3-completa">Como en el caso parabólico lineal, el adjunto va hacia atrás desde <InlineMath math="T" /> con dato final
+                nulo <Cita k="manzoni2021optimal" p="Teo. 7.2" />. </span>El orden se invierte: <InlineMath math="\psi_C" /> y <InlineMath math="\psi_{\mathrm{im},r}" /> primero<span className="a3-completa"> (necesitan{' '}
+                <InlineMath math="C_m" />)</span>, después <InlineMath math="\psi_h" />. El término <InlineMath math="\mathbf d" /> viene de la
+                dependencia de la dispersión <InlineMath math="\mathbf D(\mathbf u)" /> en la velocidad.<span className="a3-completa"> Con la salida libre,{' '}
+                <InlineMath math="h|_{\Gamma_{\rm out}}" /> no depende del control y el adjunto del flujo recibe una sola condición.</span>
             </p>
         </SlideLayout>
     );

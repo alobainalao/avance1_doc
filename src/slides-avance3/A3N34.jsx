@@ -56,9 +56,9 @@ export default function A3N34({ theme = 'dark' }) {
                     <span key={k}><span style={{ display: 'inline-block', width: 11, height: 11, borderRadius: 6, background: COL[k], marginRight: 7 }} />{ETQ[k]}</span>
                 ))}
                 <span style={{ color: EJE_COL }}>– – eje de la pluma</span>
-                <span style={{ color: 'var(--sl-muted)' }}>- - cono vertical del pozo</span>
-                <span style={{ color: 'var(--sl-muted)' }}>○ zonas de 4 m (• centros)</span>
-                <span style={{ marginLeft: 'auto', color: 'var(--sl-muted)', fontFamily: 'var(--a3-sans, sans-serif)', fontSize: 'var(--a3-fs-nota)' }}>
+                <span style={{ color: 'var(--sl-muted)' }}>- - cono <span className="a3-completa">vertical </span>del pozo</span>
+                <span style={{ color: 'var(--sl-muted)' }}>○ zonas de 4 m<span className="a3-completa"> (• centros)</span></span>
+                <span className="a3-completa" style={{ marginLeft: 'auto', color: 'var(--sl-muted)', fontFamily: 'var(--a3-sans, sans-serif)', fontSize: 'var(--a3-fs-nota)' }}>
                     malla_conos · {INFO.fecha}
                 </span>
             </div>
@@ -66,15 +66,22 @@ export default function A3N34({ theme = 'dark' }) {
             <div style={{ display: 'flex', gap: 22, flex: 1, minHeight: 0 }}>
                 {VENTANAS.map(v => <Ventana key={v.clave} v={v} />)}
             </div>
-            <Punto color="var(--a3-agua)" size={17} style={{ flexShrink: 0 }}>
-                4 m en dos zonas formadas por un rectángulo de 100 m de ancho y dos círculos de radio 50 m: la del pozo, vertical, del pozo
-                a la cota z<sub>max</sub> = −200 m de la optimización (600 × 100 m, cubre lo que recorre z<sub>p</sub>), y la de la fuente,
-                horizontal, con un cuadrado de 100 m entre la fuente y 100 m aguas abajo (200 × 100 m). 16 m en el cono de la pluma
-                (línea de corriente de Darcy de la fuente a la salida) y en el cono vertical del pozo hasta la pluma; 30 m en la
-                frontera, también en el techo bajo la pluma; 60 m lejos.{' '}{miles(INFO.n_dominio)} nodos
-                ({extra > 0 ? '+' : '−'}{Math.abs(extra)} % frente a {miles(INFO_BASE.n_dominio)}), ángulo {INFO.ang_min}°–{INFO.ang_max}°.
-                La comparación BFR–FEniCSx y los grids de resultados usan esta malla.
-            </Punto>
+            <div className="a3-publica" style={{ flexShrink: 0 }}>
+                <Punto color="var(--a3-agua)">
+                    Espaciado: 4 m en pozo y fuente, 16 m en los conos, 60 m lejos; {miles(INFO.n_dominio)} nodos.
+                </Punto>
+            </div>
+            <div className="a3-completa" style={{ flexShrink: 0 }}>
+                <Punto color="var(--a3-agua)" size={17} style={{ flexShrink: 0 }}>
+                    4 m en dos zonas formadas por un rectángulo de 100 m de ancho y dos círculos de radio 50 m: la del pozo, vertical, del pozo
+                    a la cota z<sub>max</sub> = −200 m de la optimización (600 × 100 m, cubre lo que recorre z<sub>p</sub>), y la de la fuente,
+                    horizontal, con un cuadrado de 100 m entre la fuente y 100 m aguas abajo (200 × 100 m). 16 m en el cono de la pluma
+                    (línea de corriente de Darcy de la fuente a la salida) y en el cono vertical del pozo hasta la pluma; 30 m en la
+                    frontera, también en el techo bajo la pluma; 60 m lejos.{' '}{miles(INFO.n_dominio)} nodos
+                    ({extra > 0 ? '+' : '−'}{Math.abs(extra)} % frente a {miles(INFO_BASE.n_dominio)}), ángulo {INFO.ang_min}°–{INFO.ang_max}°.
+                    La comparación BFR–FEniCSx y los grids de resultados usan esta malla.
+                </Punto>
+            </div>
         </SlideLayout>
     );
 }

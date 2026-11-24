@@ -1,5 +1,6 @@
 import React from 'react';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
+import { usePublica } from './version.jsx';
 
 // Estado del documento de tesis (tesis/docR.tex, páginas del índice de noviembre de 2026), del artículo de
 // optimización (articulos/optimizacion-adjunto) y cronograma de hitos. Todo el texto es un primer borrador que hay que
@@ -12,14 +13,14 @@ const capitulos = [
     { n: 'II', t: 'Transferencia de masa multitasa', p: [34, 60], e: 'bor' },
     { n: 'III', t: 'Control óptimo y método adjunto', p: [61, 94], e: 'bor' },
     { n: 'IV', t: 'Resultados numéricos', p: [95, 110], e: 'inc', nota: 'resultados anteriores; faltan los convergidos' },
-    { n: 'A–E', t: 'Anexos: buena postura, esquemas, adjunto, verificación', p: [111, 133], e: 'bor' },
+    { n: 'A–E', t: <>Anexos<span className="a3-completa">: buena postura, esquemas, adjunto, verificación</span></>, p: [111, 133], e: 'bor' },
 ];
 const ESTADO = { bor: { c: AGUA, l: 'borrador' }, inc: { c: PLUMA, l: 'incompleto' } };
 
 const hitos = [
     { s: 3, f: 'ene 2027', t: 'Modelo, gradiente verificado y primeros óptimos (este avance)' },
-    { s: 4, f: 'jul 2027', t: 'Óptimos convergidos en los tres modelos y frente de Pareto' },
-    { s: 5, f: 'ene 2028', t: 'Artículo de optimización enviado; adjunto RBF-FD estable con la malla', meta: true },
+    { s: 4, f: 'jul 2027', t: 'Óptimos convergidos en los tres modelos y frente de Pareto', tp: 'Óptimos convergidos y frente de Pareto' },
+    { s: 5, f: 'ene 2028', t: 'Artículo de optimización enviado; adjunto RBF-FD estable con la malla', tp: 'Artículo de optimización enviado', meta: true },
     { s: 6, f: 'jul 2028', t: 'Artículo de modelación; reescritura de los capítulos' },
     { s: 7, f: 'ene 2029', t: 'Tesis completa y revisiones', meta: true },
     { s: 8, f: 'jul 2029', t: 'Defensa', meta: true },
@@ -35,7 +36,9 @@ function Cronograma() {
                                    borderRadius: 8, border: `2.5px solid ${h.meta ? PLUMA : GRIS}`, background: h.s === 3 ? AGUA : 'var(--sl-bg, #fff)' }} />
                     <span style={{ ...lin, minWidth: 54, color: h.s === 3 ? AGUA : 'var(--sl-muted)', fontWeight: h.s === 3 ? 700 : 400 }}>sem {h.s}</span>
                     <span style={{ ...lin, minWidth: 74, color: 'var(--sl-muted)' }}>{h.f}</span>
-                    <span style={{ fontSize: 'var(--a3-fs-cuerpo)', color: h.meta ? PLUMA : 'var(--sl-text)', lineHeight: 1.3 }}>{h.t}</span>
+                    <span style={{ fontSize: 'var(--a3-fs-cuerpo)', color: h.meta ? PLUMA : 'var(--sl-text)', lineHeight: 1.3 }}>
+                        {h.tp ? <><span className="a3-completa">{h.t}</span><span className="a3-publica">{h.tp}</span></> : h.t}
+                    </span>
                 </div>
             ))}
         </div>
@@ -43,11 +46,12 @@ function Cronograma() {
 }
 
 export default function A3D20({ theme = 'dark' }) {
+    const pub = usePublica();
     return (
         <SlideLayout title="Avance del documento de tesis y del artículo" theme={theme} justify="flex-start">
             <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: 40, alignItems: 'start' }}>
                 <div>
-                    <p style={tit}>Tesis: primer borrador de cuatro capítulos y cinco anexos, por revisar y reescribir a fondo</p>
+                    <p style={tit}>Tesis: primer borrador<span className="a3-completa"> de cuatro capítulos y cinco anexos</span>, por revisar y reescribir a fondo</p>
                     <div style={{ borderTop: '2px solid var(--sl-text)', borderBottom: '2px solid var(--sl-text)' }}>
                         {capitulos.map((c, i) => {
                             const e = ESTADO[c.e], np = c.p[1] - c.p[0] + 1;
@@ -60,7 +64,7 @@ export default function A3D20({ theme = 'dark' }) {
                                     </div>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginLeft: 44, marginTop: 4 }}>
                                         <div style={{ height: 8, width: `${np / 34 * 70}%`, background: e.c, opacity: 0.75, borderRadius: 2 }} />
-                                        <span style={{ fontFamily: 'var(--a3-sans)', fontSize: 13, color: 'var(--sl-muted)' }}>
+                                        <span style={{ fontFamily: 'var(--a3-sans)', fontSize: pub ? 16 : 13, color: 'var(--sl-muted)' }}>
                                             pp. {c.p[0]}–{c.p[1]}{c.nota ? ` · ${c.nota}` : ''}
                                         </span>
                                     </div>
@@ -71,10 +75,14 @@ export default function A3D20({ theme = 'dark' }) {
                 </div>
                 <div>
                     <p style={tit}>Artículo: control óptimo de un pozo por el método adjunto</p>
-                    <p style={txt}>
+                    <p className="a3-completa" style={txt}>
                         Borrador de 26 páginas con el modelo, el problema de control, las restricciones de bomba y tanque y la
                         deducción del adjunto. <span style={{ color: PLUMA }}>Falta:</span> resultados convergidos, frente de Pareto,
                         revisar a fondo la redacción y elegir revista. Todavía sin fecha de envío.
+                    </p>
+                    <p className="a3-publica" style={txt}>
+                        Borrador de 26 páginas. <span style={{ color: PLUMA }}>Falta:</span> resultados convergidos y frente de Pareto;
+                        sin fecha de envío.
                     </p>
                     <p style={{ ...tit, marginTop: 18 }}>Cronograma tentativo</p>
                     <Cronograma />

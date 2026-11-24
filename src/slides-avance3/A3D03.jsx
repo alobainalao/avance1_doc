@@ -4,6 +4,7 @@ import { Cita } from './ui.jsx';
 import { useProgreso, tramo } from './anim.js';
 import { MODELOS } from './modeloNuevo.js';
 import { VERIF } from './verificacion.js';
+import { usePublica } from './version.jsx';
 
 // Matriz de las seis implementaciones: modelo de transporte × discretización espacial. En cada celda, el error
 // máximo del gradiente adjunto frente a diferencias finitas (paso δ = 10⁻²); a la derecha, la concordancia del directo.
@@ -21,15 +22,16 @@ const exp10 = (v) => { const e = Math.floor(Math.log10(v)); return <>{(v / 10 **
 
 export default function A3D03({ theme = 'dark' }) {
     const [p] = useProgreso(3000, 300);
+    const pub = usePublica();
     return (
         <SlideLayout title="Seis implementaciones del mismo problema" theme={theme} justify="flex-start">
-            <div style={{ display: 'grid', gridTemplateColumns: '300px 1fr 1fr 250px', columnGap: 18, rowGap: 0 }}
+            <div style={{ display: 'grid', gridTemplateColumns: pub ? '280px 1fr 1fr 220px' : '300px 1fr 1fr 250px', columnGap: 18, rowGap: 0 }}
                 >
                 <span />
                 {cols.map(c => (
                     <div key={c.id} style={{ paddingBottom: 12, borderBottom: '2px solid var(--sl-text)' }}>
                         <p style={{ margin: 0, fontSize: 'var(--a3-fs-seccion)', color: 'var(--sl-accent)', fontWeight: 600 }}>{c.nombre}</p>
-                        <p style={nota}>{c.desc}</p>
+                        <p className="a3-completa" style={nota}>{c.desc}</p>
                     </div>
                 ))}
                 <div style={{ paddingBottom: 12, borderBottom: '2px solid var(--sl-text)', display: 'flex', alignItems: 'flex-end' }}>
@@ -41,7 +43,7 @@ export default function A3D03({ theme = 'dark' }) {
                         <React.Fragment key={f.id}>
                             <div style={{ ...fila, borderBottom: '1px solid var(--a3-filete)' }}>
                                 <p style={{ margin: 0, fontSize: 'var(--a3-fs-seccion)', color: 'var(--sl-text)', fontWeight: 600 }}>{f.nombre}</p>
-                                <p style={nota}>{f.desc}</p>
+                                <p className="a3-completa" style={nota}>{f.desc}</p>
                             </div>
                             {cols.map((c, j) => {
                                 const v = tramo(p, 0.08 + 0.13 * (2 * i + j), 0.22 + 0.13 * (2 * i + j));
@@ -66,7 +68,10 @@ export default function A3D03({ theme = 'dark' }) {
                     );
                 })}
             </div>
-            <p style={{ ...nota, marginTop: 18 }}>
+            <p className="a3-publica" style={{ ...nota, marginTop: 18 }}>
+                Gradiente frente a diferencias finitas (δ = 10⁻²), en horizonte corto.
+            </p>
+            <p className="a3-completa" style={{ ...nota, marginTop: 18 }}>
                 Mismos nodos, misma geometría, mismos parámetros y la misma salida libre. Error del gradiente: máximo
                 relativo frente a diferencias finitas centradas con paso δ = 10⁻², en 3–4 direcciones, en un horizonte corto (3 pasos de 10 h, C inicial ≡ 1).
                 En elementos finitos es redondeo; en RBF-FD decrece como O(δ²).

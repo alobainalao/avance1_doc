@@ -13,11 +13,11 @@ export default function A3D10({ theme = 'dark' }) {
     return (
         <SlideLayout title="Del adjunto al gradiente" theme={theme} justify="flex-start">
             <div style={blq}>
-                <p style={eti}>Caudal en cada intervalo: costo de bombeo + respuesta del adjunto del flujo en el pozo</p>
+                <p style={eti}>Caudal en cada intervalo<span className="a3-completa">: costo de bombeo + respuesta del adjunto del flujo en el pozo</span></p>
                 <Eq math={eqQ} id="grad-Q" />
             </div>
             <div style={blq}>
-                <p style={eti}>Profundidad: mover la observación, la instalación, el bombeo y el núcleo del pozo</p>
+                <p style={eti}>Profundidad<span className="a3-completa">: mover la observación, la instalación, el bombeo y el núcleo del pozo</span></p>
                 <Eq math={eqZ} id="grad-zp" compacta />
             </div>
             <div style={{ ...blq, borderLeftColor: 'var(--a3-valido)' }}>
@@ -25,11 +25,11 @@ export default function A3D10({ theme = 'dark' }) {
                 <Eq math={eqInt} id="Q-interior" compacta />
             </div>
             <p style={{ margin: '12px 0 0', fontSize: 'var(--a3-fs-cuerpo)', color: 'var(--sl-text)', lineHeight: 1.4 }}>
-                <InlineMath math="g_\varepsilon" />: núcleo gaussiano del pozo (<InlineMath math="\varepsilon=r_{\rm pozo}/3\approx 6.7" /> m,
-                masa 1), que reparte el caudal extraído y pesa <InlineMath math="J_m" />;{' '}
+                <InlineMath math="g_\varepsilon" />: núcleo gaussiano del pozo<span className="a3-completa"> (<InlineMath math="\varepsilon=r_{\rm pozo}/3\approx 6.7" /> m,
+                masa 1), que reparte el caudal extraído y pesa <InlineMath math="J_m" /></span>;{' '}
                 <InlineMath math="\dot g_\varepsilon=\partial g_\varepsilon/\partial z_p" />. Todo lo que el gradiente necesita está en{' '}
-                <InlineMath math="(C_m,\psi_h)" /> sobre el pozo: el adjunto dice cuánto cambia la calidad del agua captada si se
-                bombea un poco más en cada instante.
+                <InlineMath math="(C_m,\psi_h)" /> sobre el pozo<span className="a3-completa">: el adjunto dice cuánto cambia la calidad del agua captada si se
+                bombea un poco más en cada instante</span>.
             </p>
         </SlideLayout>
     );

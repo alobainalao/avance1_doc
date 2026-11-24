@@ -2,7 +2,7 @@
 // Para añadir un avance nuevo: importar su slideConfig y agregar una entrada con available: true.
 
 import avance2Slides from '../slideConfig';
-import avance3Slides, { avance3Secciones } from './slideConfig.avance3';
+import avance3Slides, { avance3Secciones, avance3Publica } from './slideConfig.avance3';
 import { numerarEcuaciones } from '../layouts-v2/EcNum.js';
 
 const avance2Sections = [
@@ -34,17 +34,32 @@ const registry = [
         sections: avance2Sections,
         available: true,
     },
+    // Avance 3 en dos versiones con las mismas láminas (slides-avance3/version.jsx): la pública, para exponer, y la
+    // completa, con toda la explicación; esta no aparece en el selector (oculta), solo por su enlace.
     {
         id: 'avance3',
         label: 'Avance 3',
         subtitle: 'Sem 3 · Ene 2027',
         date: 'Enero 2027',
-        slides: avance3Slides,
-        deckClass: 'deck-a3',
+        slides: avance3Publica,
+        deckClass: 'deck-a3 deck-a3-publica',
         canvasW: 1408,      // 10 % más ancho que el lienzo por defecto (1280)
-        ecuaciones: numerarEcuaciones(avance3Slides),   // numeración dinámica (layouts-v2/EcNum.js)
+        ecuaciones: numerarEcuaciones(avance3Publica),   // numeración dinámica (layouts-v2/EcNum.js)
         sections: avance3Secciones,
         available: true,
+    },
+    {
+        id: 'avance3-completa',
+        label: 'Avance 3 · completa',
+        subtitle: 'Sem 3 · versión con toda la explicación',
+        date: 'Enero 2027',
+        slides: avance3Slides,
+        deckClass: 'deck-a3',
+        canvasW: 1408,
+        ecuaciones: numerarEcuaciones(avance3Slides),
+        sections: avance3Secciones,
+        available: true,
+        oculta: true,
     },
     {
         id: 'avance4',

@@ -50,13 +50,14 @@ export default function A3D04({ theme = 'dark' }) {
                 <Eq math={eqE} id="estado" compacta />
             </div>
             <p style={{ margin: '6px 0 0', fontSize: 'var(--a3-fs-cuerpo)', color: 'var(--sl-text)', opacity: tramo(p, 0.8, 1) }}>
-                Problema de control con EDP parabólicas <Cita k="manzoni2021optimal" p="cap. 7" />. Control <InlineMath math="u=(Q,z_p)" />; velocidad de Darcy <InlineMath math="\mathbf u=-\mathbf K\nabla h" /> (en negrita).
+                Problema de control con EDP parabólicas <Cita k="manzoni2021optimal" p="cap. 7" />. Control <InlineMath math="u=(Q,z_p)" />; velocidad de Darcy <InlineMath math="\mathbf u=-\mathbf K\nabla h" /><span className="a3-completa"> (en negrita).
                 Condiciones de frontera e iniciales del modelo (salida libre en <InlineMath math="\Gamma_{\rm out}" />).{' '}
                 <InlineMath math="d_p=z_0-z_p" />, con <InlineMath math="z_0=220" /> m la cota de referencia de la superficie; <InlineMath math="\kappa_p>0" />:
                 coeficiente del costo de instalación. El mismo núcleo gaussiano <InlineMath math="g_\varepsilon" /> reparte el caudal extraído y
                 pesa la concentración alrededor del pozo. Cada término se divide por su escala (<InlineMath math="J_m" /> por{' '}
                 <InlineMath math="C_{\rm ref}^2T" /> con <InlineMath math="C_{\rm ref}" /> = 50 mg/L <Cita k="oms2022" />; <InlineMath math="J_{\rm inst}" /> y{' '}
-                <InlineMath math="J_{\rm op}" /> por sus valores en las cotas); aquí <InlineMath math="\gamma=\alpha=\beta=1" />.
+                <InlineMath math="J_{\rm op}" /> por sus valores en las cotas); aquí <InlineMath math="\gamma=\alpha=\beta=1" />.</span>
+                <span className="a3-publica">. Profundidad <InlineMath math="d_p=z_0-z_p" />; cada término dividido por su escala y <InlineMath math="\gamma=\alpha=\beta=1" />.</span>
             </p>
         </SlideLayout>
     );

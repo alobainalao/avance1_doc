@@ -1,4 +1,5 @@
 import React from 'react';
+import { InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import { Punto, Cols, Col, Titulo } from './ui.jsx';
 
@@ -18,6 +19,23 @@ const siguientes = [
     ['Semestre 4–5', 'Revisar y reescribir a fondo los capítulos; Cap. IV con los resultados convergidos'],
     ['Semestre 5', 'Artículo de optimización: enviarlo cuando los resultados estén cerrados'],
 ];
+// versión pública: una línea por viñeta
+const M = (t) => <InlineMath math={t} />;
+const hechosPub = [
+    <>Modelo sin sumidero, con salida libre, en ADR y MRMT.</>,
+    <>RBF-FD y elementos finitos difieren 3 % en {M('C')} y 12.5 % en {M('|\\mathbf u|')}.</>,
+    <>Gradiente adjunto verificado; el de RBF-FD aún cambia con la malla.</>,
+    <>Eje del pozo refinado a 1 m: sin mínimos espurios.</>,
+    <>Óptimos preliminares: el pozo sube de −700 m a ≈ −383 m (ADR) y −405 m (MRMT semi).</>,
+    <>MRMT ≈ ADR retardado: pide un pozo unos 20 m más hondo.</>,
+];
+const siguientesPub = [
+    'Terminar las optimizaciones hasta χ ≤ 10⁻⁴',
+    'Frente de Pareto y varios arranques',
+    'Entender la dependencia del adjunto RBF-FD con la malla',
+    'Reescribir los capítulos; Cap. IV con resultados convergidos',
+    'Enviar el artículo de optimización',
+];
 
 export default function A3N22({ theme = 'dark' }) {
     return (
@@ -25,12 +43,17 @@ export default function A3N22({ theme = 'dark' }) {
             <Cols>
                 <Col flex={6}>
                     <Titulo>Lo que hay (preliminar)</Titulo>
-                    {hechos.map((t, i) => <Punto key={i} color="var(--a3-valido)" size={21}>{t}</Punto>)}
+                    {hechos.map((t, i) => (
+                        <Punto key={i} color="var(--a3-valido)" size={21}>
+                            <span className="a3-completa">{t}</span><span className="a3-publica">{hechosPub[i]}</span>
+                        </Punto>
+                    ))}
                 </Col>
                 <Col flex={4}>
                     <Titulo>Próximos pasos (plazos tentativos)</Titulo>
                     {siguientes.map(([m, t], i) => (
-                        <Punto key={i} color="var(--a3-agua)" size={20}><b style={{ color: 'var(--a3-agua)' }}>{m}</b> · {t}</Punto>
+                        <Punto key={i} color="var(--a3-agua)" size={20}><b style={{ color: 'var(--a3-agua)' }}>{m}</b> ·{' '}
+                            <span className="a3-completa">{t}</span><span className="a3-publica">{siguientesPub[i]}</span></Punto>
                     ))}
                 </Col>
             </Cols>

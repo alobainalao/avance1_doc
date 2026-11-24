@@ -4,25 +4,28 @@ import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import { Cita } from './ui.jsx';
 import { POLIGONO, POZO, FUENTE, X, Z } from './escena.jsx';
 import { ESQ } from './esquema.js';
+import { usePublica } from './version.jsx';
 
 // Dominio físico y parámetros: corte vertical con la porosidad interpolada de los sondeos (bandas de esquema.js, las mismas
 // de la apertura), fronteras, pozo en su profundidad inicial y fuente. Valores de config/nitrato_vscale_malla_eje_g1.json.
 const AGUA = 'var(--a3-agua)', PLUMA = 'var(--a3-pluma)';
 const M = (t) => <InlineMath math={t} />;
+const Comp = ({ children }) => <span className="a3-completa">{children}</span>;
+const Pub = ({ children }) => <span className="a3-publica">{children}</span>;
 
 const geo = [
-    ['Ancho', '9 939 m (sondeos 6 a 2, SO → NE)'],
+    ['Ancho', <>9 939 m (<Comp>sondeos 6 a 2, </Comp>SO → NE)</>],
     ['Superficie', M(String.raw`z = 250.5`), ' m'],
-    ['Fondo', '−2 690.5 m (SO) a −768.5 m (NE)'],
-    ['Pozo', <>{M('x_p = 3\\,700')} m; {M('z_p^0=-700')} m (inicial; {M('z_p')} es control)</>],
+    ['Fondo', <>−2 690.5 m<Comp> (SO)</Comp> a −768.5 m<Comp> (NE)</Comp></>],
+    ['Pozo', <>{M('x_p = 3\\,700')} m; {M('z_p^0=-700')} m<Comp> (inicial; {M('z_p')} es control)</Comp></>],
     ['Fuente de nitrato', <>{M('(x_s, z_s) = (9\\,116,\\ 109)')} m</>],
 ];
 const fis = [
-    ['Porosidad', <>{M('\\phi\\in[0.03,\\,0.95]')}: 4 sondeos, capas A–E <Cita k="DanielRivas" /></>],
-    ['Conductividad', <>{M('K_z(\\phi)')} de Kozeny–Carman <Cita k="Kozeny-Carman" />, grano de 1 mm; {M('K_x=4K_z')}</>],
+    ['Porosidad', <>{M('\\phi\\in[0.03,\\,0.95]')}<Comp>: 4 sondeos, capas A–E</Comp> <Cita k="DanielRivas" /></>],
+    ['Conductividad', <>{M('K_z(\\phi)')} de Kozeny–Carman <Cita k="Kozeny-Carman" /><Comp>, grano de 1 mm</Comp>; {M('K_x=4K_z')}</>],
     ['Dispersividades', <>{M('\\alpha_L=10')} m, {M('\\alpha_T=1')} m</>],
-    ['Mallas', '20 348 nodos (comparación directa); 25 871 (optimización, eje del pozo a 1 m)'],
-    ['Tiempo', <>{M('T=30')} días; {M('\\Delta t=5')} h (comparación directa), 10 h (optimización)</>],
+    ['Mallas', <>20 348 nodos (<Comp>comparación directa</Comp><Pub>simulación</Pub>); 25 871 (optimización<Comp>, eje del pozo a 1 m</Comp>)</>],
+    ['Tiempo', <>{M('T=30')} días; {M('\\Delta t=5')} h (<Comp>comparación directa</Comp><Pub>simulación</Pub>), 10 h (optimización)</>],
 ];
 
 const Tabla = ({ titulo, filas }) => (
@@ -42,10 +45,12 @@ const Tabla = ({ titulo, filas }) => (
 );
 
 export default function A3S02({ theme = 'dark' }) {
-    const etq = { fontFamily: 'var(--a3-sans)', fontSize: 16, fill: 'var(--sl-muted)' };
+    const pub = usePublica();
+    const etq = { fontFamily: 'var(--a3-sans)', fontSize: pub ? 19 : 16, fill: 'var(--sl-muted)' };
     return (
         <SlideLayout title="Dominio físico y parámetros" theme={theme} justify="flex-start">
-            <svg viewBox="-20 -34 1040 362" style={{ width: '100%', display: 'block' }}>
+            {/* en la pública, algo menor para que quepan las tablas con letra más grande */}
+            <svg viewBox="-20 -34 1040 362" style={{ width: pub ? '85%' : '100%', display: 'block', margin: pub ? '0 auto' : undefined }}>
                 <defs><clipPath id="s02-clip"><polygon points={POLIGONO} /></clipPath></defs>
                 <g clipPath="url(#s02-clip)">
                     {ESQ.phi.bandas.map((d, i) => <path key={i} d={d} fill={AGUA} fillOpacity={0.05 + 0.13 * i} />)}
@@ -66,9 +71,9 @@ export default function A3S02({ theme = 'dark' }) {
                 {/* leyenda de φ */}
                 <text x={700} y={Z(-1500)} style={etq}>porosidad φ</text>
                 {[0, 1, 2, 3, 4].map(i => <rect key={i} x={700 + 40 * i} y={Z(-1500) + 8} width={40} height={14} fill={AGUA} fillOpacity={0.05 + 0.13 * i} stroke="var(--sl-muted)" strokeWidth="0.5" />)}
-                {[0, 0.4, 0.8].map((v, i) => <text key={v} x={700 + 80 * i} y={Z(-1500) + 40} textAnchor="middle" style={{ ...etq, fontSize: 13 }}>{v}</text>)}
-                <text x={900} y={Z(-1500) + 40} textAnchor="end" style={{ ...etq, fontSize: 13 }}>1</text>
-                <text x={500} y={322} textAnchor="middle" style={{ ...etq, fontSize: 13 }}>sin exageración vertical</text>
+                {[0, 0.4, 0.8].map((v, i) => <text key={v} x={700 + 80 * i} y={Z(-1500) + 40} textAnchor="middle" style={{ ...etq, fontSize: pub ? 16 : 13 }}>{v}</text>)}
+                <text x={900} y={Z(-1500) + 40} textAnchor="end" style={{ ...etq, fontSize: pub ? 16 : 13 }}>1</text>
+                <text className="a3-completa" x={500} y={322} textAnchor="middle" style={{ ...etq, fontSize: 13 }}>sin exageración vertical</text>
             </svg>
             <div style={{ display: 'flex', gap: 40, marginTop: 8 }}>
                 <Tabla titulo="Geometría" filas={geo} />

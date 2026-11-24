@@ -3,6 +3,7 @@ import { InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import { useProgreso, tramo, suave, lerp } from './anim.js';
 import { OPT } from './optimoNitrato.js';
+import { usePublica } from './version.jsx';
 
 // Mejor iterado (preliminar) de los tres modelos de transporte (FEniCSx, malla con conos y eje de 1 m, γ = 1), todos desde Q_n = 0.1,
 // z_p = −700 m. Izquierda: los tres pozos suben de z_p⁰ a donde paró el optimizador; centro: evaluación cruzada (Ĵ de
@@ -17,6 +18,7 @@ const paroAntes = m => PARO_ANTES.includes(m.id);
 
 function Pozos({ f }) {
     const W = 380, H = 430, z0 = -150, z1 = -760;
+    const pub = usePublica(), ej = pub ? { ...eje, fontSize: 16 } : eje;
     const sy = z => 30 + (z0 - z) / (z0 - z1) * (H - 60);
     const ms = OPT.modelos;
     return (
@@ -24,17 +26,17 @@ function Pozos({ f }) {
             <rect x={0} y={sy(z0)} width={W} height={sy(z1) - sy(z0)} fill="var(--a3-agua)" opacity="0.06" />
             {[-200, -300, -400, -500, -600, -700].map(z => (
                 <g key={z}><line x1={58} x2={W - 6} y1={sy(z)} y2={sy(z)} stroke={GRIS} strokeOpacity="0.18" />
-                    <text x={50} y={sy(z) + 5} textAnchor="end" style={eje}>{String(z).replace('-', '−')}</text></g>
+                    <text x={50} y={sy(z) + 5} textAnchor="end" style={ej}>{String(z).replace('-', '−')}</text></g>
             ))}
             <line x1={58} x2={W - 6} y1={sy(OPT.zp0)} y2={sy(OPT.zp0)} stroke={GRIS} strokeDasharray="5 4" strokeWidth="1.5" />
-            <text x={W - 8} y={sy(OPT.zp0) + 20} textAnchor="end" style={eje}>inicio</text>
+            <text x={W - 8} y={sy(OPT.zp0) + 20} textAnchor="end" style={ej}>inicio</text>
             {ms.map((m, i) => {
                 const x = 115 + i * 95, z = lerp(OPT.zp0, m.zp, f);
                 return (
                     <g key={m.id}>
                         <line x1={x} x2={x} y1={sy(z0)} y2={sy(z)} stroke={COLOR[m.id]} strokeWidth="5" />
                         <circle cx={x} cy={sy(z)} r="8" fill={paroAntes(m) ? 'var(--sl-bg, #fff)' : COLOR[m.id]} stroke={COLOR[m.id]} strokeWidth="3" />
-                        <text x={x + 13} y={sy(z) + 5} style={{ ...eje, fontSize: 16, fill: COLOR[m.id], opacity: tramo(f, 0.9, 1) }}>
+                        <text x={x + 13} y={sy(z) + 5} style={{ ...eje, fontSize: pub ? 18 : 16, fill: COLOR[m.id], opacity: tramo(f, 0.9, 1) }}>
                             {Math.round(m.zp).toString().replace('-', '−')}
                         </text>
                         {paroAntes(m) && <text x={x + 13} y={sy(z) + 24} style={{ ...eje, fontSize: 13, fill: COLOR[m.id], opacity: tramo(f, 0.9, 1) }}>paró antes</text>}
@@ -85,6 +87,7 @@ const filas = [
 
 export default function A3D15({ theme = 'dark' }) {
     const [p] = useProgreso(5500, 400);
+    const pub = usePublica();
     const f = suave(tramo(p, 0, 0.85));
     const ms = OPT.modelos;
     if (ms.length < 3) return <SlideLayout title="Mejor iterado por modelo (preliminar)" theme={theme}><p>Sin resultados.</p></SlideLayout>;
@@ -99,11 +102,14 @@ export default function A3D15({ theme = 'dark' }) {
                 <div>
                     <p style={tit}>Evaluación cruzada de <InlineMath math="\hat J" /></p>
                     <Cruce f={f} />
-                    <p style={nota}>
+                    <p className="a3-completa" style={nota}>
                         Cada fila evalúa un modelo en el punto donde paró cada corrida (en verde, el menor; punteado, el propio).
                         El punto de semi es el mejor en las tres filas. Semi y bloque difieren menos de 4·10⁻⁴ en los tres puntos
                         evaluados: son dos esquemas del mismo modelo continuo, así que bloque paró antes de su óptimo (≈ −405 m). En ADR el
                         caudal aún se afina.
+                    </p>
+                    <p className="a3-publica" style={nota}>
+                        En verde, el menor de cada fila: el punto de semi gana en las tres; bloque paró antes.
                     </p>
                 </div>
                 <div>
@@ -120,24 +126,25 @@ export default function A3D15({ theme = 'dark' }) {
                                     {ms.map(m => <td key={m.id} style={{ ...td, textAlign: 'right' }}>{Number(m.J[k]).toFixed(3)}</td>)}
                                 </tr>
                             ))}
-                            <tr style={{ borderTop: '1px solid var(--sl-muted)' }}>
+                            <tr className="a3-completa" style={{ borderTop: '1px solid var(--sl-muted)' }}>
                                 <td style={td}><span style={{ color: 'var(--sl-muted)', fontSize: 'var(--a3-fs-nota)' }}>iteraciones</span></td>
                                 {ms.map(m => <td key={m.id} style={{ ...td, textAlign: 'right' }}>{m.nit}</td>)}
                             </tr>
-                            <tr>
+                            <tr style={pub ? { borderTop: '1px solid var(--sl-muted)' } : undefined}>
                                 <td style={td}><span style={{ color: 'var(--sl-muted)', fontSize: 'var(--a3-fs-nota)' }}>criticidad χ (meta 10⁻⁴)</span></td>
                                 {ms.map(m => <td key={m.id} style={{ ...td, textAlign: 'right' }}>{m.chi ? m.chi.toExponential(1).replace('e-', '·10⁻').replace(/(\d)$/, d => '⁰¹²³⁴⁵⁶⁷⁸⁹'[d]) : '—'}</td>)}
                             </tr>
-                            <tr>
+                            <tr className="a3-completa">
                                 <td style={td}><span style={{ color: 'var(--sl-muted)', fontSize: 'var(--a3-fs-nota)' }}>tanque mínimo [m³]</span></td>
                                 {ms.map(m => <td key={m.id} style={{ ...td, textAlign: 'right' }}>{Math.min(...m.S).toFixed(1)}</td>)}
                             </tr>
                         </tbody>
                     </table>
-                    <p style={nota}>
+                    <p className="a3-completa" style={nota}>
                         Mismo caudal medio (<InlineMath math="\bar Q\approx 0.136" /> m²/s); la cota inferior del tanque queda activa. MRMT pide un pozo
                         más hondo que ADR (siguiente lámina). Todos bajan Ĵ respecto al arranque (0.467), que además no es admisible.
                     </p>
+                    <p className="a3-publica" style={nota}>Todos mejoran el arranque (Ĵ = 0.467, no admisible).</p>
                 </div>
             </div>
         </SlideLayout>

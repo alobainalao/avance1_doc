@@ -3,6 +3,7 @@ import { InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import { Eq, Cita } from './ui.jsx';
 import { useProgreso, tramo, suave } from './anim.js';
+import { usePublica } from './version.jsx';
 
 // Por qué no diferencias finitas: resoluciones del modelo EDP por iteración (un gradiente, 73 controles) además de la
 // directa que da Ĵ(u), que ambos métodos necesitan: diferencias hacia adelante, una por control; adjunto, una. Dilema
@@ -29,6 +30,7 @@ function Dilema() {
     const xs = Array.from({ length: 60 }, (_, i) => -8 + i * 7.5 / 59);   // log10 δ
     const err = l => Math.log10(Math.pow(10, l) + 1e-10 / Math.pow(10, l));
     const sx = l => L + (l + 8) / 7.5 * (W - L - 10), sy = e => 10 + (0 - e) / 6 * (H - B - 10);
+    const eje = usePublica() ? { ...ejeBase, fontSize: 17 } : ejeBase;
     return (
         <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%' }}>
             <line x1={L} x2={W - 10} y1={H - B} y2={H - B} stroke="var(--a3-estrato)" />
@@ -52,21 +54,21 @@ export default function A3D07({ theme = 'dark' }) {
                 <div>
                     <Eq math={eqCadena} id="cadena" compacta />
                     <p style={txt}>
-                        La sensibilidad <InlineMath math="dy/du" /> del estado exige una EDP linealizada por cada
-                        dirección de control: 73 problemas por gradiente <Cita k="manzoni2021optimal" p="§ 4.1.4" />. Diferencias finitas hace lo mismo, sin linealizar, con una
-                        resolución del modelo por control:
+                        La sensibilidad <InlineMath math="dy/du" /> <span className="a3-completa">del estado </span>exige una EDP <span className="a3-completa">linealizada </span>por cada{' '}
+                        <span className="a3-completa">dirección de </span>control: 73 problemas por gradiente <Cita k="manzoni2021optimal" p="§ 4.1.4" />.<span className="a3-completa"> Diferencias finitas hace lo mismo, sin linealizar, con una
+                        resolución del modelo por control:</span>
                     </p>
                     <Eq math={eqFD} id="fd" compacta />
                     <p style={txt}>
-                        Con <InlineMath math="\delta" /> grande domina el truncamiento; con <InlineMath math="\delta" /> pequeño, el error{' '}
-                        <InlineMath math="e_J" /> con que los solucionadores evalúan <InlineMath math="\hat J" />. No hay un paso que sirva para
+                        <span className="a3-completa">Con <InlineMath math="\delta" /> grande domina el truncamiento; con <InlineMath math="\delta" /> pequeño, el error{' '}
+                        <InlineMath math="e_J" /> con que los solucionadores evalúan <InlineMath math="\hat J" />. </span>No hay un paso que sirva para
                         las 73 componentes a la vez.
                     </p>
                     <div style={{ width: 380 }}><Dilema /></div>
                 </div>
                 <div onClick={repetir} title="clic para repetir" style={{ cursor: 'pointer' }}>
                     <p style={tit}>Resoluciones del modelo EDP por iteración</p>
-                    <p style={sub}>
+                    <p className="a3-completa" style={sub}>
                         Cada cuadro: el modelo completo (flujo + transporte en todo <InlineMath math="[0,T]" />) resuelto una vez. Las
                         dos opciones necesitan además la resolución directa que da <InlineMath math="\hat J(u)" />.
                     </p>
@@ -77,8 +79,8 @@ export default function A3D07({ theme = 'dark' }) {
                     <Bloques n={1} lleno={Math.min(1, k)} color="var(--a3-valido)" />
                     <p style={{ ...num, color: 'var(--a3-valido)' }}>{Math.min(1, k)} <span style={uni}>resolución</span></p>
                     <p style={{ ...sub, marginTop: 18 }}>
-                        Por iteración: 1 + 73 = 74 frente a 1 + 1 = 2 (con diferencias centradas serían 1 + 146). Con más controles la
-                        cuenta de diferencias finitas crece; la del adjunto no.
+                        Por iteración: 1 + 73 = 74 frente a 1 + 1 = 2<span className="a3-completa"> (con diferencias centradas serían 1 + 146)</span>.<span className="a3-completa"> Con más controles la
+                        cuenta de diferencias finitas crece; la del adjunto no.</span>
                     </p>
                 </div>
             </div>
@@ -88,7 +90,7 @@ export default function A3D07({ theme = 'dark' }) {
 
 A3D07.ecuaciones = ['cadena', 'fd'];
 
-const eje = { fontFamily: 'var(--a3-sans)', fontSize: 14, fill: 'var(--sl-muted)' };
+const ejeBase = { fontFamily: 'var(--a3-sans)', fontSize: 14, fill: 'var(--sl-muted)' };
 const txt = { margin: '6px 0', fontSize: 'var(--a3-fs-cuerpo)', color: 'var(--sl-text)', lineHeight: 1.4 };
 const tit = { margin: '0 0 6px', fontSize: 'var(--a3-fs-seccion)', color: 'var(--sl-accent)' };
 const sub = { margin: '0 0 8px', fontFamily: 'var(--a3-sans)', fontSize: 'var(--a3-fs-nota)', color: 'var(--sl-muted)', lineHeight: 1.35 };
