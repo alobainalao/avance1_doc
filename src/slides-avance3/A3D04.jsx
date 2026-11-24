@@ -10,7 +10,7 @@ const eqP = String.raw`\min_{\mathbf u=(Q,\,z_p)\,\in\,\mathcal U_{ad}}\ \hat J(
 const eqJ = String.raw`J=\gamma\underbrace{\int_0^T\!\!\int_\Omega g_\varepsilon(\mathbf x;z_p)\,C_m^2\,d\Omega\,dt}_{J_m:\ \text{nitrato captado}}
 +\alpha\underbrace{\kappa_p\,(z_p-z_0)^2}_{J_{\rm inst}}+\beta\underbrace{d_p\!\int_0^T\!Q(t)^2\,dt}_{J_{\rm op}}`;
 const eqE = String.raw`e(\mathbf y,\mathbf u)=\begin{cases}
-S_s\,\partial_t h-\nabla\!\cdot(\mathbf K\nabla h)+Q\,w_R(\cdot;z_p) & \text{flujo}\\[2pt]
+S_s\,\partial_t h-\nabla\!\cdot(\mathbf K\nabla h)+Q\,g_\varepsilon(\cdot;z_p) & \text{flujo}\\[2pt]
 \phi R\,\partial_t C_m+\mathbf u\!\cdot\!\nabla C_m-\nabla\!\cdot(\mathbf D\nabla C_m)-S_s\partial_t h\,C_m+\textstyle\sum_r\lambda_r(C_m-C_{\mathrm{im},r})-W_+ & \text{transporte}\\[2pt]
 \phi_{\mathrm{im},r}R\,\partial_t C_{\mathrm{im},r}-\lambda_r(C_m-C_{\mathrm{im},r}),\quad r=1,2,3 & \text{inmóviles}
 \end{cases}`;
@@ -51,8 +51,8 @@ export default function A3D04({ theme = 'dark' }) {
             </div>
             <p style={{ margin: '6px 0 0', fontSize: 'var(--a3-fs-cuerpo)', color: 'var(--sl-text)', opacity: tramo(p, 0.8, 1) }}>
                 Con las condiciones de frontera e iniciales del modelo (salida libre en <InlineMath math="\Gamma_{\rm out}" />).{' '}
-                <InlineMath math="d_p=z_0-z_p" />; <InlineMath math="g_\varepsilon" /> observa la concentración alrededor del pozo y{' '}
-                <InlineMath math="w_R" /> reparte el caudal extraído. Cada término se normaliza; aquí <InlineMath math="\gamma=\alpha=\beta=1" />.
+                <InlineMath math="d_p=z_0-z_p" />; el mismo núcleo gaussiano <InlineMath math="g_\varepsilon" /> del pozo reparte el caudal
+                extraído y observa la concentración a su alrededor. Cada término se normaliza; aquí <InlineMath math="\gamma=\alpha=\beta=1" />.
             </p>
         </SlideLayout>
     );

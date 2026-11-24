@@ -4,13 +4,12 @@ import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import { Eq } from './ui.jsx';
 import { useProgreso, tramo, suave } from './anim.js';
 
-// Por qué no diferencias finitas: costo por gradiente (73 controles) y dilema del paso ε.
-// Tiempos: optimización ADR γ = 1 con FEniCSx en la malla con conos, 35 evaluaciones + 30 adjuntos en ≈ 2 h 40 min,
-// es decir ≈ 2.4 min por simulación (directa o adjunta).
-const N = 73, MIN = 2.4;
+// Por qué no diferencias finitas: resoluciones del modelo EDP por iteración (un gradiente, 73 controles) y dilema
+// del paso η.
+const N = 73;
 const eqCadena = String.raw`\frac{d\hat J}{d\mathbf u}=\frac{\partial J}{\partial\mathbf u}+\frac{\partial J}{\partial\mathbf y}\,\textcolor{#C4511F}{\frac{d\mathbf y}{d\mathbf u}}`;
-const eqFD = String.raw`\frac{\partial\hat J}{\partial u_i}\approx\frac{\hat J(\mathbf u+\varepsilon\mathbf e_i)-\hat J(\mathbf u-\varepsilon\mathbf e_i)}{2\varepsilon}
-+\mathcal O(\varepsilon^2)+\mathcal O(\delta/\varepsilon)`;
+const eqFD = String.raw`\frac{\partial\hat J}{\partial u_i}\approx\frac{\hat J(\mathbf u+\eta\,\mathbf e_i)-\hat J(\mathbf u-\eta\,\mathbf e_i)}{2\eta}
++\mathcal O(\eta^2)+\mathcal O(\delta/\eta)`;
 
 function Bloques({ n, lleno, color, cols = 25 }) {
     return (
@@ -24,9 +23,9 @@ function Bloques({ n, lleno, color, cols = 25 }) {
 }
 
 function Dilema() {
-    // Esquema (no medido): error de truncamiento ∝ ε² y de redondeo ∝ δ/ε en escala log-log.
+    // Esquema (no medido): error de truncamiento ∝ η² y de redondeo ∝ δ/η en escala log-log.
     const W = 380, H = 230, L = 34, B = 30;
-    const xs = Array.from({ length: 60 }, (_, i) => -8 + i * 7.5 / 59);   // log10 ε
+    const xs = Array.from({ length: 60 }, (_, i) => -8 + i * 7.5 / 59);   // log10 η
     const err = l => Math.log10(Math.pow(10, 2 * l) + 1e-12 / Math.pow(10, l));
     const sx = l => L + (l + 8) / 7.5 * (W - L - 10), sy = e => 10 + (2 - e) / 14 * (H - B - 10);
     return (
@@ -34,10 +33,10 @@ function Dilema() {
             <line x1={L} x2={W - 10} y1={H - B} y2={H - B} stroke="#6E7F8D" />
             <line x1={L} x2={L} y1={10} y2={H - B} stroke="#6E7F8D" />
             <polyline points={xs.map(l => `${sx(l)},${sy(err(l))}`).join(' ')} fill="none" stroke="#C4511F" strokeWidth="3" />
-            <text x={W / 2} y={H - 8} textAnchor="middle" style={eje}>log ε</text>
+            <text x={W / 2} y={H - 8} textAnchor="middle" style={eje}>log η</text>
             <text x={L + 6} y={22} style={eje}>log error</text>
             <text x={sx(-7.2)} y={sy(err(-7.2)) - 10} style={eje}>redondeo</text>
-            <text x={sx(-1.2)} y={sy(err(-1.2)) + 26} textAnchor="end" style={eje}>truncamiento</text>
+            <text x={sx(-1.6) + 10} y={sy(err(-1.6)) + 34} style={eje}>truncamiento</text>
         </svg>
     );
 }
@@ -56,22 +55,23 @@ export default function A3D07({ theme = 'dark' }) {
                     </p>
                     <Eq math={eqFD} id="fd" compacta />
                     <p style={txt}>
-                        Con <InlineMath math="\varepsilon" /> grande domina el truncamiento; con <InlineMath math="\varepsilon" /> pequeño, la
+                        Con <InlineMath math="\eta" /> grande domina el truncamiento; con <InlineMath math="\eta" /> pequeño, la
                         tolerancia <InlineMath math="\delta" /> de los solucionadores. No hay un paso que sirva para las 73 componentes a la vez.
                     </p>
                     <div style={{ width: 380 }}><Dilema /></div>
                 </div>
                 <div onClick={repetir} title="clic para repetir" style={{ cursor: 'pointer' }}>
-                    <p style={tit}>Simulaciones por gradiente</p>
-                    <p style={sub}>Diferencias centradas: 2 × 73 = 146</p>
+                    <p style={tit}>Resoluciones del modelo EDP por iteración</p>
+                    <p style={sub}>Cada cuadro: el modelo completo (flujo + transporte, 72 pasos de tiempo) resuelto una vez.</p>
+                    <p style={sub}>Diferencias centradas: 2 × 73 directas</p>
                     <Bloques n={2 * N} lleno={k} color="#C4511F" />
-                    <p style={{ ...num, color: '#C4511F' }}>≈ {(k * MIN / 60).toFixed(1)} h</p>
+                    <p style={{ ...num, color: '#C4511F' }}>{k} <span style={uni}>resoluciones</span></p>
                     <p style={{ ...sub, marginTop: 26 }}>Método adjunto: 1 directa + 1 adjunta</p>
                     <Bloques n={2} lleno={Math.min(2, k)} color="#2E7D4F" />
-                    <p style={{ ...num, color: '#2E7D4F' }}>≈ {(Math.min(2, k) * MIN).toFixed(0)} min</p>
+                    <p style={{ ...num, color: '#2E7D4F' }}>{Math.min(2, k)} <span style={uni}>resoluciones</span></p>
                     <p style={{ ...sub, marginTop: 18 }}>
-                        Una optimización usa unos 30 gradientes: más de una semana con diferencias finitas, unas 2.5 h con el adjunto.
-                        Tiempos de la corrida ADR (elementos finitos, 20 348 nodos).
+                        73 veces menos por iteración. Con más controles la cuenta de diferencias finitas crece (2 por control);
+                        la del adjunto sigue en 2.
                     </p>
                 </div>
             </div>
@@ -86,3 +86,4 @@ const txt = { margin: '6px 0', fontSize: 'var(--a3-fs-cuerpo)', color: 'var(--sl
 const tit = { margin: '0 0 6px', fontSize: 'var(--a3-fs-seccion)', color: 'var(--sl-accent)' };
 const sub = { margin: '0 0 8px', fontFamily: 'var(--a3-sans)', fontSize: 'var(--a3-fs-nota)', color: 'var(--sl-muted)', lineHeight: 1.35 };
 const num = { margin: '8px 0 0', fontSize: 34, fontVariantNumeric: 'tabular-nums' };
+const uni = { fontSize: 'var(--a3-fs-cuerpo)', color: 'var(--sl-muted)' };

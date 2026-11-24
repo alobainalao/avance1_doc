@@ -4,10 +4,10 @@ import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import { Eq } from './ui.jsx';
 
 // Gradiente reducido (tesis, Cap. III: eq:gradiente_Q, eq:gradiente_Qn, eq:gradiente_zp, eq:Q_interior).
-const eqQ = String.raw`\frac{\partial\hat J}{\partial Q_n}=\int_{t_n}^{t_{n+1}}\Big(2\beta\,d_p\,Q(t)+\int_\Omega w_R\,\psi_h\,d\Omega\Big)dt`;
+const eqQ = String.raw`\frac{\partial\hat J}{\partial Q_n}=\int_{t_n}^{t_{n+1}}\Big(2\beta\,d_p\,Q(t)+\int_\Omega g_\varepsilon\,\psi_h\,d\Omega\Big)dt`;
 const eqZ = String.raw`\frac{\partial\hat J}{\partial z_p}=\gamma\!\int_0^T\!\!\int_\Omega\dot g_\varepsilon\,C_m^2
-+2\alpha\kappa_p(z_p-z_0)-\beta\!\int_0^T\!Q^2\,dt+\int_0^T\!Q\!\int_\Omega\dot w_R\,\psi_h\,d\Omega\,dt`;
-const eqInt = String.raw`\hat Q_n=-\frac{1}{2\beta\,d_p\,\Delta t}\int_{t_n}^{t_{n+1}}\!\!\int_\Omega w_R\,\hat\psi_h\,d\Omega\,dt\qquad\text{(si }0<\hat Q_n<\overline Q_n\text{ y el tanque no está activo)}`;
++2\alpha\kappa_p(z_p-z_0)-\beta\!\int_0^T\!Q^2\,dt+\int_0^T\!Q\!\int_\Omega\dot g_\varepsilon\,\psi_h\,d\Omega\,dt`;
+const eqInt = String.raw`\hat Q_n=-\frac{1}{2\beta\,d_p\,\Delta t}\int_{t_n}^{t_{n+1}}\!\!\int_\Omega g_\varepsilon\,\hat\psi_h\,d\Omega\,dt\qquad\text{(si }0<\hat Q_n<\overline Q_n\text{ y el tanque no está activo)}`;
 
 export default function A3D10({ theme = 'dark' }) {
     return (
@@ -25,8 +25,9 @@ export default function A3D10({ theme = 'dark' }) {
                 <Eq math={eqInt} id="Q-interior" compacta />
             </div>
             <p style={{ margin: '12px 0 0', fontSize: 'var(--a3-fs-cuerpo)', color: 'var(--sl-text)', lineHeight: 1.4 }}>
-                <InlineMath math="\dot g_\varepsilon=\partial g_\varepsilon/\partial z_p" /> y{' '}
-                <InlineMath math="\dot w_R=\partial w_R/\partial z_p" />. Todo lo que el gradiente necesita está en{' '}
+                <InlineMath math="g_\varepsilon" />: núcleo gaussiano del pozo (<InlineMath math="\varepsilon=r_{\rm pozo}/3\approx 6.7" /> m,
+                masa 1), que reparte el caudal extraído y pesa <InlineMath math="J_m" />;{' '}
+                <InlineMath math="\dot g_\varepsilon=\partial g_\varepsilon/\partial z_p" />. Todo lo que el gradiente necesita está en{' '}
                 <InlineMath math="(C_m,\psi_h)" /> sobre el pozo: el adjunto dice cuánto cambia la calidad del agua captada si se
                 bombea un poco más en cada instante.
             </p>

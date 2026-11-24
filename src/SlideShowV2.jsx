@@ -87,7 +87,9 @@ const SlideshowV2 = ({ slides: slidesProp, sections, portadaDate, deckClass = ''
         };
 
         const handleClick = (e) => {
-            const isInteractive = e.target.closest('button, a, [role="button"], [tabindex]');
+            // Zonas con clic propio (cursor de mano: repetir una animación, pasar de fase) tampoco cambian de lámina.
+            const isInteractive = e.target.closest('button, a, [role="button"], [tabindex]')
+                || window.getComputedStyle(e.target).cursor === 'pointer';
             if (isInteractive) return;
             if (e.button === 0) prev();
             else if (e.button === 2) next();

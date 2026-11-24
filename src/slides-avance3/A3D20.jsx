@@ -2,25 +2,26 @@ import React from 'react';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 
 // Estado del documento de tesis (tesis/docR.tex, páginas del índice de noviembre de 2026), del artículo de
-// optimización (articulos/optimizacion-adjunto) y cronograma de hitos (ROADMAP.md).
-const AGUA = '#0F7A85', PLUMA = '#C4511F', VALIDO = '#2E7D4F', GRIS = '#6E7F8D';
+// optimización (articulos/optimizacion-adjunto) y cronograma de hitos. Todo el texto es un primer borrador que hay que
+// revisar y reescribir a fondo; el cronograma es tentativo.
+const AGUA = '#0F7A85', PLUMA = '#C4511F', GRIS = '#6E7F8D';
 
 const capitulos = [
-    { n: '', t: 'Introducción', p: [1, 6], e: 'ok' },
-    { n: 'I', t: 'Flujo subterráneo y transporte ADR', p: [7, 33], e: 'ok' },
-    { n: 'II', t: 'Transferencia de masa multitasa', p: [34, 60], e: 'ok' },
-    { n: 'III', t: 'Control óptimo y método adjunto', p: [61, 94], e: 'ok' },
-    { n: 'IV', t: 'Resultados numéricos', p: [95, 110], e: 'wip', nota: 'pasar a γ = 1 y a la malla con eje' },
-    { n: 'A–E', t: 'Anexos: buena postura, esquemas, adjunto, verificación', p: [111, 133], e: 'ok' },
+    { n: '', t: 'Introducción', p: [1, 6], e: 'bor' },
+    { n: 'I', t: 'Flujo subterráneo y transporte ADR', p: [7, 33], e: 'bor' },
+    { n: 'II', t: 'Transferencia de masa multitasa', p: [34, 60], e: 'bor' },
+    { n: 'III', t: 'Control óptimo y método adjunto', p: [61, 94], e: 'bor' },
+    { n: 'IV', t: 'Resultados numéricos', p: [95, 110], e: 'inc', nota: 'resultados anteriores; faltan los convergidos' },
+    { n: 'A–E', t: 'Anexos: buena postura, esquemas, adjunto, verificación', p: [111, 133], e: 'bor' },
 ];
-const ESTADO = { ok: { c: VALIDO, l: 'redactado' }, wip: { c: AGUA, l: 'por actualizar' } };
+const ESTADO = { bor: { c: AGUA, l: 'borrador' }, inc: { c: PLUMA, l: 'incompleto' } };
 
 const hitos = [
-    { s: 3, f: 'ene 2027', t: 'Artículo de optimización enviado', meta: true },
-    { s: 4, f: 'jul 2027', t: 'Pareto, óptimo RBF-FD, artículo de modelación' },
-    { s: 5, f: 'ene 2028', t: 'Convergencia RBF-FD y MRMT; segundo artículo' },
-    { s: 6, f: 'jul 2028', t: 'Tesis terminada', meta: true },
-    { s: 7, f: 'ene 2029', t: 'Revisiones y trámites' },
+    { s: 3, f: 'ene 2027', t: 'Modelo, gradiente verificado y primeros óptimos (este avance)' },
+    { s: 4, f: 'jul 2027', t: 'Óptimos convergidos en los tres modelos y frente de Pareto' },
+    { s: 5, f: 'ene 2028', t: 'Artículo de optimización enviado; adjunto RBF-FD estable con la malla', meta: true },
+    { s: 6, f: 'jul 2028', t: 'Artículo de modelación; reescritura de los capítulos' },
+    { s: 7, f: 'ene 2029', t: 'Tesis completa y revisiones', meta: true },
     { s: 8, f: 'jul 2029', t: 'Defensa', meta: true },
 ];
 
@@ -46,7 +47,7 @@ export default function A3D20({ theme = 'dark' }) {
         <SlideLayout title="Avance del documento de tesis y del artículo" theme={theme} justify="flex-start">
             <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: 40, alignItems: 'start' }}>
                 <div>
-                    <p style={tit}>Tesis doctoral: 144 páginas, cuatro capítulos y cinco anexos</p>
+                    <p style={tit}>Tesis: primer borrador de cuatro capítulos y cinco anexos, por revisar y reescribir a fondo</p>
                     <div style={{ borderTop: '2px solid var(--sl-text)', borderBottom: '2px solid var(--sl-text)' }}>
                         {capitulos.map((c, i) => {
                             const e = ESTADO[c.e], np = c.p[1] - c.p[0] + 1;
@@ -71,11 +72,11 @@ export default function A3D20({ theme = 'dark' }) {
                 <div>
                     <p style={tit}>Artículo: control óptimo de un pozo por el método adjunto</p>
                     <p style={txt}>
-                        26 páginas. Completos: modelo, problema de control, restricciones de bomba y tanque, deducción del adjunto
-                        y verificación del gradiente. <span style={{ color: AGUA }}>Por actualizar:</span> resultados con γ = 1 en los tres
-                        modelos, frente de Pareto y formato de la revista.
+                        Borrador de 26 páginas con el modelo, el problema de control, las restricciones de bomba y tanque y la
+                        deducción del adjunto. <span style={{ color: PLUMA }}>Falta:</span> resultados convergidos, frente de Pareto,
+                        revisar a fondo la redacción y elegir revista. Todavía sin fecha de envío.
                     </p>
-                    <p style={{ ...tit, marginTop: 18 }}>Cronograma de hitos</p>
+                    <p style={{ ...tit, marginTop: 18 }}>Cronograma tentativo</p>
                     <Cronograma />
                 </div>
             </div>

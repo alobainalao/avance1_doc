@@ -9,10 +9,10 @@ const objetivos = [
     { t: 'Modelo de flujo y transporte coherente (ADR y MRMT): sin sumidero explícito, con almacenamiento y salida libre', e: 'ok' },
     { t: 'Dos discretizaciones (RBF-FD y elementos finitos) sobre la misma malla y su comparación cuantitativa', e: 'ok' },
     { t: 'Sistema adjunto continuo y discreto; gradiente verificado contra diferencias finitas en las seis variantes', e: 'ok' },
-    { t: 'Optimización con bomba y tanque en los tres modelos con elementos finitos', e: 'ok', nota: 'bloque paró antes; afinar χ ≤ 10⁻⁴' },
-    { t: 'Optimización con RBF-FD sobre la misma malla y comparación de óptimos', e: 'wip', nota: 'aún no converge' },
+    { t: 'Optimización con bomba y tanque en los tres modelos con elementos finitos', e: 'wip', nota: 'resultados preliminares; falta χ ≤ 10⁻⁴' },
+    { t: 'Optimización con RBF-FD sobre la misma malla y comparación de óptimos', e: 'pen', nota: 'su adjunto aún depende de la malla' },
     { t: 'Frente de Pareto (barrido de γ)', e: 'pen' },
-    { t: 'Artículo de optimización listo para envío (hito de fin de semestre, ene 2027)', e: 'wip', nota: '26 pp., resultados por actualizar' },
+    { t: 'Artículo de optimización', e: 'wip', nota: 'borrador; faltan resultados y revisión a fondo' },
 ];
 const cfg = {
     ok:  { color: '#2E7D4F', label: 'hecho' },

@@ -63,7 +63,7 @@ import A3D20 from '../slides-avance3/A3D20.jsx';
 // slides anteriores que la narrativa no usa quedan con `oculta: true` al final.
 const avance3Slides = [
     { id: 1, title: null, component: null, duration: 45, section: 'Portada', special: null },
-    { id: 2, title: 'La pregunta', component: A3D01, duration: 60, section: 'Pregunta', special: null },
+    { id: 2, title: 'La pregunta', component: A3D01, duration: 75, section: 'Pregunta', special: null },
     { id: 3, title: 'Objetivos del semestre y su estado', component: A3D17, duration: 60, section: 'Pregunta', special: null },
     { id: 4, title: 'Dominio físico y parámetros', component: A3S02, duration: 60, section: 'Modelo', special: null },
     { id: 5, title: 'Modelo sin sumidero explícito: se cancela fC', component: A3N02, duration: 90, section: 'Modelo', special: null },
