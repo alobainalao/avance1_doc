@@ -15,9 +15,9 @@ const objetivos = [
     { t: 'Artículo de optimización', e: 'wip', nota: 'borrador; faltan resultados y revisión a fondo' },
 ];
 const cfg = {
-    ok:  { color: '#2E7D4F', label: 'hecho' },
-    wip: { color: '#0F7A85', label: 'en curso' },
-    pen: { color: '#6E7F8D', label: 'pendiente' },
+    ok:  { color: 'var(--a3-valido)', label: 'hecho' },
+    wip: { color: 'var(--a3-agua)', label: 'en curso' },
+    pen: { color: 'var(--a3-estrato)', label: 'pendiente' },
 };
 
 export default function A3D17({ theme = 'dark' }) {

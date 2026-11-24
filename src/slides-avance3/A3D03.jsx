@@ -1,5 +1,6 @@
 import React from 'react';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
+import { Cita } from './ui.jsx';
 import { useProgreso, tramo } from './anim.js';
 import { MODELOS } from './modeloNuevo.js';
 import { VERIF } from './verificacion.js';
@@ -12,18 +13,18 @@ const filas = [
     { id: 'mrmt_block', mid: 'M2_mrmt_block', nombre: 'MRMT por bloque', desc: 'sistema acoplado, complemento de Schur' },
 ];
 const cols = [
-    { id: 'bfr', nombre: 'RBF-FD', desc: 'colocación, estencil de 25 nodos, multicuádrica + grado 2, nodos fantasma' },
-    { id: 'fenicsx', nombre: 'Elementos finitos', desc: 'Galerkin, carga P1 y concentración P2 sobre la misma triangulación' },
+    { id: 'bfr', nombre: 'RBF-FD', desc: <>colocación, estencil de 25 nodos, multicuádrica + grado 2, nodos fantasma <Cita k="fornberg2015primer" /></> },
+    { id: 'fenicsx', nombre: 'Elementos finitos', desc: <>Galerkin, carga P1 y concentración P2 sobre la misma triangulación; FEniCSx <Cita k="baratta2023dolfinx" /></> },
 ];
 const errMax = (b, m) => Math.max(...VERIF.filter(r => r.backend === b && r.modelo === m && r.eps === 0.01).map(r => r.err));
 const exp10 = (v) => { const e = Math.floor(Math.log10(v)); return <>{(v / 10 ** e).toFixed(1)}·10<sup>{e}</sup></>; };
 
 export default function A3D03({ theme = 'dark' }) {
-    const [p, repetir] = useProgreso(3000, 300);
+    const [p] = useProgreso(3000, 300);
     return (
         <SlideLayout title="Seis implementaciones del mismo problema" theme={theme} justify="flex-start">
-            <div onClick={repetir} style={{ cursor: 'pointer', display: 'grid', gridTemplateColumns: '300px 1fr 1fr 250px', columnGap: 18, rowGap: 0 }}
-                 title="clic para repetir">
+            <div style={{ display: 'grid', gridTemplateColumns: '300px 1fr 1fr 250px', columnGap: 18, rowGap: 0 }}
+                >
                 <span />
                 {cols.map(c => (
                     <div key={c.id} style={{ paddingBottom: 12, borderBottom: '2px solid var(--sl-text)' }}>
@@ -57,8 +58,8 @@ export default function A3D03({ theme = 'dark' }) {
                             })}
                             <div style={{ ...fila, borderBottom: '1px solid var(--a3-filete)', opacity: tramo(p, 0.85, 1) }}>
                                 {m && <>
-                                    <span style={{ fontSize: 'var(--a3-fs-cuerpo)', color: 'var(--sl-text)' }}>C: {(100 * m.C_L2_rel_final).toFixed(1)} %</span>
-                                    <span style={nota}>masa: {(100 * Math.abs(1 - m.masa_ratio_final)).toFixed(2)} %</span>
+                                    <span style={{ fontSize: 'var(--a3-fs-cuerpo)', color: 'var(--sl-text)' }}>C: {(100 * m.C_L2_rel_final).toFixed(1)} %</span>
+                                    <span style={nota}>masa: {(100 * Math.abs(1 - m.masa_ratio_final)).toFixed(2)} %</span>
                                 </>}
                             </div>
                         </React.Fragment>

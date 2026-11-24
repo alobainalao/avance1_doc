@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
-import { Eq } from './ui.jsx';
+import { Eq, Cita } from './ui.jsx';
 import { useProgreso, tramo } from './anim.js';
 
 // Gradiente conjugado frente a máximo descenso sobre una cuadrática mal condicionada J(x) = ½ xᵀAx − bᵀx
@@ -55,15 +55,15 @@ function Curvas({ p }) {
     const nsd = Math.min(sd.length - 1, Math.floor((sd.length - 1) * fsd));
     return (
         <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%' }}>
-            {anillos.map((a, i) => <polyline key={i} points={a} fill="none" stroke="#6E7F8D" strokeOpacity={0.25 + 0.04 * i} strokeWidth="1.3" />)}
-            <polyline points={parcial(sd, fsd)} fill="none" stroke="#C4511F" strokeWidth="2.4" />
-            {sd.slice(0, nsd + 1).map((q, i) => <circle key={i} cx={sx(q[0])} cy={sy(q[1])} r="3.5" fill="#C4511F" />)}
-            <polyline points={parcial(cg, fcg)} fill="none" stroke="#0F7A85" strokeWidth="3.6" />
-            {cg.slice(0, 1 + Math.floor(2 * fcg)).map((q, i) => <circle key={i} cx={sx(q[0])} cy={sy(q[1])} r="6" fill="#0F7A85" />)}
-            <circle cx={sx(xs[0])} cy={sy(xs[1])} r="7" fill="none" stroke="#2E7D4F" strokeWidth="3" />
+            {anillos.map((a, i) => <polyline key={i} points={a} fill="none" stroke="var(--a3-estrato)" strokeOpacity={0.25 + 0.04 * i} strokeWidth="1.3" />)}
+            <polyline points={parcial(sd, fsd)} fill="none" stroke="var(--a3-pluma)" strokeWidth="2.4" />
+            {sd.slice(0, nsd + 1).map((q, i) => <circle key={i} cx={sx(q[0])} cy={sy(q[1])} r="3.5" fill="var(--a3-pluma)" />)}
+            <polyline points={parcial(cg, fcg)} fill="none" stroke="var(--a3-agua)" strokeWidth="3.6" />
+            {cg.slice(0, 1 + Math.floor(2 * fcg)).map((q, i) => <circle key={i} cx={sx(q[0])} cy={sy(q[1])} r="6" fill="var(--a3-agua)" />)}
+            <circle cx={sx(xs[0])} cy={sy(xs[1])} r="7" fill="none" stroke="var(--a3-valido)" strokeWidth="3" />
             <g style={{ fontFamily: 'var(--a3-sans)', fontSize: 17 }}>
-                <text x={14} y={26} style={{ fill: '#C4511F' }}>máximo descenso: {nsd} pasos{fsd >= 1 && sd.length > 60 ? ' y sigue' : ''}</text>
-                <text x={14} y={50} style={{ fill: '#0F7A85' }}>gradiente conjugado: {Math.floor(2 * fcg)} pasos</text>
+                <text x={14} y={26} style={{ fill: 'var(--a3-pluma)' }}>máximo descenso: {nsd} pasos{fsd >= 1 && sd.length > 60 ? ' y sigue' : ''}</text>
+                <text x={14} y={50} style={{ fill: 'var(--a3-agua)' }}>gradiente conjugado: {Math.floor(2 * fcg)} pasos</text>
             </g>
         </svg>
     );
@@ -94,8 +94,8 @@ export default function A3D12({ theme = 'dark' }) {
                         deja de ser explícita (siguiente lámina).
                     </p>
                     <p style={nota}>
-                        Manzoni et al. (2021), § 6.3 y Alg. 6.1; Nocedal y Wright (2006), cap. 5. Figura: cuadrática ilustrativa
-                        con búsqueda lineal exacta, donde CG termina en 2 pasos.
+                        <Cita k="manzoni2021optimal" p="§ 6.3 y Alg. 6.1" />; <Cita k="Nocedal2006" p="cap. 5" />. Figura: cuadrática
+                        ilustrativa con búsqueda lineal exacta, donde CG termina en 2 pasos.
                     </p>
                 </div>
             </div>

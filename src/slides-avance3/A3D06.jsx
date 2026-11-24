@@ -1,13 +1,14 @@
 import React from 'react';
 import { InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
+import { Cita } from './ui.jsx';
 import { useProgreso, tramo } from './anim.js';
 import { OPT } from './optimoNitrato.js';
 
 // Demanda, disponibilidad de la bomba y tanque (funtions/water_supply.py; control óptimo ADR, γ = 1).
 // Izquierda: perfiles horarios (media 1). Derecha: 30 días con el volumen bombeado V_s Δt Q_n, la demanda d_n
 // y el volumen del tanque S_n en [0, S_max]; se dibujan día a día.
-const AGUA = '#0F7A85', PLUMA = '#C4511F', TINTA = '#6E7F8D', VALIDO = '#2E7D4F';
+const AGUA = 'var(--a3-agua)', PLUMA = 'var(--a3-pluma)', TINTA = 'var(--a3-estrato)', VALIDO = 'var(--a3-valido)';
 const opt = OPT.modelos[0];
 const vol = opt ? opt.Q.map(q => OPT.V_s * OPT.dt * q) : [];
 
@@ -84,8 +85,8 @@ export default function A3D06({ theme = 'dark' }) {
                     <p style={tit}>Perfiles diarios por hora (media 1)</p>
                     <Perfiles p={p} />
                     <p style={nota}>
-                        Doméstico con picos a las 7 h y 18 h (AWWA M32); riego por goteo de 6 a 20 h (FAO-56); la bomba
-                        reduce su disponibilidad de noche.
+                        Doméstico con picos a las 7 h y 18 h <Cita k={['mays2011water', 'hernandez2023demanda']} />; riego por goteo de 6 a
+                        20 h <Cita k="allen1998crop" />; la bomba reduce su disponibilidad de noche <Cita k="grundfos2019motor" />.
                     </p>
                 </div>
                 <div>

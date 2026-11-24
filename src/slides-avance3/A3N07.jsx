@@ -2,7 +2,7 @@ import React from 'react';
 import { BlockMath, InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import EqCard from '../layouts-v2/EqCard.jsx';
-import { Punto, Col, Eq, Titulo } from './ui.jsx';
+import { Punto, Col, Eq, Titulo, Cita } from './ui.jsx';
 
 const verde = '#2E7D4F';
 const eqMRMT = String.raw`\begin{aligned}
@@ -16,6 +16,8 @@ export default function A3N07({ theme = 'dark' }) {
         <SlideLayout title="Modelo MRMT: regiones móvil e inmóviles" theme={theme} justify="flex-start">
             <Col gap={10}>
                 <EqCard title="Sistema MRMT (misma cancelación de fC sobre la ecuación móvil)"><Eq math={eqMRMT} id='mrmt' /></EqCard>
+                <Punto size={19}>Transferencia de masa multitasa: la región móvil intercambia soluto con varias regiones inmóviles, cada una con su
+                    tasa <Cita k="haggerty1995multirate" />.</Punto>
                 <Punto size={19}>El intercambio no contiene <InlineMath math="\mathbf u" /> ni <InlineMath math="f" />; la ecuación inmóvil es una EDO en cada punto y conserva la masa total.</Punto>
                 <Punto color="#C4511F" size={19}>
                     Sin regiones inmóviles (<InlineMath math="N_r=0" />) se recupera ADR. El decaimiento{' '}

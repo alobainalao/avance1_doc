@@ -1,6 +1,7 @@
 import React from 'react';
 import { InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
+import { Cita } from './ui.jsx';
 
 // Configuración de las tres familias de corridas que aparecen en el avance: comparación directa (experimentos/catalogo.py,
 // grupo MC_malla_conos con experimentos/base.json), verificación del gradiente (tests/test_gradiente_modelo_nuevo.py) y
@@ -16,7 +17,7 @@ const filas = [
         <>72 caudales + {M('z_p')}; arranque {M('Q_n=0.1')}, {M('z_p=-700')} m</>],
     ['Funcional', '—', 'sin normalizar', <>normalizado, {M('\\gamma=\\alpha=\\beta=1')}</>],
     ['Concentración', 'unidades del modelo', 'unidades del modelo', <>nitrato en mg/L: pico sin bombeo 186 mg/L; {M('C_{\\rm ref}')} = 50 mg/L (OMS)</>],
-    ['Optimizador', '—', '—', <>trust-constr (barrera, BFGS), paro {M('\\chi<10^{-4}')} (aún no alcanzado)</>],
+    ['Optimizador', '—', '—', <>trust-constr de SciPy <Cita k="virtanen2020scipy" /> (barrera, BFGS), paro {M('\\chi<10^{-4}')} (aún no alcanzado)</>],
 ];
 
 export default function A3D22({ theme = 'dark' }) {

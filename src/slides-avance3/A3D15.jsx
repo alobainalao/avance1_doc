@@ -7,8 +7,8 @@ import { OPT } from './optimoNitrato.js';
 // Mejor iterado (preliminar) de los tres modelos de transporte (FEniCSx, malla con conos y eje de 1 m, γ = 1), todos desde Q_n = 0.1,
 // z_p = −700 m. Izquierda: los tres pozos suben de z_p⁰ a donde paró el optimizador; centro: evaluación cruzada (Ĵ de
 // cada modelo en el punto de cada corrida, experimentos/evaluar_optimos.py); derecha: términos del funcional.
-const COLOR = { adr: '#C4511F', mrmt_semi: '#0F7A85', mrmt_block: '#5B4B8A' };
-const GRIS = '#6E7F8D', VALIDO = '#2E7D4F';
+const COLOR = { adr: 'var(--a3-pluma)', mrmt_semi: 'var(--a3-agua)', mrmt_block: '#5B4B8A' };
+const GRIS = 'var(--a3-estrato)', VALIDO = 'var(--a3-valido)';
 
 // Bloque paró antes de su óptimo: su Ĵ es menor en el punto de semi (evaluación cruzada) y semi y bloque dan el mismo Ĵ
 // a 4·10⁻⁴ en cualquier punto. ADR también mejora con el caudal de semi, pero su z_p lo confirma el barrido de Ĵ(z_p).
@@ -21,7 +21,7 @@ function Pozos({ f }) {
     const ms = OPT.modelos;
     return (
         <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%' }}>
-            <rect x={0} y={sy(z0)} width={W} height={sy(z1) - sy(z0)} fill="#0F7A85" opacity="0.06" />
+            <rect x={0} y={sy(z0)} width={W} height={sy(z1) - sy(z0)} fill="var(--a3-agua)" opacity="0.06" />
             {[-200, -300, -400, -500, -600, -700].map(z => (
                 <g key={z}><line x1={58} x2={W - 6} y1={sy(z)} y2={sy(z)} stroke={GRIS} strokeOpacity="0.18" />
                     <text x={50} y={sy(z) + 5} textAnchor="end" style={eje}>{String(z).replace('-', '−')}</text></g>
@@ -84,14 +84,14 @@ const filas = [
 ];
 
 export default function A3D15({ theme = 'dark' }) {
-    const [p, repetir] = useProgreso(5500, 400);
+    const [p] = useProgreso(5500, 400);
     const f = suave(tramo(p, 0, 0.85));
     const ms = OPT.modelos;
     if (ms.length < 3) return <SlideLayout title="Mejor iterado por modelo (preliminar)" theme={theme}><p>Sin resultados.</p></SlideLayout>;
     return (
         <SlideLayout title="Mejor iterado por modelo (preliminar)" theme={theme} justify="flex-start">
-            <div onClick={repetir} title="clic para repetir"
-                 style={{ cursor: 'pointer', display: 'grid', gridTemplateColumns: '0.85fr 1fr 1.15fr', gap: 30, alignItems: 'start' }}>
+            <div
+                 style={{ display: 'grid', gridTemplateColumns: '0.85fr 1fr 1.15fr', gap: 30, alignItems: 'start' }}>
                 <div>
                     <p style={tit}>Profundidad <InlineMath math="z_p" /> donde paró cada corrida [m]</p>
                     <Pozos f={f} />

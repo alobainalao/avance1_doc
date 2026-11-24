@@ -27,9 +27,9 @@ export default function A3N09({ theme = 'dark' }) {
 
                     <div style={{ height: 6 }} />
                     <Titulo>Decisiones y límites del modelo</Titulo>
-                    <Punto color="#C4511F" size={19}>En Γin entra agua que arrastra la concentración local; no se prescribe <InlineMath math="C_{\rm in}" /> (decisión pendiente).</Punto>
-                    <Punto color="#C4511F" size={19}><InlineMath math="\phi" /> constante con almacenamiento elástico y <InlineMath math="S_s=\phi" /> numérico (0.03–0.95 m⁻¹): pendiente confirmar.</Punto>
-                    <Punto color="#2E7D4F" size={19}>Balance global de soluto: el soluto solo cruza <InlineMath math="\partial\Omega" /> por advección y sale por <InlineMath math="fC" />.</Punto>
+                    <Punto color="var(--a3-pluma)" size={19}>En Γin entra agua que arrastra la concentración local; no se prescribe <InlineMath math="C_{\rm in}" /> (decisión pendiente).</Punto>
+                    <Punto color="var(--a3-pluma)" size={19}><InlineMath math="\phi" /> constante con almacenamiento elástico y <InlineMath math="S_s=\phi" /> numérico (0.03–0.95 m⁻¹): pendiente confirmar.</Punto>
+                    <Punto color="var(--a3-valido)" size={19}>Balance global de soluto: el soluto solo cruza <InlineMath math="\partial\Omega" /> por advección y sale por <InlineMath math="fC" />.</Punto>
             </Col>
             )}
         </SlideLayout>

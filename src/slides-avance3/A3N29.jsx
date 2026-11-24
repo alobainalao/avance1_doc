@@ -3,8 +3,8 @@ import VideoCampo from './VideoCampo.jsx';
 
 // Estados adjuntos en la malla con conos, mismo grid 3 × 3 que los campos del estado.
 const NOTA_C = 'Se resuelve hacia atrás desde t = T; escala log común; se dibuja −ψ_C (ψ_C < 0). −ψ_C marca de dónde llega al pozo, '
-    + 'antes de T, el nitrato que cuenta en J_m: la zona de captura. RBF-FD es más ruidoso y su ψ_C cambia 25–36 % al cambiar la malla; '
-    + 'el de elementos finitos, 3–10 %.';
+    + 'antes de T, el nitrato que cuenta en J_m: la zona de captura. RBF-FD es más ruidoso y su ψ_C cambia 25–36 % al cambiar la malla; '
+    + 'el de elementos finitos, 3–10 %.';
 const NOTA_H = 'Se resuelve hacia atrás desde t = T; una sola escala para los dos códigos. ψ_h da el gradiente respecto al caudal '
     + '(∫ g_ε ψ_h dΩ, lámina 21); el ruido de RBF-FD cerca de la superficie viene de la colocación en forma fuerte.';
 export const A3N29 = (p) => <VideoCampo campo="adj_C" titulo="Estado adjunto −ψ_C(x,z,t) — RBF-FD frente a elementos finitos" nota={NOTA_C} {...p} />;

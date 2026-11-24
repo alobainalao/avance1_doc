@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { BlockMath, InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
+import { Cita } from './ui.jsx';
 import { POLIGONO, POZO, FUENTE, X, Z } from './escena.jsx';
 import { useFases, reducida, suave, tramo, lerp } from './anim.js';
 import { OPT } from './optimoNitrato.js';
@@ -11,16 +12,16 @@ import { ESQ } from './esquema.js';
 // digitalizada de tesis/Figures/ubicacion.png (sondeos, traza del corte, poblados); capas y porosidad de los sondeos
 // (funtions/get_phi.py); líneas de corriente y pluma de nitrato del simulador (FEniCSx, malla con eje de 1 m, ADR) sin
 // bombeo y con el óptimo ADR; tanque y demanda de optimoNitrato.js (codigo/scripts/exportar_esquema_presentacion.py).
-const AGUA = '#0F7A85', PLUMA = '#C4511F', GRIS = '#6E7F8D';
+const AGUA = 'var(--a3-agua)', PLUMA = 'var(--a3-pluma)', GRIS = 'var(--a3-estrato)';
 
 const FASES = [
     { n: 'Ubicación', dur: 3, d: <>el acuífero de estudio está en Sabinas, en el noreste de Coahuila</> },
-    { n: 'Sondeos', dur: 4, d: <>seis sondeos eléctricos midieron la conductividad del subsuelo a varias profundidades; de ella se estimó la porosidad efectiva de cada capa</> },
+    { n: 'Sondeos', dur: 4, d: <>seis sondeos eléctricos midieron la conductividad del subsuelo a varias profundidades; de ella se estimó la porosidad efectiva de cada capa <Cita k="DanielRivas" /></> },
     { n: 'Traza del corte', dur: 4, d: <>cuatro sondeos están casi alineados: se proyectan sobre la recta roja, que será la traza del corte</> },
     { n: 'Corte vertical', dur: 5, d: <>si las propiedades no cambian en la dirección transversal, basta un corte vertical de 9.9 km entre los sondeos extremos, con las capas que midió cada sondeo</> },
-    { n: 'Porosidad', dur: 3, d: <>la porosidad <InlineMath math="\phi" /> de las capas se interpola a todo el corte; de ella sale la conductividad <InlineMath math="\mathbf K" /> (Kozeny–Carman)</> },
+    { n: 'Porosidad', dur: 3, d: <>la porosidad <InlineMath math="\phi" /> de las capas se interpola a todo el corte; de ella sale la conductividad <InlineMath math="\mathbf K" /> <Cita k="Kozeny-Carman" /></> },
     { n: 'Flujo', dur: 3, d: <>el agua entra por el noreste y sale libre por el suroeste; corre más rápido donde <InlineMath math="\phi" /> y <InlineMath math="\mathbf K" /> son altas</> },
-    { n: 'Derrame', dur: 10, d: <>una fuente de nitrato dejó una pluma (estado inicial del modelo); en 30 días el agua la arrastra, la dispersa y se degrada</> },
+    { n: 'Derrame', dur: 10, d: <>una fuente de nitrato dejó una pluma (estado inicial del modelo); en 30 días el agua la arrastra, la dispersa y se degrada; el valor guía es 50 mg/L <Cita k="oms2022" /></> },
     { n: 'Pozo', dur: 10, d: <>el pozo bombea <InlineMath math="Q(t)" /> a la profundidad <InlineMath math="z_p" />: desvía el flujo y capta parte del nitrato</> },
     { n: 'Tanque y demanda', dur: 10, d: <>lo bombeado entra a un tanque de 2 000 m³ que entrega 1 000 m³ al día a la población y al riego</> },
     { n: 'La pregunta', dur: 2, d: <>¿cómo operar el pozo?</> },

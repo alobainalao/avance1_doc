@@ -1,12 +1,13 @@
 import React from 'react';
 import { InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
+import { Cita } from './ui.jsx';
 import { POLIGONO, POZO, FUENTE, X, Z } from './escena.jsx';
 import { ESQ } from './esquema.js';
 
 // Dominio físico y parámetros: corte vertical con la porosidad interpolada de los sondeos (bandas de esquema.js, las mismas
 // de la apertura), fronteras, pozo en su profundidad inicial y fuente. Valores de config/nitrato_vscale_malla_eje_g1.json.
-const AGUA = '#0F7A85', PLUMA = '#C4511F';
+const AGUA = 'var(--a3-agua)', PLUMA = 'var(--a3-pluma)';
 const M = (t) => <InlineMath math={t} />;
 
 const geo = [
@@ -17,8 +18,8 @@ const geo = [
     ['Fuente de nitrato', <>{M('(x_s, z_s) = (9\\,116,\\ 109)')} m</>],
 ];
 const fis = [
-    ['Porosidad', <>{M('\\phi\\in[0.03,\\,0.95]')}: 4 sondeos, capas A–E</>],
-    ['Conductividad', <>Kozeny–Carman {M('K_z(\\phi)')}, grano de 1 mm; {M('K_x=4K_z')}</>],
+    ['Porosidad', <>{M('\\phi\\in[0.03,\\,0.95]')}: 4 sondeos, capas A–E <Cita k="DanielRivas" /></>],
+    ['Conductividad', <>{M('K_z(\\phi)')} de Kozeny–Carman <Cita k="Kozeny-Carman" />, grano de 1 mm; {M('K_x=4K_z')}</>],
     ['Dispersividades', <>{M('\\alpha_L=10')} m, {M('\\alpha_T=1')} m</>],
     ['Mallas', '20 348 nodos (comparación directa); 25 871 (optimización, eje del pozo a 1 m)'],
     ['Tiempo', <>{M('T=30')} días; {M('\\Delta t=5')} h (comparación directa), 10 h (optimización)</>],

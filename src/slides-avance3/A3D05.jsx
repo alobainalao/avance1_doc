@@ -1,7 +1,7 @@
 import React from 'react';
 import { InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
-import { Eq } from './ui.jsx';
+import { Eq, Cita } from './ui.jsx';
 
 // Conjunto admisible (tesis, Cap. III: eq:cota_Q, eq:cota_zp, eq:demanda_variable, eq:balance_tanque,
 // eq:cota_tanque, eq:duty_cycle, eq:Uad). Valores de config/nitrato_vscale_malla_g1.json.
@@ -36,7 +36,7 @@ export default function A3D05({ theme = 'dark' }) {
                 <InlineMath math="a(\tau_n)\in[0,1]" />: disponibilidad de la bomba a la hora del día <InlineMath math="\tau_n" />;{' '}
                 <InlineMath math="V_s" />: factor que convierte el caudal del corte (por metro de ancho) en volumen del tanque;{' '}
                 <InlineMath math="d_n" />: demanda del intervalo <InlineMath math="n" /> [m³]; <InlineMath math="N_w" />: pasos de la ventana del
-                ciclo; <InlineMath math="z_0" />: cota de referencia de la superficie.
+                ciclo, con <InlineMath math="T_{\rm on}" /> y <InlineMath math="T_{\rm off}" /> del fabricante de la bomba <Cita k="grundfos2019motor" />; <InlineMath math="z_0" />: cota de referencia de la superficie.
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px 30px', borderTop: '1px solid var(--a3-filete)', paddingTop: 10 }}>
                 {valores.map(([k, v]) => (

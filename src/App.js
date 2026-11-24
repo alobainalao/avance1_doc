@@ -26,7 +26,6 @@ const SlideShowWrapper = () => {
             deckClass={presentation.deckClass}
             canvasW={presentation.canvasW}
             ecuaciones={presentation.ecuaciones}
-            referencias={presentation.referencias}
         />
     );
 };

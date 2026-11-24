@@ -25,7 +25,7 @@ const barras = [
 ];
 
 export default function A3D02({ theme = 'dark' }) {
-    const [p, repetir] = useProgreso(3600, 500);
+    const [p] = useProgreso(3600, 500);
     const q = suave(tramo(p, 0.35, 1));
     return (
         <SlideLayout title="Del modelo anterior al modelo nuevo" theme={theme} justify="flex-start">
@@ -52,7 +52,7 @@ export default function A3D02({ theme = 'dark' }) {
                 })}
             </div>
 
-            <div onClick={repetir} style={{ cursor: 'pointer', marginTop: 34 }} title="clic para repetir">
+            <div style={{ marginTop: 34 }}>
                 <p style={{ margin: '0 0 12px', fontSize: 'var(--a3-fs-seccion)', color: 'var(--sl-accent)' }}>
                     Discrepancia entre RBF-FD y elementos finitos a los 30 días
                 </p>
@@ -67,7 +67,7 @@ export default function A3D02({ theme = 'dark' }) {
                                               background: q < 1 ? 'var(--a3-pluma)' : 'var(--a3-valido)' }} />
                             </div>
                             <span style={{ fontSize: 'var(--a3-fs-seccion)', textAlign: 'right', color: 'var(--sl-text)', fontVariantNumeric: 'tabular-nums' }}>
-                                {v < 1 ? v.toFixed(2) : v.toFixed(1)} %
+                                {v < 1 ? v.toFixed(2) : v.toFixed(1)} %
                             </span>
                         </div>
                     );

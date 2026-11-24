@@ -1,26 +1,32 @@
 import React from 'react';
+import { FaRegFileAlt } from 'react-icons/fa';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import { REFS } from './referencias.js';
 
-// Bibliografía del avance (referencias.js), en orden alfabético por el primer autor, a dos columnas.
-const autores = r => {
-    if (r.nombre) return r.nombre;
-    const a = r.autores;
-    if (r.etal) return `${a.join(', ')} et al.`;
-    return a.length === 1 ? a[0] : `${a.slice(0, -1).join(', ')} y ${a[a.length - 1]}`;
-};
-const lista = Object.values(REFS).sort((x, y) => autores(x).localeCompare(autores(y), 'es') || x.anio - y.anio);
+// Referencias bibliográficas del avance (referencias.js), con el formato de los avances anteriores (slides-v2/Slide36–37):
+// ícono, autores y año, título en negrita y fuente en cursiva. Orden alfabético, seis entradas por lámina.
+const LISTA = Object.values(REFS).sort((a, b) => a.autores.localeCompare(b.autores, 'es'));
+const POR_LAMINA = 6;
+export const N_LAMINAS = Math.ceil(LISTA.length / POR_LAMINA);
+const ROMANOS = ['I', 'II', 'III', 'IV'];
 
-export default function A3D21({ theme = 'dark' }) {
+export const tituloReferencias = (i) => `Referencias bibliográficas ${ROMANOS[i]}`;
+
+export const referenciasLamina = (i) => function A3D21({ theme = 'dark' }) {
     return (
-        <SlideLayout title="Bibliografía" theme={theme} justify="flex-start">
-            <div style={{ columnCount: 2, columnGap: 40, fontFamily: 'var(--a3-sans)', fontSize: 14.5, lineHeight: 1.35, color: 'var(--sl-text)' }}>
-                {lista.map((r, i) => (
-                    <p key={i} style={{ margin: '0 0 7px', paddingLeft: 18, textIndent: -18, breakInside: 'avoid' }}>
-                        {autores(r)} ({r.anio}). <i>{r.titulo}</i>{r.fuente ? `. ${r.fuente}` : ''}.
-                    </p>
+        <SlideLayout title={tituloReferencias(i)} theme={theme} justify="flex-start">
+            <ul className="sl-ref-list">
+                {LISTA.slice(i * POR_LAMINA, (i + 1) * POR_LAMINA).map(r => (
+                    <li key={r.cita} className="sl-ref-entry">
+                        <FaRegFileAlt className="sl-ref-icon" />
+                        <div className="sl-ref-text">
+                            <span className="sl-ref-authors">{r.autores}</span>
+                            <span className="sl-ref-title">{r.titulo}</span>
+                            <span className="sl-ref-venue">{r.fuente}</span>
+                        </div>
+                    </li>
                 ))}
-            </div>
+            </ul>
         </SlideLayout>
     );
-}
+};

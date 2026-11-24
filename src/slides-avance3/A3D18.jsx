@@ -7,7 +7,7 @@ import { OPT } from './optimoNitrato.js';
 // Ĵ(z_p) cada metro con el mismo caudal (óptimo ADR de la primera corrida), FEniCSx: en la malla con conos
 // (h ≈ 4.9 m en el eje del pozo) Ĵ ondula y tiene mínimos locales; con la franja de 1 m en el eje es monótona
 // (codigo/data/output/_logs_malla_conos/13_fino_r20.log y 15_fino_eje.log).
-const AGUA = '#0F7A85', PLUMA = '#C4511F', VALIDO = '#2E7D4F', GRIS = '#6E7F8D';
+const AGUA = 'var(--a3-agua)', PLUMA = 'var(--a3-pluma)', VALIDO = 'var(--a3-valido)', GRIS = 'var(--a3-estrato)';
 
 // mínimos locales estrictos de una serie
 const minimos = J => J.map((v, i) => (i > 0 && i < J.length - 1 && v < J[i - 1] && v < J[i + 1] ? i : -1)).filter(i => i >= 0);
@@ -83,7 +83,7 @@ export default function A3D18({ theme = 'dark' }) {
                     <div style={{ ...caja, borderColor: VALIDO, opacity: 0.3 + 0.7 * tramo(p, 0.6, 0.8) }}>
                         <p style={{ ...cab, color: VALIDO }}>Remedio</p>
                         <p style={txt}>
-                            Franja con <InlineMath math="h=1" /> m a ±5 m del eje del pozo: 25 871 nodos (+27 %). La curva queda
+                            Franja con <InlineMath math="h=1" /> m a ±5 m del eje del pozo: 25 871 nodos (+27 %). La curva queda
                             monótona y la optimización se repite con esta malla.
                         </p>
                     </div>

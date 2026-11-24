@@ -1,15 +1,16 @@
 import React from 'react';
 import { InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
+import { Cita } from './ui.jsx';
 import { useProgreso, tramo, suave } from './anim.js';
 import { OPT } from './optimoNitrato.js';
 
 // Por qué el óptimo de MRMT semi queda más hondo que el de ADR (FEniCSx, malla con eje de 1 m, γ = 1). Izquierda:
 // Ĵ(z_p) con el mismo caudal (óptimo ADR) en los dos modelos; derecha: C en el pozo con z_p = −383 m y ese caudal
 // (codigo/data/output/optimizacion_nitrato_vscale_malla_eje_g1/analisis_zp/).
-const COLOR = { adr: '#C4511F', mrmt_semi: '#0F7A85' };
+const COLOR = { adr: 'var(--a3-pluma)', mrmt_semi: 'var(--a3-agua)' };
 const NOMBRE = { adr: 'ADR', mrmt_semi: 'MRMT semi' };
-const GRIS = '#6E7F8D';
+const GRIS = 'var(--a3-estrato)';
 
 // vértice de la parábola por los tres puntos alrededor del mínimo muestreado
 function vertice(z, J) {
@@ -100,10 +101,10 @@ export default function A3D19({ theme = 'dark' }) {
                 </div>
             </div>
             <p style={{ ...nota, opacity: tramo(p, 0.8, 1) }}>
-                El intercambio con las regiones inmóviles es rápido (tiempos de relajación <InlineMath math="\tau_r=1/\nu_r" /> de 4 a
+                El intercambio con las regiones inmóviles <Cita k="haggerty1995multirate" /> es rápido (tiempos de relajación <InlineMath math="\tau_r=1/\nu_r" /> de 4 a
                 14 h ≪ 30 días): MRMT se comporta como ADR retardado (<InlineMath math="1+\sum_r\eta_r=1.3" />). En ADR la concentración del
                 pozo llega a su pico hacia el día 12 y baja; en MRMT la masa queda retenida y la concentración sigue subiendo hasta{' '}
-                <InlineMath math="T" />. Así <InlineMath math="J_m" /> es entre {Math.round((rmin - 1) * 100)} y {Math.round((rmax - 1) * 100)} %
+                <InlineMath math="T" />. Así <InlineMath math="J_m" /> es entre {Math.round((rmin - 1) * 100)} y {Math.round((rmax - 1) * 100)} %
                 mayor en MRMT entre −460 y −360 m, y el equilibrio{' '}
                 <InlineMath math="\partial_{z_p}(\gamma J_m)=-\partial_{z_p}(\alpha J_{\rm inst}+\beta J_{\rm op})" /> se alcanza unos 20 m
                 más abajo. Barrido cada 20 m con el caudal del iterado 38 de ADR (no el final), por eso los mínimos (−385 y −406 m) difieren

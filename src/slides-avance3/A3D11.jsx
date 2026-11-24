@@ -9,7 +9,7 @@ import { VERIF } from './verificacion.js';
 // error relativo de la derivada direccional del adjunto frente a diferencias centradas con pasos δ = 10⁻² y 3·10⁻³,
 // un par de puntos por dirección d, en escala log. Si el error es de las diferencias finitas, baja (10/3)² ≈ 11 veces.
 const MOD = [['adr', 'ADR'], ['mrmt_semi', 'MRMT semi'], ['mrmt_block', 'MRMT bloque']];
-const BK = [['bfr', 'RBF-FD', '#0F7A85'], ['fenicsx', 'Elementos finitos', '#10243E']];
+const BK = [['bfr', 'RBF-FD', 'var(--a3-agua)'], ['fenicsx', 'Elementos finitos', 'var(--sl-text)']];
 const LO = -10.5, HI = -2.5;
 
 const eqError = String.raw`e(\mathbf d)=\frac{\Big|\,\nabla\hat J(u)\cdot\mathbf d\;-\;\dfrac{\hat J(u+\delta\,\mathbf d)-\hat J(u-\delta\,\mathbf d)}{2\delta}\,\Big|}{\big|\nabla\hat J(u)\cdot\mathbf d\big|}`;
@@ -42,7 +42,7 @@ export default function A3D11({ theme = 'dark' }) {
             <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', cursor: 'pointer' }} onClick={repetir}>
                 {[-10, -8, -6, -4].map(e => (
                     <g key={e}>
-                        <line x1={L} x2={W - 20} y1={sy(10 ** e)} y2={sy(10 ** e)} stroke="#6E7F8D" strokeOpacity="0.2" />
+                        <line x1={L} x2={W - 20} y1={sy(10 ** e)} y2={sy(10 ** e)} stroke="var(--a3-estrato)" strokeOpacity="0.2" />
                         <text x={L - 10} y={sy(10 ** e) + 5} textAnchor="end" style={eje}>10<tspan dy="-8" fontSize="11">{e}</tspan></text>
                     </g>
                 ))}
@@ -75,11 +75,11 @@ export default function A3D11({ theme = 'dark' }) {
                             )}
                             <text x={x0 + ancho / 2} y={H - B + 24} textAnchor="middle" style={{ ...eje, fill: 'var(--sl-text)', fontSize: 16 }}>{g.nm}</text>
                             {i % 3 === 1 && <text x={x0 + ancho / 2} y={H - B + 50} textAnchor="middle" style={{ ...eje, fill: g.c, fontSize: 17 }}>{g.nb}</text>}
-                            {i === 3 && <line x1={x0} x2={x0} y1={T} y2={H - B + 48} stroke="#6E7F8D" strokeOpacity="0.4" />}
+                            {i === 3 && <line x1={x0} x2={x0} y1={T} y2={H - B + 48} stroke="var(--a3-estrato)" strokeOpacity="0.4" />}
                         </g>
                     );
                 })}
-                <text x={L + 4.5 * ancho} y={sy(10 ** -5.1)} textAnchor="middle" style={{ ...eje, fill: '#10243E', fontSize: 16, opacity: tramo(p, 0.7, 0.9) }}>
+                <text x={L + 4.5 * ancho} y={sy(10 ** -5.1)} textAnchor="middle" style={{ ...eje, fill: 'var(--sl-text)', fontSize: 16, opacity: tramo(p, 0.7, 0.9) }}>
                     nivel del redondeo: no depende de δ
                 </text>
             </svg>

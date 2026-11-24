@@ -2,7 +2,7 @@ import React from 'react';
 import { InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import EqCard from '../layouts-v2/EqCard.jsx';
-import { Eq } from './ui.jsx';
+import { Eq, Cita } from './ui.jsx';
 
 // Modelo sin sumidero explícito (docs/adjunto_sin_sumidero.pdf, §2). Código de colores del documento.
 const rojo = '#C4511F', azul = '#0F7A85', verde = '#2E7D4F';
@@ -37,7 +37,8 @@ export default function A3N02({ theme = 'dark' }) {
                     <Eq math={eqADR} id='adr' />
                 </EqCard>
                 <p style={{ margin: 0, color: 'var(--sl-text)', fontSize: 22, lineHeight: 1.4 }}>
-                    El pozo no es un sumidero en la ecuación de <InlineMath math="C" />: el soluto sale porque la velocidad de Darcy{' '}
+                    Balances de agua y de soluto en un medio poroso <Cita k="bear1972dynamics" />. El pozo no es un sumidero en la
+                    ecuación de <InlineMath math="C" />: el soluto sale porque la velocidad de Darcy{' '}
                     <InlineMath math="\mathbf u=-\mathbf K\nabla h" /> converge hacia él. Solo queda el almacenamiento{' '}
                     <span style={{ color: verde }}><InlineMath math="-S_s\partial_t h\,C" /></span>.
                 </p>

@@ -1,14 +1,14 @@
 import React from 'react';
 import { InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
-import { Eq } from './ui.jsx';
+import { Eq, Cita } from './ui.jsx';
 import { useProgreso, tramo, suave, lerp } from './anim.js';
 
 // Criterio de paro por la medida de criticidad (tesis, Cap. III, eq:criticidad). Izquierda: esquema en 2D de un paso
 // de gradiente proyectado sobre un poliedro, en un punto no estacionario y en un vértice KKT. Derecha: Ĵ (modelo MRMT
 // bloque) sobre el segmento entre los puntos donde el criterio por defecto de scipy (gtol) paró MRMT bloque y MRMT semi
 // en la primera corrida (codigo/data/output/optimizacion_nitrato_vscale_malla_g1/cruce_optimos.json y trust_gtol/).
-const AGUA = '#0F7A85', PLUMA = '#C4511F', VALIDO = '#2E7D4F', GRIS = '#6E7F8D';
+const AGUA = 'var(--a3-agua)', PLUMA = 'var(--a3-pluma)', VALIDO = 'var(--a3-valido)', GRIS = 'var(--a3-estrato)';
 const POLI = [[70, 330], [120, 110], [300, 60], [420, 170], [380, 320]];
 
 // proyección euclídea sobre un polígono convexo (punto interior o el más cercano del borde)
@@ -121,7 +121,8 @@ export default function A3D16({ theme = 'dark' }) {
                     <p style={tit}>Si ninguna dirección admisible baja <InlineMath math="\hat J" />, el punto regresa a sí mismo</p>
                     <Esquema p={p} />
                     <div className="a3-ec--compacta"><Eq math={eqKKT} compacta /></div>
-                    <p style={nota}>Es la condición de optimalidad de la lámina 19. Variables escaladas a [0, 1] para que caudal y
+                    <p style={nota}>Es la condición de optimalidad de la lámina 19 <Cita k="Nocedal2006" p="cap. 12" />; χ es la medida de
+                        criticidad de <Cita k="conn2000trust" />. Variables escaladas a [0, 1] para que caudal y
                         profundidad pesen igual en <InlineMath math="\|\cdot\|_\infty" />.</p>
                 </div>
                 <div>

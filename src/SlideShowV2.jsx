@@ -14,17 +14,8 @@ const TOTAL_EXPECTED_TIME = 900000;
 const CANVAS_W = 1280;
 const CANVAS_H = 960;
 
-// Forma corta de una referencia para el pie de la lámina: «Bear (1972)», «Haggerty y Gorelick (1995)», «Manzoni et al. (2021)».
-const citaCorta = (r) => {
-    if (!r) return '?';
-    const a = r.autores, apellido = (s) => s.split(',')[0];
-    const quien = a.length === 1 ? apellido(a[0]) : a.length === 2 ? `${apellido(a[0])} y ${apellido(a[1])}` : `${apellido(a[0])} et al.`;
-    return `${quien} (${r.anio})`;
-};
-
-// canvasW: ancho del lienzo propio de un avance (registry.js); por defecto CANVAS_W. referencias: {clave: entrada} del
-// avance; las láminas con `refs: [claves]` en su config muestran las citas cortas al pie.
-const SlideshowV2 = ({ slides: slidesProp, sections, portadaDate, deckClass = '', canvasW = CANVAS_W, ecuaciones, referencias }) => {
+// canvasW: ancho del lienzo propio de un avance (registry.js); por defecto CANVAS_W.
+const SlideshowV2 = ({ slides: slidesProp, sections, portadaDate, deckClass = '', canvasW = CANVAS_W, ecuaciones }) => {
     const navigate = useNavigate();
     const location = useLocation();
     const slides = slidesProp ?? defaultSlideConfig;
@@ -210,9 +201,6 @@ const SlideshowV2 = ({ slides: slidesProp, sections, portadaDate, deckClass = ''
                             )
                         }
                     </div>
-                    {slide?.refs && referencias && (
-                        <div className="slide-refs">{slide.refs.map(k => citaCorta(referencias[k])).join(' · ')}</div>
-                    )}
                     <div className="logo">
                         <img
                             src={`${process.env.PUBLIC_URL}/logo-udg.png`}

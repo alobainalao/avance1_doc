@@ -7,7 +7,7 @@ import { OPT } from './optimoNitrato.js';
 // Resultado preliminar de la optimización (FEniCSx, malla con conos y eje de 1 m, γ = 1; χ aún sobre la meta). J y z_p por
 // evaluación, tal como las registró el optimizador (incluye pasos de prueba rechazados, algunos fuera de U_ad); las barras de Q
 // pasan del control inicial al mejor iterado (no son iteraciones intermedias).
-const AGUA = '#0F7A85', PLUMA = '#C4511F', GRIS = '#6E7F8D';
+const AGUA = 'var(--a3-agua)', PLUMA = 'var(--a3-pluma)', GRIS = 'var(--a3-estrato)';
 
 // 5.3e-3 → «5.3·10⁻³»
 const cientifico = v => {

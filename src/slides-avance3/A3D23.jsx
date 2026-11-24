@@ -13,7 +13,7 @@ const supuestos = [
     <>Con los parámetros MRMT usados (3 regiones, {M('\\tau_r')} de 4 a 14 h) MRMT se parece a ADR retardado.</>,
 ];
 const limitaciones = [
-    <>Optimización solo con elementos finitos: el adjunto RBF-FD todavía cambia 25–36 % con la malla ({M('\\psi_C')}).</>,
+    <>Optimización solo con elementos finitos: el adjunto RBF-FD todavía cambia 25–36 % con la malla ({M('\\psi_C')}).</>,
     <>Óptimos preliminares: {M('\\chi')} entre 10⁻³ y 10⁻² frente a la meta 10⁻⁴; las corridas siguen.</>,
     <>{M('\\Delta t=10')} h en la optimización es mayor que el tiempo de intercambio más rápido de MRMT (≈ 4 h); su efecto no se ha medido.</>,
     <>El gradiente se verificó en un horizonte corto (3 pasos) y mallas de prueba, no en el problema completo.</>,
@@ -26,11 +26,11 @@ export default function A3D23({ theme = 'dark' }) {
             <Cols>
                 <Col flex={1}>
                     <Titulo>Supuestos del modelo</Titulo>
-                    {supuestos.map((t, i) => <Punto key={i} color="#0F7A85" size={20}>{t}</Punto>)}
+                    {supuestos.map((t, i) => <Punto key={i} color="var(--a3-agua)" size={20}>{t}</Punto>)}
                 </Col>
                 <Col flex={1}>
                     <Titulo>Limitaciones de los resultados actuales</Titulo>
-                    {limitaciones.map((t, i) => <Punto key={i} color="#C4511F" size={20}>{t}</Punto>)}
+                    {limitaciones.map((t, i) => <Punto key={i} color="var(--a3-pluma)" size={20}>{t}</Punto>)}
                 </Col>
             </Cols>
         </SlideLayout>

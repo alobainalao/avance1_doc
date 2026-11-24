@@ -1,14 +1,14 @@
 import React from 'react';
 import { InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
-import { Eq } from './ui.jsx';
+import { Eq, Cita } from './ui.jsx';
 import { useProgreso, tramo, suave } from './anim.js';
 
 // Por qué no diferencias finitas: resoluciones del modelo EDP por iteración (un gradiente, 73 controles) además de la
 // directa que da Ĵ(u), que ambos métodos necesitan: diferencias hacia adelante, una por control; adjunto, una. Dilema
 // del paso δ.
 const N = 73;
-const eqCadena = String.raw`\frac{d\hat J}{du}=\frac{\partial J}{\partialu}+\frac{\partial J}{\partialy}\,\textcolor{#C4511F}{\frac{dy}{du}}`;
+const eqCadena = String.raw`\frac{d\hat J}{du}=\frac{\partial J}{\partial u}+\frac{\partial J}{\partial y}\,\textcolor{#C4511F}{\frac{dy}{du}}`;
 const eqFD = String.raw`\frac{\partial\hat J}{\partial u_i}\approx\frac{\hat J(u+\delta\,\mathbf e_i)-\hat J(u)}{\delta}
 +\mathcal O(\delta)+\mathcal O(e_J/\delta)`;
 
@@ -31,9 +31,9 @@ function Dilema() {
     const sx = l => L + (l + 8) / 7.5 * (W - L - 10), sy = e => 10 + (0 - e) / 6 * (H - B - 10);
     return (
         <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%' }}>
-            <line x1={L} x2={W - 10} y1={H - B} y2={H - B} stroke="#6E7F8D" />
-            <line x1={L} x2={L} y1={10} y2={H - B} stroke="#6E7F8D" />
-            <polyline points={xs.map(l => `${sx(l)},${sy(err(l))}`).join(' ')} fill="none" stroke="#C4511F" strokeWidth="3" />
+            <line x1={L} x2={W - 10} y1={H - B} y2={H - B} stroke="var(--a3-estrato)" />
+            <line x1={L} x2={L} y1={10} y2={H - B} stroke="var(--a3-estrato)" />
+            <polyline points={xs.map(l => `${sx(l)},${sy(err(l))}`).join(' ')} fill="none" stroke="var(--a3-pluma)" strokeWidth="3" />
             <text x={W / 2} y={H - 8} textAnchor="middle" style={eje}>log δ</text>
             <text x={L + 6} y={22} style={eje}>log error</text>
             <text x={sx(-7.2)} y={sy(err(-7.2)) - 10} style={eje}>redondeo</text>
@@ -52,7 +52,7 @@ export default function A3D07({ theme = 'dark' }) {
                     <Eq math={eqCadena} id="cadena" compacta />
                     <p style={txt}>
                         La sensibilidad <InlineMath math="dy/du" /> del estado exige una EDP linealizada por cada
-                        dirección de control: 73 problemas por gradiente. Diferencias finitas hace lo mismo, sin linealizar, con una
+                        dirección de control: 73 problemas por gradiente <Cita k="manzoni2021optimal" p="§ 4.1.4" />. Diferencias finitas hace lo mismo, sin linealizar, con una
                         resolución del modelo por control:
                     </p>
                     <Eq math={eqFD} id="fd" compacta />
@@ -70,11 +70,11 @@ export default function A3D07({ theme = 'dark' }) {
                         dos opciones necesitan además la resolución directa que da <InlineMath math="\hat J(u)" />.
                     </p>
                     <p style={sub}>Diferencias finitas hacia adelante: una por control</p>
-                    <Bloques n={N} lleno={k} color="#C4511F" />
-                    <p style={{ ...num, color: '#C4511F' }}>{k} <span style={uni}>resoluciones</span></p>
+                    <Bloques n={N} lleno={k} color="var(--a3-pluma)" />
+                    <p style={{ ...num, color: 'var(--a3-pluma)' }}>{k} <span style={uni}>resoluciones</span></p>
                     <p style={{ ...sub, marginTop: 26 }}>Método adjunto: una resolución adjunta, hacia atrás en el tiempo</p>
-                    <Bloques n={1} lleno={Math.min(1, k)} color="#2E7D4F" />
-                    <p style={{ ...num, color: '#2E7D4F' }}>{Math.min(1, k)} <span style={uni}>resolución</span></p>
+                    <Bloques n={1} lleno={Math.min(1, k)} color="var(--a3-valido)" />
+                    <p style={{ ...num, color: 'var(--a3-valido)' }}>{Math.min(1, k)} <span style={uni}>resolución</span></p>
                     <p style={{ ...sub, marginTop: 18 }}>
                         Por iteración: 1 + 73 = 74 frente a 1 + 1 = 2 (con diferencias centradas serían 1 + 146). Con más controles la
                         cuenta de diferencias finitas crece; la del adjunto no.

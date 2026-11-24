@@ -46,15 +46,26 @@
     --sl-secondary:   var(--a3-tinta);
     --sl-muted:       var(--a3-estrato);
 }
+/* Oscuro: la misma paleta con significado que el claro, aclarada para fondo oscuro (contraste ≥ 4.5 sobre #0B1724). */
 .deck-a3 .slide-layout--dark {
-    --sl-bg:          #0D1B2A;
-    --sl-text:        #DCE6EE;
-    --sl-titlebar-bg: #0A1522;
-    --sl-accent:      #4FB3BC;
-    --sl-secondary:   #9FB6C8;
-    --sl-muted:       #8597A6;
+    --sl-bg:          #0B1724;
+    --sl-text:        #E3EAF0;
+    --sl-titlebar-bg: var(--a3-tinta);
+    --sl-accent:      #5CC4CC;
+    --sl-secondary:   #A9BFD0;
+    --sl-muted:       #95A7B6;
     --a3-filete:      #2A3D52;
+    --a3-agua:        #5CC4CC;
+    --a3-pluma:       #EE8B5E;
+    --a3-valido:      #63C08A;
+    --a3-estrato:     #95A7B6;
 }
+/* KaTeX escribe \textcolor como estilo en línea: en oscuro se aclaran los tres colores de la paleta. */
+.deck-a3 .slide-layout--dark .katex [style*="color:#0F7A85"] { color: #5CC4CC !important; }
+.deck-a3 .slide-layout--dark .katex [style*="color:#C4511F"] { color: #EE8B5E !important; }
+.deck-a3 .slide-layout--dark .katex [style*="color:#2E7D4F"] { color: #63C08A !important; }
+/* Como en el claro, la cabecera se separa del contenido: filete de acento bajo el título. */
+[data-theme="dark"] .deck-a3 .slide-header { box-shadow: inset 0 -3px 0 #5CC4CC; }
 .deck-a3 .slide-layout,
 .deck-a3 .slide-layout__content {
     font-family: var(--a3-serif);
@@ -175,5 +186,13 @@
 .deck-a3 .portada-institution, .deck-a3 .portada--light .portada-institution { color: var(--a3-tinta); text-align: left; margin-left: 42px; }
 .deck-a3 .portada-date, .deck-a3 .portada--light .portada-date { color: var(--a3-agua); margin-left: 42px; text-align: left; }
 
-/* Citas cortas al pie (SlideShowV2, refs en slideConfig.avance3.js) */
-.deck-a3 .slide-refs { font-family: var(--a3-sans); color: var(--a3-estrato); }
+
+/* Referencias bibliográficas (formato de los avances anteriores, más compacto: seis por lámina) */
+.deck-a3 .sl-ref-list { gap: 16px; }
+.deck-a3 .sl-ref-text { font-size: 21px; line-height: 1.4; }
+.deck-a3 .sl-ref-icon { font-size: 24px; }
+.deck-a3 .sl-ref-title { color: var(--a3-agua); }
+.deck-a3 .sl-cite { color: var(--sl-muted); font-style: italic; }
+
+/* Las fórmulas en línea no se parten entre renglones (p. ej. «r = 1, 2, 3», «χ < 10⁻⁴»). */
+.deck-a3 .katex { white-space: nowrap; }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { BlockMath } from 'react-katex';
 import { useNumEc } from '../layouts-v2/EcNum.js';
+import { REFS } from './referencias.js';
 
 // Piezas visuales comunes de las slides de la línea «sin sumidero».
 // Color con significado (avance3.css): verde = verificado, naranja/rojo = límite o pendiente,
@@ -11,6 +12,13 @@ const SEM = {
     '#60a5fa': 'var(--a3-agua, #0F7A85)', '#00d8ff': 'var(--a3-agua, #0F7A85)', '#a78bfa': 'var(--a3-agua, #0F7A85)',
 };
 export const sem = (c) => SEM[c] || c;
+
+// Cita en el texto como en los avances anteriores: «[Autor, año]» (clase sl-cite). `k`: una clave o lista de claves de
+// referencias.js; `p`: precisión opcional (sección, capítulo) que se añade a la última.
+export const Cita = ({ k, p }) => {
+    const ks = Array.isArray(k) ? k : [k];
+    return <span className="sl-cite">[{ks.map(c => REFS[c]?.cita ?? '?').join('; ')}{p ? `, ${p}` : ''}]</span>;
+};
 
 // Tipografía por jerarquía (avance3.css): el texto usa siempre --a3-fs-cuerpo; `size` se ignora y queda
 // solo por compatibilidad con las slides que aún lo pasan.

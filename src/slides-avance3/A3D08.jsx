@@ -1,7 +1,7 @@
 import React from 'react';
 import { InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
-import { Eq } from './ui.jsx';
+import { Eq, Cita } from './ui.jsx';
 import { useProgreso, tramo } from './anim.js';
 
 // Método adjunto por el Lagrangiano (Manzoni, Quarteroni y Salsa 2021, §§ 4.1.3–4.1.4, 6.2 y 7.4.3; tesis, Cap. III,
@@ -24,10 +24,10 @@ const pasos = [
 ];
 
 export default function A3D08({ theme = 'dark' }) {
-    const [p, repetir] = useProgreso(4000, 300);
+    const [p] = useProgreso(4000, 300);
     return (
         <SlideLayout title="Método adjunto: el Lagrangiano en cinco pasos" theme={theme} justify="flex-start">
-            <div onClick={repetir} title="clic para repetir" style={{ cursor: 'pointer' }}>
+            <div>
                 {pasos.map((s, i) => {
                     const v = tramo(p, 0.17 * i, 0.17 * i + 0.17);
                     return (
@@ -50,9 +50,9 @@ export default function A3D08({ theme = 'dark' }) {
                 las dos discretizaciones.
             </p>
             <p style={{ margin: '8px 0 0', fontFamily: 'var(--a3-sans)', fontSize: 'var(--a3-fs-nota)', color: 'var(--sl-muted)' }}>
-                A. Manzoni, A. Quarteroni y S. Salsa, <i>Optimal Control of Partial Differential Equations</i>, Springer, 2021,
-                §§ 4.1.3–4.1.4 (gradiente y costo: enfoque directo frente al adjunto), 6.2 (optimizar-discretizar frente a
-                discretizar-optimizar) y 7.4.3 (condiciones de optimalidad en problemas parabólicos).
+                Gradiente y costo frente al enfoque directo <Cita k="manzoni2021optimal" p="§§ 4.1.3–4.1.4" />; optimizar-discretizar
+                frente a discretizar-optimizar <Cita k="manzoni2021optimal" p="§ 6.2" />; condiciones de optimalidad parabólicas{' '}
+                <Cita k="manzoni2021optimal" p="§ 7.4.3" />.
             </p>
         </SlideLayout>
     );

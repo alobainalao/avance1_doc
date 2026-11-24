@@ -24,12 +24,12 @@ export default function Escena({ pluma = 1, zp = POZO.z, etiquetas = true, child
         <svg viewBox={`${-margen} ${-margen} ${W} ${H}`} style={{ width: '100%', height: alto, display: 'block' }}>
             <defs>
                 <linearGradient id="esc-agua" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#0F7A85" stopOpacity="0.06" />
-                    <stop offset="100%" stopColor="#10243E" stopOpacity="0.22" />
+                    <stop offset="0%" stopColor="var(--a3-agua)" stopOpacity="0.06" />
+                    <stop offset="100%" stopColor="var(--sl-text)" stopOpacity="0.22" />
                 </linearGradient>
                 <linearGradient id="esc-pluma" x1="1" y1="0" x2="0" y2="0">
-                    <stop offset="0%" stopColor="#C4511F" stopOpacity="0.95" />
-                    <stop offset="100%" stopColor="#C4511F" stopOpacity="0.25" />
+                    <stop offset="0%" stopColor="var(--a3-pluma)" stopOpacity="0.95" />
+                    <stop offset="100%" stopColor="var(--a3-pluma)" stopOpacity="0.25" />
                 </linearGradient>
                 <clipPath id="esc-clip"><polygon points={POLIGONO} /></clipPath>
             </defs>
@@ -38,15 +38,15 @@ export default function Escena({ pluma = 1, zp = POZO.z, etiquetas = true, child
                 {/* pluma: trazo ancho y difuso a lo largo de la línea de corriente que sale de la fuente */}
                 <path d={EJE_PATH} fill="none" stroke="url(#esc-pluma)" strokeWidth="22" strokeLinecap="round"
                       pathLength="1" strokeDasharray={`${pluma} 1`} opacity="0.28" />
-                <path d={EJE_PATH} fill="none" stroke="#C4511F" strokeWidth="3" strokeLinecap="round"
+                <path d={EJE_PATH} fill="none" stroke="var(--a3-pluma)" strokeWidth="3" strokeLinecap="round"
                       pathLength="1" strokeDasharray={`${pluma} 1`} />
                 {children}
             </g>
             <polygon points={POLIGONO} fill="none" style={{ stroke: tinta }} strokeWidth="1.6" />
             {/* pozo: tubería desde la superficie hasta z_p */}
-            <line x1={X(POZO.x)} y1={Z(250.5)} x2={X(POZO.x)} y2={Z(zp)} stroke="#0F7A85" strokeWidth="4" />
-            <circle cx={X(POZO.x)} cy={Z(zp)} r="7" fill="#0F7A85" />
-            <circle cx={X(FUENTE.x)} cy={Z(FUENTE.z)} r="7" fill="#C4511F" />
+            <line x1={X(POZO.x)} y1={Z(250.5)} x2={X(POZO.x)} y2={Z(zp)} stroke="var(--a3-agua)" strokeWidth="4" />
+            <circle cx={X(POZO.x)} cy={Z(zp)} r="7" fill="var(--a3-agua)" />
+            <circle cx={X(FUENTE.x)} cy={Z(FUENTE.z)} r="7" fill="var(--a3-pluma)" />
             {etiquetas && (
                 <g style={{ fontFamily: 'var(--a3-sans)', fontSize: 17, fill: 'var(--sl-muted)' }}>
                     <text x={X(POZO.x) + 14} y={Z(zp) + 6}>pozo, z<tspan dy="5" fontSize="12">p</tspan><tspan dy="-5"> = {String(Math.round(zp)).replace('-', '−')} m</tspan></text>

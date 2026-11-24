@@ -1,7 +1,7 @@
 import React from 'react';
 import { InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
-import { Eq } from './ui.jsx';
+import { Eq, Cita } from './ui.jsx';
 import { useProgreso, tramo } from './anim.js';
 
 // Planteamiento del problema de control (tesis, Cap. III: eq:J_escalar, eq:Jm, eq:Jinst, eq:Jop, eq:Uad).
@@ -22,11 +22,11 @@ const nodos = [
 ];
 
 export default function A3D04({ theme = 'dark' }) {
-    const [p, repetir] = useProgreso(2600, 300);
+    const [p] = useProgreso(2600, 300);
     return (
         <SlideLayout title="El problema de control óptimo" theme={theme} justify="flex-start">
-            <div onClick={repetir} title="clic para repetir"
-                 style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0, margin: '0 0 10px' }}>
+            <div
+                 style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0, margin: '0 0 10px' }}>
                 {nodos.map((n, i) => (
                     <React.Fragment key={n.t}>
                         {i > 0 && (
@@ -50,12 +50,12 @@ export default function A3D04({ theme = 'dark' }) {
                 <Eq math={eqE} id="estado" compacta />
             </div>
             <p style={{ margin: '6px 0 0', fontSize: 'var(--a3-fs-cuerpo)', color: 'var(--sl-text)', opacity: tramo(p, 0.8, 1) }}>
-                Control <InlineMath math="u=(Q,z_p)" />; velocidad de Darcy <InlineMath math="\mathbf u=-\mathbf K\nabla h" /> (en negrita).
+                Problema de control con EDP parabólicas <Cita k="manzoni2021optimal" p="cap. 7" />. Control <InlineMath math="u=(Q,z_p)" />; velocidad de Darcy <InlineMath math="\mathbf u=-\mathbf K\nabla h" /> (en negrita).
                 Condiciones de frontera e iniciales del modelo (salida libre en <InlineMath math="\Gamma_{\rm out}" />).{' '}
                 <InlineMath math="d_p=z_0-z_p" />, con <InlineMath math="z_0=220" /> m la cota de referencia de la superficie; <InlineMath math="\kappa_p>0" />:
                 coeficiente del costo de instalación. El mismo núcleo gaussiano <InlineMath math="g_\varepsilon" /> reparte el caudal extraído y
                 pesa la concentración alrededor del pozo. Cada término se divide por su escala (<InlineMath math="J_m" /> por{' '}
-                <InlineMath math="C_{\rm ref}^2T" /> con <InlineMath math="C_{\rm ref}" /> = 50 mg/L; <InlineMath math="J_{\rm inst}" /> y{' '}
+                <InlineMath math="C_{\rm ref}^2T" /> con <InlineMath math="C_{\rm ref}" /> = 50 mg/L <Cita k="oms2022" />; <InlineMath math="J_{\rm inst}" /> y{' '}
                 <InlineMath math="J_{\rm op}" /> por sus valores en las cotas); aquí <InlineMath math="\gamma=\alpha=\beta=1" />.
             </p>
         </SlideLayout>

@@ -5,8 +5,8 @@ import { Punto, Cols, Col, Titulo } from './ui.jsx';
 // Conclusiones del avance (resultados preliminares) y próximos pasos con plazos tentativos por semestre.
 const hechos = [
     'Modelo de flujo y transporte sin sumidero explícito, con almacenamiento y salida libre, en ADR y MRMT (semi y bloque).',
-    'Dos discretizaciones, RBF-FD y elementos finitos, sobre la misma malla: en el problema directo difieren 3 % en C y 12.5 % en |u|.',
-    'Gradiente por el método adjunto verificado contra diferencias finitas en las seis variantes. El adjunto RBF-FD todavía cambia con la malla (25–36 % en ψ_C); el de elementos finitos, 3–10 %.',
+    'Dos discretizaciones, RBF-FD y elementos finitos, sobre la misma malla: en el problema directo difieren 3 % en C y 12.5 % en |u|.',
+    'Gradiente por el método adjunto verificado contra diferencias finitas en las seis variantes. El adjunto RBF-FD todavía cambia con la malla (25–36 % en ψ_C); el de elementos finitos, 3–10 %.',
     'La malla cerca del pozo importa: con h ≈ 4.9 m en su eje, Ĵ(zₚ) tenía mínimos espurios; con 1 m desaparecen.',
     'Primeros óptimos con elementos finitos (γ = 1), aún sin convergencia completa (χ entre 10⁻³ y 10⁻², meta 10⁻⁴): el pozo sube de −700 m a cerca de −383 m (ADR) y −405 m (MRMT semi); MRMT bloque todavía no tiene un óptimo confiable.',
     'Con estos parámetros MRMT se comporta casi como ADR retardado: retiene el nitrato y pide un pozo unos 20 m más hondo.',
@@ -25,12 +25,12 @@ export default function A3N22({ theme = 'dark' }) {
             <Cols>
                 <Col flex={6}>
                     <Titulo>Lo que hay (preliminar)</Titulo>
-                    {hechos.map((t, i) => <Punto key={i} color="#2E7D4F" size={21}>{t}</Punto>)}
+                    {hechos.map((t, i) => <Punto key={i} color="var(--a3-valido)" size={21}>{t}</Punto>)}
                 </Col>
                 <Col flex={4}>
                     <Titulo>Próximos pasos (plazos tentativos)</Titulo>
                     {siguientes.map(([m, t], i) => (
-                        <Punto key={i} color="#0F7A85" size={20}><b style={{ color: '#0F7A85' }}>{m}</b> · {t}</Punto>
+                        <Punto key={i} color="var(--a3-agua)" size={20}><b style={{ color: 'var(--a3-agua)' }}>{m}</b> · {t}</Punto>
                     ))}
                 </Col>
             </Cols>

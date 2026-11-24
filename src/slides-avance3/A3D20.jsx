@@ -4,7 +4,7 @@ import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 // Estado del documento de tesis (tesis/docR.tex, páginas del índice de noviembre de 2026), del artículo de
 // optimización (articulos/optimizacion-adjunto) y cronograma de hitos. Todo el texto es un primer borrador que hay que
 // revisar y reescribir a fondo; el cronograma es tentativo.
-const AGUA = '#0F7A85', PLUMA = '#C4511F', GRIS = '#6E7F8D';
+const AGUA = 'var(--a3-agua)', PLUMA = 'var(--a3-pluma)', GRIS = 'var(--a3-estrato)';
 
 const capitulos = [
     { n: '', t: 'Introducción', p: [1, 6], e: 'bor' },

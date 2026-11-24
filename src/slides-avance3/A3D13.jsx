@@ -1,7 +1,7 @@
 import React from 'react';
 import { InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
-import { Eq } from './ui.jsx';
+import { Eq, Cita } from './ui.jsx';
 
 // Por qué la optimización usa región de confianza con puntos interiores (tesis, Cap. III §algoritmo de optimización;
 // Nocedal y Wright 2006, caps. 4 y 19): la proyección sobre U_ad no es explícita cuando el tanque acopla los pasos.
@@ -41,6 +41,10 @@ export default function A3D13({ theme = 'dark' }) {
             </div>
             <p style={{ margin: '14px 0 2px', fontSize: 'var(--a3-fs-seccion)', color: 'var(--sl-accent)' }}>
                 Por eso: región de confianza con puntos interiores (trust-constr), sin proyectar
+            </p>
+            <p style={{ ...eti, margin: '0 0 2px' }}>
+                Implementación: <code>scipy.optimize.minimize(method="trust-constr")</code> de SciPy 1.17 <Cita k="virtanen2020scipy" />,
+                que sigue el algoritmo de <Cita k="byrd1999interior" />; véase también <Cita k="Nocedal2006" p="caps. 4 y 19" />.
             </p>
             <Eq math={eqBarrera} id="barrera" compacta />
             <p style={{ ...eti, margin: '-4px 0 0', textAlign: 'center' }}>
