@@ -51,6 +51,41 @@ export function useReloj(total, retraso = 300) {
     return [s, ir];
 }
 
+// Fases que avanza el expositor: `durs` = duración de la animación de entrada de cada fase [s]. Devuelve la fase, el
+// tiempo local l (0 → dur, luego se queda en dur), el reloj continuo w (para movimiento de fondo) e `ir(k)`. Las flechas
+// y el control remoto recorren las fases antes de cambiar de lámina (evento 'diapo:paso' de SlideShowV2); al
+// retroceder, la fase anterior se muestra ya terminada. Con prefers-reduced-motion cada fase aparece terminada.
+// `alFinal`: la lámina se abrió retrocediendo desde la siguiente, así que empieza en su última fase, terminada.
+export function useFases(durs, alFinal = false) {
+    const n = durs.length;
+    const [st, setSt] = useState({ fase: alFinal ? n - 1 : 0, inicio: null, terminada: alFinal });
+    const [ahora, setAhora] = useState(0);
+    const fase = useRef(alFinal ? n - 1 : 0);
+    useEffect(() => {
+        let raf;
+        const paso = (t) => { setAhora(t / 1000); raf = requestAnimationFrame(paso); };
+        raf = requestAnimationFrame(paso);
+        return () => cancelAnimationFrame(raf);
+    }, []);
+    const ir = useCallback((k, terminada = false) => {
+        fase.current = Math.max(0, Math.min(n - 1, k));
+        setSt({ fase: fase.current, inicio: null, terminada });
+    }, [n]);
+    useEffect(() => {
+        const h = (e) => {
+            const k = fase.current;
+            if (e.detail.dir > 0 && k < n - 1) { e.preventDefault(); ir(k + 1); }
+            else if (e.detail.dir < 0 && k > 0) { e.preventDefault(); ir(k - 1, true); }
+        };
+        window.addEventListener('diapo:paso', h);
+        return () => window.removeEventListener('diapo:paso', h);
+    }, [ir, n]);
+    useEffect(() => { if (st.inicio === null) setSt(s => ({ ...s, inicio: ahora })); }, [st.inicio, ahora]);
+    const dur = durs[st.fase];
+    const l = reducida() || st.terminada ? dur : Math.min(dur, Math.max(0, ahora - (st.inicio ?? ahora)));
+    return { fase: st.fase, l, w: ahora, ir };
+}
+
 // Suavizados y tramos: `tramo(p, a, b)` reescala p del intervalo [a, b] a [0, 1] (para encadenar fases).
 export const suave = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
 export const tramo = (p, a, b) => Math.min(1, Math.max(0, (p - a) / (b - a)));

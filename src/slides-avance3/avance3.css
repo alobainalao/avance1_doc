@@ -174,3 +174,6 @@
 .deck-a3 .portada--light .portada-value { color: var(--a3-tinta); }
 .deck-a3 .portada-institution, .deck-a3 .portada--light .portada-institution { color: var(--a3-tinta); text-align: left; margin-left: 42px; }
 .deck-a3 .portada-date, .deck-a3 .portada--light .portada-date { color: var(--a3-agua); margin-left: 42px; text-align: left; }
+
+/* Citas cortas al pie (SlideShowV2, refs en slideConfig.avance3.js) */
+.deck-a3 .slide-refs { font-family: var(--a3-sans); color: var(--a3-estrato); }

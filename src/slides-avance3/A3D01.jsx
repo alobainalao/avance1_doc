@@ -1,26 +1,53 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { BlockMath, InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import { POLIGONO, POZO, FUENTE, X, Z } from './escena.jsx';
-import { useReloj, reducida, suave, tramo, lerp } from './anim.js';
+import { useFases, reducida, suave, tramo, lerp } from './anim.js';
 import { OPT } from './optimoNitrato.js';
 import { ESQ } from './esquema.js';
 
-// Apertura: el problema en seis fases sobre el dominio real, con datos del simulador (FEniCSx, malla con eje de 1 m,
-// ADR; codigo/scripts/exportar_esquema_presentacion.py → esquema.js): porosidad de los pozos de campo, líneas de
-// corriente sin y con bombeo, pluma de nitrato sin bombeo y con el óptimo ADR (Q(t), z_p), y el tanque con la demanda
-// (optimoNitrato.js). Clic en la figura: siguiente fase; clic en una etiqueta de abajo: ir a esa fase.
+// Apertura: del mapa al problema de control, en diez fases que avanza el expositor (flechas o control remoto; clic en la
+// figura = siguiente fase; clic en una etiqueta de abajo = ir a esa fase). Datos: estados de México y zona de Sabinas
+// digitalizada de tesis/Figures/ubicacion.png (sondeos, traza del corte, poblados); capas y porosidad de los sondeos
+// (funtions/get_phi.py); líneas de corriente y pluma de nitrato del simulador (FEniCSx, malla con eje de 1 m, ADR) sin
+// bombeo y con el óptimo ADR; tanque y demanda de optimoNitrato.js (codigo/scripts/exportar_esquema_presentacion.py).
 const AGUA = '#0F7A85', PLUMA = '#C4511F', GRIS = '#6E7F8D';
 
 const FASES = [
-    { t0: 0, t1: 6, n: 'Medio poroso', d: <>porosidad <InlineMath math="\phi" /> medida en cuatro pozos de campo (capas A–E) e interpolada al dominio</> },
-    { t0: 6, t1: 13, n: 'Flujo', d: <>el agua entra por la derecha y sale libre por la izquierda; más rápido donde <InlineMath math="\phi" /> y <InlineMath math="\mathbf K" /> son altas</> },
-    { t0: 13, t1: 22, n: 'Derrame', d: <>la fuente dejó una pluma de nitrato (estado inicial del modelo); en 30 días el agua la arrastra, la dispersa y se degrada</> },
-    { t0: 22, t1: 31, n: 'Pozo', d: <>bombea <InlineMath math="Q(t)" /> a la profundidad <InlineMath math="z_p" />: desvía el flujo y capta parte del nitrato</> },
-    { t0: 31, t1: 40, n: 'Tanque y demanda', d: <>lo bombeado entra a un tanque de 2 000 m³ que entrega 1 000 m³ al día a la población y al riego</> },
-    { t0: 40, t1: 44, n: 'La pregunta', d: <>¿cómo operar el pozo?</> },
+    { n: 'Ubicación', dur: 3, d: <>el acuífero de estudio está en Sabinas, en el noreste de Coahuila</> },
+    { n: 'Sondeos', dur: 4, d: <>seis sondeos eléctricos midieron la conductividad del subsuelo a varias profundidades; de ella se estimó la porosidad efectiva de cada capa</> },
+    { n: 'Traza del corte', dur: 4, d: <>cuatro sondeos están casi alineados: se proyectan sobre la recta roja, que será la traza del corte</> },
+    { n: 'Corte vertical', dur: 5, d: <>si las propiedades no cambian en la dirección transversal, basta un corte vertical de 9.9 km entre los sondeos extremos, con las capas que midió cada sondeo</> },
+    { n: 'Porosidad', dur: 3, d: <>la porosidad <InlineMath math="\phi" /> de las capas se interpola a todo el corte; de ella sale la conductividad <InlineMath math="\mathbf K" /> (Kozeny–Carman)</> },
+    { n: 'Flujo', dur: 3, d: <>el agua entra por el noreste y sale libre por el suroeste; corre más rápido donde <InlineMath math="\phi" /> y <InlineMath math="\mathbf K" /> son altas</> },
+    { n: 'Derrame', dur: 10, d: <>una fuente de nitrato dejó una pluma (estado inicial del modelo); en 30 días el agua la arrastra, la dispersa y se degrada</> },
+    { n: 'Pozo', dur: 10, d: <>el pozo bombea <InlineMath math="Q(t)" /> a la profundidad <InlineMath math="z_p" />: desvía el flujo y capta parte del nitrato</> },
+    { n: 'Tanque y demanda', dur: 10, d: <>lo bombeado entra a un tanque de 2 000 m³ que entrega 1 000 m³ al día a la población y al riego</> },
+    { n: 'La pregunta', dur: 2, d: <>¿cómo operar el pozo?</> },
 ];
-const TOTAL = FASES[FASES.length - 1].t1;
+const [UBI, SON, TRAZA, CORTE, PHI, FLUJO, DERRAME, POZOF, TANQUE, PREG] = FASES.map((_, i) => i);
+
+// ── Mapa de México (unidades de 1/10 de grado) y zona de Sabinas (unidades de escena, 9.939 m, origen en el pie del
+// sondeo 6 sobre la recta, y hacia abajo). La zona se gira THETA para que la recta quede horizontal: es la superficie
+// del corte, con el sondeo 6 (suroeste) a la izquierda y el 2 (noreste) a la derecha.
+const MAPA = ESQ.mapa, ZONA = ESQ.zona, M_UNI = 9.939;
+const zl = (e, nn) => [e / M_UNI, -nn / M_UNI];
+const PIE6 = zl(...ZONA.sondeos.find(s => s.n === 6).pie);
+const rel = ([x, y]) => [x - PIE6[0], y - PIE6[1]];
+const [R0, R1] = ZONA.recta.map(p => rel(zl(p[0], p[1])));
+const THETA = -Math.atan2(R0[1] - R1[1], R0[0] - R1[0]) * 180 / Math.PI;
+const SONDEOS = ZONA.sondeos.map(s => ({ ...s, p: rel(zl(s.e, s.nn)), pie: s.pie ? rel(zl(...s.pie)) : null }));
+const POBLADOS = ZONA.poblados.map(p => ({ ...p, p: rel(zl(p.e, p.nn)) }));
+const BB = (() => {
+    const pts = [...SONDEOS.map(s => s.p), ...POBLADOS.map(p => p.p), R0, R1];
+    const xs = pts.map(q => q[0]), ys = pts.map(q => q[1]);
+    return { x0: Math.min(...xs) - 60, x1: Math.max(...xs) + 60, y0: Math.min(...ys) - 60, y1: Math.max(...ys) + 60 };
+})();
+const S0 = Math.min(660 / (BB.x1 - BB.x0), 400 / (BB.y1 - BB.y0));
+const T0 = [670 - S0 * (BB.x0 + BB.x1) / 2, 100 - S0 * (BB.y0 + BB.y1) / 2];
+const MX_GRANDE = { x: 520 - 2.1 * MAPA.ancho / 2, y: -104, s: 2.1 }, MX_CHICO = { x: -12, y: -100, s: 1.0 };
+const COAHUILA = MAPA.estados.find(e => e.id === 'MX-COA');
+const POZOS_X = [...new Set(ESQ.capas.map(c => c.x))];
 
 const opt = OPT.modelos[0];
 const ZP = ESQ.fuente.zp;
@@ -111,78 +138,175 @@ function Superficie({ op, n }) {
     );
 }
 
-function Escena({ s }) {
-    // fase 1: pozos de campo y porosidad
-    const perfil = suave(tramo(s, 0.2, 1.4)), phi = tramo(s, 1.6, 3.6) * (1 - 0.55 * tramo(s, 6, 7.5));
-    // fase 2: líneas de corriente y partículas (sin pozo; con pozo desde la fase 4)
-    const revela = suave(tramo(s, 6.2, 8.4)), cambio = tramo(s, 23.6, 24.8);
-    const corr = 1 - 0.45 * tramo(s, 13, 14.5), tau = Math.max(0, s - 8);
-    // fase 3: derrame (Q = 0); fases 4 y 5: con el pozo, 30 días cada una
-    // la pluma inicial se descubre desde la fuente hacia la salida (esquema) y luego corre con los cuadros reales
-    const fuente = tramo(s, 13, 13.6), descubre = suave(tramo(s, 13.6, 15.4)), dia3 = tramo(s, 15.6, 21.6);
-    const pozo = suave(tramo(s, 22.2, 23.6)), dia4 = tramo(s, 24.8, 30.6), dia5 = tramo(s, 32.4, 39.6);
-    const enPozo = s >= 24.8, diaCon = s >= 31.5 ? dia5 : dia4;
-    // al empezar la fase 5 la pluma se apaga y vuelve a correr los 30 días junto con el tanque
-    const opCon = !enPozo ? 0 : s < 31 ? 1 : s < 31.5 ? 1 - tramo(s, 31, 31.5) : tramo(s, 31.5, 32.4);
-    const reloj = (s >= 15.6 && s < 22.2) || (s >= 24.8 && s < 31) || (s >= 32.4 && s < 40);
-    const cuadroSin = s < 13.6 ? -1 : Math.floor(dia3 * (CUADROS - 0.01));
+function MapaMexico({ p1, p0 }) {
+    const g = suave(tramo(p1, 0, 0.45));
+    const m = { x: lerp(MX_GRANDE.x, MX_CHICO.x, g), y: lerp(MX_GRANDE.y, MX_CHICO.y, g), s: lerp(MX_GRANDE.s, MX_CHICO.s, g) };
+    const estados = useMemo(() => MAPA.estados.filter(e => e.id !== 'MX-COA').map(e => (
+        <path key={e.id} d={e.d} fill="var(--sl-text)" fillOpacity="0.06" stroke="var(--sl-muted)" strokeWidth="0.8" vectorEffect="non-scaling-stroke" />
+    )), []);
+    const [sx, sy] = MAPA.sabinas, k = 1 / m.s;
+    return (
+        <g transform={`translate(${m.x},${m.y}) scale(${m.s})`}>
+            {estados}
+            <path d={COAHUILA.d} fill={AGUA} fillOpacity={0.08 + 0.4 * suave(tramo(p0, 0.15, 0.55))} stroke={AGUA} strokeWidth="1.6" vectorEffect="non-scaling-stroke" />
+            <g opacity={tramo(p0, 0.5, 0.8)}>
+                <circle cx={sx} cy={sy} r={4 * k} fill={PLUMA} />
+                <text x={sx + 6 * k} y={sy - 6 * k} style={{ ...etq, fontSize: 17 * k, fill: 'var(--sl-text)' }}>Sabinas</text>
+                <text x={sx - 34 * k} y={sy + 30 * k} style={{ ...etq, fontSize: 15 * k, fill: AGUA }} opacity={1 - g}>Coahuila</text>
+            </g>
+            <g style={{ ...etq, fontSize: 14 * k }} opacity={1 - g}>
+                <text x={52} y={8}>EE. UU.</text>
+                <text x={212} y={108}>Golfo de México</text>
+                <text x={40} y={150}>Océano Pacífico</text>
+            </g>
+        </g>
+    );
+}
+
+// Zona de Sabinas: poblados, sondeos, traza del corte y proyección sobre ella; en la fase 4 gira y crece hasta ser la
+// superficie del corte.
+function Zona({ P }) {
+    const p1 = P(SON), p2 = P(TRAZA), p3 = P(CORTE);
+    if (p1 <= 0 || p3 >= 1) return null;
+    const g = suave(tramo(p3, 0.15, 0.7)), s = lerp(S0, 1, g);
+    const T = [lerp(T0[0], 0, g), lerp(T0[1], 0, g)], th = lerp(0, THETA, g), k = 1 / s;
+    const aparece = tramo(p1, 0.3, 0.8), extras = 1 - tramo(p3, 0, 0.25);
+    const recta = tramo(p2, 0.05, 0.4), proy = suave(tramo(p2, 0.45, 0.85));
+    const marcas = 1 - tramo(p3, 0.75, 0.95);
+    // cuña de acercamiento desde Sabinas en el mapa chico hasta el marco de la zona
+    const sab = [MX_CHICO.x + MX_CHICO.s * MAPA.sabinas[0], MX_CHICO.y + MX_CHICO.s * MAPA.sabinas[1]];
+    const esq = [[T0[0] + S0 * BB.x0, T0[1] + S0 * BB.y0], [T0[0] + S0 * BB.x0, T0[1] + S0 * BB.y1]];
+    const km2 = 2000 / M_UNI;
+    return (
+        <g opacity={aparece}>
+            <g opacity={extras}>
+                {esq.map((q, i) => <line key={i} x1={sab[0]} y1={sab[1]} x2={q[0]} y2={q[1]} stroke={GRIS} strokeOpacity="0.5" strokeDasharray="4 4" />)}
+            </g>
+            <g transform={`translate(${T[0]},${T[1]}) rotate(${th}) scale(${s})`}>
+                <g opacity={extras}>
+                    <rect x={BB.x0} y={BB.y0} width={BB.x1 - BB.x0} height={BB.y1 - BB.y0} rx={12 * k} fill="var(--sl-text)" fillOpacity="0.04"
+                          stroke="var(--sl-muted)" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+                    {POBLADOS.map(q => (
+                        <g key={q.n}>
+                            <rect x={q.p[0] - 5 * k} y={q.p[1] - 5 * k} width={10 * k} height={10 * k} fill="var(--sl-muted)" />
+                            <text x={q.p[0] + (q.n === 'Agujita' ? -9 : 9) * k} y={q.p[1] + 5 * k} textAnchor={q.n === 'Agujita' ? 'end' : 'start'}
+                                  style={{ ...etq, fontSize: 16 * k }}>{q.n}</text>
+                        </g>
+                    ))}
+                    {/* escala y norte */}
+                    <line x1={BB.x0 + 40 * k} x2={BB.x0 + 40 * k + km2} y1={BB.y1 - 30 * k} y2={BB.y1 - 30 * k} stroke="var(--sl-text)" strokeWidth="3" vectorEffect="non-scaling-stroke" />
+                    <text x={BB.x0 + 40 * k + km2 / 2} y={BB.y1 - 40 * k} textAnchor="middle" style={{ ...etq, fontSize: 14 * k }}>2 km</text>
+                    <text x={BB.x1 - 34 * k} y={BB.y1 - 64 * k} textAnchor="middle" style={{ ...etq, fontSize: 18 * k, fill: 'var(--sl-text)' }}>N</text>
+                    <line x1={BB.x1 - 34 * k} x2={BB.x1 - 34 * k} y1={BB.y1 - 24 * k} y2={BB.y1 - 52 * k} stroke="var(--sl-text)" strokeWidth="2" vectorEffect="non-scaling-stroke" markerEnd="url(#d01-flecha)" />
+                </g>
+                {/* traza del corte */}
+                <line x1={R1[0]} y1={R1[1]} x2={R0[0]} y2={R0[1]} stroke={PLUMA} strokeWidth="3.5" vectorEffect="non-scaling-stroke"
+                      pathLength="1" strokeDasharray={`${recta} 1`} />
+                {SONDEOS.map((q, i) => {
+                    const dest = q.alineado ? q.pie : q.p, pos = [lerp(q.p[0], dest[0], proy), lerp(q.p[1], dest[1], proy)];
+                    const op = (q.alineado ? 1 : 1 - 0.7 * tramo(p2, 0.05, 0.3)) * (q.alineado ? marcas : extras);
+                    return (
+                        <g key={q.n} opacity={op * tramo(p1, 0.35 + 0.08 * i, 0.5 + 0.08 * i)}>
+                            {q.alineado && p2 > 0.35 && <line x1={q.p[0]} y1={q.p[1]} x2={q.pie[0]} y2={q.pie[1]} stroke={GRIS} strokeDasharray="5 4"
+                                                             strokeWidth="1.4" vectorEffect="non-scaling-stroke" opacity={extras} />}
+                            <circle cx={pos[0]} cy={pos[1]} r={11 * k} fill={q.alineado && p2 > 0.05 ? AGUA : 'var(--sl-muted)'} />
+                            <text x={pos[0]} y={pos[1] + 5 * k} textAnchor="middle" transform={`rotate(${-th} ${pos[0]} ${pos[1]})`}
+                                  style={{ fontFamily: 'var(--a3-sans)', fontSize: 14 * k, fill: '#fff', fontWeight: 600 }}>{q.n}</text>
+                        </g>
+                    );
+                })}
+            </g>
+        </g>
+    );
+}
+
+function Escena({ fase, l, w }) {
+    const P = k => (fase > k ? 1 : fase < k ? 0 : l / FASES[k].dur);
+    const p0 = P(UBI), p1 = P(SON), p3 = P(CORTE), p4 = P(PHI), p5 = P(FLUJO), p6 = P(DERRAME), p7 = P(POZOF), p8 = P(TANQUE);
+    // corte vertical: crece desde la superficie; capas de los sondeos
+    const crece = suave(tramo(p3, 0.65, 1)), seccion = fase >= CORTE ? crece : 0;
+    const capas = tramo(p3, 0.75, 1) * (fase >= FLUJO ? 0.35 : 1);
+    const phi = p4 * (fase >= FLUJO ? 0.45 : 1);
+    // flujo
+    const revela = suave(tramo(p5, 0.05, 0.8)), tau = fase >= FLUJO ? w : 0, corr = fase >= DERRAME ? 0.55 : 1;
+    // derrame (Q = 0): fuente, la pluma inicial se descubre desde la fuente y luego 30 días
+    const fuente = tramo(p6, 0, 0.06), descubre = suave(tramo(p6, 0.06, 0.22)), dia3 = tramo(p6, 0.25, 1);
+    // pozo y tanque: 30 días con el óptimo ADR; al entrar a la fase del tanque se repiten junto con S(t)
+    const pozo = suave(tramo(p7, 0, 0.12)), cambio = tramo(p7, 0.12, 0.22), dia4 = tramo(p7, 0.25, 1), dia5 = tramo(p8, 0.2, 1);
+    const enPozo = fase > POZOF || (fase === POZOF && p7 >= 0.25);
+    const diaCon = fase >= TANQUE ? dia5 : dia4;
+    const opCon = !enPozo ? 0 : fase < TANQUE ? 1 : p8 < 0.1 ? 1 - tramo(p8, 0, 0.1) : tramo(p8, 0.1, 0.2);
+    const cuadroSin = fase < DERRAME ? -1 : Math.floor(dia3 * (CUADROS - 0.01));
     const cuadroCon = Math.floor(diaCon * (CUADROS - 0.01));
     const n = Math.min(NT - 1, Math.floor(diaCon * NT));
-    const dias = (s < 22 ? dia3 : diaCon) * NT * DT_H / 24;
+    const reloj = (fase === DERRAME && p6 >= 0.25) || (fase === POZOF && p7 >= 0.25) || (fase === TANQUE && p8 >= 0.2);
+    const dias = (fase === DERRAME ? dia3 : diaCon) * NT * DT_H / 24;
     const zp = lerp(250.5, ZP, pozo), cp = C_POZO[n], qn = enPozo ? opt.Q[n] / Q_MAX : 0;
-    const sup = tramo(s, 31, 32.4);
-    const bandasPhi = ESQ.phi.bandas;
-    const pozosX = [...new Set(ESQ.pozos_campo.map(w => w.x))];
+    const bandasPhi = useMemo(() => ESQ.phi.bandas.map((d, i) => <path key={i} d={d} fill={AGUA} fillOpacity={0.05 + 0.13 * i} />), []);
     return (
-        <svg viewBox="-20 -112 1040 426" style={{ width: '100%', display: 'block' }}>
+        <svg viewBox="-20 -112 1040 438" style={{ width: '100%', display: 'block' }}>
             <defs>
                 <clipPath id="d01-clip"><polygon points={POLIGONO} /></clipPath>
+                <clipPath id="d01-crece"><rect x={-30} y={-5} width={1100} height={340 * seccion + 5} /></clipPath>
                 <clipPath id="d01-descubre"><rect x={lerp(X(FUENTE.x) + 25, -20, descubre)} y={-20} width={1100} height={340} /></clipPath>
+                <marker id="d01-flecha" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                    <path d="M0,10 L5,0 L10,10 z" fill="var(--sl-text)" />
+                </marker>
             </defs>
-            <polygon points={POLIGONO} fill="var(--sl-text)" fillOpacity="0.03" />
-            <g clipPath="url(#d01-clip)">
-                {bandasPhi.map((d, i) => <path key={i} d={d} fill={AGUA} fillOpacity={(0.05 + 0.13 * i) * phi} />)}
-                <Corrientes tipo="sin" op={corr * (1 - cambio)} revela={revela} tau={tau} />
-                <Corrientes tipo="con" op={corr * cambio} revela={1} tau={tau} />
-                <g clipPath={descubre < 1 ? 'url(#d01-descubre)' : undefined}>
-                    <Pluma cuadro={cuadroSin} tipo="sin" op={s < 22 ? 1 : 1 - tramo(s, 23.6, 24.6)} />
-                </g>
-                <Pluma cuadro={cuadroCon} tipo="con" op={opCon} />
-            </g>
-            <polygon points={POLIGONO} fill="none" stroke="var(--sl-text)" strokeWidth="1.6" />
 
-            {/* pozos de campo: perfil vertical con la porosidad de cada capa */}
-            <g opacity={perfil * (1 - 0.7 * tramo(s, 6, 7.5))}>
-                {pozosX.map(x => {
-                    const zs = ESQ.pozos_campo.filter(w => w.x === x).map(w => w.z);
-                    const xx = Math.min(996, Math.max(4, x));
-                    return <line key={x} x1={xx} x2={xx} y1={0} y2={Math.max(...zs) * perfil + 8} stroke="var(--sl-text)" strokeWidth="2" strokeDasharray="5 3" />;
-                })}
-                {ESQ.pozos_campo.map((w, i) => (
-                    <circle key={i} cx={Math.min(996, Math.max(4, w.x))} cy={w.z} r={7} fill={AGUA} fillOpacity={0.15 + 0.85 * w.phi}
-                            stroke="var(--sl-text)" strokeWidth="1" opacity={tramo(perfil, 0.5 + 0.03 * i, 0.7 + 0.03 * i)} />
+            {fase <= CORTE && <g opacity={1 - tramo(p3, 0, 0.25)}><MapaMexico p0={p0} p1={p1} /></g>}
+            <Zona P={P} />
+
+            {seccion > 0 && (
+                <g clipPath="url(#d01-crece)">
+                    <polygon points={POLIGONO} fill="var(--sl-text)" fillOpacity="0.03" />
+                    <g clipPath="url(#d01-clip)">
+                        <g opacity={phi}>{bandasPhi}</g>
+                        <Corrientes tipo="sin" op={p5 > 0 ? corr * (1 - cambio) : 0} revela={revela} tau={tau} />
+                        <Corrientes tipo="con" op={corr * cambio} revela={1} tau={tau} />
+                        <g clipPath={descubre < 1 ? 'url(#d01-descubre)' : undefined}>
+                            <Pluma cuadro={cuadroSin} tipo="sin" op={fase === DERRAME ? 1 : fase === POZOF ? 1 - tramo(p7, 0.12, 0.2) : 0} />
+                        </g>
+                        <Pluma cuadro={cuadroCon} tipo="con" op={opCon} />
+                    </g>
+                    <polygon points={POLIGONO} fill="none" stroke="var(--sl-text)" strokeWidth="1.6" />
+                    {/* sondeos en el corte: capas A–E con su porosidad (dentro del dominio) */}
+                    <g opacity={capas} clipPath="url(#d01-clip)">
+                        {ESQ.capas.map((c, i) => (
+                            <line key={i} x1={Math.min(995, Math.max(5, c.x))} x2={Math.min(995, Math.max(5, c.x))} y1={c.z0} y2={c.z1}
+                                  stroke={AGUA} strokeOpacity={0.15 + 0.85 * c.phi} strokeWidth="10" />
+                        ))}
+                    </g>
+                </g>
+            )}
+            <g opacity={seccion > 0 ? capas : 0}>
+                {POZOS_X.map(x => (
+                    <text key={x} x={Math.min(995, Math.max(5, x))} y={-8} textAnchor={x < 50 ? 'start' : x > 950 ? 'end' : 'middle'}
+                          style={{ ...etq, fontSize: 15, fill: AGUA, fontWeight: 600 }}>
+                        sondeo {[6, 4, 3, 2][[...POZOS_X].sort((a, b) => a - b).indexOf(x)]}
+                    </text>
                 ))}
             </g>
 
             {/* fuente de nitrato */}
             {fuente > 0 && (
                 <g opacity={fuente}>
-                    <circle cx={X(FUENTE.x)} cy={Z(FUENTE.z)} r={7 + 10 * ((s * 0.8) % 1)} fill="none" stroke={PLUMA} strokeOpacity={1 - ((s * 0.8) % 1)} strokeWidth="2" />
+                    <circle cx={X(FUENTE.x)} cy={Z(FUENTE.z)} r={7 + 10 * ((w * 0.8) % 1)} fill="none" stroke={PLUMA} strokeOpacity={1 - ((w * 0.8) % 1)} strokeWidth="2" />
                     <circle cx={X(FUENTE.x)} cy={Z(FUENTE.z)} r="7" fill={PLUMA} />
-                    <text x={X(FUENTE.x) - 14} y={Z(FUENTE.z) + 30} textAnchor="end" style={{ ...etq, fill: PLUMA }}>derrame de nitrato</text>
+                    <text x={X(FUENTE.x) - 14} y={Z(FUENTE.z) + 30} textAnchor="end" style={{ ...etq, ...halo, fill: PLUMA }}>derrame de nitrato</text>
                 </g>
             )}
 
             {/* pozo de bombeo con anillos proporcionales a Q(t) y el nitrato que capta */}
-            {pozo > 0 && (
+            {fase >= POZOF && pozo > 0 && (
                 <g>
                     <line x1={X(POZO.x)} y1={0} x2={X(POZO.x)} y2={Z(zp)} stroke={AGUA} strokeWidth="4" />
                     {qn > 0.02 && [0, 0.5].map(o => {
-                        const f = (s * 1.1 + o) % 1;
+                        const f = (w * 1.1 + o) % 1;
                         return <circle key={o} cx={X(POZO.x)} cy={Z(zp)} r={8 + 26 * qn * f} fill="none" stroke={AGUA} strokeWidth="1.6" strokeOpacity={1 - f} />;
                     })}
                     <circle cx={X(POZO.x)} cy={Z(zp)} r="7" fill={enPozo && cp > 1 ? PLUMA : AGUA} fillOpacity={enPozo ? 0.4 + 0.6 * Math.min(1, cp / 20) : 1} />
-                    <text x={X(POZO.x) + 14} y={Z(zp) + 6} style={{ ...etq, ...halo }} opacity={tramo(s, 23.2, 23.8)}>
+                    <text x={X(POZO.x) + 14} y={Z(zp) + 6} style={{ ...etq, ...halo }} opacity={tramo(p7, 0.1, 0.16) + (fase > POZOF ? 1 : 0)}>
                         pozo, z<tspan dy="5" fontSize="12">p</tspan><tspan dy="-5"> = {String(Math.round(ZP)).replace('-', '−')} m</tspan>
                     </text>
                     {enPozo && (
@@ -193,25 +317,30 @@ function Escena({ s }) {
                 </g>
             )}
 
-            <Superficie op={sup} n={n} />
+            <Superficie op={fase >= TANQUE ? tramo(p8, 0, 0.12) : 0} n={n} />
 
-            {/* leyendas y reloj, sobre la superficie */}
+            {/* leyendas, reloj y orientación */}
             <g style={etq}>
-                <g opacity={phi > 0 ? Math.min(1, phi / 0.45) * (1 - tramo(s, 12, 13)) : 0}>
+                <g opacity={fase === PHI || fase === CORTE ? Math.max(capas, p4) : 0}>
                     <text x={830} y={-80}>porosidad φ</text>
                     {[0, 1, 2, 3, 4].map(i => <rect key={i} x={830 + 34 * i} y={-70} width={34} height={14} fill={AGUA} fillOpacity={0.05 + 0.13 * i} stroke="var(--sl-muted)" strokeWidth="0.5" />)}
                     {[0, 0.4, 0.8].map((v, i) => <text key={v} x={830 + 68 * i} y={-40} textAnchor="middle" fontSize="13">{v}</text>)}
                     <text x={1000} y={-40} textAnchor="end" fontSize="13">1</text>
                 </g>
-                <g opacity={tramo(s, 13.6, 14.4)}>
+                <g opacity={fase >= DERRAME && fase < PREG ? 1 : 0}>
                     <rect x={830} y={-76} width={16} height={12} fill={PLUMA} fillOpacity="0.3" />
                     <text x={852} y={-66} fontSize="14">nitrato &gt; 10 mg/L</text>
                     <rect x={830} y={-56} width={16} height={12} fill={PLUMA} fillOpacity="0.85" />
                     <text x={852} y={-46} fontSize="14">&gt; 50 mg/L (guía OMS)</text>
                 </g>
                 {reloj && <text x={1000} y={-92} textAnchor="end" style={{ ...etq, fontSize: 17, fill: 'var(--sl-text)' }}>día {Math.round(dias)}</text>}
-                <text x={998} y={Z(-300)} textAnchor="end">entrada →</text>
-                <text x={6} y={Z(-1200)}>← salida libre</text>
+                <g opacity={seccion}>
+                    <text x={2} y={318} style={{ ...etq, fontSize: 15, fill: 'var(--sl-text)' }}>SO</text>
+                    <text x={998} y={318} textAnchor="end" style={{ ...etq, fontSize: 15, fill: 'var(--sl-text)' }}>NE</text>
+                    {fase >= FLUJO && <text x={998} y={Z(-300)} textAnchor="end">entrada →</text>}
+                    {fase >= FLUJO && <text x={6} y={Z(-1200)}>← salida libre</text>}
+                    <text x={500} y={318} textAnchor="middle" fontSize="13">9.9 km; sin exageración vertical</text>
+                </g>
             </g>
         </svg>
     );
@@ -220,23 +349,22 @@ function Escena({ s }) {
 const PREGUNTA = String.raw`\min_{Q_1,\dots,Q_{72},\;z_p}\ \hat J=\gamma\,J_m+\alpha\,J_{\rm inst}+\beta\,J_{\rm op}`;
 const SUJETO = String.raw`\text{s.a.}\ \ \text{flujo y transporte},\quad 0\le Q_n\le\overline Q_n,\quad z_{\min}\le z_p\le z_{\max},\quad 0\le S_n\le S_{\max}`;
 
-export default function A3D01({ theme = 'dark' }) {
-    const [s, ir] = useReloj(TOTAL, 400);
-    const k = FASES.findIndex(f => s < f.t1), i = k < 0 ? FASES.length - 1 : k;
-    const saltar = k => ir(reducida() ? FASES[k].t1 - 0.01 : FASES[k].t0);
-    const q = suave(tramo(s, 40, 41.6));
+export default function A3D01({ theme = 'dark', entrada = 1 }) {
+    const { fase, l, w, ir } = useFases(FASES.map(f => f.dur), entrada < 0);
+    const q = fase === PREG ? suave(l / FASES[PREG].dur) : 0;
+    const saltar = k => ir(k, reducida());
     return (
-        <SlideLayout title="Un acuífero, un derrame, un pozo y un tanque" theme={theme} justify="flex-start">
-            <p style={{ margin: '0 0 2px', minHeight: 30, fontSize: 'var(--a3-fs-cuerpo)', color: 'var(--sl-text)', opacity: q > 0 ? 1 - q : 1 }}>
+        <SlideLayout title="Del acuífero de Sabinas a la pregunta de la tesis" theme={theme} justify="flex-start">
+            <p style={{ margin: '0 0 2px', minHeight: 58, fontSize: 'var(--a3-fs-cuerpo)', color: 'var(--sl-text)', lineHeight: 1.35, opacity: 1 - q }}>
                 <span style={{ fontFamily: 'var(--a3-sans)', fontSize: 'var(--a3-fs-etiqueta)', color: AGUA, fontWeight: 600, marginRight: 12 }}>
-                    {i + 1} · {FASES[i].n}
+                    {fase + 1} · {FASES[fase].n}
                 </span>
-                {FASES[i].d}
+                {FASES[fase].d}
             </p>
             <div style={{ position: 'relative' }}>
-                <div onClick={() => saltar(i + 1 < FASES.length ? i + 1 : 0)} title="clic: siguiente fase"
+                <div onClick={() => saltar(fase + 1 < FASES.length ? fase + 1 : 0)} title="clic: siguiente fase"
                      style={{ cursor: 'pointer', opacity: 1 - 0.8 * q }}>
-                    <Escena s={s} />
+                    <Escena fase={fase} l={l} w={w} />
                 </div>
                 {q > 0 && (
                     <div style={{ position: 'absolute', left: '50%', top: '50%', transform: `translate(-50%, -50%) translateY(${(1 - q) * 14}px)`,
@@ -255,13 +383,13 @@ export default function A3D01({ theme = 'dark' }) {
                     </div>
                 )}
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: `repeat(${FASES.length}, 1fr)`, gap: 10, marginTop: 8 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: `repeat(${FASES.length}, 1fr)`, gap: 8, marginTop: 8 }}>
                 {FASES.map((f, k) => (
                     <button key={f.n} onClick={() => saltar(k)} title={`ir a: ${f.n}`}
-                            style={{ all: 'unset', cursor: 'pointer', fontFamily: 'var(--a3-sans)', fontSize: 'var(--a3-fs-nota)',
-                                     color: k === i ? AGUA : 'var(--sl-muted)', fontWeight: k === i ? 600 : 400 }}>
+                            style={{ all: 'unset', cursor: 'pointer', fontFamily: 'var(--a3-sans)', fontSize: 14, lineHeight: 1.2,
+                                     color: k === fase ? AGUA : 'var(--sl-muted)', fontWeight: k === fase ? 600 : 400 }}>
                         <span style={{ display: 'block', height: 3, background: 'var(--a3-filete, #C9D3DB)', marginBottom: 5 }}>
-                            <span style={{ display: 'block', height: 3, width: `${100 * tramo(s, f.t0, f.t1)}%`, background: AGUA }} />
+                            <span style={{ display: 'block', height: 3, width: `${k < fase ? 100 : k > fase ? 0 : 100 * l / f.dur}%`, background: AGUA }} />
                         </span>
                         {k + 1} {f.n}
                     </button>

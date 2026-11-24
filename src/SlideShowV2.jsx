@@ -14,8 +14,17 @@ const TOTAL_EXPECTED_TIME = 900000;
 const CANVAS_W = 1280;
 const CANVAS_H = 960;
 
-// canvasW: ancho del lienzo propio de un avance (registry.js); por defecto CANVAS_W.
-const SlideshowV2 = ({ slides: slidesProp, sections, portadaDate, deckClass = '', canvasW = CANVAS_W, ecuaciones }) => {
+// Forma corta de una referencia para el pie de la lámina: «Bear (1972)», «Haggerty y Gorelick (1995)», «Manzoni et al. (2021)».
+const citaCorta = (r) => {
+    if (!r) return '?';
+    const a = r.autores, apellido = (s) => s.split(',')[0];
+    const quien = a.length === 1 ? apellido(a[0]) : a.length === 2 ? `${apellido(a[0])} y ${apellido(a[1])}` : `${apellido(a[0])} et al.`;
+    return `${quien} (${r.anio})`;
+};
+
+// canvasW: ancho del lienzo propio de un avance (registry.js); por defecto CANVAS_W. referencias: {clave: entrada} del
+// avance; las láminas con `refs: [claves]` en su config muestran las citas cortas al pie.
+const SlideshowV2 = ({ slides: slidesProp, sections, portadaDate, deckClass = '', canvasW = CANVAS_W, ecuaciones, referencias }) => {
     const navigate = useNavigate();
     const location = useLocation();
     const slides = slidesProp ?? defaultSlideConfig;
@@ -31,8 +40,10 @@ const SlideshowV2 = ({ slides: slidesProp, sections, portadaDate, deckClass = ''
     const containerRef = useRef(null);
     const indexRef = useRef(0);
 
-    const next = useCallback(() => setIndex((i) => (i + 1) % totalSlides), [totalSlides]);
-    const prev = useCallback(() => setIndex((i) => (i - 1 + totalSlides) % totalSlides), [totalSlides]);
+    // entrada: +1 si se llegó a la lámina avanzando, −1 retrocediendo (las láminas con fases empiezan en la última).
+    const [entrada, setEntrada] = useState(1);
+    const next = useCallback(() => { setEntrada(1); setIndex((i) => (i + 1) % totalSlides); }, [totalSlides]);
+    const prev = useCallback(() => { setEntrada(-1); setIndex((i) => (i - 1 + totalSlides) % totalSlides); }, [totalSlides]);
 
     useEffect(() => { indexRef.current = index; }, [index]);
 
@@ -63,10 +74,16 @@ const SlideshowV2 = ({ slides: slidesProp, sections, portadaDate, deckClass = ''
         .reduce((acc, s) => acc + s.duration * 1000, 0);
 
     useEffect(() => {
+        // Pasos internos: antes de cambiar de lámina se emite 'diapo:paso' (cancelable, detail.dir = ±1); una lámina con
+        // fases propias lo cancela mientras le queden fases, así el control remoto recorre sus fases y luego sigue.
+        const paso = (dir) => {
+            const ev = new CustomEvent('diapo:paso', { detail: { dir }, cancelable: true });
+            if (window.dispatchEvent(ev)) (dir > 0 ? next : prev)();
+        };
         const handleKey = (e) => {
             e.preventDefault();
-            if (['ArrowRight', 'ArrowDown', 'PageDown'].includes(e.key)) next();
-            else if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(e.key)) prev();
+            if (['ArrowRight', 'ArrowDown', 'PageDown'].includes(e.key)) paso(1);
+            else if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(e.key)) paso(-1);
             else if (e.key === 'Tab') {
                 const vm = slides[indexRef.current]?.videoMetodo;
                 if (vm) window.open(
@@ -103,8 +120,7 @@ const SlideshowV2 = ({ slides: slidesProp, sections, portadaDate, deckClass = ''
             touchEndX = e.changedTouches[0].screenX;
             const delta = touchEndX - touchStartX;
             if (Math.abs(delta) < 50) return;
-            if (delta > 0) prev();
-            else next();
+            paso(delta > 0 ? -1 : 1);
         };
 
         const blockContext = (e) => e.preventDefault();
@@ -189,11 +205,14 @@ const SlideshowV2 = ({ slides: slidesProp, sections, portadaDate, deckClass = ''
                             ? <Portada theme={theme} date={portadaDate} />
                             : SlideComponent && (
                                 <EcNumContext.Provider value={ecuaciones || {}}>
-                                    <SlideComponent theme={theme} />
+                                    <SlideComponent theme={theme} entrada={entrada} />
                                 </EcNumContext.Provider>
                             )
                         }
                     </div>
+                    {slide?.refs && referencias && (
+                        <div className="slide-refs">{slide.refs.map(k => citaCorta(referencias[k])).join(' · ')}</div>
+                    )}
                     <div className="logo">
                         <img
                             src={`${process.env.PUBLIC_URL}/logo-udg.png`}
