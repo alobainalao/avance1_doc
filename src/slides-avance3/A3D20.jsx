@@ -1,11 +1,14 @@
 import React from 'react';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import { usePublica } from './version.jsx';
+import { ESTADOS } from './estado.jsx';
 
 // Estado del documento de tesis (tesis/docR.tex, páginas del índice de noviembre de 2026), del artículo de
 // optimización (articulos/optimizacion-adjunto) y cronograma de hitos. Todo el texto es un primer borrador que hay que
 // revisar y reescribir a fondo; el cronograma es tentativo.
 const AGUA = 'var(--a3-agua)', PLUMA = 'var(--a3-pluma)', GRIS = 'var(--a3-estrato)';
+// Borrador = «en desarrollo» en la lámina de estado (estado.jsx): mismo color.
+const DES = ESTADOS.des.c;
 
 const capitulos = [
     { n: '', t: 'Introducción', p: [1, 6], e: 'bor' },
@@ -15,10 +18,10 @@ const capitulos = [
     { n: 'IV', t: 'Resultados numéricos', p: [95, 110], e: 'inc', nota: 'resultados anteriores; faltan los convergidos' },
     { n: 'A–E', t: <>Anexos<span className="a3-completa">: buena postura, esquemas, adjunto, verificación</span></>, p: [111, 133], e: 'bor' },
 ];
-const ESTADO = { bor: { c: AGUA, l: 'borrador' }, inc: { c: PLUMA, l: 'incompleto' } };
+const ESTADO = { bor: { c: DES, l: 'borrador' }, inc: { c: PLUMA, l: 'incompleto' } };
 
 const hitos = [
-    { s: 3, f: 'ene 2027', t: 'Modelo, gradiente verificado y primeros óptimos (este avance)' },
+    { s: 3, f: 'ene 2027', t: 'Modelo, gradiente verificado y óptimos preliminares (este avance)' },
     { s: 4, f: 'jul 2027', t: 'Óptimos convergidos en los tres modelos y frente de Pareto', tp: 'Óptimos convergidos y frente de Pareto' },
     { s: 5, f: 'ene 2028', t: 'Artículo de optimización enviado; adjunto RBF-FD estable con la malla', tp: 'Artículo de optimización enviado', meta: true },
     { s: 6, f: 'jul 2028', t: 'Artículo de modelación; reescritura de los capítulos' },
@@ -74,7 +77,9 @@ export default function A3D20({ theme = 'dark' }) {
                     </div>
                 </div>
                 <div>
-                    <p style={tit}>Artículo: control óptimo de un pozo por el método adjunto</p>
+                    <p style={tit}>Artículo: control óptimo de un pozo por el método adjunto
+                        <span style={{ marginLeft: 10, fontFamily: 'var(--a3-sans)', fontSize: 'var(--a3-fs-nota)', color: DES, fontWeight: 600, whiteSpace: 'nowrap' }}>en curso</span>
+                    </p>
                     <p className="a3-completa" style={txt}>
                         Borrador de 26 páginas con el modelo, el problema de control, las restricciones de bomba y tanque y la
                         deducción del adjunto. <span style={{ color: PLUMA }}>Falta:</span> resultados convergidos, frente de Pareto,

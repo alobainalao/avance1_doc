@@ -209,3 +209,26 @@
 
 /* Las fórmulas en línea no se parten entre renglones (p. ej. «r = 1, 2, 3», «χ < 10⁻⁴»). */
 .deck-a3 .katex { white-space: nowrap; }
+
+/* ── Notas de estudio (version.jsx: Notas), solo en la completa: panel lateral sobre la mitad derecha de la lámina. ── */
+.deck-a3 .slide-layout { position: relative; }
+.deck-a3 .a3-notas-boton {
+    position: absolute; right: 18px; bottom: 14px; z-index: 21;
+    font-family: var(--a3-sans); font-size: 15px; padding: 6px 14px; cursor: pointer;
+    color: var(--sl-bg); background: var(--a3-agua); border: none; border-radius: 3px; opacity: 0.85;
+}
+.deck-a3 .a3-notas-boton:hover { opacity: 1; }
+.deck-a3 .a3-notas {
+    position: absolute; top: 0; right: 0; bottom: 0; width: 50%; z-index: 20; box-sizing: border-box;
+    padding: 26px 30px 60px; overflow-y: auto; outline: none;
+    background: var(--sl-bg); border-left: 3px solid var(--a3-agua); box-shadow: -8px 0 24px rgba(0, 0, 0, 0.18);
+    font-family: var(--a3-serif); font-size: 19px; line-height: 1.45; color: var(--sl-text);
+}
+.deck-a3 .a3-notas-titulo {
+    margin: 0 0 12px; font-family: var(--a3-sans); font-size: 15px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--a3-agua);
+}
+.deck-a3 .a3-notas h4 { margin: 18px 0 6px; font-family: var(--a3-sans); font-size: 17px; color: var(--a3-pluma); }
+.deck-a3 .a3-notas p, .deck-a3 .a3-notas li { margin: 0 0 8px; }
+.deck-a3 .a3-notas .katex-display { margin: 8px 0; }
+.deck-a3 .a3-notas .katex-display > .katex { font-size: 21px; }

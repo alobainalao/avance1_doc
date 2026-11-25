@@ -17,18 +17,21 @@ import { ESQ } from './esquema.js';
 const AGUA = 'var(--a3-agua)', PLUMA = 'var(--a3-pluma)', GRIS = 'var(--a3-estrato)';
 
 const FASES = [
-    { n: 'Ubicación', dur: 3, p: <>acuífero de Sabinas, noreste de Coahuila</>,  d: <>el acuífero de estudio está en Sabinas, en el noreste de Coahuila</> },
-    { n: 'Sondeos', dur: 4, p: <>seis sondeos eléctricos dan la porosidad de cada capa <Cita k="DanielRivas" /></>,  d: <>seis sondeos eléctricos midieron la conductividad del subsuelo a varias profundidades; de ella se estimó la porosidad efectiva de cada capa <Cita k="DanielRivas" /></> },
-    { n: 'Traza del corte', dur: 4, p: <>cuatro sondeos casi alineados definen el corte</>,  d: <>cuatro sondeos están casi alineados: se proyectan sobre la recta roja, que será la traza del corte</> },
-    { n: 'Corte vertical', dur: 5, p: <>corte vertical de 9.9 km con las capas medidas</>,  d: <>si las propiedades no cambian en la dirección transversal, basta un corte vertical de 9.9 km entre los sondeos extremos, con las capas que midió cada sondeo</> },
-    { n: 'Porosidad', dur: 3, p: <>porosidad <InlineMath math="\phi" /> interpolada; de ella, la conductividad <InlineMath math="\mathbf K" /></>,  d: <>la porosidad <InlineMath math="\phi" /> de las capas se interpola a todo el corte; de ella sale la conductividad <InlineMath math="\mathbf K" /> <Cita k="Kozeny-Carman" /></> },
-    { n: 'Flujo', dur: 3, p: <>el agua entra por el noreste y sale libre por el suroeste</>,  d: <>el agua entra por el noreste y sale libre por el suroeste; corre más rápido donde <InlineMath math="\phi" /> y <InlineMath math="\mathbf K" /> son altas</> },
-    { n: 'Derrame', dur: 10, p: <>la pluma de nitrato avanza 30 días; guía: 50 mg/L <Cita k="oms2022" /></>,  d: <>una fuente de nitrato dejó una pluma (estado inicial del modelo); en 30 días el agua la arrastra, la dispersa y se degrada; el valor guía es 50 mg/L <Cita k="oms2022" /></> },
-    { n: 'Pozo', dur: 10, p: <>el pozo bombea <InlineMath math="Q(t)" /> a la profundidad <InlineMath math="z_p" /> y capta nitrato</>,  d: <>el pozo bombea <InlineMath math="Q(t)" /> a la profundidad <InlineMath math="z_p" />: desvía el flujo y capta parte del nitrato</> },
-    { n: 'Tanque y demanda', dur: 10, p: <>el tanque entrega 1 000 m³ diarios a la población y al riego</>,  d: <>lo bombeado entra a un tanque de 2 000 m³ que entrega 1 000 m³ al día a la población y al riego</> },
-    { n: 'La pregunta', dur: 2, d: <>¿cómo operar el pozo?</> },
+    { n: 'Ubicación', dur: 2.4, p: <>acuífero de Sabinas, noreste de Coahuila</>,  d: <>el acuífero de estudio está en Sabinas, en el noreste de Coahuila</> },
+    { n: 'Sondeos', dur: 3.2, p: <>seis sondeos eléctricos dan la porosidad de cada capa <Cita k="DanielRivas" /></>,  d: <>seis sondeos eléctricos midieron la conductividad del subsuelo a varias profundidades; de ella se estimó la porosidad efectiva de cada capa <Cita k="DanielRivas" /></> },
+    { n: 'Traza del corte', dur: 3.2, p: <>cuatro sondeos casi alineados definen el corte</>,  d: <>cuatro sondeos están casi alineados: se proyectan sobre la recta roja, que será la traza del corte</> },
+    { n: 'Corte vertical', dur: 4, p: <>corte vertical de 9.9 km con las capas medidas</>,  d: <>si las propiedades no cambian en la dirección transversal, basta un corte vertical de 9.9 km entre los sondeos extremos, con las capas que midió cada sondeo</> },
+    { n: 'Porosidad', dur: 2.6, p: <>porosidad <InlineMath math="\phi" /> interpolada; de ella, la conductividad <InlineMath math="\mathbf K" /></>,  d: <>la porosidad <InlineMath math="\phi" /> de las capas se interpola a todo el corte; de ella sale la conductividad <InlineMath math="\mathbf K" /> <Cita k="Kozeny-Carman" /></> },
+    { n: 'Flujo', dur: 2.6, p: <>el agua entra por el noreste y sale libre por el suroeste</>,  d: <>el agua entra por el noreste y sale libre por el suroeste; corre más rápido donde <InlineMath math="\phi" /> y <InlineMath math="\mathbf K" /> son altas</> },
+    { n: 'Derrame', dur: 8.5, p: <>la pluma de nitrato avanza 30 días; guía: 50 mg/L <Cita k="oms2022" /></>,  d: <>una fuente de nitrato dejó una pluma (estado inicial del modelo); en 30 días el agua la arrastra, la dispersa y se degrada; el valor guía es 50 mg/L <Cita k="oms2022" /></> },
+    { n: 'Pozo', dur: 8.5, p: <>el pozo bombea <InlineMath math="Q(t)" /> a la profundidad <InlineMath math="z_p" /> y capta nitrato</>,  d: <>el pozo bombea <InlineMath math="Q(t)" /> a la profundidad <InlineMath math="z_p" />: desvía el flujo y capta parte del nitrato</> },
+    { n: 'Abastecimiento', dur: 8.5, p: <>el tanque entrega 1 000 m³ diarios a la población y al riego</>,  d: <>lo bombeado entra a un tanque de 2 000 m³ que entrega 1 000 m³ al día a la población y al riego</> },
+    { n: 'La pregunta', dur: 1.6, d: <>¿cómo operar el pozo?</> },
 ];
 const [UBI, SON, TRAZA, CORTE, PHI, FLUJO, DERRAME, POZOF, TANQUE, PREG] = FASES.map((_, i) => i);
+
+// Entrada con rebote (sale un poco de más y regresa): sondeos que «brotan» en el mapa. x en [0, 1].
+const rebote = x => (x <= 0 ? 0 : x >= 1 ? 1 : 1 + 2.7 * Math.pow(x - 1, 3) + 1.7 * Math.pow(x - 1, 2));
 
 // ── Mapa de México (unidades de 1/10 de grado) y zona de Sabinas (unidades de escena, 9.939 m, origen en el pie del
 // sondeo 6 sobre la recta, y hacia abajo). La zona se gira THETA para que la recta quede horizontal: es la superficie
@@ -141,7 +144,8 @@ function Superficie({ op, n }) {
     );
 }
 
-function MapaMexico({ p1, p0 }) {
+// `onda`: fase (0 → 1, cíclica) del pulso que señala Sabinas mientras se presenta; null = sin pulso.
+function MapaMexico({ p1, p0, onda }) {
     const g = suave(tramo(p1, 0, 0.45));
     const m = { x: lerp(MX_GRANDE.x, MX_CHICO.x, g), y: lerp(MX_GRANDE.y, MX_CHICO.y, g), s: lerp(MX_GRANDE.s, MX_CHICO.s, g) };
     const estados = useMemo(() => MAPA.estados.filter(e => e.id !== 'MX-COA').map(e => (
@@ -153,6 +157,8 @@ function MapaMexico({ p1, p0 }) {
             {estados}
             <path d={COAHUILA.d} fill={AGUA} fillOpacity={0.08 + 0.4 * suave(tramo(p0, 0.15, 0.55))} stroke={AGUA} strokeWidth="1.6" vectorEffect="non-scaling-stroke" />
             <g opacity={tramo(p0, 0.5, 0.8)}>
+                {onda !== null && <circle cx={sx} cy={sy} r={(5 + 16 * onda) * k} fill="none" stroke={PLUMA} strokeWidth="1.8"
+                                          vectorEffect="non-scaling-stroke" strokeOpacity={(1 - onda) * (1 - g)} />}
                 <circle cx={sx} cy={sy} r={4 * k} fill={PLUMA} />
                 <text x={sx + 6 * k} y={sy - 6 * k} style={{ ...etq, fontSize: 17 * k, fill: 'var(--sl-text)' }}>Sabinas</text>
                 <text x={sx - 34 * k} y={sy + 30 * k} style={{ ...etq, fontSize: 15 * k, fill: AGUA }} opacity={1 - g}>Coahuila</text>
@@ -174,7 +180,7 @@ function Zona({ P }) {
     const g = suave(tramo(p3, 0.15, 0.7)), s = lerp(S0, 1, g);
     const T = [lerp(T0[0], 0, g), lerp(T0[1], 0, g)], th = lerp(0, THETA, g), k = 1 / s;
     const aparece = tramo(p1, 0.3, 0.8), extras = 1 - tramo(p3, 0, 0.25);
-    const recta = tramo(p2, 0.05, 0.4), proy = suave(tramo(p2, 0.45, 0.85));
+    const recta = suave(tramo(p2, 0.05, 0.4)), proy = suave(tramo(p2, 0.45, 0.85));
     const marcas = 1 - tramo(p3, 0.75, 0.95);
     // cuña de acercamiento desde Sabinas en el mapa chico hasta el marco de la zona
     const sab = [MX_CHICO.x + MX_CHICO.s * MAPA.sabinas[0], MX_CHICO.y + MX_CHICO.s * MAPA.sabinas[1]];
@@ -208,11 +214,12 @@ function Zona({ P }) {
                 {SONDEOS.map((q, i) => {
                     const dest = q.alineado ? q.pie : q.p, pos = [lerp(q.p[0], dest[0], proy), lerp(q.p[1], dest[1], proy)];
                     const op = (q.alineado ? 1 : 1 - 0.7 * tramo(p2, 0.05, 0.3)) * (q.alineado ? marcas : extras);
+                    const brota = tramo(p1, 0.35 + 0.08 * i, 0.5 + 0.08 * i);       // cada sondeo brota con rebote, uno tras otro
                     return (
-                        <g key={q.n} opacity={op * tramo(p1, 0.35 + 0.08 * i, 0.5 + 0.08 * i)}>
+                        <g key={q.n} opacity={op * Math.min(1, 2 * brota)}>
                             {q.alineado && p2 > 0.35 && <line x1={q.p[0]} y1={q.p[1]} x2={q.pie[0]} y2={q.pie[1]} stroke={GRIS} strokeDasharray="5 4"
                                                              strokeWidth="1.4" vectorEffect="non-scaling-stroke" opacity={extras} />}
-                            <circle cx={pos[0]} cy={pos[1]} r={11 * k} fill={q.alineado && p2 > 0.05 ? AGUA : 'var(--sl-muted)'} />
+                            <circle cx={pos[0]} cy={pos[1]} r={11 * k * rebote(brota)} fill={q.alineado && p2 > 0.05 ? AGUA : 'var(--sl-muted)'} />
                             <text x={pos[0]} y={pos[1] + 5 * k} textAnchor="middle" transform={`rotate(${-th} ${pos[0]} ${pos[1]})`}
                                   style={{ fontFamily: 'var(--a3-sans)', fontSize: 14 * k, fill: '#fff', fontWeight: 600 }}>{q.n}</text>
                         </g>
@@ -225,13 +232,17 @@ function Zona({ P }) {
 
 function Escena({ fase, l, w }) {
     const P = k => (fase > k ? 1 : fase < k ? 0 : l / FASES[k].dur);
-    const p0 = P(UBI), p1 = P(SON), p3 = P(CORTE), p4 = P(PHI), p5 = P(FLUJO), p6 = P(DERRAME), p7 = P(POZOF), p8 = P(TANQUE);
+    const p0 = P(UBI), p1 = P(SON), p3 = P(CORTE), p4 = P(PHI), p5 = P(FLUJO), p6 = P(DERRAME), p7 = P(POZOF), p8 = P(TANQUE), p9 = P(PREG);
+    // Lo que pasa a segundo plano al entrar a la fase siguiente se atenúa en el primer tramo de esa fase (antes saltaba).
+    const atenua = (p, hasta) => lerp(1, hasta, suave(tramo(p, 0, 0.3)));
     // corte vertical: crece desde la superficie; capas de los sondeos
     const crece = suave(tramo(p3, 0.65, 1)), seccion = fase >= CORTE ? crece : 0;
-    const capas = tramo(p3, 0.75, 1) * (fase >= FLUJO ? 0.35 : 1);
-    const phi = p4 * (fase >= FLUJO ? 0.45 : 1);
+    const capas = tramo(p3, 0.75, 1) * atenua(p5, 0.35);
+    // porosidad: las bandas entran escalonadas, de la menor a la mayor φ
+    const phi = atenua(p5, 0.45), nb = ESQ.phi.bandas.length;
+    const banda = i => tramo(p4, 0.55 * i / Math.max(1, nb - 1), 0.55 * i / Math.max(1, nb - 1) + 0.45);
     // flujo
-    const revela = suave(tramo(p5, 0.05, 0.8)), tau = fase >= FLUJO ? w : 0, corr = fase >= DERRAME ? 0.55 : 1;
+    const revela = suave(tramo(p5, 0.05, 0.8)), tau = fase >= FLUJO ? w : 0, corr = atenua(p6, 0.55);
     // derrame (Q = 0): fuente, la pluma inicial se descubre desde la fuente y luego 30 días
     const fuente = tramo(p6, 0, 0.06), descubre = suave(tramo(p6, 0.06, 0.22)), dia3 = tramo(p6, 0.25, 1);
     // pozo y tanque: 30 días con el óptimo ADR; al entrar a la fase del tanque se repiten junto con S(t)
@@ -246,6 +257,8 @@ function Escena({ fase, l, w }) {
     const dias = (fase === DERRAME ? dia3 : diaCon) * NT * DT_H / 24;
     const zp = lerp(250.5, ZP, pozo), cp = C_POZO[n], qn = enPozo ? opt.Q[n] / Q_MAX : 0;
     const bandasPhi = useMemo(() => ESQ.phi.bandas.map((d, i) => <path key={i} d={d} fill={AGUA} fillOpacity={0.05 + 0.13 * i} />), []);
+    // pulso sobre Sabinas mientras se ubica (sin él con prefers-reduced-motion)
+    const onda = fase <= SON && !reducida() ? (w * 0.9) % 1 : null;
     return (
         <svg viewBox="-20 -112 1040 438" style={{ width: '100%', display: 'block' }}>
             <defs>
@@ -257,14 +270,14 @@ function Escena({ fase, l, w }) {
                 </marker>
             </defs>
 
-            {fase <= CORTE && <g opacity={1 - tramo(p3, 0, 0.25)}><MapaMexico p0={p0} p1={p1} /></g>}
+            {fase <= CORTE && <g opacity={1 - tramo(p3, 0, 0.25)}><MapaMexico p0={p0} p1={p1} onda={onda} /></g>}
             <Zona P={P} />
 
             {seccion > 0 && (
                 <g clipPath="url(#d01-crece)">
                     <polygon points={POLIGONO} fill="var(--sl-text)" fillOpacity="0.03" />
                     <g clipPath="url(#d01-clip)">
-                        <g opacity={phi}>{bandasPhi}</g>
+                        <g opacity={phi}>{bandasPhi.map((b, i) => <g key={i} opacity={banda(i)}>{b}</g>)}</g>
                         <Corrientes tipo="sin" op={p5 > 0 ? corr * (1 - cambio) : 0} revela={revela} tau={tau} />
                         <Corrientes tipo="con" op={corr * cambio} revela={1} tau={tau} />
                         <g clipPath={descubre < 1 ? 'url(#d01-descubre)' : undefined}>
@@ -324,13 +337,14 @@ function Escena({ fase, l, w }) {
 
             {/* leyendas, reloj y orientación */}
             <g style={etq}>
-                <g opacity={fase === PHI || fase === CORTE ? Math.max(capas, p4) : 0}>
+                <g opacity={fase < CORTE ? 0 : fase <= PHI ? Math.max(capas, p4) : 1 - tramo(p5, 0, 0.25)}>
                     <text x={830} y={-80}>porosidad φ</text>
-                    {[0, 1, 2, 3, 4].map(i => <rect key={i} x={830 + 34 * i} y={-70} width={34} height={14} fill={AGUA} fillOpacity={0.05 + 0.13 * i} stroke="var(--sl-muted)" strokeWidth="0.5" />)}
+                    {[0, 1, 2, 3, 4].map(i => <rect key={i} x={830 + 34 * i} y={-70} width={34} height={14} fill={AGUA} fillOpacity={0.05 + 0.13 * i} stroke="var(--sl-muted)" strokeWidth="0.5"
+                                                    opacity={fase === PHI ? tramo(p4, 0.12 * i, 0.12 * i + 0.45) : 1} />)}
                     {[0, 0.4, 0.8].map((v, i) => <text key={v} x={830 + 68 * i} y={-40} textAnchor="middle" fontSize="13">{v}</text>)}
                     <text x={1000} y={-40} textAnchor="end" fontSize="13">1</text>
                 </g>
-                <g opacity={fase >= DERRAME && fase < PREG ? 1 : 0}>
+                <g opacity={fase < DERRAME ? 0 : tramo(p6, 0, 0.1) * (1 - p9)}>
                     <rect x={830} y={-76} width={16} height={12} fill={PLUMA} fillOpacity="0.3" />
                     <text x={852} y={-66} fontSize="14">nitrato &gt; 10 mg/L</text>
                     <rect x={830} y={-56} width={16} height={12} fill={PLUMA} fillOpacity="0.85" />
@@ -340,12 +354,52 @@ function Escena({ fase, l, w }) {
                 <g opacity={seccion}>
                     <text x={2} y={318} style={{ ...etq, fontSize: 15, fill: 'var(--sl-text)' }}>SO</text>
                     <text x={998} y={318} textAnchor="end" style={{ ...etq, fontSize: 15, fill: 'var(--sl-text)' }}>NE</text>
-                    {fase >= FLUJO && <text x={998} y={Z(-300)} textAnchor="end">entrada →</text>}
-                    {fase >= FLUJO && <text x={6} y={Z(-1200)}>← salida libre</text>}
+                    {fase >= FLUJO && <text x={998} y={Z(-300)} textAnchor="end" opacity={tramo(p5, 0.15, 0.4)}>entrada →</text>}
+                    {fase >= FLUJO && <text x={6} y={Z(-1200)} opacity={tramo(p5, 0.35, 0.6)}>← salida libre</text>}
                     <text x={500} y={318} textAnchor="middle" fontSize="13">9.9 km; sin exageración vertical</text>
                 </g>
             </g>
         </svg>
+    );
+}
+
+// Barra de fases. Cada columna mide al menos lo que su nombre (minmax(max-content, 1fr)) y el nombre va en un solo
+// renglón: todas las barras quedan a la misma altura aunque cambie la letra (pública/completa). El nombre reserva el
+// ancho de su versión en negrita (copia invisible), así las columnas no se mueven al cambiar de fase. Hechas: llenas;
+// la actual se llena con una cabeza que late y se apaga al terminar; al saltar, las demás se llenan o vacían en 0.35 s.
+function Progreso({ fase, l, w, saltar, pub }) {
+    const late = reducida() ? 0 : 0.5 + 0.5 * Math.sin(2 * Math.PI * 1.1 * w);
+    return (
+        <div style={{ display: 'grid', gridTemplateColumns: `repeat(${FASES.length}, minmax(max-content, 1fr))`, columnGap: 10,
+                      alignItems: 'start', marginTop: 8 }}>
+            {FASES.map((f, k) => {
+                const actual = k === fase, hecho = k < fase ? 1 : k > fase ? 0 : l / f.dur;
+                const cabeza = actual ? 1 - tramo(l, f.dur - 0.25, f.dur) : 0;
+                return (
+                    <button key={f.n} onClick={() => saltar(k)} title={`ir a: ${f.n}`}
+                            style={{ all: 'unset', display: 'block', cursor: 'pointer', fontFamily: 'var(--a3-sans)', fontSize: pub ? 16 : 14,
+                                     lineHeight: 1.25, whiteSpace: 'nowrap', transition: 'color 0.3s',
+                                     color: actual ? AGUA : k < fase ? 'var(--sl-text)' : 'var(--sl-muted)' }}>
+                        <span style={{ position: 'relative', display: 'block', height: 4, borderRadius: 2, marginBottom: 7,
+                                       background: 'var(--a3-filete, #C9D3DB)' }}>
+                            <span style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: `${100 * hecho}%`, borderRadius: 2,
+                                           background: AGUA, transition: actual ? 'none' : 'width 0.35s ease-out' }} />
+                            {cabeza > 0 && (
+                                <span style={{ position: 'absolute', left: `${100 * hecho}%`, top: 2, width: 10, height: 10, margin: '-5px 0 0 -5px',
+                                               borderRadius: '50%', background: AGUA, opacity: cabeza,
+                                               boxShadow: `0 0 0 ${2 + 4 * late}px color-mix(in srgb, ${AGUA} ${Math.round(35 - 20 * late)}%, transparent)` }} />
+                            )}
+                        </span>
+                        <span style={{ display: 'inline-grid' }}>
+                            <span aria-hidden="true" style={{ gridArea: '1 / 1', fontWeight: 600, visibility: 'hidden' }}>{k + 1} {f.n}</span>
+                            <span style={{ gridArea: '1 / 1', fontWeight: actual ? 600 : 400 }}>
+                                <span style={{ fontWeight: 600, fontVariantNumeric: 'tabular-nums' }}>{k + 1}</span> {f.n}
+                            </span>
+                        </span>
+                    </button>
+                );
+            })}
+        </div>
     );
 }
 
@@ -355,11 +409,14 @@ const SUJETO = String.raw`\text{s.a.}\ \ \text{flujo y transporte},\quad 0\le Q(
 export default function A3D01({ theme = 'dark', entrada = 1 }) {
     const { fase, l, w, ir } = useFases(FASES.map(f => f.dur), entrada < 0);
     const q = fase === PREG ? suave(l / FASES[PREG].dur) : 0;
+    const entra = suave(tramo(l, 0, 0.4));
     const saltar = k => ir(k, reducida());
     const pub = usePublica();
     return (
         <SlideLayout title="Del acuífero de Sabinas a la pregunta de la tesis" theme={theme} justify="flex-start">
-            <p style={{ margin: '0 0 2px', minHeight: 58, fontSize: 'var(--a3-fs-cuerpo)', color: 'var(--sl-text)', lineHeight: 1.35, opacity: 1 - q }}>
+            {/* el texto de cada fase entra subiendo y aclarándose; alto fijo de dos renglones para que la figura no salte */}
+            <p style={{ margin: '0 0 2px', minHeight: '2.7em', fontSize: 'var(--a3-fs-cuerpo)', color: 'var(--sl-text)', lineHeight: 1.35,
+                        opacity: (1 - q) * lerp(0.15, 1, entra), transform: `translateY(${(1 - entra) * 8}px)` }}>
                 <span style={{ fontFamily: 'var(--a3-sans)', fontSize: 'var(--a3-fs-etiqueta)', color: AGUA, fontWeight: 600, marginRight: 12 }}>
                     {fase + 1} · {FASES[fase].n}
                 </span>
@@ -387,18 +444,7 @@ export default function A3D01({ theme = 'dark', entrada = 1 }) {
                     </div>
                 )}
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: `repeat(${FASES.length}, 1fr)`, gap: 8, marginTop: 8 }}>
-                {FASES.map((f, k) => (
-                    <button key={f.n} onClick={() => saltar(k)} title={`ir a: ${f.n}`}
-                            style={{ all: 'unset', cursor: 'pointer', fontFamily: 'var(--a3-sans)', fontSize: 14, lineHeight: 1.2,
-                                     color: k === fase ? AGUA : 'var(--sl-muted)', fontWeight: k === fase ? 600 : 400 }}>
-                        <span style={{ display: 'block', height: 3, background: 'var(--a3-filete, #C9D3DB)', marginBottom: 5 }}>
-                            <span style={{ display: 'block', height: 3, width: `${k < fase ? 100 : k > fase ? 0 : 100 * l / f.dur}%`, background: AGUA }} />
-                        </span>
-                        {k + 1} {f.n}
-                    </button>
-                ))}
-            </div>
+            <Progreso fase={fase} l={l} w={w} saltar={saltar} pub={pub} />
         </SlideLayout>
     );
 }

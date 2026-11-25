@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
-import { InlineMath } from 'react-katex';
+import { InlineMath, BlockMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import { Eq, Cita } from './ui.jsx';
 import { useProgreso, tramo } from './anim.js';
-import { usePublica } from './version.jsx';
+import { usePublica, Notas } from './version.jsx';
 
 // Gradiente conjugado frente a máximo descenso sobre una cuadrática mal condicionada J(x) = ½ xᵀAx − bᵀx
 // (ilustrativa, dos variables). Con búsqueda lineal exacta, CG llega en n = 2 pasos; el descenso zigzaguea.
@@ -73,7 +73,7 @@ function Curvas({ p }) {
 
 const eqPR = String.raw`\begin{aligned}
 &\mathbf d_0=-\nabla\hat J(u_0)\\
-&u_{k+1}=P_{\mathcal U_{ad}}\big(u_k+\rho_k\mathbf d_k\big),\quad \rho_k:\ \text{paso de Armijo}\\
+&u_{k+1}=P_{\mathcal U_{ad}}\big(u_k+\rho_k\mathbf d_k\big),\quad \rho_k:\ \text{búsqueda lineal (Wolfe)}\\
 &\vartheta_k=\max\Big\{0,\ \frac{\nabla\hat J_{k+1}^{\top}\big(\nabla\hat J_{k+1}-\nabla\hat J_k\big)}{\|\nabla\hat J_k\|^2}\Big\}\\
 &\mathbf d_{k+1}=-\nabla\hat J(u_{k+1})+\vartheta_k\,\mathbf d_k
 \end{aligned}`;
@@ -92,8 +92,16 @@ export default function A3D12({ theme = 'dark' }) {
                         gradiente nuevo con la anterior y evita el zigzag del máximo descenso<span className="a3-completa"> en los valles alargados</span>.
                     </p>
                     <p style={txt}>
-                        Todo descansa en la proyección <InlineMath math="P_{\mathcal U_{ad}}" />: con solo cotas es recortar, pero con el tanque
-                        deja de ser explícita<span className="a3-completa"> (siguiente lámina)</span>.
+                        Direcciones conjugadas, <InlineMath math="\mathbf d_i^{\top}A\,\mathbf d_j=0" /> (<InlineMath math="i\ne j" />): en una
+                        cuadrática de <InlineMath math="n" /> variables, CG llega en a lo más <InlineMath math="n" /> pasos<span className="a3-completa">;{' '}
+                        <InlineMath math="\vartheta_k" /> lleva la idea a un <InlineMath math="\hat J" /> no cuadrático</span>.
+                    </p>
+                    <p style={txt}>
+                        <span className="a3-completa">Todo descansa en la proyección <InlineMath math="P_{\mathcal U_{ad}}" />: con solo cotas es
+                        recortar, pero con el tanque deja de ser explícita (siguiente lámina). Por eso en el acuífero no se usa PR⁺: CG
+                        trabaja dentro de trust-constr, sobre su modelo cuadrático.</span>
+                        <span className="a3-publica">Con el tanque, proyectar deja de ser explícito: en el acuífero, CG trabaja dentro del
+                        optimizador de la siguiente lámina.</span>
                     </p>
                     <p style={nota}>
                         <span className="a3-completa"><Cita k="manzoni2021optimal" p="§ 6.3 y Alg. 6.1" />; <Cita k="Nocedal2006" p="cap. 5" />. </span>Figura: cuadrática
@@ -101,6 +109,39 @@ export default function A3D12({ theme = 'dark' }) {
                     </p>
                 </div>
             </div>
+            <Notas titulo="Gradiente conjugado: qué es y dónde está en nuestro cálculo">
+                <h4>Dirección de descenso</h4>
+                <p><InlineMath math="\mathbf d" /> es de descenso si <InlineMath math="\nabla\hat J(u)^\top\mathbf d<0" />: para un paso
+                    pequeño, <InlineMath math="\hat J(u+\rho\mathbf d)<\hat J(u)" />. La más simple es{' '}
+                    <InlineMath math="\mathbf d=-\nabla\hat J" /> (máximo descenso). En un valle alargado (Hessiana con número de condición{' '}
+                    <InlineMath math="\kappa" /> grande) zigzaguea: cada paso con búsqueda lineal exacta es ortogonal al anterior, y el
+                    error baja por un factor <InlineMath math="\tfrac{\kappa-1}{\kappa+1}" /> por iteración.</p>
+                <h4>Direcciones conjugadas (caso cuadrático)</h4>
+                <p>Para <InlineMath math="J(x)=\tfrac12x^\top Ax-b^\top x" /> con <InlineMath math="A" /> simétrica definida positiva, dos
+                    direcciones son conjugadas si <InlineMath math="\mathbf d_i^\top A\mathbf d_j=0" />. Minimizar exactamente a lo largo de{' '}
+                    <InlineMath math="n" /> direcciones conjugadas da el mínimo en <InlineMath math="n" /> pasos: cada paso no deshace lo
+                    ganado en los anteriores. CG las construye sobre la marcha con el residuo <InlineMath math="\mathbf r_k=\nabla J(x_k)" />:</p>
+                <BlockMath math={String.raw`\alpha_k=\frac{\mathbf r_k^\top\mathbf r_k}{\mathbf d_k^\top A\mathbf d_k},\quad x_{k+1}=x_k+\alpha_k\mathbf d_k,\quad
+\beta_k=\frac{\mathbf r_{k+1}^\top\mathbf r_{k+1}}{\mathbf r_k^\top\mathbf r_k},\quad \mathbf d_{k+1}=-\mathbf r_{k+1}+\beta_k\mathbf d_k`} />
+                <p>Solo guarda la dirección anterior y su error baja como <InlineMath math="\tfrac{\sqrt\kappa-1}{\sqrt\kappa+1}" />, mucho mejor
+                    que el máximo descenso. En la figura (<InlineMath math="\kappa\approx20" />): 2 pasos frente a decenas.</p>
+                <h4>CG no lineal (PR⁺) y proyección</h4>
+                <p>Para <InlineMath math="\hat J" /> no cuadrático no hay <InlineMath math="A" />: el paso sale de una búsqueda lineal (Wolfe) y{' '}
+                    <InlineMath math="\vartheta_k" /> (Polak–Ribière) reemplaza a <InlineMath math="\beta_k" />; el <InlineMath math="\max\{0,\cdot\}" />{' '}
+                    reinicia con <InlineMath math="-\nabla\hat J" /> cuando la conjugación se pierde. Con cotas se proyecta y se anula la
+                    dirección en las componentes activas; si cambia el conjunto activo se reinicia.</p>
+                <h4>Dónde está CG en este trabajo</h4>
+                <ul>
+                    <li><b>Casos de prueba del libro</b> (Graetz, pozos transitorios; solo cotas): PR⁺ proyectado con Wolfe, comparado con
+                        L-BFGS-B, que resultó entre 1.8 y 7 veces más barato.</li>
+                    <li><b>Acuífero</b> (con tanque y ciclo de la bomba): no se usa PR⁺, porque la proyección ya no es explícita. El
+                        optimizador es trust-constr (siguiente lámina), y en cada iteración su paso tangencial minimiza el modelo
+                        cuadrático <InlineMath math="\nabla\hat J^\top p+\tfrac12p^\top Bp" /> (<InlineMath math="B" />: BFGS) con CG lineal
+                        proyectado, truncado en la región de confianza. Ahí CG hace exactamente lo de la figura: resolver una
+                        cuadrática.</li>
+                </ul>
+                <p>Referencias: <Cita k="Nocedal2006" p="cap. 5 y § 16.3" />; <Cita k="manzoni2021optimal" p="§ 6.3" />.</p>
+            </Notas>
         </SlideLayout>
     );
 }

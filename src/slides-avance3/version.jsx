@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 // Dos versiones del avance 3 con las mismas láminas (slideConfig.avance3.js): la completa (#/avance3-completa), con
 // toda la explicación, y la pública (#/avance3), para exponer: menos texto y letra más grande (avance3.css,
@@ -15,4 +15,26 @@ export function enVersion(Componente, version) {
     );
     Envuelto.ecuaciones = Componente.ecuaciones;
     return Envuelto;
+}
+
+// Notas de estudio (solo en la completa): botón «Notas» abajo a la derecha que abre un panel lateral desplazable con la
+// explicación detallada de la lámina, sin cambiar su diseño. tabIndex: el clic dentro del panel no cambia de lámina
+// (SlideShowV2 ignora los clics en elementos con tabindex).
+export function Notas({ children, titulo = 'Notas de estudio', abiertas = false }) {
+    const publica = usePublica();
+    const [ver, setVer] = useState(abiertas);
+    if (publica) return null;
+    return (
+        <>
+            <button type="button" className="a3-notas-boton" onClick={() => setVer(v => !v)}>
+                {ver ? 'Cerrar notas' : 'Notas'}
+            </button>
+            {ver && (
+                <aside className="a3-notas" tabIndex={-1}>
+                    <p className="a3-notas-titulo">{titulo}</p>
+                    {children}
+                </aside>
+            )}
+        </>
+    );
 }
