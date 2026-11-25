@@ -32,10 +32,14 @@ const ETAPAS = [
     { titulo: 'modelo nuevo', sub: 'misma nube', origen: 'archivada', color: 'var(--a3-agua)' },
     { titulo: 'modelo nuevo', sub: 'malla con conos, 20 348', origen: 'recalculada', color: 'var(--a3-valido)' },
 ];
+// J_m (fila 4): |J_m^RBF/J_m^EF − 1| con J_m = ∫∫ g_ε C² dΩ dt (ε = r_pozo/3), y las métricas alternativas de las notas:
+// codigo/scripts/metricas_discrepancia.py → data/output/experimentos/M_modelo_nuevo/M0_adr/metricas_alternativas.json.
+// Las corridas archivadas (columnas 1 y 2) no guardaron campos: J_m no se puede calcular para ellas.
 const barras = [
     { nombre: <><InlineMath math="|\mathbf u|" /> velocidad</>, v: [13.0, 15.5, 12.5], dec: 1 },
     { nombre: <><InlineMath math="C" /> concentración</>, v: [24.5, 5.4, 3.0], dec: 1 },
     { nombre: <InlineMath math="\textstyle\int_\Omega C\,d\Omega" />, sub: 'sin φ: no es la masa', v: [1.80, 0.12, 0.02], dec: 2 },
+    { nombre: <><InlineMath math="J_m" /> en el pozo</>, sub: 'lo que se optimiza', v: [null, null, 8.952], dec: 1 },
 ];
 const ESCALA = 25;
 
@@ -52,7 +56,7 @@ export default function A3D02({ theme = 'dark' }) {
     const pub = usePublica();
     return (
         <SlideLayout title="Del modelo anterior al modelo nuevo" theme={theme} justify="flex-start">
-            <div style={{ display: 'grid', gridTemplateColumns: pub ? '250px 1fr 40px 1fr' : '210px 1fr 40px 1fr', rowGap: 16, columnGap: 18, alignItems: 'center' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: pub ? '250px 1fr 40px 1fr' : '210px 1fr 40px 1fr', rowGap: 10, columnGap: 18, alignItems: 'center' }}>
                 <span />
                 <span style={cab}>antes</span><span />
                 <span style={{ ...cab, color: 'var(--a3-valido)' }}>ahora</span>
@@ -75,9 +79,14 @@ export default function A3D02({ theme = 'dark' }) {
                 })}
             </div>
 
-            <div style={{ marginTop: 26 }}>
+            <div style={{ marginTop: 14 }}>
                 <p style={{ margin: '0 0 10px', fontSize: 'var(--a3-fs-seccion)', color: 'var(--sl-accent)' }}>
                     Discrepancia entre RBF-FD y elementos finitos a los 30 días<span className="a3-completa"> (ADR con fuente y pozo)</span>
+                </p>
+                <p style={{ ...nota, margin: '0 0 10px', color: 'var(--sl-text)' }}>
+                    <InlineMath math={String.raw`e(v)=\|v_{\rm RBF}-v_{\rm EF}\|\,/\,\|v_{\rm EF}\|,\quad \|v\|^2=\textstyle\sum_i w_i\,v_i(T)^2`} />
+                    <span className="a3-completa"> (<InlineMath math="w_i" />: área nodal; mismos nodos, <InlineMath math="T=30" /> d)</span>
+                    <span>{'  ·  '}<InlineMath math="\int C" /> y <InlineMath math="J_m" />: <InlineMath math={String.raw`|X_{\rm RBF}/X_{\rm EF}-1|`} /></span>
                 </p>
                 <div style={{ display: 'grid', gridTemplateColumns: `${pub ? 250 : 220}px repeat(3, 1fr)`, columnGap: 22, rowGap: 8, alignItems: 'center' }}>
                     <span />
@@ -99,6 +108,9 @@ export default function A3D02({ theme = 'dark' }) {
                             </span>
                             {ETAPAS.map((e, k) => {
                                 const q = suave(tramo(p, 0.3 + 0.2 * k, 0.5 + 0.2 * k));
+                                if (b.v[k] === null) return (
+                                    <span key={k} style={{ ...nota, textAlign: 'center', opacity: q > 0 ? 1 : 0 }}>— sin campos guardados</span>
+                                );
                                 return (
                                     <div key={k} style={{ display: 'grid', gridTemplateColumns: '1fr 92px', alignItems: 'center', gap: 10, opacity: q > 0 ? 1 : 0 }}>
                                         <div style={{ position: 'relative', height: 22, background: 'var(--a3-filete)', opacity: 0.9 }}>
@@ -114,9 +126,9 @@ export default function A3D02({ theme = 'dark' }) {
                         </React.Fragment>
                     ))}
                 </div>
-                <p className="a3-publica" style={{ ...nota, marginTop: 10 }}>
-                    De 1 a 2 cambian el modelo, la fuente y el estencil; de 2 a 3, solo la malla. La diferencia en{' '}
-                    <InlineMath math="|\mathbf u|" /> está en la franja muy permeable, no junto al pozo.
+                <p className="a3-publica" style={{ ...nota, marginTop: 8 }}>
+                    De 1 a 2 cambian modelo, fuente y estencil; de 2 a 3, solo la malla. En <InlineMath math="J_m" />, lo que se optimiza, la
+                    diferencia triplica la de <InlineMath math="C" />.
                 </p>
                 <p className="a3-completa" style={{ ...nota, marginTop: 10 }}>
                     Normas <InlineMath math="L^2" /> relativas a EF con pesos de área nodal, en los mismos nodos, misma configuración y mismo instante.
@@ -124,6 +136,8 @@ export default function A3D02({ theme = 'dark' }) {
                     (<InlineMath math="\varepsilon_z" /> de 60 a 30 m, intensidad a la mitad) y el estencil (35 → 25 nodos), así que la mejora en C no
                     se atribuye solo a las tres correcciones. 3: recalculada de los campos guardados. La diferencia en |u| está en la franja de
                     alta porosidad (98 % del error con φ ≥ 0.6), sobre todo junto a la entrada; a menos de 100 m del pozo, solo el 16 %.
+                    En <InlineMath math="J_m" /> (C² pesada con el núcleo del pozo, en todo el horizonte) la diferencia es 9.0 %: la norma
+                    global de C (3.0 %) subestima lo que importa para optimizar.
                 </p>
             </div>
 
@@ -197,6 +211,40 @@ export default function A3D02({ theme = 'dark' }) {
                 <p><b>Para defenderlo:</b> la masa dice si el esquema conserva el soluto (balance); la concentración dice dónde está y cuánto
                     llega al pozo. Un acuerdo de 0.02 % en masa no valida la concentración en el pozo, y en MRMT una masa móvil menor no
                     es soluto perdido sino retenido en las regiones inmóviles.</p>
+
+                <h4>¿Es la mejor métrica?</h4>
+                <p>Para dos campos que varían en el tiempo sobre la misma nube, la norma natural es la de espacio-tiempo{' '}
+                    <InlineMath math="L^2(0,T;L^2(\Omega))" />, discretizada con los mismos pesos y el mismo <InlineMath math="\Delta t" />:</p>
+                <BlockMath math={String.raw`e_{ST}(v)=\Bigl(\frac{\sum_n\Delta t\sum_i w_i\,(v^{n}_{i,\rm RBF}-v^{n}_{i,\rm EF})^2}{\sum_n\Delta t\sum_i w_i\,(v^{n}_{i,\rm EF})^2}\Bigr)^{1/2}`} />
+                <p>La lámina usa la <InlineMath math="L^2(\Omega)" /> en un solo instante, <InlineMath math="t=T" />: una foto. Recalculadas
+                    con los mismos campos (columna 3):</p>
+                <table style={{ borderCollapse: 'collapse', fontFamily: 'var(--a3-sans)', fontSize: 16, margin: '4px 0 10px' }}>
+                    <thead><tr>{['métrica', '|u|', 'C'].map(h => <th key={h} style={{ textAlign: 'left', padding: '2px 12px 2px 0', borderBottom: '1px solid var(--a3-filete)' }}>{h}</th>)}</tr></thead>
+                    <tbody>
+                        {[['L² en t = T (la de la lámina)', '12.5 %', '3.0 %'], ['L² máxima en el tiempo', '12.6 % (día 25)', '3.0 % (día 30)'],
+                          ['L² espacio-tiempo', '11.9 %', '2.1 %'], ['L¹ en t = T', '8.9 %', '1.7 %'], ['L∞ en t = T (un nodo)', '38.4 %', '12.2 %']].map(r => (
+                            <tr key={r[0]}>{r.map((c, k) => <td key={k} style={{ padding: '2px 12px 2px 0' }}>{c}</td>)}</tr>
+                        ))}
+                    </tbody>
+                </table>
+                <p>Cantidades del pozo, las que entran en la optimización (<InlineMath math="g_\varepsilon" />: núcleo del pozo,{' '}
+                    <InlineMath math="\varepsilon=r_{\rm pozo}/3" />): concentración captada <InlineMath math="c_w(t)=\int_\Omega g_\varepsilon C\,d\Omega" />,
+                    5.9 % en <InlineMath math="L^2(0,T)" /> y 4.9 % en <InlineMath math="t=T" />; y <InlineMath math="J_m=\int_0^T\!\int_\Omega g_\varepsilon C^2" />,{' '}
+                    <b>9.0 %</b>. <InlineMath math="\int C" />: 0.017 % en <InlineMath math="T" />, 0.068 % como máximo en el tiempo.</p>
+                <ul>
+                    <li><b>La foto en T no engaña aquí:</b> en C la discrepancia crece con el tiempo (máxima en T) y en |u| la máxima es
+                        12.6 %, así que la cifra final es una cota conservadora; la de espacio-tiempo es menor (2.1 % y 11.9 %).</li>
+                    <li><b>L² es la elección estándar</b>: es la norma de las estimaciones de error de elementos finitos y, con los pesos de
+                        área, aproxima la integral sobre Ω aunque la nube sea muy desigual (sin pesos, las zonas refinadas pesarían de más).
+                        L∞ depende de un solo nodo (38 %) y no es robusta; L¹ se relaciona con la masa pero es menos usual.</li>
+                    <li><b>Para el control, la mejor métrica es la meta:</b> lo que se optimiza es <InlineMath math="J_m" />, y ahí la diferencia
+                        (9.0 %) triplica la de C en L². La comparación debería informar el error en la cantidad de interés, y también en su
+                        gradiente, además de la norma global.</li>
+                    <li><b>Discrepancia no es error:</b> se divide entre EF como si fuera la referencia, pero ninguno de los dos es exacto. Para
+                        hablar de error hace falta una solución de referencia (malla más fina y extrapolación de Richardson).</li>
+                </ul>
+                <p><b>Recomendación:</b> informar la <InlineMath math="L^2" /> de espacio-tiempo junto con el error en{' '}
+                    <InlineMath math="J_m" />, y conservar la foto en T solo por continuidad con los resultados anteriores.</p>
 
                 <h4>Antes y ahora: qué cambia entre columnas</h4>
                 <ul>

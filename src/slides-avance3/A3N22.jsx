@@ -41,8 +41,8 @@ const GRUPOS = [
 // Próximos pasos por plazo tentativo: [plazo, [[texto de la completa, corto de la pública], ...]].
 const PASOS = [
     ['En curso', [
-        [<>Terminar las optimizaciones con elementos finitos en los tres modelos (meta {M('\\chi\\le10^{-4}')}) y sus pruebas de consistencia</>,
-            <>Terminar las optimizaciones con elementos finitos ({M('\\chi\\le10^{-4}')})</>],
+        [<>Terminar las optimizaciones con elementos finitos en los tres modelos ({M('\\chi<10^{-4}')} o parada práctica) y sus pruebas de consistencia</>,
+            <>Terminar las optimizaciones con elementos finitos y sus pruebas de consistencia</>],
     ]],
     ['Semestre 4', [
         [<>Frente de Pareto (barrido de {M('\\gamma')}); varios arranques y evaluación cruzada para ver si el óptimo es único</>,

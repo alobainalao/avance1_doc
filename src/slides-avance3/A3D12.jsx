@@ -63,7 +63,7 @@ function Curvas({ p }) {
             <polyline points={parcial(cg, fcg)} fill="none" stroke="var(--a3-agua)" strokeWidth="3.6" />
             {cg.slice(0, 1 + Math.floor(2 * fcg)).map((q, i) => <circle key={i} cx={sx(q[0])} cy={sy(q[1])} r="6" fill="var(--a3-agua)" />)}
             <circle cx={sx(xs[0])} cy={sy(xs[1])} r="7" fill="none" stroke="var(--a3-valido)" strokeWidth="3" />
-            <g style={{ fontFamily: 'var(--a3-sans)', fontSize: pub ? 20 : 17 }}>
+            <g style={{ fontFamily: 'var(--a3-sans)', fontSize: pub ? 20 : 17, paintOrder: 'stroke', stroke: 'var(--sl-bg)', strokeWidth: 5, strokeLinejoin: 'round' }}>
                 <text x={14} y={26} style={{ fill: 'var(--a3-pluma)' }}>máximo descenso: {nsd} pasos{fsd >= 1 && sd.length > 60 ? ' y sigue' : ''}</text>
                 <text x={14} y={50} style={{ fill: 'var(--a3-agua)' }}>gradiente conjugado: {Math.floor(2 * fcg)} pasos</text>
             </g>
@@ -73,7 +73,7 @@ function Curvas({ p }) {
 
 const eqPR = String.raw`\begin{aligned}
 &\mathbf d_0=-\nabla\hat J(u_0)\\
-&u_{k+1}=P_{\mathcal U_{ad}}\big(u_k+\rho_k\mathbf d_k\big),\quad \rho_k:\ \text{búsqueda lineal (Wolfe)}\\
+&u_{k+1}=P_{\mathcal U_{ad}}\big(u_k+\rho_k\mathbf d_k\big),\quad \rho_k:\ \text{paso de Wolfe}\\
 &\vartheta_k=\max\Big\{0,\ \frac{\nabla\hat J_{k+1}^{\top}\big(\nabla\hat J_{k+1}-\nabla\hat J_k\big)}{\|\nabla\hat J_k\|^2}\Big\}\\
 &\mathbf d_{k+1}=-\nabla\hat J(u_{k+1})+\vartheta_k\,\mathbf d_k
 \end{aligned}`;
