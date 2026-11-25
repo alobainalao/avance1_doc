@@ -18,7 +18,7 @@ const M = (t) => <InlineMath math={t} />;
 const GRUPOS = [
     { e: 'com', d: 'Implementado y verificado; las corridas nuevas no lo modifican.', items: [
         { t: 'Modelo ADR y MRMT en seis implementaciones' },
-        { t: <>Problema directo: RBF-FD y elementos finitos difieren 3 % en {M('C')} y 12.5 % en {M('|\\mathbf u|')}</> },
+        { t: <>Problema directo: RBF-FD y elementos finitos difieren 3 % en {M('C')} y 12.6 % en {M('|\\mathbf u|')} (peor instante)</> },
         { t: 'Gradiente adjunto verificado en horizonte corto' },
         { t: <>Eje del pozo a 1 m: sin mínimos espurios en {M('\\hat J(z_p)')}</>, completa: true },
     ] },
@@ -184,8 +184,8 @@ export default function A3N22({ theme = 'dark', entrada = 1 }) {
                 <ul>
                     <li>Modelo sin sumidero explícito, con almacenamiento y salida libre; seis implementaciones: ADR, MRMT semi y MRMT bloque,
                         cada una con RBF-FD y con elementos finitos (FEniCSx).</li>
-                    <li>Problema directo sobre la misma malla: las dos discretizaciones difieren 3 % en <InlineMath math="C" /> y 12.5 %
-                        en <InlineMath math="|\mathbf u|" />.</li>
+                    <li>Problema directo sobre la misma malla: las dos discretizaciones difieren 3 % en <InlineMath math="C" /> y 12.6 %
+                        en <InlineMath math="|\mathbf u|" /> (L² relativa con pesos de área, máximo en los 30 días; lámina 9).</li>
                     <li>Test de Taylor 6/6 (octubre de 2026): el gradiente adjunto coincide con diferencias finitas en las seis variantes, en
                         horizonte corto. No prueba que el adjunto RBF-FD converja con la malla.</li>
                     <li>Con <InlineMath math="h\approx4.9" /> m en el eje del pozo, <InlineMath math="\hat J(z_p)" /> ondulaba con mínimos espurios

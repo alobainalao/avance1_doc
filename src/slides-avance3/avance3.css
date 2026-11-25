@@ -77,6 +77,19 @@
 .deck-a3 .slide-layout--dark .katex [style*="color:#0F7A85"] { color: #5CC4CC !important; }
 .deck-a3 .slide-layout--dark .katex [style*="color:#C4511F"] { color: #EE8B5E !important; }
 .deck-a3 .slide-layout--dark .katex [style*="color:#2E7D4F"] { color: #63C08A !important; }
+/* Término resaltado en las ecuaciones (\colorbox{#DDF0E4}: almacenamiento −S_s ∂_t h C en las láminas 5 y 6): fondo verde
+   claro con filete y un halo que se enciende una vez al entrar la lámina. En oscuro, fondo verde profundo. */
+.deck-a3 { --a3-resalte-filete: #2E7D4F; --a3-resalte-halo: rgba(46, 125, 79, 0.35); }
+.deck-a3 .slide-layout--dark { --a3-resalte-filete: #63C08A; --a3-resalte-halo: rgba(99, 192, 138, 0.35); }
+.deck-a3 .katex .colorbox[style*="#DDF0E4"] { border-radius: 4px; box-shadow: 0 0 0 1.5px var(--a3-resalte-filete);
+    animation: a3-resalte 1.8s ease-out 0.5s 1 both; }
+.deck-a3 .slide-layout--dark .katex .colorbox[style*="#DDF0E4"] { background-color: #173A28 !important; }
+@keyframes a3-resalte {
+    0%   { box-shadow: 0 0 0 1.5px var(--a3-resalte-filete), 0 0 0 0 transparent; }
+    35%  { box-shadow: 0 0 0 1.5px var(--a3-resalte-filete), 0 0 0 10px var(--a3-resalte-halo); }
+    100% { box-shadow: 0 0 0 1.5px var(--a3-resalte-filete), 0 0 0 0 transparent; }
+}
+@media (prefers-reduced-motion: reduce) { .deck-a3 .katex .colorbox[style*="#DDF0E4"] { animation: none; } }
 /* Como en el claro, la cabecera se separa del contenido: filete de acento bajo el título. */
 [data-theme="dark"] .deck-a3 .slide-header { box-shadow: inset 0 -3px 0 #5CC4CC; }
 .deck-a3 .slide-layout,

@@ -1,13 +1,14 @@
 import React from 'react';
-import { BlockMath, InlineMath } from 'react-katex';
+import { InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import EqCard from '../layouts-v2/EqCard.jsx';
 import { Punto, Col, Eq, Titulo, Cita } from './ui.jsx';
+import { resalteAlm } from './A3N02.jsx';
 
 const verde = '#2E7D4F';
 const eqMRMT = String.raw`\begin{aligned}
 &\phi R\,\partial_t C_m+\mathbf u\!\cdot\!\nabla C_m-\nabla\!\cdot(D\nabla C_m)\\
-&\quad+\sum_{r=1}^{N_r}\lambda_r\,(C_m-C_{{\rm im},r})\;\textcolor{${verde}}{-\,S_s\partial_t h\,C_m}=W_+\\[4pt]
+&\quad+\sum_{r=1}^{N_r}\lambda_r\,(C_m-C_{{\rm im},r})\;${resalteAlm('C_m')}=W_+\\[4pt]
 &\phi_{{\rm im},r}R\,\partial_t C_{{\rm im},r}=\lambda_r\,(C_m-C_{{\rm im},r}),\quad r=1,\dots,N_r
 \end{aligned}`;
 
@@ -16,6 +17,12 @@ export default function A3N07({ theme = 'dark' }) {
         <SlideLayout title="Modelo MRMT: regiones móvil e inmóviles" theme={theme} justify="flex-start">
             <Col gap={10}>
                 <EqCard title={<>Sistema MRMT<span className="a3-completa"> (misma cancelación de fC sobre la ecuación móvil)</span></>}><Eq math={eqMRMT} id='mrmt' /></EqCard>
+                <p style={{ margin: '0 0 4px', fontSize: 'var(--a3-fs-cuerpo)', color: 'var(--sl-text)', lineHeight: 1.4 }}>
+                    Resaltado, el mismo almacenamiento de ADR, ahora con la concentración móvil{' '}
+                    <InlineMath math={String.raw`\textcolor{${verde}}{C_m}`} />
+                    <span className="a3-completa">: la variación temporal de la carga <InlineMath math="h" /> entra solo en la ecuación móvil; las
+                    inmóviles no ven el flujo</span>.
+                </p>
                 <div className="a3-completa">
                     <Punto size={19}>Transferencia de masa multitasa: la región móvil intercambia soluto con varias regiones inmóviles, cada una con su
                         tasa <Cita k="haggerty1995multirate" />.</Punto>

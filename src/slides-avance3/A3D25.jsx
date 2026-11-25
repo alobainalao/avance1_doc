@@ -118,13 +118,25 @@ export default function A3D25({ theme = 'dark' }) {
     const ok3 = hondos.length ? qmaxHondo < 1e-4 : null;
     const cH = hondos.length ? [hondos.find(o => o.z === Math.max(...hondos.map(h => h.z))), hondos.find(o => o.z === Math.min(...hondos.map(h => h.z)))] : null;
     const enCurso = o => (o.estado === 'final' ? 'final' : `sin converger: it. ${o.nit}, χ = ${o.chi ? pot(o.chi) : '—'}`);
+    // J_m del barrido (caudal del mejor iterado ADR, con demanda) a la profundidad de la corrida sin demanda: misma profundidad,
+    // con y sin bombeo. Interpolación lineal entre las dos muestras del barrido que la rodean.
+    const J1conBombeo = (() => {
+        if (!P || !o2 || o2.J1 === undefined) return null;
+        const i = P.zp.map((z, k) => k).sort((a, b) => P.zp[b] - P.zp[a]);
+        const k = i.findIndex((j, n) => n < i.length - 1 && P.zp[j] >= o2.zp && P.zp[i[n + 1]] <= o2.zp);
+        if (k < 0) return null;
+        const [a, b] = [i[k], i[k + 1]], t = (o2.zp - P.zp[a]) / (P.zp[b] - P.zp[a]);
+        return P.J1[a] + t * (P.J1[b] - P.J1[a]);
+    })();
+    const sMin = (OPT.modelos || []).map(m => Math.min(...m.S));
 
     const casos = [
         {
             titulo: 'Sin nitrato', cambia: <>fuente apagada y {M('C')} inicial 0</>,
-            espera: <><span className="a3-completa">{M('J_m\\equiv0')}: solo cuestan instalación y bombeo, que crecen con la profundidad ⇒ pozo lo más somero
-                ({M('z_p=-200')} m) y el bombeo mínimo que cubre la demanda.</span>
-                <span className="a3-publica">{M('J_m\\equiv0')} ⇒ pozo lo más somero y bombeo mínimo.</span></>,
+            espera: <><span className="a3-completa">{M('J_m\\equiv0')}: solo queda el costo {M('\\alpha J_{\\rm inst}+\\beta J_{\\rm op}')}, que crece
+                con la profundidad ⇒ {M('z_p')} en su cota superior ({M('-200')} m) y el bombeo mínimo que cubre la demanda.</span>
+                <span className="a3-publica">{M('\\hat J=\\cancel{\\gamma J_m}+\\alpha J_{\\rm inst}+\\beta J_{\\rm op}')} ⇒ pozo arriba, bombeo
+                mínimo.</span></>,
             filas: [[<>{M('z_p')} [m]</>, e1 ? fmtZ(e1.zp) : '—', o1 ? fmtZ(o1.zp) : '—'],
                 [M('\\hat J'), e1 ? e1.J.toFixed(4) : '—', o1 ? o1.J.toFixed(4) : '—']],
             grafica: <Barras series={[{ Q: e1 && e1.Q, c: GRIS }, { Q: o1 && o1.Q, c: AGUA }]} />,
@@ -135,9 +147,9 @@ export default function A3D25({ theme = 'dark' }) {
         },
         {
             titulo: 'Sin demanda', cambia: 'demanda doméstica y de riego en 0',
-            espera: <><span className="a3-completa">No hace falta agua y bombear solo cuesta ⇒ {M('Q_n=0')} y el tanque se queda en {M('S_0=500')} m³;
-                la profundidad equilibra instalación y calidad.</span>
-                <span className="a3-publica">Bombear solo cuesta ⇒ {M('Q_n=0')}.</span></>,
+            espera: <><span className="a3-completa">Sin consumo, {M('S_n\\ge0')} ya no obliga a bombear y {M('\\beta J_{\\rm op}')} solo
+                suma ⇒ {M('Q_n=0')} y el tanque se queda en {M('S_0=500')} m³; {M('z_p')} equilibra instalación y calidad.</span>
+                <span className="a3-publica">{M('S_n\\ge0')} ya no obliga a bombear y bombear solo cuesta ⇒ {M('Q_n=0')}.</span></>,
             filas: [[M('\\max_n Q_n'), '0', o2 ? qmax2.toFixed(3) : '—'],
                 ['tanque [m³]', '500', o2 ? `${Math.min(...o2.S).toFixed(0)}–${Math.max(...o2.S).toFixed(0)}` : '—']],
             grafica: <Barras series={[{ Q: o2 && o2.Q, c: AGUA }]} />,
@@ -146,16 +158,16 @@ export default function A3D25({ theme = 'dark' }) {
                                   detalle={o2 ? <>{M('Q_n')} pequeño, no nulo<span className="a3-completa">; {enCurso(o2)}</span></> : 'corrida en curso'} />,
         },
         {
-            titulo: 'Pozo muy hondo', cambia: <>mismo caudal, {M('z_p')} cada vez más hondo (barrido)</>,
-            espera: <><span className="a3-completa">La pluma está cerca de la superficie: un pozo muy hondo no la ve ({M('J_m\\to0')}) y el costo
-                sigue subiendo ⇒ el óptimo no está en el fondo.</span>
-                <span className="a3-publica">Un pozo muy hondo no ve la pluma: {M('J_m\\to0')} y el costo sube.</span></>,
+            titulo: 'Pozo muy hondo', cambia: <>mismo caudal, {M('z_p')} más hondo (barrido)</>,
+            espera: <><span className="a3-completa">La pluma está cerca de la superficie: un pozo muy hondo no la ve ({M('J_m\\to0')}) y lo que
+                queda, el costo, sigue subiendo ⇒ el óptimo no está en el fondo.</span>
+                <span className="a3-publica">{M('\\gamma J_m\\to0')} y el costo sigue subiendo ⇒ el óptimo no está en el fondo.</span></>,
             filas: [[<>{M('J_m')}, {M('z_p\\le-1000')}</>, M('\\to0'), qmaxHondo === null ? '—' : qmaxHondo === 0 ? '0' : pot(qmaxHondo, 1)],
                 ['costo', 'crece', cH ? `${cH[0].c.toFixed(2)} → ${cH[1].c.toFixed(2)}` : '—']],
             grafica: P ? <Hondo P={P} /> : null,
             leyenda: <><span style={{ color: PLUMA }}>■</span> {M('\\gamma J_m')} <span style={{ color: GRIS }}>■</span> {M('\\alpha J_{\\rm inst}+\\beta J_{\\rm op}')}</>,
             veredicto: <Veredicto ok={ok3} texto={ok3 === true ? 'coincide' : ok3 === false ? 'no coincide' : 'barrido en curso'}
-                                  detalle={<>sin optimizar: solo el modelo directo</>} />,
+                                  detalle={<>sin optimizar<span className="a3-completa">: solo el modelo directo</span></>} />,
         },
     ];
     // una fila de la rejilla por elemento de la estructura común, para que los tres casos queden alineados
@@ -185,6 +197,11 @@ export default function A3D25({ theme = 'dark' }) {
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', columnGap: 32, rowGap: pub ? 12 : 10, alignItems: 'start' }}>
                 {filasRejilla.flatMap((f, r) => casos.map((c, k) => <React.Fragment key={`${r}-${k}`}>{f(c)}</React.Fragment>))}
             </div>
+            <p style={{ margin: '10px 0 0', fontSize: 'var(--a3-fs-cuerpo)', color: 'var(--sl-text)', lineHeight: 1.35 }}>
+                <span style={{ color: 'var(--sl-accent)' }}>Lectura: </span>el costo sube el pozo y la calidad lo baja. Sin nitrato gana
+                el costo; muy hondo ya no hay calidad que ganar; con nitrato el óptimo queda en medio (siguiente lámina).
+                <span className="a3-completa"> La demanda fija cuánto hay que bombear.</span>
+            </p>
             <Notas titulo="Validación: qué prueba cada caso">
                 <h4>Para qué sirven</h4>
                 <p>Cada caso quita un ingrediente (el nitrato, la demanda o el alcance de la pluma) para que la respuesta se conozca sin
@@ -217,6 +234,26 @@ export default function A3D25({ theme = 'dark' }) {
                     {P ? fmtZ(Math.max(...P.zp)) : '—'} m a {qmaxHondo !== null ? (qmaxHondo === 0 ? '0' : pot(qmaxHondo, 1)) : '—'} a partir de
                     −1000 m, mientras el costo crece. Confirma que la pluma no llega a −1000 m y que el óptimo no está en la cota inferior
                     ({M('z_{\\min}=-1400')} m).</p>
+                <h4>Qué enseñan sobre la profundidad</h4>
+                <p>Con {M('Q')} fijo, {M('\\hat J(z_p)=\\gamma J_m(z_p)+\\alpha J_{\\rm inst}(z_p)+\\beta J_{\\rm op}(z_p)')}: el costo crece al
+                    profundizar ({M('J_{\\rm inst}=\\kappa_p(z_p-z_0)^2')}, {M('J_{\\rm op}=d_p\\int Q^2')}) y {M('J_m')} baja (el pozo se aleja de la
+                    pluma). Los casos 1 y 3 son los dos extremos: sin nitrato no hay nada que gane al profundizar y {M('z_p')} se va a su
+                    cota superior; muy hondo ya no queda nitrato que evitar y solo sube el costo. Con nitrato el óptimo es interior, donde{' '}
+                    {M('\\gamma\\,\\partial_{z_p}J_m=-\\partial_{z_p}(\\alpha J_{\\rm inst}+\\beta J_{\\rm op})')} (barrido de la lámina
+                    siguiente).</p>
+                <h4>Qué enseñan sobre la demanda</h4>
+                <ul>
+                    <li>La demanda fija cuánto se bombea: en las corridas con nitrato el tanque llega casi a vacío (mínimos{' '}
+                        {sMin.map(v => v.toFixed(1)).join(', ')} m³), así que se bombea lo que pide la demanda y nada más. Sin demanda, el
+                        optimizador deja el caudal en a lo más {qmax2 !== null ? qmax2.toFixed(3) : '—'}.</li>
+                    {J1conBombeo !== null && <li>También pesa en la calidad. Sin demanda (casi sin bombeo), {M('\\gamma J_m')} ={' '}
+                        {o2.J1.toFixed(3)} con {M('z_p')} = {fmtZ(o2.zp)} m; con el caudal del mejor iterado ADR a esa profundidad (barrido),{' '}
+                        {J1conBombeo.toFixed(3)}, unas {Math.round(J1conBombeo / o2.J1)} veces más. En el transporte, {M('Q')} solo entra por la
+                        velocidad de Darcy (y el almacenamiento): el bombeo la hace converger hacia el pozo y le acerca la pluma. La corrida
+                        sin demanda no ha convergido, pero {M('J_m')} es la evaluación del modelo en su punto.</li>}
+                    <li>Con la demanda cambia el costo de profundizar: {M('\\partial_{z_p}J_{\\rm op}=-\\int Q^2')}, así que más agua que
+                        bombear empuja el pozo hacia arriba con más fuerza.</li>
+                </ul>
                 <h4>Pendiente</h4>
                 <p>Reexportar con la serie 33 (validación sin nitrato con la demanda corregida) y el cierre de la corrida sin demanda.</p>
             </Notas>

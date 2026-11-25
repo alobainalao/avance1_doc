@@ -2,7 +2,7 @@ import React from 'react';
 import { InlineMath, BlockMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import { Eq } from './ui.jsx';
-import { useProgreso, tramo, suave } from './anim.js';
+import { useFases, reducida, tramo, suave } from './anim.js';
 import { VERIF } from './verificacion.js';
 import { usePublica, Notas } from './version.jsx';
 
@@ -18,7 +18,50 @@ const MOD = [['adr', 'ADR'], ['mrmt_semi', 'MRMT semi'], ['mrmt_block', 'MRMT bl
 const BK = [['bfr', 'RBF-FD', 'var(--a3-agua)'], ['fenicsx', 'Elementos finitos', 'var(--sl-text)']];
 const LO = -10.5, HI = -2.5;
 
-const eqError = String.raw`e(\mathbf d)=\frac{\Big|\,\nabla\hat J(u)\cdot\mathbf d\;-\;\dfrac{\hat J(u+\delta\,\mathbf d)-\hat J(u-\delta\,\mathbf d)}{2\delta}\,\Big|}{\big|\nabla\hat J(u)\cdot\mathbf d\big|}`;
+// e(d) por fases: 1 la pendiente que da el adjunto, 2 la diferencia centrada, 3 el cociente relativo. Lo que aún no se
+// explica va en gris. KaTeX no acepta variables CSS en \textcolor: hex de --a3-agua, --a3-pluma y --a3-estrato por tema.
+const eqError = (fase, oscuro) => {
+    const [ag, pl, gr] = oscuro ? ['#5CC4CC', '#EE8B5E', '#95A7B6'] : ['#0F7A85', '#C4511F', '#6E7F8D'];
+    const A = String.raw`\textcolor{${ag}}{\nabla\hat J(u)\cdot\mathbf d}`;
+    const D = String.raw`\dfrac{\hat J(u+\delta\,\mathbf d)-\hat J(u-\delta\,\mathbf d)}{2\delta}`;
+    const B = fase >= 1 ? String.raw`\textcolor{${pl}}{${D}}` : D;
+    const gris = fase >= 2 ? '' : String.raw`\color{${gr}}`;
+    return String.raw`${gris}e(\mathbf d)=\frac{\Big|\,${A}\;-\;${B}\,\Big|}{\big|${A}\big|}`;
+};
+const M = (t) => <InlineMath math={t} />;
+const FASES = [
+    { n: 'Pendiente por el adjunto', dur: 1.2,
+      p: <>{M('\\nabla\\hat J(u)\\cdot\\mathbf d')}: cuánto cambia {M('\\hat J')} si los controles se mueven en la dirección{' '}
+          {M('\\mathbf d')}, según el gradiente que da el adjunto.</>,
+      d: <>{M('u')}: un punto de prueba (caudales y profundidad); {M('\\mathbf d')}: una dirección unitaria en el espacio de
+          controles. Sobre la recta {M('\\varphi(t)=\\hat J(u+t\\,\\mathbf d)')}, la pendiente en {M('t=0')} es{' '}
+          {M("\\varphi'(0)=\\nabla\\hat J(u)\\cdot\\mathbf d")}. El vector {M('\\nabla\\hat J(u)')} sale de una resolución directa,
+          una adjunta hacia atrás y el ensamblaje de las tres láminas anteriores; con él, la pendiente en cualquier dirección es
+          un producto escalar.</> },
+    { n: 'Pendiente medida', dur: 1.2,
+      p: <>La misma pendiente medida sin el adjunto: {M('\\hat J')} un paso {M('\\delta')} adelante y otro atrás, dos simulaciones
+          directas. Por Taylor se equivoca en orden {M('\\delta^2')}.</>,
+      d: <>El cociente centrado es la pendiente de la secante entre {M('t=-\\delta')} y {M('t=\\delta')}: dos simulaciones
+          directas, sin el adjunto. Del desarrollo de Taylor de {M('\\varphi')},{' '}
+          {M("\\tfrac{\\varphi(\\delta)-\\varphi(-\\delta)}{2\\delta}=\\varphi'(0)+\\tfrac{\\delta^2}{6}\\varphi'''(0)+O(\\delta^4)")}: se
+          equivoca en orden {M('\\delta^2')}. Con {M('\\delta')} muy pequeño domina el redondeo de {M('\\hat J')}, dividido
+          entre {M('2\\delta')}.</> },
+    { n: 'Error relativo', dur: 1.2,
+      p: <>{M('e(\\mathbf d)')}: la diferencia entre las dos pendientes, relativa. {M('e=10^{-5}')} quiere decir que coinciden en
+          unas cinco cifras.</>,
+      d: <>{M('e(\\mathbf d)')} compara las dos pendientes y divide entre {M('|\\nabla\\hat J\\cdot\\mathbf d|')}, que cambia de
+          magnitud entre direcciones y discretizaciones: así no depende de unidades ni del peso {M('\\gamma')}, y{' '}
+          {M('e=10^{-5}')} quiere decir «coinciden en unas cinco cifras». Un valor aislado no decide; decide cómo cambia{' '}
+          {M('e')} al reducir {M('\\delta')}.</> },
+    { n: 'Lectura', dur: 3.0,
+      p: <>Si el adjunto es correcto, {M('e')} baja como {M('\\delta^2')}: 11 veces al pasar de {M('\\delta=10^{-2}')} a{' '}
+          {M('3\\cdot10^{-3}')}. Si estuviera mal, no bajaría.</>,
+      d: <>Tres firmas al reducir {M('\\delta')}: si solo hay truncamiento (adjunto exacto), {M('e')} baja como{' '}
+          {M('\\delta^2')}, {M('(10/3)^2\\approx11')} veces; un error del adjunto no depende de {M('\\delta')} y deja{' '}
+          {M('e')} fija; el redondeo la hace subir como {M('1/\\delta')}. Antes de optimizar hay que saber que el gradiente es
+          correcto: con uno erróneo el optimizador baja en una dirección falsa sin dar aviso.</> },
+];
+const LECTURA = FASES.length - 1;
 
 // ── Notas de estudio: ecuaciones y cifras (las cifras salen de VERIF, no se escriben a mano) ──
 const eqPhi = String.raw`\varphi(t)=\hat J(u+t\,\mathbf d),\qquad
@@ -69,8 +112,12 @@ function cociente(filas) {
     return 10 ** (lg(a) - lg(b));
 }
 
-export default function A3D11({ theme = 'dark' }) {
-    const [p, repetir] = useProgreso(3000, 300);
+export default function A3D11({ theme = 'dark', entrada = 1 }) {
+    const { fase, l, ir } = useFases(FASES.map(x => x.dur), entrada < 0);
+    const saltar = k => ir(k, reducida());
+    // los puntos de la figura caen en la última fase (y se repiten con un clic en ella)
+    const p = fase < LECTURA ? 0 : l / FASES[LECTURA].dur;
+    const repetir = () => saltar(LECTURA);
     const W = 1240, H = 380, L = 96, B = 66, T = 14;
     const sy = e => T + (HI - Math.log10(e)) / (HI - LO) * (H - T - B);
     const grupos = BK.flatMap(([b, nb, c]) => MOD.map(([m, nm]) => ({ b, nb, c, m, nm })));
@@ -81,14 +128,16 @@ export default function A3D11({ theme = 'dark' }) {
     const ej = { ...eje, fontSize: fs(eje.fontSize) };
     return (
         <SlideLayout title="Verificación: el gradiente adjunto coincide con diferencias finitas" theme={theme} justify="flex-start">
-            <div style={{ display: 'grid', gridTemplateColumns: '1.15fr 1fr', gap: 30, alignItems: 'center' }}>
-                <Eq math={eqError} compacta />
-                <p style={txt}>
-                    <span className="a3-completa">Para una dirección <InlineMath math="\mathbf d" /> se compara la derivada que da el adjunto con la de diferencias
-                    centradas de paso <InlineMath math="\delta" /> (relativo a la escala de <InlineMath math="u" />). </span>Si el adjunto es
-                    exacto, solo queda el error de las diferencias, proporcional a <InlineMath math="\delta^2" />.<span className="a3-completa"> Horizonte corto: 3 pasos de
-                    10 h con <InlineMath math="C" /> inicial ≡ 1, para que el pozo vea soluto desde el primer paso.</span>
-                </p>
+            <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 1fr', gap: 30, alignItems: 'center' }}>
+                <div onClick={() => saltar(fase + 1 < FASES.length ? fase + 1 : 0)} title="clic: siguiente fase" style={{ cursor: 'pointer' }}>
+                    <Eq math={eqError(fase, theme === 'dark')} compacta />
+                </div>
+                <div style={{ minHeight: pub ? 150 : 190 }}>
+                    <p style={{ margin: '0 0 4px', fontFamily: 'var(--a3-sans)', fontSize: 'var(--a3-fs-etiqueta)', color: 'var(--sl-accent)', fontWeight: 600 }}>
+                        {fase + 1} · {FASES[fase].n}
+                    </p>
+                    <p style={{ ...txt, lineHeight: 1.38 }}>{pub ? FASES[fase].p : FASES[fase].d}</p>
+                </div>
             </div>
             <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', cursor: 'pointer' }} onClick={repetir}>
                 {[-10, -8, -6, -4].map(e => (
@@ -107,7 +156,7 @@ export default function A3D11({ theme = 'dark' }) {
                     const q = cociente(filas);
                     return (
                         <g key={`${g.b}-${g.m}`}>
-                            {dirs.map((dname, k) => {
+                            {v > 0 && dirs.map((dname, k) => {
                                 const a = filas.find(r => r.direccion === dname && r.eps === 0.01);
                                 const b = filas.find(r => r.direccion === dname && r.eps !== 0.01);
                                 const xa = x0 + 0.22 * ancho + k * 11, xb = x0 + 0.58 * ancho + k * 11;
@@ -138,13 +187,32 @@ export default function A3D11({ theme = 'dark' }) {
                 <span>○ δ = 10⁻²</span><span>● δ = 3·10⁻³</span>
                 <span>cada par unido es una dirección<span className="a3-completa">: Q uniforme, Q aleatoria, (Q, z<sub>p</sub>) aleatoria, −∇Ĵ (ADR: sin −∇Ĵ, solo δ = 10⁻²)</span></span>
             </div>
-            <p style={{ ...txt, marginTop: 10 }}>
+            <p style={{ ...txt, marginTop: 10, opacity: fase === LECTURA ? 1 : 0, transition: 'opacity 0.4s' }}>
                 En RBF-FD el error baja 11 veces<span className="a3-completa"> al pasar de <InlineMath math="\delta=10^{-2}" /> a <InlineMath math="3\cdot10^{-3}" /></span>:
                 justo <InlineMath math="(10/3)^2" /><span className="a3-completa">, lo que predice el error de las diferencias centradas</span>. El error es de las diferencias
                 finitas, no del adjunto.<span className="a3-completa"> En elementos finitos todo está en <InlineMath math="10^{-10}" />–<InlineMath math="10^{-7}" />, el
                 redondeo de los solucionadores.</span>
             </p>
+            <div style={{ display: 'grid', gridTemplateColumns: `repeat(${FASES.length}, 1fr)`, gap: 12, marginTop: 'auto', paddingTop: 8 }}>
+                {FASES.map((x, k) => (
+                    <button key={x.n} onClick={() => saltar(k)} title={`ir a: ${x.n}`}
+                            style={{ all: 'unset', cursor: 'pointer', fontFamily: 'var(--a3-sans)', fontSize: pub ? 17 : 15, lineHeight: 1.2,
+                                     whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                                     color: k === fase ? 'var(--sl-accent)' : 'var(--sl-muted)', fontWeight: k === fase ? 600 : 400 }}>
+                        <span style={{ display: 'block', height: 3, background: 'var(--a3-filete, #C9D3DB)', marginBottom: 5 }}>
+                            <span style={{ display: 'block', height: 3, width: `${k < fase ? 100 : k > fase ? 0 : 100 * l / x.dur}%`, background: 'var(--sl-accent)' }} />
+                        </span>
+                        {k + 1} {x.n}
+                    </button>
+                ))}
+            </div>
             <Notas titulo="Verificación del gradiente: procedimiento y lectura">
+                <h4>0. Dónde encaja</h4>
+                <p>Viene de las láminas del gradiente: el Lagrangiano da <InlineMath math="\nabla\hat J=\partial_uJ+(\partial_ue)^*\psi" />, el
+                    adjunto <InlineMath math="\psi" /> se resuelve hacia atrás y se ensambla. Va al optimizador: el modelo cuadrático, la
+                    Hessiana BFGS y la medida de criticidad χ usan ese vector en cada iteración. Esta lámina es el control de calidad
+                    entre las dos: si el vector no fuera la derivada del <InlineMath math="\hat J" /> que se evalúa, el optimizador se
+                    pararía o bajaría en una dirección falsa, sin ningún aviso.</p>
                 <h4>1. Qué pregunta responde</h4>
                 <p>El optimizador recibe dos cosas de cada simulación: el número <InlineMath math="\hat J(u)" /> y el
                     vector <InlineMath math="\nabla\hat J(u)" /> (73 componentes en las corridas). <InlineMath math="\hat J" /> se calcula

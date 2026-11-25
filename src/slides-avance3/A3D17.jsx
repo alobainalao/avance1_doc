@@ -8,6 +8,15 @@ import { ESTADOS, Marca } from './estado.jsx';
 // 24 de noviembre de 2026. PROVISIONAL: la optimización con elementos finitos se relanzó desde el inicio el 24-nov
 // (serie 33, termina hacia el 26–27-nov) y luego vienen las pruebas de consistencia; al tenerlas, revisar las filas 4 y 6
 // y poner PROVISIONAL = false.
+// SINCRONIZAR con la tesis corregida (revisión de la versión 03, 25-nov-2026: el modelo y el documento se están corrigiendo;
+// esta lámina no debe adelantarse a ellos). Al cerrar la corrección, revisar fila por fila contra docR.tex:
+//   1 modelo coherente        → Cap. I–II (ecuaciones finales; S_s = φ sigue siendo provisional)
+//   2 dos discretizaciones    → Cap. IV, comparación directa (la lámina 9 informa ahora el máximo en el tiempo, no t = T)
+//   3 gradiente verificado    → Cap. IV, verificación del gradiente (horizonte corto, mallas de prueba)
+//   4 optimización EF         → Cap. IV, resultados de la serie 33 y pruebas de consistencia
+//   6 Pareto                  → Cap. IV, barrido de γ cuando exista
+//   7 artículo                → estado real del borrador
+// y el objetivo general (ROADMAP.md).
 const PROVISIONAL = true;
 const general = 'Resolver el problema de control óptimo del pozo (caudal y profundidad) con el gradiente adjunto, en los modelos ADR y MRMT, y verificarlo con dos discretizaciones independientes.';
 const generalPub = 'Optimizar caudal y profundidad del pozo con el gradiente adjunto, en ADR y MRMT.';
@@ -56,8 +65,9 @@ export default function A3D17({ theme = 'dark' }) {
                 <p style={{ margin: '14px 0 0', padding: '2px 0 2px 12px', borderLeft: '3px solid var(--a3-pluma)', fontFamily: 'var(--a3-sans)',
                             fontSize: 'var(--a3-fs-nota)', color: 'var(--sl-muted)', lineHeight: 1.35 }}>
                     <span className="a3-completa">Estado provisional al 24 de noviembre de 2026: se completará cuando terminen las corridas
-                        definitivas con elementos finitos (relanzadas desde el inicio) y sus pruebas de consistencia.</span>
-                    <span className="a3-publica">Estado provisional: se actualizará al terminar las corridas definitivas.</span>
+                        definitivas con elementos finitos (relanzadas desde el inicio) y sus pruebas de consistencia, y se sincronizará con la
+                        versión corregida del modelo y de la tesis.</span>
+                    <span className="a3-publica">Estado provisional: se actualizará al terminar las corridas definitivas y la revisión de la tesis.</span>
                 </p>
             )}
             <Notas titulo="Estado de los objetivos: detalle">

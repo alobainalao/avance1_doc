@@ -24,6 +24,9 @@ function Bloques({ n, lleno, color, cols = 25 }) {
     );
 }
 
+// Fuera de la lámina desde la revisión de la versión 03 (25-nov-2026): la lámina se centra en por qué hace falta el adjunto.
+// Se conserva por si se recupera.
+// eslint-disable-next-line no-unused-vars
 function Dilema() {
     // Esquema (no medido): error de truncamiento ∝ δ y de redondeo ∝ e_J/δ en escala log-log.
     const W = 380, H = 230, L = 34, B = 30;
@@ -50,6 +53,9 @@ export default function A3D07({ theme = 'dark' }) {
     const k = Math.round(suave(tramo(p, 0.1, 1)) * N);
     return (
         <SlideLayout title="El gradiente: ¿por qué no diferencias finitas?" theme={theme} justify="flex-start">
+            <p style={{ ...tit, margin: '0 0 4px' }}>
+                Para optimizar hace falta <InlineMath math="\nabla\hat J" />: cuánto cambia <InlineMath math="\hat J" /> al mover cada uno de los 73 controles
+            </p>
             <div style={{ display: 'grid', gridTemplateColumns: '1.35fr 1fr', gap: 40 }}>
                 <div>
                     <Eq math={eqCadena} id="cadena" compacta />
@@ -64,7 +70,6 @@ export default function A3D07({ theme = 'dark' }) {
                         <InlineMath math="e_J" /> con que los solucionadores evalúan <InlineMath math="\hat J" />. </span>No hay un paso que sirva para
                         las 73 componentes a la vez.
                     </p>
-                    <div style={{ width: 380 }}><Dilema /></div>
                 </div>
                 <div onClick={repetir} title="clic para repetir" style={{ cursor: 'pointer' }}>
                     <p style={tit}>Resoluciones del modelo EDP por iteración</p>
@@ -83,6 +88,16 @@ export default function A3D07({ theme = 'dark' }) {
                         cuenta de diferencias finitas crece; la del adjunto no.</span>
                     </p>
                 </div>
+            </div>
+            <div style={{ marginTop: 22, borderLeft: '4px solid var(--a3-valido)', padding: '6px 0 6px 18px', opacity: tramo(p, 0.8, 1) }}>
+                <p style={{ margin: 0, fontSize: 'var(--a3-fs-seccion)', color: 'var(--sl-text)', lineHeight: 1.3 }}>
+                    Por eso el <b style={{ color: 'var(--a3-valido)' }}>método adjunto</b>: el gradiente completo con una sola resolución
+                    extra, sin importar cuántos controles haya.
+                </p>
+                <p className="a3-completa" style={{ ...sub, margin: '6px 0 0' }}>
+                    Evita <InlineMath math="dy/du" /> por completo (siguiente lámina) y no depende de un paso <InlineMath math="\delta" />: en el
+                    problema discreto da el gradiente exacto, salvo redondeo.
+                </p>
             </div>
         </SlideLayout>
     );

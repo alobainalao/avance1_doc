@@ -58,11 +58,11 @@ import A3D15 from '../slides-avance3/A3D15.jsx';
 import A3D16 from '../slides-avance3/A3D16.jsx';
 import A3D17 from '../slides-avance3/A3D17.jsx';
 import A3D18 from '../slides-avance3/A3D18.jsx';
-import A3D19 from '../slides-avance3/A3D19.jsx';
 import A3D20 from '../slides-avance3/A3D20.jsx';
 
 // ── Slides del modelo anterior (con W₋ y χ(Q)): se conservan los archivos, ya no están en la secuencia ──
 // A3S03 (ecuaciones con χ), A3S04b/c (Taylor), A3S05, A3S10, A3S14, A3S15–A3S21 (resultados de optimización y videos anteriores), A3S09, A3S01
+// A3D19 («¿Por qué MRMT pedía un pozo más hondo?») salió de la presentación en la revisión de la versión 03 (25-nov-2026).
 
 // Narrativa (nov 2026): pregunta y objetivos → modelo coherente → seis implementaciones → problema de control → gradiente
 // por el adjunto → solución del adjunto → optimizador → resultados (malla con eje de 1 m) → avance del documento. Las
@@ -99,11 +99,9 @@ const avance3Slides = [
     { id: 29, title: 'Con el tanque, proyectar deja de ser trivial', component: A3D13, duration: 75, section: 'Optimización', special: null },
     { id: 30, title: 'Del punto inicial al óptimo: iteraciones y KKT', component: A3D16, duration: 75, section: 'Optimización', special: null },
     { id: 30.5, title: 'Configuración de las corridas', component: A3D22, duration: 60, section: 'Resultados', special: null },
-    { id: 31, title: '¿El zₚ óptimo es del modelo o de la malla?', component: A3D18, duration: 75, section: 'Resultados', special: null },
     { id: 31.5, title: 'Validación con casos triviales', component: A3D25, duration: 75, section: 'Resultados', special: null },
     { id: 32, title: 'Mejor iterado ADR (preliminar, serie anterior)', component: A3D14, duration: 90, section: 'Resultados', special: null },
     { id: 33, title: 'Mejor iterado por modelo (preliminar, serie anterior)', component: A3D15, duration: 75, section: 'Resultados', special: null },
-    { id: 34, title: '¿Por qué MRMT pedía un pozo más hondo?', component: A3D19, duration: 75, section: 'Resultados', special: null },
     { id: 34.2, title: '¿Qué es un frente de Pareto?', component: A3D24, duration: 75, section: 'Resultados', special: null },
     { id: 34.5, title: 'Supuestos y limitaciones', component: A3D23, duration: 60, section: 'Resultados', special: null },
     { id: 35, title: 'Avance del documento de tesis y del artículo', component: A3D20, duration: 60, section: 'Avance', special: null },
@@ -132,6 +130,8 @@ const avance3Slides = [
     { id: 119, title: 'En el pozo: H y C', component: A3N25, section: 'Implementación', oculta: true },
     { id: 120, title: 'Control óptimo con la configuración de nitrato', component: A3N33, section: 'Resultados', oculta: true },
     { id: 121, title: 'Verificaciones adicionales', component: A3N21, section: 'Resultados', oculta: true },
+    // Desconectada en la revisión de la versión 03 (25-nov-2026): no hace falta en la exposición; se conserva para reactivarla.
+    { id: 122, title: '¿El zₚ óptimo es del modelo o de la malla?', component: A3D18, section: 'Resultados', oculta: true },
 ];
 
 // Las marcadas con `oculta: true` no se muestran por ahora (se conservan para reactivarlas); el resto se

@@ -20,9 +20,59 @@ const pasos = [
     { t: 'Gradiente', m: String.raw`\nabla\hat J(u)=\partial_{u}\mathcal L\big(y(u),u,\psi(u)\big)=\partial_{u}J+\big(\partial_{u}e\big)^{*}\psi`,
       d: <>la sensibilidad <InlineMath math="dy/du" /> no aparece<span className="a3-completa">: no hay que resolver una EDP por cada control</span></> },
     { t: 'Optimalidad', m: String.raw`\nabla\hat J(\hat u)\cdot(u-\hat u)\ge0\qquad\forall\,u\in\mathcal U_{ad}`,
-      d: <><InlineMath math="\hat u" />: minimizador local<span className="a3-completa">. Las restricciones son lineales, así que equivale a las condiciones KKT
-          con multiplicadores para las cotas de <InlineMath math="Q_n" /> y <InlineMath math="z_p" />, el tanque y el ciclo de la bomba</span></> },
+      d: <>
+          <span style={{ display: 'block' }}><InlineMath math="u" />: cualquier control admisible{' '}
+              <span style={{ whiteSpace: 'nowrap' }}>(<InlineMath math="Q_1,\dots,Q_{72},z_p" />)</span>; es lo que se optimiza</span>
+          <span style={{ display: 'block' }}><InlineMath math="\hat u" />: el control óptimo que se busca (minimizador local;{' '}
+              <InlineMath math="u^\star" /> en otros textos)<span className="a3-completa">, no una solución de referencia</span></span>
+          <span style={{ display: 'block' }}>desde <InlineMath math="\hat u" />, ninguna dirección admisible <InlineMath math="u-\hat u" /> hace
+              bajar <InlineMath math="\hat J" /></span>
+          <span className="a3-completa" style={{ display: 'block' }}><InlineMath math="\nabla\hat J(\hat u)\cdot(u-\hat u)" /> es la derivada
+              de <InlineMath math="\hat J" /> en <InlineMath math="\hat u" /> hacia <InlineMath math="u" />: si fuera negativa para algún{' '}
+              <InlineMath math="u" />, moverse hacia él bajaría <InlineMath math="\hat J" />. Condición necesaria de primer orden (suficiente
+              si <InlineMath math="\hat J" /> fuera convexa). Con restricciones lineales equivale a las KKT, con multiplicadores para
+              las cotas de <InlineMath math="Q_n" /> y <InlineMath math="z_p" />, el tanque y el ciclo de la bomba</span>
+      </>, esquema: true },
 ];
+
+// Esquema del paso 5 (ilustrativo, no es el problema real): U_ad, el óptimo û en un lado activo, otro control admisible u, la
+// dirección u − û (ángulo ≥ 90° con −∇Ĵ(û)) y la curva de nivel Ĵ = Ĵ(û), tangente al lado en û.
+function Optimo() {
+    const pub = usePublica(), fs = 16;
+    const lado = [[150, 140], [220, 84]];
+    const uh = [(lado[0][0] + lado[1][0]) / 2, (lado[0][1] + lado[1][1]) / 2];
+    const tx = lado[1][0] - lado[0][0], ty = lado[1][1] - lado[0][1], l = Math.hypot(tx, ty);
+    const n = [-ty / l, tx / l];                                   // normal exterior del lado activo
+    const g = [uh[0] + 42 * n[0], uh[1] + 42 * n[1]];              // −∇Ĵ(û)
+    const u = [95, 70];
+    const R = 70, c = [uh[0] + R * n[0], uh[1] + R * n[1]], a0 = Math.atan2(-n[1], -n[0]);
+    const arco = Array.from({ length: 25 }, (_, i) => a0 - 0.6 + 1.2 * i / 24)
+        .map(a => `${c[0] + R * Math.cos(a)},${c[1] + R * Math.sin(a)}`).join(' ');
+    const t = { fontFamily: 'var(--a3-serif)', fontStyle: 'italic', fontSize: fs + 2 };
+    return (
+        <svg viewBox="0 0 300 165" style={{ width: pub ? 330 : 290, flex: 'none' }}>
+            <defs>
+                <marker id="a3d08-flecha" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                    <path d="M0,0 L10,5 L0,10 z" fill="context-stroke" />
+                </marker>
+            </defs>
+            <polygon points="14,140 150,140 220,84 170,20 30,36" fill="var(--a3-agua)" fillOpacity="0.1" stroke="var(--a3-agua)" strokeWidth="1.5" />
+            <line x1={lado[0][0]} y1={lado[0][1]} x2={lado[1][0]} y2={lado[1][1]} stroke="var(--a3-agua)" strokeWidth="4" />
+            <polyline points={arco} fill="none" stroke="var(--sl-muted)" strokeWidth="1.5" strokeDasharray="5 4" />
+            <text x={c[0] + R * Math.cos(a0 + 0.6) + 5} y={c[1] + R * Math.sin(a0 + 0.6) + 4}
+                  style={{ ...t, fontSize: fs, fill: 'var(--sl-muted)' }}>Ĵ = Ĵ(û)</text>
+            <line x1={uh[0]} y1={uh[1]} x2={u[0]} y2={u[1]} stroke="var(--sl-text)" strokeWidth="1.8" strokeDasharray="6 4" markerEnd="url(#a3d08-flecha)" />
+            <line x1={uh[0]} y1={uh[1]} x2={g[0]} y2={g[1]} stroke="var(--a3-pluma)" strokeWidth="2.6" markerEnd="url(#a3d08-flecha)" />
+            <circle cx={u[0]} cy={u[1]} r="5" fill="var(--sl-bg)" stroke="var(--sl-text)" strokeWidth="2" />
+            <circle cx={uh[0]} cy={uh[1]} r="6" fill="var(--a3-agua)" />
+            <text x={48} y={124} style={{ ...t, fill: 'var(--a3-agua)', fontStyle: 'normal' }}>𝒰<tspan fontSize={fs - 3} dy="4">ad</tspan></text>
+            <text x={u[0] - 8} y={u[1] - 10} style={{ ...t, fill: 'var(--sl-text)' }}>u</text>
+            <text x={uh[0] + 4} y={uh[1] - 12} style={{ ...t, fill: 'var(--a3-agua)' }}>û</text>
+            <text x={(uh[0] + u[0]) / 2 + 4} y={(uh[1] + u[1]) / 2 - 10} textAnchor="middle" style={{ ...t, fontSize: fs, fill: 'var(--sl-text)' }}>u − û</text>
+            <text x={g[0] + 6} y={g[1] + 4} style={{ ...t, fontSize: fs, fill: 'var(--a3-pluma)' }}>−∇Ĵ(û)</text>
+        </svg>
+    );
+}
 
 export default function A3D08({ theme = 'dark' }) {
     const [p] = useProgreso(4000, 300);
@@ -37,9 +87,12 @@ export default function A3D08({ theme = 'dark' }) {
                                                 opacity: 0.15 + 0.85 * v, borderTop: i ? '1px solid var(--a3-filete)' : 'none', padding: '4px 0' }}>
                             <span style={{ fontFamily: 'var(--a3-sans)', fontSize: 'var(--a3-fs-seccion)', color: 'var(--a3-agua)' }}>{i + 1}</span>
                             <span style={{ fontSize: 'var(--a3-fs-seccion)', color: 'var(--sl-text)', fontWeight: 600 }}>{s.t}</span>
-                            <div>
-                                <Eq math={s.m} compacta />
-                                <p style={{ margin: '-4px 0 2px', fontFamily: 'var(--a3-sans)', fontSize: 'var(--a3-fs-nota)', color: 'var(--sl-muted)' }}>{s.d}</p>
+                            <div style={s.esquema ? { display: 'flex', alignItems: 'center', gap: 18 } : undefined}>
+                                <div style={{ flex: 1 }}>
+                                    <Eq math={s.m} compacta />
+                                    <p style={{ margin: '-4px 0 2px', fontFamily: 'var(--a3-sans)', fontSize: 'var(--a3-fs-nota)', color: 'var(--sl-muted)', lineHeight: 1.35 }}>{s.d}</p>
+                                </div>
+                                {s.esquema && <Optimo />}
                             </div>
                         </div>
                     );
