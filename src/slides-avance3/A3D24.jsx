@@ -21,9 +21,10 @@ const fz = z => String(Math.round(z)).replace('-', '−');
 // Entrada con rebote (sale un poco de más y regresa): cada diseño del barrido «brota» al aparecer. x en [0, 1].
 const rebote = x => (x <= 0 ? 0 : x >= 1 ? 1 : 1 + 2.7 * Math.pow(x - 1, 3) + 1.7 * Math.pow(x - 1, 2));
 
-// ── Barrido real (ADR, caudal del iterado OPT.pareto.nit de la serie anterior fijo, solo cambia z_p): objetivos J_m = J1
-// (calidad) y costo J_inst + J_op = J2 + J3, normalizados como en la optimización (γ = 1).
+// ── Barrido real (ADR, caudal del iterado OPT.pareto.nit fijo, solo cambia z_p; serie 33 o anterior según OPT.pareto.serie):
+// objetivos J_m = J1 (calidad) y costo J_inst + J_op = J2 + J3, normalizados como en la optimización (γ = 1).
 const BR = OPT.pareto && OPT.pareto.zp.length >= 12 ? OPT.pareto : null;
+const DE_SERIE = BR && BR.serie === '33' ? 'de la serie 33' : 'de la serie anterior';
 const TOL = 1e-6;              // resolución de los valores exportados (6 decimales): diferencias menores no distinguen
 const dominaR = (p, q) => p.m <= q.m + TOL && p.c <= q.c + TOL && (p.m < q.m - TOL || p.c < q.c - TOL);
 const REAL = BR ? BR.zp.map((z, i) => ({ z, m: BR.J1[i], c: BR.J2[i] + BR.J3[i], J: BR.J1[i] + BR.J2[i] + BR.J3[i] }))
@@ -86,7 +87,7 @@ const FASES = [
         <span className="a3-publica">Los no dominados forman el frente: más calidad cuesta más.</span></> },
     { n: 'Suma ponderada', dur: 7, d: <><span className="a3-completa">Minimizar <InlineMath math="\gamma J_m+J_{\rm inst}+J_{\rm op}" /> es buscar la recta de pendiente <InlineMath math="-\gamma" /> que toca el frente. Al variar <InlineMath math="\gamma" /> se recorre el frente; las corridas actuales usan <InlineMath math="\gamma=1" />.</span>
         <span className="a3-publica">Cada <InlineMath math="\gamma" /> elige el punto donde la recta de pendiente <InlineMath math="-\gamma" /> toca el frente; hoy, <InlineMath math="\gamma=1" />.</span></> },
-    BR ? { n: 'En el pozo', dur: 6, d: <><span className="a3-completa">Barrido real con ADR: el bombeo de un iterado de la serie anterior queda fijo y solo se mueve <InlineMath math="z_p" />. Hondo: casi sin nitrato, pero más caro; somero: barato, con más nitrato. Con <InlineMath math="\gamma=1" />, el mínimo del barrido está en <InlineMath math={`z_p=${Math.round(MIN1.z)}`} />&nbsp;m. Todavía no es el frente: falta reoptimizar <InlineMath math="Q" /> y <InlineMath math="z_p" /> para cada <InlineMath math="\gamma" />.</span>
+    BR ? { n: 'En el pozo', dur: 6, d: <><span className="a3-completa">Barrido real con ADR: el bombeo de un iterado {DE_SERIE} queda fijo y solo se mueve <InlineMath math="z_p" />. Hondo: casi sin nitrato, pero más caro; somero: barato, con más nitrato. Con <InlineMath math="\gamma=1" />, el mínimo del barrido está en <InlineMath math={`z_p=${Math.round(MIN1.z)}`} />&nbsp;m. Todavía no es el frente: falta reoptimizar <InlineMath math="Q" /> y <InlineMath math="z_p" /> para cada <InlineMath math="\gamma" />.</span>
         <span className="a3-publica">Barrido real ADR, preliminar: hondo, menos nitrato y más caro. Falta el frente completo: reoptimizar <InlineMath math="Q" /> y <InlineMath math="z_p" /> para cada <InlineMath math="\gamma" />.</span></> }
        : { n: 'En el pozo', dur: 3, d: <><span className="a3-completa">Pozo hondo: menos nitrato, más caro. Pozo somero: barato, más nitrato. El frente completo (reoptimizar <InlineMath math="Q" /> y <InlineMath math="z_p" /> para cada <InlineMath math="\gamma" />) es el siguiente paso.</span>
         <span className="a3-publica">Siguiente paso: el frente completo, reoptimizando <InlineMath math="Q" /> y <InlineMath math="z_p" /> para cada <InlineMath math="\gamma" />.</span></> },
@@ -282,7 +283,7 @@ function Figura({ fase, P }) {
             {entra > 0 && (
                 <text x={L} y={22} style={{ ...eje, fontSize: 16 }} opacity={entra}>
                     <tspan style={{ fill: AGUA, fontWeight: 600 }}>Barrido real ADR</tspan>
-                    <tspan style={{ fill: PLUMA }}> (preliminar: iterado de la serie anterior)</tspan>
+                    <tspan style={{ fill: PLUMA }}> (preliminar: iterado {BR ? BR.nit : ''} {DE_SERIE})</tspan>
                 </text>
             )}
             {sale < 1 && <g opacity={1 - sale}><Esquema fase={fase} P={P} /></g>}
@@ -367,7 +368,7 @@ export default function A3D24({ theme = 'dark', entrada = 1 }) {
                     <>
                         <h4>Fase 6: qué se grafica</h4>
                         <p>Cada punto es una simulación directa (flujo + transporte ADR, FEniCSx) con el mismo bombeo <InlineMath math="Q(t)" />,
-                            el del iterado {BR.nit} de la serie anterior de ADR (demanda tomada a mitad de cada paso), y otra profundidad{' '}
+                            el del iterado {BR.nit} de ADR {DE_SERIE}{BR.serie === '33' ? ' (demanda promediada por paso)' : ' (demanda tomada a mitad de cada paso)'}, y otra profundidad{' '}
                             <InlineMath math="z_p" />. Se evalúan los dos objetivos, normalizados como en la optimización:{' '}
                             <InlineMath math="f_1=J_m" /> (calidad del agua extraída, eje horizontal) y{' '}
                             <InlineMath math="f_2=J_{\rm inst}+J_{\rm op}" /> (costo de instalación y de bombeo, eje vertical). Los dos se minimizan.</p>
@@ -408,8 +409,8 @@ export default function A3D24({ theme = 'dark', entrada = 1 }) {
                             el barrido es una cota. El frente sale de resolver el problema completo en <InlineMath math="(Q,z_p)" /> para
                             varios <InlineMath math="\gamma" />, o con ε-restricción (<InlineMath math="J_m\le\varepsilon" />), que también
                             alcanza tramos no convexos.</p>
-                        <p>Estado: preliminar. El iterado es de la serie anterior; las corridas se relanzaron (24-nov-2026) con la demanda
-                            promediada por paso, y con el nuevo óptimo habrá que repetir el barrido y después construir el frente.</p>
+                        <p>Estado: preliminar. El iterado es {DE_SERIE}{BR.serie === '33' ? `, detenido en la iteración ${BR.nit} sin certificado KKT` : ''};
+                            falta construir el frente reoptimizando para varios <InlineMath math="\gamma" />.</p>
                     </>
                 ) : (
                     <p>El barrido real de <InlineMath math="z_p" /> aún no se ha exportado (OPT.pareto); la fase 6 se queda en el esquema.</p>

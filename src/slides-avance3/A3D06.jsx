@@ -140,7 +140,7 @@ export default function A3D06({ theme = 'dark' }) {
     if (!R || !R.S_costo) return <SlideLayout title="Demanda, bomba y tanque" theme={theme}><p>Sin datos de demanda.</p></SlideLayout>;
     const dia = Math.round(P.D_dom + P.D_agri), smin = Math.min(...R.S_costo), smax = Math.max(...R.S_costo);
     const dmin = Math.min(...R.d), dmax = Math.max(...R.d);
-    const vmin = Math.min(...OPT.demanda), vmax = Math.max(...OPT.demanda);      // a mitad del paso (resultados hasta el 24-nov)
+    const VM = OPT.demanda_mitad || OPT.demanda, vmin = Math.min(...VM), vmax = Math.max(...VM);      // a mitad del paso (serie anterior)
     const m3h = h => dom(h).toFixed(0);
     return (
         <SlideLayout title="Demanda, bomba y tanque" theme={theme} justify="flex-start">

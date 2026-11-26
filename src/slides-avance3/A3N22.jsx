@@ -4,14 +4,23 @@ import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import { useFases, reducida, suave, tramo } from './anim.js';
 import { usePublica, Notas } from './version.jsx';
 import { ESTADOS, Marca } from './estado.jsx';
+import { OPT } from './optimoNitrato.js';
 
 // Estado actual de la investigación y próximos pasos, en cinco fases que avanza el expositor (flechas o control remoto;
 // clic en la lámina = siguiente fase; clic en una etiqueta de abajo = ir a esa fase): los cuatro estados se llenan uno a
 // uno, de lo completo a lo pendiente, y al final aparecen los próximos pasos con plazos tentativos. Las cifras de los
-// óptimos son las de los mejores iterados del 23-nov (optimoNitrato.js). PENDIENTE: actualizarlas con la serie
-// definitiva (serie 33, relanzada desde el inicio el 24-nov) cuando termine.
+// resultados salen de optimoNitrato.js: serie 33 en su iterado de corte (tope de 50 iteraciones, 25-nov), sin certificado KKT;
+// las pruebas de consistencia (OPT.consistencia) siguen en curso.
 const AGUA = 'var(--a3-agua)';
 const M = (t) => <InlineMath math={t} />;
+
+// Resultados de la serie 33 (iterado de corte) y prueba desde z_p⁰ = −200 m de ADR, para los textos
+const MOD = Object.fromEntries((OPT.modelos || []).map(m => [m.id, m]));
+const fz = z => String(Math.round(z)).replace('-', '−');
+const NIT = (OPT.serie && OPT.serie.nit) || 50;
+const Z200 = (OPT.consistencia || []).find(c => c.modelo === 'adr' && c.prueba === 'zp200');
+const MAS_HONDO = MOD.adr && MOD.mrmt_semi && MOD.mrmt_block
+    ? [MOD.mrmt_block, MOD.mrmt_semi].map(m => Math.round(MOD.adr.zp - m.zp)).sort((a, b) => a - b) : null;
 
 // Por estado: d = qué significa (p: el corto de la pública, si hace falta); items: t = texto de las dos versiones,
 // x = precisión que solo va en la completa, completa = el punto entero solo va en la completa.
@@ -24,11 +33,12 @@ const GRUPOS = [
     ] },
     { e: 'pre', d: <>Hay resultados, pero sin convergencia completa ({M('\\chi>10^{-4}')}): las cifras pueden cambiar con las corridas definitivas.</>,
       p: 'Hay resultados, aún no definitivos: las cifras pueden cambiar.', items: [
-        { t: 'Óptimos con elementos finitos: pozo a ≈ −383 m (ADR) y −405 m (MRMT semi)', x: <>{M('\\chi\\sim10^{-3}')}; bloque aún sin óptimo confiable</> },
-        { t: 'MRMT ≈ ADR retardado: pozo ≈ 20 m más hondo', x: 'con estos parámetros' },
+        { t: <>Optimización con elementos finitos (iterado {NIT}): pozo a {fz(MOD.adr.zp)} m (ADR), {fz(MOD.mrmt_semi.zp)} m (MRMT semi) y{' '}
+              {fz(MOD.mrmt_block.zp)} m (bloque)</>, x: <>{M('\\chi\\sim10^{-3}')}–{M('10^{-2}')}, sin certificado KKT</> },
+        { t: <>MRMT ≈ ADR retardado: pozo {MAS_HONDO[0]}–{MAS_HONDO[1]} m más hondo</>, x: 'con estos parámetros' },
     ] },
     { e: 'des', d: 'Trabajo en marcha, todavía sin resultados definitivos.', items: [
-        { t: 'Corridas definitivas con elementos finitos', x: 'tres modelos y pruebas de consistencia' },
+        { t: 'Pruebas de consistencia de la optimización', x: Z200 ? <>desde {M('z_p^0=-200')} m, ADR va en {fz(Z200.zp)} m, no en {fz(MOD.adr.zp)}</> : 'arranques distintos y cruce de óptimos' },
         { t: <>Frente de Pareto: barrido preliminar de {M('z_p')}</>, x: <>falta el de {M('\\gamma')}</> },
         { t: 'Artículo y capítulos de la tesis: borradores', x: 'por revisar a fondo' },
     ] },
@@ -191,27 +201,27 @@ export default function A3N22({ theme = 'dark', entrada = 1 }) {
                     <li>Con <InlineMath math="h\approx4.9" /> m en el eje del pozo, <InlineMath math="\hat J(z_p)" /> ondulaba con mínimos espurios
                         cada <InlineMath math="h" />; con 1 m alrededor del eje desaparecen.</li>
                 </ul>
-                <h4>Preliminar (por actualizar con la serie definitiva)</h4>
+                <h4>Preliminar</h4>
                 <ul>
-                    <li>Mejores iterados del 23 de noviembre (<InlineMath math="\gamma=1" />, arranque <InlineMath math="z_p=-700" /> m):
-                        ADR −383 m (<InlineMath math="\chi\approx5.3\cdot10^{-3}" />), MRMT semi −405 m (<InlineMath math="2.7\cdot10^{-3}" />),
-                        MRMT bloque −394 m (<InlineMath math="5.5\cdot10^{-3}" />). Bloque paró antes: en la evaluación cruzada el punto de semi
-                        da menor <InlineMath math="\hat J" /> en los tres modelos.</li>
-                    <li>Esas corridas tomaban la demanda y la cota de la bomba a mitad de cada paso; se corrigió el 24 de noviembre (promedio
-                        por paso) y se relanzó todo desde el inicio, así que las cifras cambiarán.</li>
+                    <li>Serie 33 (<InlineMath math="\gamma=1" />, arranque <InlineMath math="z_p^0=-600" /> m, demanda promediada por paso), detenida
+                        en la iteración {NIT}: ADR {fz(MOD.adr.zp)} m, MRMT semi {fz(MOD.mrmt_semi.zp)} m, MRMT bloque {fz(MOD.mrmt_block.zp)} m;{' '}
+                        <InlineMath math="\hat J" /> = {MOD.adr.J.J.toFixed(4)}, {MOD.mrmt_semi.J.J.toFixed(4)} y {MOD.mrmt_block.J.J.toFixed(4)}.
+                        Ninguna llegó a <InlineMath math="\chi<10^{-4}" />.</li>
+                    <li>La serie anterior (demanda tomada a mitad de cada paso, arranque en −700 m) daba −383, −405 y −394 m. En la serie 33
+                        los tres pozos quedan entre 9 y 21 m más hondos y se mantiene el orden: ADR el más somero, MRMT semi el más hondo. Las
+                        dos series difieren en la demanda, el arranque y las iteraciones, así que el cambio no se atribuye a una sola causa.</li>
                     <li>MRMT ≈ ADR retardado (<InlineMath math="1+\sum\beta=1.3" />, intercambio de horas frente a 30 días): con estos
                         parámetros <InlineMath math="J_m" /> de MRMT semi es 5–6 % mayor a toda profundidad, y su pozo óptimo queda más hondo.</li>
                 </ul>
                 <h4>En desarrollo</h4>
                 <ul>
-                    <li>Serie 33 (24-nov): los tres modelos con elementos finitos desde <InlineMath math="z_p^0=-600" /> m; parada en
-                        <InlineMath math="\;\chi<10^{-4}" /> o tras 50 iteraciones con <InlineMath math="\chi\le3\cdot10^{-3}" /> (parada práctica,
-                        sin certificar KKT). Termina hacia el 26–27 de noviembre. Después: arranque en <InlineMath math="z_p^0=-200" /> m,
-                        reinicio desde el iterado 25 y arranques cruzados entre modelos. Si la parada es la práctica, los resultados siguen
-                        siendo preliminares.</li>
-                    <li>Pareto: solo un barrido de <InlineMath math="z_p" /> (−1300 a −220 m) con el caudal fijo de un iterado de ADR; no es aún
-                        el frente (falta reoptimizar <InlineMath math="Q" /> y <InlineMath math="z_p" /> para cada <InlineMath math="\gamma" />) y hay
-                        que rehacerlo con el óptimo nuevo.</li>
+                    <li>Pruebas de consistencia de la serie 33, con el mismo tope de 50 iteraciones: arranque en <InlineMath math="z_p^0=-200" /> m
+                        {Z200 ? <> (ADR, iteración {Z200.nit}: {fz(Z200.zp)} m con <InlineMath math={`\\hat J=${Z200.J.toFixed(4)}`} />, frente a{' '}
+                        {fz(MOD.adr.zp)} m y {MOD.adr.J.J.toFixed(4)} desde −600 m: todavía no llega al mismo punto)</> : null}, reinicio desde el
+                        iterado 25 y arranques cruzados entre modelos.</li>
+                    <li>Pareto: solo un barrido de <InlineMath math="z_p" /> (−1300 a −220 m) con el caudal fijo de un iterado de ADR
+                        {OPT.pareto && OPT.pareto.serie === '33' ? ` (serie 33, iterado ${OPT.pareto.nit})` : ' (serie anterior)'}; no es aún el frente
+                        (falta reoptimizar <InlineMath math="Q" /> y <InlineMath math="z_p" /> para cada <InlineMath math="\gamma" />).</li>
                     <li>Artículo: borrador de 26 páginas, sin resultados definitivos ni revista. Tesis: primer borrador de los cuatro capítulos y
                         los anexos; el Cap. IV tiene resultados anteriores.</li>
                 </ul>

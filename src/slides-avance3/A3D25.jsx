@@ -8,12 +8,13 @@ import { AvisoPreliminar } from './preliminar.jsx';
 // Validación con casos triviales (ADR): lo que la intuición predice y lo que da el optimizador con EDP y adjunto
 // (OPT.validaciones: experimentos/validacion_esperada.py y optimizacion_<variante>_<caso>/), más el pozo muy hondo del
 // barrido de z_p (OPT.pareto). Los tres casos con la misma estructura: qué cambia, qué se espera, indicadores (esperado vs
-// obtenido), gráfica y veredicto. Datos de la serie anterior (demanda a mitad de paso); la serie 33 repite el caso sin
-// nitrato con la demanda promediada (exacto: optimizacion_nitrato_vscale_malla_eje_g1_prom_sin_nitrato/esperado.json).
+// obtenido), gráfica y veredicto. Sin nitrato: serie 33 (demanda promediada, tope de 50 iteraciones; exacto en
+// optimizacion_nitrato_vscale_malla_eje_g1_prom_sin_nitrato/esperado.json). Sin demanda: corrida anterior (sin consumo el
+// promedio por paso no la cambia), detenida por la parada práctica. Pozo muy hondo: barrido de la serie indicada en OPT.pareto.
 const AGUA = 'var(--a3-agua)', PLUMA = 'var(--a3-pluma)', VALIDO = 'var(--a3-valido)', GRIS = 'var(--a3-estrato)';
 const M = (t) => <InlineMath math={t} />;
 const V = OPT.validaciones || {};
-const J_EXACTO_33 = 0.1896;     // Ĵ exacto sin nitrato con la demanda promediada (z_p = −200 m)
+const J_EXACTO_MITAD = 0.1990;  // Ĵ exacto sin nitrato con la demanda tomada a mitad de paso (serie anterior)
 
 // 2.74e-3 → «2.7·10⁻³» (cifras: 2 → «2.7», 1 → «3»)
 const sup = e => [...String(e)].map(c => '⁻⁰¹²³⁴⁵⁶⁷⁸⁹'['-0123456789'.indexOf(c)]).join('');
@@ -112,13 +113,15 @@ export default function A3D25({ theme = 'dark' }) {
     const ok1 = e1 && o1 ? Math.abs(o1.zp - e1.zp) < 5 && Math.abs(dJ1) < 0.01 : null;
     const qmax2 = o2 ? Math.max(...o2.Q) : null;
     const ok2 = o2 ? (qmax2 < 1e-3 ? true : o2.estado === 'final' ? false : null) : null;
+    // diferencia máxima entre el caudal del optimizador y el exacto (sin nitrato)
+    const dQ1 = e1 && o1 && e1.Q && o1.Q ? Math.max(...o1.Q.map((q, k) => Math.abs(q - e1.Q[k]))) : null;
     const P = OPT.pareto;
     const hondos = P ? P.zp.map((z, i) => ({ z, q: P.J1[i], c: P.J2[i] + P.J3[i] })).filter(o => o.z <= -1000) : [];
     const qmaxHondo = hondos.length ? Math.max(...hondos.map(o => o.q)) : null;
     const ok3 = hondos.length ? qmaxHondo < 1e-4 : null;
     const cH = hondos.length ? [hondos.find(o => o.z === Math.max(...hondos.map(h => h.z))), hondos.find(o => o.z === Math.min(...hondos.map(h => h.z)))] : null;
     const enCurso = o => (o.estado === 'final' ? 'final' : `sin converger: it. ${o.nit}, χ = ${o.chi ? pot(o.chi) : '—'}`);
-    // J_m del barrido (caudal del mejor iterado ADR, con demanda) a la profundidad de la corrida sin demanda: misma profundidad,
+    // J_m del barrido (caudal del iterado de ADR, con demanda) a la profundidad de la corrida sin demanda: misma profundidad,
     // con y sin bombeo. Interpolación lineal entre las dos muestras del barrido que la rodean.
     const J1conBombeo = (() => {
         if (!P || !o2 || o2.J1 === undefined) return null;
@@ -142,7 +145,7 @@ export default function A3D25({ theme = 'dark' }) {
             grafica: <Barras series={[{ Q: e1 && e1.Q, c: GRIS }, { Q: o1 && o1.Q, c: AGUA }]} />,
             leyenda: <><span style={{ color: GRIS }}>■</span> exacto <span style={{ color: AGUA }}>■</span> optimizador</>,
             veredicto: o1 ? <Veredicto ok={ok1} texto={ok1 ? 'coincide' : 'no coincide'}
-                                       detalle={<>{M('\\hat J')} {dJ1 >= 0 ? '+' : '−'}{Math.abs(dJ1 * 100).toFixed(1)} %<span className="a3-completa">; {enCurso(o1)}</span></>} />
+                                       detalle={<>{M('\\hat J')} {dJ1 >= 0 ? '+' : '−'}{Math.abs(dJ1 * 100).toFixed(2)} %<span className="a3-completa">; {enCurso(o1)}</span></>} />
                 : <Veredicto ok={null} texto="en curso" detalle={sn.optimizador ? `it. ${sn.optimizador.nit}: aún no admisible` : 'sin iterado'} />,
         },
         {
@@ -186,7 +189,7 @@ export default function A3D25({ theme = 'dark' }) {
     return (
         <SlideLayout title="Validación con casos triviales" theme={theme} justify="flex-start">
             <AvisoPreliminar style={{ marginBottom: 4 }}>
-                <span className="a3-completa">; exacto sin nitrato con la demanda corregida: {M('z_p=-200')} m, {M(`\\hat J=${J_EXACTO_33}`)}</span>
+                <span className="a3-completa">; sin demanda: corrida anterior</span>
             </AvisoPreliminar>
             <p className="a3-completa" style={{ margin: '0 0 6px', fontSize: 'var(--a3-fs-cuerpo)', color: 'var(--sl-text)', lineHeight: 1.4 }}>
                 Casos cuya respuesta se conoce sin resolver la EDP: el optimizador completo (EDP, adjunto y restricciones) debe reproducirla.
@@ -213,12 +216,13 @@ export default function A3D25({ theme = 'dark' }) {
                     así que {M('z_p')} va a la cota superior ({M('-200')} m) y {M('Q')} resuelve un problema cuadrático con las
                     restricciones del tanque (solución exacta, sin EDP).</p>
                 <p>El optimizador (it. {o1 ? o1.nit : '—'}, {M('\\chi')} = {o1 && o1.chi ? pot(o1.chi) : '—'}) tiene el {M('z_p')} exacto y{' '}
-                    {M('\\hat J')} {dJ1 !== null ? `${(dJ1 * 100).toFixed(1)} %` : '—'} por encima; el perfil de caudal se parece al exacto,
-                    con picos más altos. Este caso fijó el umbral de la parada práctica de la serie 33 ({M('\\chi\\le3\\cdot10^{-3}')}).
+                    {M('\\hat J')} {dJ1 !== null ? `${(dJ1 * 100).toFixed(2)} %` : '—'} por encima; el caudal difiere del exacto a lo más{' '}
+                    {dQ1 !== null ? dQ1.toFixed(3) : '—'} m²/s en algún paso. Este caso fijó el umbral de la parada práctica de la serie 33
+                    ({M('\\chi\\le3\\cdot10^{-3}')}).
                     Incluso con {M('\\hat J')} analítico, trust-constr necesita 107–127 iteraciones para {M('\\chi<10^{-4}')}: la meseta
                     {M('\\chi\\approx3\\cdot10^{-3}')} es convergencia lenta del método, no un error del gradiente.</p>
-                <p>Con la demanda corregida el exacto cambia a {M(`\\hat J=${J_EXACTO_33}`)} (antes {e1 ? e1.J.toFixed(4) : '—'}); la serie 33 lo
-                    repite desde {M('z_p^0=-600')} m.</p>
+                <p>Con la demanda promediada por paso el exacto es {M(`\\hat J=${e1 ? e1.J.toFixed(4) : '—'}`)} (con la demanda a mitad de paso
+                    era {J_EXACTO_MITAD}); la serie 33 lo reproduce desde {M('z_p^0=-600')} m.</p>
                 <h4>2. Sin demanda</h4>
                 <p>Sin consumo, bombear solo cuesta: se espera {M('Q_n=0')} y el tanque fijo en {M('S_0=500')} m³ (supone que bombear no
                     limpia el agua del pozo, lo razonable si el pozo atrae agua de la pluma). {M('J_m')} no se anula, así que {M('z_p')}{' '}
@@ -226,10 +230,11 @@ export default function A3D25({ theme = 'dark' }) {
                 <p>El optimizador (it. {o2 ? o2.nit : '—'}, {M('\\chi')} = {o2 && o2.chi ? pot(o2.chi) : '—'}) deja el caudal en a lo más{' '}
                     {qmax2 !== null ? qmax2.toFixed(3) : '—'} (la cota es {OPT.Q_max}), pero no a cero: el tanque sube hasta{' '}
                     {o2 ? Math.max(...o2.S).toFixed(0) : '—'} m³ ({M('S_{\\max}')} = {OPT.S_max} m³), con {M('z_p')} ={' '}
-                    {o2 ? fmtZ(o2.zp) : '—'} m. Aún no coincide. Esta corrida usa el código anterior; sin demanda el promedio por paso solo
-                    afecta la cota de la bomba, inactiva con {M('Q_n\\approx0')}.</p>
+                    {o2 ? fmtZ(o2.zp) : '—'} m. Se detuvo por la parada práctica ({M('\\chi\\le3\\cdot10^{-3}')} tras 60 iteraciones) sin llegar
+                    a {M('Q_n=0')}: no coincide del todo. Esta corrida usa el código anterior; sin demanda el promedio por paso solo afecta la
+                    cota de la bomba, inactiva con {M('Q_n\\approx0')}.</p>
                 <h4>3. Pozo muy hondo</h4>
-                <p>Barrido de {M('\\hat J(z_p)')} con el caudal fijo (mejor iterado ADR, it. {P ? P.nit : '—'}, serie anterior); solo el modelo
+                <p>Barrido de {M('\\hat J(z_p)')} con el caudal fijo (iterado {P ? P.nit : '—'} de ADR, {P && P.serie === '33' ? 'serie 33' : 'serie anterior'}); solo el modelo
                     directo, sin optimizador. {M('J_m')} baja de {P ? P.J1[P.zp.indexOf(Math.max(...P.zp))].toFixed(2) : '—'} en{' '}
                     {P ? fmtZ(Math.max(...P.zp)) : '—'} m a {qmaxHondo !== null ? (qmaxHondo === 0 ? '0' : pot(qmaxHondo, 1)) : '—'} a partir de
                     −1000 m, mientras el costo crece. Confirma que la pluma no llega a −1000 m y que el óptimo no está en la cota inferior
@@ -243,19 +248,20 @@ export default function A3D25({ theme = 'dark' }) {
                     siguiente).</p>
                 <h4>Qué enseñan sobre la demanda</h4>
                 <ul>
-                    <li>La demanda fija cuánto se bombea: en las corridas con nitrato el tanque llega casi a vacío (mínimos{' '}
+                    <li>La demanda fija cuánto se bombea: en las corridas con nitrato (serie 33) el tanque llega casi a vacío (mínimos{' '}
                         {sMin.map(v => v.toFixed(1)).join(', ')} m³), así que se bombea lo que pide la demanda y nada más. Sin demanda, el
                         optimizador deja el caudal en a lo más {qmax2 !== null ? qmax2.toFixed(3) : '—'}.</li>
                     {J1conBombeo !== null && <li>También pesa en la calidad. Sin demanda (casi sin bombeo), {M('\\gamma J_m')} ={' '}
-                        {o2.J1.toFixed(3)} con {M('z_p')} = {fmtZ(o2.zp)} m; con el caudal del mejor iterado ADR a esa profundidad (barrido),{' '}
+                        {o2.J1.toFixed(3)} con {M('z_p')} = {fmtZ(o2.zp)} m; con el caudal del iterado {P.nit} de ADR a esa profundidad (barrido),{' '}
                         {J1conBombeo.toFixed(3)}, unas {Math.round(J1conBombeo / o2.J1)} veces más. En el transporte, {M('Q')} solo entra por la
                         velocidad de Darcy (y el almacenamiento): el bombeo la hace converger hacia el pozo y le acerca la pluma. La corrida
                         sin demanda no ha convergido, pero {M('J_m')} es la evaluación del modelo en su punto.</li>}
                     <li>Con la demanda cambia el costo de profundizar: {M('\\partial_{z_p}J_{\\rm op}=-\\int Q^2')}, así que más agua que
                         bombear empuja el pozo hacia arriba con más fuerza.</li>
                 </ul>
-                <h4>Pendiente</h4>
-                <p>Reexportar con la serie 33 (validación sin nitrato con la demanda corregida) y el cierre de la corrida sin demanda.</p>
+                <h4>Procedencia</h4>
+                <p>Sin nitrato: serie 33, detenida en la iteración 50 como las demás. Sin demanda: corrida anterior, que no depende de la
+                    demanda. Pozo muy hondo: barrido con el caudal de ADR ({P && P.serie === '33' ? 'serie 33' : 'serie anterior'}).</p>
             </Notas>
         </SlideLayout>
     );

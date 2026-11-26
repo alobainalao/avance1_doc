@@ -3,6 +3,7 @@ import { InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import { Notas } from './version.jsx';
 import { ESTADOS, Marca } from './estado.jsx';
+import { OPT } from './optimoNitrato.js';
 
 // Objetivos del semestre 3 (ROADMAP.md, pista A: gradiente → optimización → Pareto → artículo) y su estado al
 // 24 de noviembre de 2026. PROVISIONAL: la optimización con elementos finitos se relanzó desde el inicio el 24-nov
@@ -26,7 +27,7 @@ const objetivos = [
     { t: 'Modelo de flujo y transporte coherente (ADR y MRMT): sin sumidero explícito, con almacenamiento y salida libre', p: 'Modelo coherente de flujo y transporte (ADR y MRMT)', e: 'ok' },
     { t: 'Dos discretizaciones (RBF-FD y elementos finitos) sobre la misma malla y su comparación cuantitativa', p: 'Dos discretizaciones sobre la misma malla, comparadas', e: 'ok' },
     { t: 'Sistema adjunto continuo y discreto; gradiente verificado contra diferencias finitas en las seis variantes', p: 'Gradiente adjunto verificado en las seis variantes (horizonte corto)', e: 'ok', nota: 'en horizonte corto; el adjunto RBF-FD depende de la malla' },
-    { t: 'Optimización con bomba y tanque en los tres modelos con elementos finitos', p: 'Optimización con elementos finitos: resultados preliminares', e: 'adv', nota: 'resultados preliminares; corridas definitivas en curso' },
+    { t: 'Optimización con bomba y tanque en los tres modelos con elementos finitos', p: 'Optimización con elementos finitos: resultados preliminares', e: 'adv', nota: 'resultados parciales (50 iteraciones); consistencia en curso' },
     { t: 'Optimización con RBF-FD sobre la misma malla y comparación de óptimos', p: 'Optimización con RBF-FD y comparación de óptimos', e: 'pen', nota: 'su adjunto aún depende de la malla' },
     { t: 'Frente de Pareto (barrido de γ)', p: 'Frente de Pareto: por ahora, un barrido preliminar', e: 'wip', nota: <>solo un barrido preliminar de <InlineMath math="z_p" /> (ADR); falta el de γ</> },
     { t: 'Artículo de optimización', p: 'Artículo de optimización (borrador)', e: 'wip', nota: 'borrador; faltan resultados definitivos y revisión a fondo' },
@@ -77,13 +78,11 @@ export default function A3D17({ theme = 'dark' }) {
                 </p>
                 <h4>Optimización con elementos finitos: avanzado, no hecho</h4>
                 <p>
-                    Hay óptimos preliminares en los tres modelos (mejores iterados del 23 de noviembre, <InlineMath math="\gamma=1" />:
-                    ADR <InlineMath math="z_p\approx-383" /> m, MRMT semi <InlineMath math="-405" /> m, MRMT bloque <InlineMath math="-394" /> m,
-                    con <InlineMath math="\chi" /> entre <InlineMath math="3\cdot10^{-3}" /> y <InlineMath math="6\cdot10^{-3}" />). Esas corridas
-                    tomaban la demanda y la cota de la bomba a mitad de cada paso; el 24 de noviembre se corrigió (promedio por paso) y se
-                    relanzó todo desde el inicio (serie 33, <InlineMath math="z_p^0=-600" /> m), con parada en <InlineMath math="\chi<10^{-4}" /> o
-                    tras 50 iteraciones con <InlineMath math="\chi\le 3\cdot10^{-3}" />. Termina hacia el 26–27 de noviembre; después, pruebas de
-                    consistencia: arranque en <InlineMath math="z_p^0=-200" /> m, reinicio desde el iterado 25 y arranques cruzados entre modelos.
+                    Hay resultados parciales en los tres modelos: la serie 33 (demanda promediada por paso, <InlineMath math="z_p^0=-600" /> m,{' '}
+                    <InlineMath math="\gamma=1" />) se detuvo a las {(OPT.serie && OPT.serie.nit) || 50} iteraciones, sin llegar a{' '}
+                    <InlineMath math="\chi<10^{-4}" />: {(OPT.modelos || []).map(m => `${m.nombre} ${String(Math.round(m.zp)).replace('-', '−')} m`).join(', ')}.
+                    Siguen las pruebas de consistencia: arranque en <InlineMath math="z_p^0=-200" /> m, reinicio desde el iterado 25 y arranques
+                    cruzados entre modelos.
                 </p>
                 <h4>Optimización con RBF-FD: pendiente</h4>
                 <p>

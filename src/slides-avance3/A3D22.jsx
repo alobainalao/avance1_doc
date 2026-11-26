@@ -4,12 +4,14 @@ import SlideLayout from '../layouts-v2/SlideLayout.jsx';
 import { Cita } from './ui.jsx';
 import { usePublica, Notas } from './version.jsx';
 import { ESTADOS, Marca } from './estado.jsx';
+import { OPT } from './optimoNitrato.js';
 
 // Configuración de las tres familias de corridas que aparecen en el avance: comparación directa (experimentos/catalogo.py,
 // grupo MC_malla_conos con experimentos/base.json), verificación del gradiente (tests/test_gradiente_modelo_nuevo.py) y
 // optimización. Optimización = serie 33 (24-nov-2026: experimentos/optimizar_nitrato.py con
-// config/nitrato_vscale_malla_eje_g1_prom.json, cola data/output/_logs_malla_conos/cola_33.py). Las láminas de resultados
-// que siguen muestran todavía la serie anterior (nitrato_vscale_malla_eje_g1): hay que reexportarlas al terminar la 33.
+// config/nitrato_vscale_malla_eje_g1_prom.json, cola data/output/_logs_malla_conos/cola_33.py), detenida en 50
+// iteraciones el 25-nov (tope_50.py): las láminas de resultados que siguen muestran su iterado 50 (OPT.serie). Las pruebas
+// de consistencia (OPT.consistencia) siguen corriendo.
 const M = (t) => <InlineMath math={t} />;
 const AGUA = 'var(--a3-agua)', PLUMA = 'var(--a3-pluma)';
 const COLS = ['Comparación directa', 'Verificación del gradiente', 'Optimización (serie 33)'];
@@ -26,22 +28,34 @@ const filas = [
 // filas que la versión pública omite
 const SOLO_COMPLETA = ['Modelos', 'Funcional', 'Concentración'];
 
+// χ de los tres modelos en el iterado exportado (mínimo y máximo), en notación 3.5·10⁻³
+const sup = e => [...String(e)].map(c => '⁻⁰¹²³⁴⁵⁶⁷⁸⁹'['-0123456789'.indexOf(c)]).join('');
+const pot = v => { let e = Math.floor(Math.log10(v)), m = v / 10 ** e; if (+m.toFixed(1) >= 10) { m /= 10; e += 1; } return `${m.toFixed(1)}·10${sup(e)}`; };
+const CHIS = (OPT.modelos || []).map(m => m.chi).filter(Boolean);
+const CHI = CHIS.length ? [pot(Math.min(...CHIS)), pot(Math.max(...CHIS))] : ['—', '—'];
 // Serie 33: lo que cambia respecto de la serie anterior (completa: con el «antes»; pública: solo lo nuevo)
 const serie33 = [
     ['Arranque', <>{M('Q_n=0.1')} proyectado a {M('\\mathcal U_{ad}')}, {M('z_p^0=-600')} m<span className="a3-completa"> (antes {M('-700')} m, no admisible)</span></>],
     ['Demanda', <><span className="a3-completa">volumen de cada paso = promedio exacto del perfil horario: 166–590 m³ (antes, el valor a mitad del paso: 58–765 m³)</span>
         <span className="a3-publica">promedio exacto en cada paso: 166–590 m³</span></>],
     ['Iterados', <>todos admisibles<span className="a3-completa">: trust-constr <Cita k="virtanen2020scipy" /> (barrera, BFGS) exige las restricciones en cada paso</span></>],
-    ['Paro', <>{M('\\chi<10^{-4}')} (KKT) o {M('\\chi\\le 3\\cdot10^{-3}')} tras ≥ 50 it.<span className="a3-completa"> (parada práctica, sin certificado KKT); máximo 100</span></>],
+    ['Paro', <>a las {OPT.serie ? OPT.serie.nit : 50} iteraciones<span className="a3-completa"> (tope del 25-nov)</span>: {M(`\\chi`)} entre {CHI[0]} y{' '}
+        {CHI[1]}, sin certificado KKT</>],
 ];
+// prueba desde z_p⁰ = −200 m frente a la principal (último iterado registrado de cada una)
+const Z200 = (OPT.consistencia || []).find(c => c.modelo === 'adr' && c.prueba === 'zp200');
+const ADR = (OPT.modelos || []).find(m => m.id === 'adr');
+const fz = z => String(Math.round(z)).replace('-', '−');
 
 // estado de cada serie con el vocabulario común (estado.jsx): preliminar, en desarrollo, pendiente
 const estado = [
-    { e: 'pre', t: 'Serie anterior',
-      d: <><span className="a3-completa">{M('z_p^0=-700')} m, demanda a mitad de paso, {M('\\chi')} entre 2.7 y 5.5·10⁻³: </span>es la que muestran las láminas siguientes; no es definitiva.</> },
-    { e: 'des', t: 'Serie 33', d: <>ADR, MRMT semi, MRMT bloque y validación sin nitrato<span className="a3-completa">, desde el 24-nov</span>.</> },
-    { e: 'pen', t: 'Consistencia',
-      d: <>arranque en {M('z_p^0=-200')} m; reinicio desde el iterado 25; cada modelo desde el óptimo del otro<span className="a3-completa"> (ADR ↔ semi)</span>.</> },
+    { e: 'pre', t: 'Serie 33',
+      d: <>ADR, MRMT semi y bloque en el iterado {OPT.serie ? OPT.serie.nit : 50}, y la validación sin nitrato: es la que muestran las
+          láminas siguientes; parcial.</> },
+    { e: 'des', t: 'Consistencia',
+      d: <>{Z200 && ADR ? <>desde {M('z_p^0=-200')} m, ADR va en {M(`z_p=${fz(Z200.zp)}`)} m (it. {Z200.nit}), no en {M(`${fz(ADR.zp)}`)}: aún
+          no llega al mismo punto. </> : <>arranque en {M('z_p^0=-200')} m; </>}Faltan el reinicio desde el iterado 25 y el cruce de
+          óptimos<span className="a3-completa"> (ADR ↔ semi)</span>.</> },
 ];
 
 export default function A3D22({ theme = 'dark' }) {
@@ -105,7 +119,10 @@ export default function A3D22({ theme = 'dark' }) {
                 <p>{M('Q_n=0.1')} con {M('z_p=-600')} m vacía el tanque: no es admisible. Se proyecta al conjunto admisible (ligeramente
                     contraído, para empezar en su interior); el cambio máximo en el caudal es ≈ 0.05.</p>
                 <h4>Parada</h4>
-                <p>{M('\\chi<10^{-4}')} es la condición de primer orden (KKT) con tolerancia. La parada práctica ({M('\\chi\\le3\\cdot10^{-3}')} tras al
+                <p>El 25-nov la serie se detuvo a las 50 iteraciones (las pruebas de consistencia, con el mismo tope); ninguna corrida
+                    llegó a {M('\\chi\\le3\\cdot10^{-3}')}, pero {M('z_p')} no se movía desde hacía más de 20 iteraciones y{' '}
+                    {M('\\hat J')} cambiaba menos de 0.1 % en las últimas 8. La regla anterior: {M('\\chi<10^{-4}')} es la condición de
+                    primer orden (KKT) con tolerancia. La parada práctica ({M('\\chi\\le3\\cdot10^{-3}')} tras al
                     menos 50 iteraciones) sale de la validación sin nitrato: con {M('\\chi\\approx2.7\\cdot10^{-3}')} el optimizador ya tenía el
                     {M('z_p')} exacto y {M('\\hat J')} a 0.8 % del valor exacto. Un resultado detenido así es un mejor iterado, no un punto
                     KKT certificado.</p>

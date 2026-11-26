@@ -1,13 +1,14 @@
 import React from 'react';
 import { ESTADOS, Marca } from './estado.jsx';
+import { OPT } from './optimoNitrato.js';
 
-// Aviso común de las láminas de resultados de optimización (A3D14, A3D15, A3D19, A3D25): todas muestran la serie anterior
-// (malla con eje de 1 m, γ = 1, z_p⁰ = −700 m, demanda tomada a mitad de cada paso) mientras corre la serie 33. Al reexportar
-// optimoNitrato.js desde la serie 33 basta con cambiar SERIE (o quitar el aviso si ya hay óptimos con χ < 10⁻⁴).
+// Aviso común de las láminas de resultados de optimización (A3D14, A3D15, A3D25): muestran la serie 33 (malla con eje de 1 m,
+// γ = 1, z_p⁰ = −600 m, demanda promediada por paso) en su iterado de corte (OPT.serie.nit, tope de 50 iteraciones del 25-nov),
+// sin certificado KKT, mientras corren las pruebas de consistencia. Quitar el aviso si se llega a óptimos con χ < 10⁻⁴.
 export const SERIE = {
-    etiqueta: 'serie anterior',
-    detalle: 'z_p⁰ = −700 m, demanda tomada a mitad de cada paso',
-    reemplazo: 'se reemplaza con la serie 33',
+    etiqueta: `serie 33, iterado ${(OPT.serie && OPT.serie.nit) || 50}`,
+    detalle: 'z_p⁰ = −600 m, demanda promediada',
+    reemplazo: 'consistencia en curso',
 };
 
 // `children`: precisión propia de la lámina (solo en la completa si se marca con a3-completa)

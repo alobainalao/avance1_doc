@@ -6,20 +6,23 @@ import { OPT } from './optimoNitrato.js';
 import { usePublica, Notas } from './version.jsx';
 import { AvisoPreliminar } from './preliminar.jsx';
 
-// Mejor iterado (preliminar, serie anterior) de los tres modelos de transporte (FEniCSx, malla con conos y eje de 1 m, γ = 1),
-// todos desde Q_n = 0.1, z_p = −700 m. Izquierda: los tres pozos suben de z_p⁰ a donde paró el optimizador; centro: evaluación
+// Resultado parcial (serie 33, iterado 50) de los tres modelos de transporte (FEniCSx, malla con conos y eje de 1 m, γ = 1),
+// todos desde Q_n = 0.1 proyectado, z_p = −600 m. Izquierda: los tres pozos suben de z_p⁰ a donde paró el optimizador; centro: evaluación
 // cruzada (Ĵ de cada modelo en el punto de cada corrida, experimentos/evaluar_optimos.py); derecha: términos del funcional.
 const COLOR = { adr: 'var(--a3-pluma)', mrmt_semi: 'var(--a3-agua)', mrmt_block: '#5B4B8A' };
 const GRIS = 'var(--a3-estrato)', VALIDO = 'var(--a3-valido)';
 const M = (t) => <InlineMath math={t} />;
 
-// Bloque paró antes de su óptimo: su Ĵ es menor en el punto de semi (evaluación cruzada) y semi y bloque dan casi el mismo Ĵ
-// en cualquier punto. ADR también mejora con el caudal de semi, pero su z_p lo confirma el barrido de Ĵ(z_p).
-const PARO_ANTES = ['mrmt_block'];
-const paroAntes = m => PARO_ANTES.includes(m.id);
+// Una corrida «paró antes» de su óptimo si su modelo da menor Ĵ en el punto de otra corrida (evaluación cruzada, OPT.cruce):
+// la columna del menor de su fila no es la propia.
+const mejorDe = fila => OPT.modelos.map(x => x.id).reduce((b, x) => (Jcruce(fila, x) < Jcruce(fila, b) ? x : b), fila);
+// la evaluación cruzada solo se usa si es de la misma serie que los iterados (si no, mezclaría puntos de dos series)
+const CRUCE_OK = OPT.cruce_serie === '33' && (OPT.cruce || []).length === 6;
+const paroAntes = m => CRUCE_OK && mejorDe(m.id) !== m.id;
 
 // Por qué MRMT pide un pozo más hondo, con los datos de la antigua A3D19 (fuera de la secuencia): barrido de Ĵ(z_p) con el
-// mismo caudal (iterado 38 de ADR) en ADR y MRMT semi, y la concentración en el pozo con z_p = −383 m (OPT.analisis).
+// mismo caudal (iterado 38 de ADR, serie anterior) en ADR y MRMT semi, y la concentración en el pozo con z_p = −383 m
+// (OPT.analisis; se rehará con la serie 33).
 // Vértice de la parábola por los tres puntos alrededor del mínimo muestreado.
 function vertice(z, J) {
     const i = Math.min(Math.max(1, J.indexOf(Math.min(...J))), J.length - 2), h = z[i + 1] - z[i];
@@ -124,7 +127,7 @@ export default function A3D15({ theme = 'dark' }) {
     const pub = usePublica();
     const f = suave(tramo(p, 0, 0.85));
     const ms = OPT.modelos;
-    if (ms.length < 3) return <SlideLayout title="Mejor iterado por modelo (preliminar)" theme={theme}><p>Sin resultados.</p></SlideLayout>;
+    if (ms.length < 3) return <SlideLayout title="Resultado por modelo" theme={theme}><p>Sin resultados.</p></SlideLayout>;
     const id = k => ms.find(m => m.id === k);
     const semi = id('mrmt_semi'), bloque = id('mrmt_block'), adr = id('adr');
     // mayor diferencia semi–bloque en los tres puntos
@@ -136,8 +139,12 @@ export default function A3D15({ theme = 'dark' }) {
     // volumen bombeado en 30 días por cada modelo: lo fija la demanda (balance del tanque)
     const vol = ms.map(m => OPT.V_s * OPT.dt * m.Q.reduce((a, b) => a + b, 0));
     const miles = v => Math.round(v).toLocaleString('es-MX').replace(/,/g, '\u202f');      // espacio fino que no corta la cifra
+    const nit = adr.nit, nombre = k => id(k).nombre;
+    // evaluación cruzada: qué corridas no llegaron a su óptimo (su modelo da menor Ĵ en otro punto)
+    const antes = ms.filter(paroAntes);
+    const hondo = m => Math.round(adr.zp - m.zp);
     return (
-        <SlideLayout title="Mejor iterado por modelo (preliminar, serie anterior)" theme={theme} justify="flex-start">
+        <SlideLayout title={`Resultado por modelo (serie 33, iterado ${nit})`} theme={theme} justify="flex-start">
             <AvisoPreliminar style={{ marginBottom: 6 }}>
                 <span className="a3-completa">; el orden entre modelos queda por confirmar</span>
             </AvisoPreliminar>
@@ -146,26 +153,31 @@ export default function A3D15({ theme = 'dark' }) {
                     <p style={tit}>Profundidad {M('z_p')} donde paró cada corrida [m]</p>
                     <Pozos f={f} />
                     {H && <p style={{ ...nota, color: 'var(--sl-text)', opacity: tramo(p, 0.85, 1) }}>
-                        <b style={{ color: COLOR.mrmt_semi, fontWeight: 600 }}>¿Por qué MRMT más hondo?</b> Con el mismo caudal, MRMT retiene el
-                        nitrato y lo entrega más tarde: {M('J_m')} {pct(H.rmin)}–{pct(H.rmax)} % mayor, que baja más rápido al
-                        profundizar ⇒ mínimo ≈ {Math.round(H.zA - H.zS)} m más hondo<span className="a3-completa"> (barrido de{' '}
-                        {M('\\hat J(z_p)')}, notas)</span>.
+                        <b style={{ color: COLOR.mrmt_semi, fontWeight: 600 }}>¿Por qué MRMT más hondo?</b> Semi queda {hondo(semi)} m y bloque{' '}
+                        {hondo(bloque)} m bajo ADR. Con el mismo caudal, MRMT retiene el nitrato y lo entrega más tarde: {M('J_m')}{' '}
+                        {pct(H.rmin)}–{pct(H.rmax)} % mayor, que baja más rápido al profundizar<span className="a3-completa"> (barrido de{' '}
+                        {M('\\hat J(z_p)')} de la serie anterior, notas)</span>.
                     </p>}
                 </div>
                 <div>
                     <p style={tit}>Evaluación cruzada de {M('\\hat J')}</p>
-                    <Cruce f={f} />
+                    {CRUCE_OK ? <Cruce f={f} /> : <p style={nota}>En curso con los iterados de la serie 33.</p>}
+                    {CRUCE_OK && <>
                     <p className="a3-completa" style={nota}>
                         Cada fila: {M('\\hat J')} de un modelo en el punto donde paró cada corrida (verde: el menor de la fila; punteado: el
-                        propio). En esta serie, el punto de semi fue el mejor en las tres filas: semi y bloque difieren a lo más{' '}
-                        {cientifico(dSB)}, así que bloque paró antes de su óptimo.
+                        propio). Semi y bloque difieren a lo más {cientifico(dSB)} en un mismo punto.{' '}
+                        {antes.length ? <>{antes.map(m => m.nombre).join(' y ')}: su modelo da menor {M('\\hat J')} en otro punto, así que no
+                        {antes.length > 1 ? 'llegaron' : 'llegó'} a su óptimo.</> : <>Cada corrida tiene el menor {M('\\hat J')} de su fila.</>}
                     </p>
                     <p className="a3-publica" style={nota}>
-                        Verde: el menor de cada fila. El punto de semi gana en las tres; bloque paró antes.
+                        Verde: el menor de cada fila.{' '}
+                        {antes.length ? <>{antes.map(m => m.nombre).join(' y ')}: mejor en otro punto, {antes.length > 1 ? 'pararon' : 'paró'} antes.</>
+                            : 'Cada corrida gana en su fila.'}
                     </p>
+                    </>}
                 </div>
                 <div>
-                    <p style={tit}>Términos en el mejor iterado</p>
+                    <p style={tit}>Términos en el iterado {nit}</p>
                     <table style={{ width: '100%', borderCollapse: 'collapse', fontVariantNumeric: 'tabular-nums', borderTop: '2px solid var(--sl-text)', borderBottom: '2px solid var(--sl-text)' }}>
                         <thead><tr style={{ borderBottom: '1px solid var(--sl-muted)' }}>
                             <th style={th}></th>
@@ -193,33 +205,37 @@ export default function A3D15({ theme = 'dark' }) {
                         </tbody>
                     </table>
                     <p className="a3-completa" style={nota}>
-                        Todos mejoran el arranque ({M(`\\hat J=${J0.toFixed(3)}`)}, no admisible) y bombean el mismo volumen, el que fija la
+                        Todos mejoran el arranque ({M(`\\hat J=${J0.toFixed(3)}`)}, ya proyectado a {M('\\mathcal U_{ad}')}) y bombean el mismo volumen, el que fija la
                         demanda ({miles(Math.min(...vol))}–{miles(Math.max(...vol))} m³; el tanque llega casi a vacío). Lo que cambia es{' '}
                         {M('z_p')}: más hondo, menos {M('\\gamma J_m')} y más {M('\\alpha J_{\\rm inst}')} y {M('\\beta J_{\\rm op}')}.
                         Ninguno alcanzó {M('\\chi<10^{-4}')}.
                     </p>
-                    <p className="a3-publica" style={nota}>Todos mejoran el arranque ({M(`\\hat J=${J0.toFixed(3)}`)}, no admisible); ninguno llegó a la meta.</p>
+                    <p className="a3-publica" style={nota}>Todos mejoran el arranque ({M(`\\hat J=${J0.toFixed(3)}`)}); ninguno llegó a la meta.</p>
                 </div>
             </div>
             <Notas titulo="Comparación entre modelos: qué es firme y qué no">
                 <h4>Qué muestra cada panel</h4>
                 <ul>
-                    <li>Izquierda: dónde se detuvo cada corrida (todas desde {M('z_p=-700')} m). El círculo hueco marca la que paró antes de su
-                        óptimo.</li>
+                    <li>Izquierda: dónde quedó cada corrida en la iteración {nit} (todas desde {M(`z_p=${OPT.zp0}`)} m). El círculo hueco marca
+                        la que, según la evaluación cruzada, paró antes de su óptimo.</li>
                     <li>Centro: evaluación cruzada. Fila = modelo con el que se calcula {M('\\hat J')}; columna = punto {M('(Q,z_p)')} donde paró
                         cada corrida. La diagonal (punteada) es el valor propio de cada corrida. Si una corrida hubiera llegado a su óptimo,
                         su diagonal sería el menor de su fila.</li>
-                    <li>Derecha: los tres términos ya ponderados ({M('\\gamma=\\alpha=\\beta=1')}) en el mejor iterado de cada modelo.</li>
+                    <li>Derecha: los tres términos ya ponderados ({M('\\gamma=\\alpha=\\beta=1')}) en el iterado {nit} de cada modelo.</li>
                 </ul>
-                <h4>Qué se puede afirmar (serie anterior)</h4>
+                <h4>Qué se puede afirmar (serie 33, iteración {nit})</h4>
                 <ul>
                     <li>Semi y bloque son dos esquemas del mismo modelo continuo: en los tres puntos sus {M('\\hat J')} difieren a lo más{' '}
-                        {cientifico(dSB)}. Como el {M('\\hat J')} de bloque es menor en el punto de semi ({Jcruce('mrmt_block', 'mrmt_semi').toFixed(4)})
-                        que en el suyo ({bloque.J.J.toFixed(4)}), bloque se detuvo antes de su óptimo, que probablemente está cerca del de semi.</li>
-                    <li>ADR también tiene menor {M('\\hat J')} en el punto de semi ({Jcruce('adr', 'mrmt_semi').toFixed(4)} frente a{' '}
-                        {adr.J.J.toFixed(4)}): su caudal no ha convergido. Su {M('z_p')} sí parece estable (el barrido de {M('\\hat J(z_p)')} con caudal
-                        fijo da el mínimo de ADR cerca de su {M('z_p')}, lámina anterior). La tabla cruzada mezcla diferencias entre modelos con
-                        el estado de convergencia de cada corrida.</li>
+                        {cientifico(dSB)}.</li>
+                    {ms.map(m => {
+                        const b = mejorDe(m.id);
+                        return b === m.id
+                            ? <li key={m.id}>{m.nombre}: su propio punto da el menor {M('\\hat J')} de su fila ({m.J.J.toFixed(4)}).</li>
+                            : <li key={m.id}>{m.nombre}: su {M('\\hat J')} es menor en el punto de {nombre(b)} ({Jcruce(m.id, b).toFixed(4)}) que en
+                                el suyo ({m.J.J.toFixed(4)}): la corrida no llegó a su óptimo.</li>;
+                    })}
+                    <li>La tabla cruzada mezcla diferencias entre modelos con el estado de convergencia de cada corrida; el {M('z_p')} de ADR lo
+                        confirma aparte el barrido de {M('\\hat J(z_p)')} con caudal fijo (lámina anterior).</li>
                     <li>Los tres bombean el mismo volumen ({vol.map(miles).join(', ')} m³) y dejan el tanque casi vacío en algún paso (mínimos{' '}
                         {ms.map(m => Math.min(...m.S).toFixed(1)).join(', ')} m³): el volumen lo fija la demanda,{' '}
                         {M('V_s\\Delta t\\sum_nQ_n=\\sum_nd_n-S_0+S_T')}. Las diferencias de costo vienen sobre todo de {M('z_p')}: ordenados de
@@ -242,20 +258,21 @@ export default function A3D15({ theme = 'dark' }) {
                         <li><b>Mínimo más hondo.</b> En el mínimo, {M('\\gamma\\,\\partial_{z_p}J_m=-\\partial_{z_p}(\\alpha J_{\\rm inst}+\\beta J_{\\rm op})')}.
                             El lado del costo es el mismo en los dos modelos; el de la calidad es más empinado en MRMT, así que el equilibrio
                             queda más abajo: vértices ≈ {fmtZ(H.zA)} m (ADR) y {fmtZ(H.zS)} m (semi), {Math.round(H.zA - H.zS)} m de
-                            diferencia, coherente con los {M('z_p')} de las corridas ({fmtZ(adr.zp)} y {fmtZ(semi.zp)} m).</li>
+                            diferencia con aquel caudal; en la serie 33 las corridas quedan a {fmtZ(adr.zp)} y {fmtZ(semi.zp)} m,{' '}
+                            {hondo(semi)} m de diferencia.</li>
                         <li><b>Por confirmar.</b> El mínimo es plano y la diferencia de pendientes es pequeña: con otro caudal u otra demanda
-                            el desplazamiento puede cambiar. La serie 33 y los arranques cruzados lo dirán.</li>
+                            el desplazamiento cambia ({Math.round(H.zA - H.zS)} m con el caudal de la serie anterior, {hondo(semi)} m en la serie 33). Los arranques
+                            cruzados lo dirán.</li>
                     </ul>
                 </>}
                 <h4>Qué no se puede afirmar todavía</h4>
-                <p>El orden de los {M('z_p')} ({adr.zp.toFixed(0)}, {semi.zp.toFixed(0)}, {bloque.zp.toFixed(0)} m) y el de los {M('\\hat J')}. Las
-                    diferencias de {M('\\hat J')} entre modelos son de hasta {dModelos.toFixed(4)}; con la demanda corregida (observación
-                    preliminar) {M('\\hat J')} cambia del orden de 10⁻², más que esas diferencias, y el bombeo se aplana. Además, ninguna
-                    corrida tiene {M('\\chi<10^{-4}')}.</p>
+                <p>Que el orden de los {M('z_p')} ({fmtZ(adr.zp)}, {fmtZ(semi.zp)}, {fmtZ(bloque.zp)} m) y el de los {M('\\hat J')} sean
+                    definitivos: las diferencias de {M('\\hat J')} entre modelos son de hasta {dModelos.toFixed(4)}, ninguna corrida tiene{' '}
+                    {M('\\chi<10^{-4}')} y, en ADR, el arranque desde {M('z_p^0=-200')} m aún no llega al mismo {M('z_p')}.</p>
                 <h4>Cómo se resolverá</h4>
-                <p>Serie 33: las tres corridas desde el mismo arranque ({M('z_p^0=-600')} m) con iterados admisibles y la misma parada; después,
-                    cada modelo desde el óptimo del otro (ADR ↔ semi). Si cada uno vuelve a su propio {M('z_p')}, la diferencia entre modelos
-                    es real; si no, es del optimizador o del arranque.</p>
+                <p>Las pruebas de consistencia en curso: desde {M('z_p^0=-200')} m, el reinicio desde el iterado 25 y cada modelo desde el
+                    óptimo del otro (ADR ↔ semi). Si cada uno vuelve a su propio {M('z_p')}, la diferencia entre modelos es real; si no, es
+                    del optimizador o del arranque.</p>
             </Notas>
         </SlideLayout>
     );

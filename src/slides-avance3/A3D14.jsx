@@ -6,10 +6,10 @@ import { OPT } from './optimoNitrato.js';
 import { usePublica, Notas } from './version.jsx';
 import { AvisoPreliminar } from './preliminar.jsx';
 
-// Resultado preliminar de la optimización (FEniCSx, malla con conos y eje de 1 m, γ = 1; χ aún sobre la meta), serie anterior
-// (z_p⁰ = −700 m, demanda tomada a mitad de cada paso). J y z_p por evaluación, tal como las registró el optimizador (incluye
-// pasos de prueba rechazados, algunos fuera de U_ad); las barras de Q pasan del control inicial al mejor iterado (no son
-// iteraciones intermedias). En la completa, la cota de la bomba con la demanda promediada (serie 33, OPT.demanda_real.a).
+// Resultado parcial de la optimización (FEniCSx, malla con conos y eje de 1 m, γ = 1): serie 33 (z_p⁰ = −600 m, demanda
+// promediada por paso, iterados admisibles) en su iterado 50, el tope de la serie; χ aún sobre la meta. J y z_p por
+// evaluación, tal como las registró el optimizador (incluye pasos de prueba rechazados); las barras de Q pasan del control
+// inicial al iterado 50 (no son iteraciones intermedias). La cota de la bomba es la de la demanda promediada.
 const AGUA = 'var(--a3-agua)', PLUMA = 'var(--a3-pluma)', GRIS = 'var(--a3-estrato)';
 const M = (t) => <InlineMath math={t} />;
 
@@ -41,9 +41,9 @@ function Serie({ y, f, color, W = 400, H = 220, etiqueta, fmt, lo, hi }) {
     );
 }
 
-// Barrido de Ĵ(z_p) con el caudal del mejor iterado fijo (OPT.pareto: mismo iterado 53 de ADR, solo el modelo directo),
+// Barrido de Ĵ(z_p) con el caudal fijo (OPT.pareto: el iterado exportado de ADR, solo el modelo directo),
 // de lo somero (izquierda) a lo hondo, hasta −650 m: γJ_m baja al profundizar y el costo αJ_inst + βJ_op sube; Ĵ es su
-// suma y su mínimo es el z_p del mejor iterado. Las flechas en el mínimo: hacia dónde empuja cada término.
+// suma y su mínimo es el z_p de ese iterado. Las flechas en el mínimo: hacia dónde empuja cada término.
 function balanceZp(P) {
     const orden = P.zp.map((z, i) => i).filter(i => P.zp[i] >= -650).sort((a, b) => P.zp[b] - P.zp[a]);
     const z = orden.map(i => P.zp[i]), J1 = orden.map(i => P.J1[i]), costo = orden.map(i => P.J2[i] + P.J3[i]);
@@ -119,18 +119,17 @@ export default function A3D14({ theme = 'dark' }) {
     const J0 = o.J0, Jf = o.J;
     const ult = o.historia.zp.slice(-20), mov = Math.max(...ult) - Math.min(...ult);
     const zfuera = Math.max(...o.historia.zp), Jmin = Math.min(...o.historia.J);
-    const cota33 = OPT.demanda_real && OPT.demanda_real.a ? OPT.demanda_real.a.map(a => OPT.Q_max * a) : null;
-    // pasos en que el caudal del mejor iterado toca la cota muestreada a mitad de paso por debajo de la cota corregida
-    const pegados = cota33 ? o.Q.filter((q, k) => OPT.cota[k] < cota33[k] - 1e-3 && q > 0.95 * OPT.cota[k]).length : 0;
+    const Z200 = (OPT.consistencia || []).find(c => c.modelo === 'adr' && c.prueba === 'zp200');
+    const etIt = `iterado ${o.nit}`;
     const filas = [['calidad del agua', String.raw`\gamma J_m`, 'J1'], ['instalación', String.raw`\alpha J_{\rm inst}`, 'J2'], ['bombeo', String.raw`\beta J_{\rm op}`, 'J3'], ['total', String.raw`\hat J`, 'J']];
     const escalon = c => c.map((v, k) => `${60 + k * bw},${sy(v)} ${60 + (k + 1) * bw},${sy(v)}`).join(' ');
-    // balance del tanque del mejor iterado: lo bombeado es la demanda menos lo que ya tenía el tanque, más lo que queda
+    // balance del tanque del iterado exportado: lo bombeado es la demanda menos lo que ya tenía el tanque, más lo que queda
     const volumen = OPT.V_s * OPT.dt * o.Q.reduce((a, b) => a + b, 0), demanda = OPT.demanda.reduce((a, b) => a + b, 0);
     const Smin = Math.min(...o.S), S0 = o.S[0], ST = o.S[o.S.length - 1];
     const B = OPT.pareto ? balanceZp(OPT.pareto) : null;
     const miles = v => Math.round(v).toLocaleString('es-MX').replace(/,/g, '\u202f');      // espacio fino que no corta la cifra
     return (
-        <SlideLayout title="Mejor iterado ADR (preliminar, serie anterior)" theme={theme} justify="flex-start">
+        <SlideLayout title={`Resultado ADR (serie 33, iterado ${o.nit})`} theme={theme} justify="flex-start">
             <AvisoPreliminar style={{ marginBottom: 6 }}>
                 <span>; χ = {o.chi ? cientifico(o.chi) : '—'}, meta 10⁻⁴</span>
             </AvisoPreliminar>
@@ -148,7 +147,7 @@ export default function A3D14({ theme = 'dark' }) {
                         <p style={tit}>Términos del funcional</p>
                         <table style={{ width: '100%', borderCollapse: 'collapse', fontVariantNumeric: 'tabular-nums', borderTop: '2px solid var(--sl-text)', borderBottom: '2px solid var(--sl-text)' }}>
                             <thead><tr style={{ borderBottom: '1px solid var(--sl-muted)' }}>
-                                <th style={th}></th><th style={{ ...th, textAlign: 'right' }}>inicio</th><th style={{ ...th, textAlign: 'right' }}>mejor iterado</th></tr></thead>
+                                <th style={th}></th><th style={{ ...th, textAlign: 'right' }}>inicio</th><th style={{ ...th, textAlign: 'right' }}>{etIt}</th></tr></thead>
                             <tbody>
                                 {filas.map(([nm, m, k]) => (
                                     <tr key={k} style={{ fontWeight: k === 'J' ? 700 : 400, borderTop: k === 'J' ? '1px solid var(--a3-filete)' : 'none' }}>
@@ -169,7 +168,8 @@ export default function A3D14({ theme = 'dark' }) {
                         </p>
                     </div>
                     {B && <div style={{ gridColumn: '1 / span 2', gridRow: 2 }}>
-                        <p style={tit}>¿Por qué {fmtZ(o.zp)} m? {M('\\hat J(z_p)')} con este caudal y el pozo a otras profundidades</p>
+                        <p style={tit}>¿Por qué {fmtZ(o.zp)} m? {M('\\hat J(z_p)')} con este caudal y el pozo a otras profundidades
+                            {OPT.pareto.serie !== '33' && <span style={nota}> (caudal de la serie anterior)</span>}</p>
                         <Balance P={OPT.pareto} f={f} mostrar={tramo(p, 0.85, 1)} />
                         <p className="a3-completa" style={{ ...nota, marginTop: 0 }}>
                             Sin optimizar. Un metro más hondo: {M('\\gamma J_m')} {cientifico(B.dJ1).replace('-', '−')}, costo
@@ -179,8 +179,7 @@ export default function A3D14({ theme = 'dark' }) {
                 </div>
                 <p style={{ ...tit, marginTop: 12 }}>
                     Caudal {M('Q_n')} [m²/s] en los 72 intervalos: <span style={{ color: GRIS }}>inicial</span> →{' '}
-                    <span style={{ color: AGUA }}>mejor iterado</span>, con la cota <span style={{ color: PLUMA }}>{M('Q_{\\max}a(\\tau)')}</span>
-                    <span className="a3-completa"> (punteada gris: con la demanda corregida)</span>
+                    <span style={{ color: AGUA }}>{etIt}</span>, con la cota <span style={{ color: PLUMA }}>{M('Q_{\\max}a(\\tau)')}</span>
                 </p>
                 <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%' }}>
                     {[0, 0.1, 0.2].map(v => <g key={v}><line x1={60} x2={W - 10} y1={sy(v)} y2={sy(v)} stroke={GRIS} strokeOpacity="0.2" />
@@ -190,29 +189,28 @@ export default function A3D14({ theme = 'dark' }) {
                         return <rect key={k} x={60 + k * bw + 1.5} width={bw - 3} y={sy(v)} height={sy(0) - sy(v)} fill={f < 1 ? GRIS : AGUA} opacity={0.35 + 0.5 * f} />;
                     })}
                     <polyline points={escalon(OPT.cota)} fill="none" stroke={PLUMA} strokeDasharray="5 4" strokeWidth="2" />
-                    {cota33 && !pub && <polyline points={escalon(cota33)} fill="none" stroke={GRIS} strokeDasharray="2 4" strokeWidth="2.2" opacity={tramo(p, 0.85, 1)} />}
                     {[0, 10, 20, 30].map(d => <text key={d} x={60 + d / 30 * (W - 70)} y={H - 6} textAnchor={d === 30 ? 'end' : 'middle'} style={ej}>{d} d</text>)}
                 </svg>
             </div>
-            <Notas titulo="Mejor iterado ADR: cómo leer la lámina">
+            <Notas titulo={`Resultado ADR (${etIt}): cómo leer la lámina`}>
                 <h4>Qué muestran las curvas</h4>
-                <p>{M('\\hat J')} y {M('z_p')} en cada evaluación del optimizador ({o.historia.J.length} evaluaciones, iteración {o.nit}). Incluyen
-                    pasos de prueba rechazados, algunos fuera de {M('\\mathcal U_{ad}')} ({M('z_p')} hasta {zfuera.toFixed(0)} m,{' '}
-                    {M('\\hat J')} = {Jmin.toFixed(3)}, menor que el mejor iterado porque viola las restricciones): en esta serie trust-constr
-                    solo exigía las restricciones al converger. La serie 33 usa iterados admisibles en todo momento. Las barras pasan del
-                    control inicial al mejor iterado; no son iteraciones intermedias.</p>
+                <p>{M('\\hat J')} y {M('z_p')} en cada evaluación del optimizador hasta la iteración {o.nit} ({o.historia.J.length}{' '}
+                    evaluaciones). Incluyen pasos de prueba que el optimizador rechazó ({M('z_p')} hasta {zfuera.toFixed(0)} m; el menor{' '}
+                    {M('\\hat J')} evaluado, {Jmin.toFixed(3)}, es de uno de ellos); los iterados aceptados son todos admisibles. Las barras
+                    pasan del control inicial al iterado {o.nit}; no son iteraciones intermedias.</p>
                 <h4>Inicio</h4>
-                <p>{M('Q_n=0.1')} y {M('z_p=-700')} m: no es admisible, porque el tanque se vacía. Con el pozo a −700 m casi no llega nitrato
-                    ({M('\\gamma J_m')} = {Number(J0.J1).toFixed(3)}), pero la instalación cuesta {Number(J0.J2).toFixed(3)}.</p>
+                <p>{M('Q_n=0.1')} con {M(`z_p=${OPT.zp0}`)} m vacía el tanque: se proyecta al conjunto admisible antes de empezar. Con el pozo
+                    a {fmtZ(OPT.zp0)} m llega poco nitrato ({M('\\gamma J_m')} = {Number(J0.J1).toFixed(3)}), pero la instalación cuesta{' '}
+                    {Number(J0.J2).toFixed(3)}.</p>
                 <h4>Lectura de los términos</h4>
-                <p>Subir el pozo de −700 a {o.zp.toFixed(0)} m baja {M('\\alpha J_{\\rm inst}')} de {Number(J0.J2).toFixed(3)} a{' '}
+                <p>Subir el pozo de {fmtZ(OPT.zp0)} a {o.zp.toFixed(0)} m baja {M('\\alpha J_{\\rm inst}')} de {Number(J0.J2).toFixed(3)} a{' '}
                     {Number(Jf.J2).toFixed(3)} y sube {M('\\gamma J_m')} a {Number(Jf.J1).toFixed(3)}; {M('\\beta J_{\\rm op}')} sube porque el
                     caudal crece para cubrir la demanda y cumplir el tanque (aunque {M('d_p=z_0-z_p')} baja). Con {M('\\gamma=\\alpha=\\beta=1')} domina el costo; el balance
                     depende de los pesos (frente de Pareto, pendiente).</p>
                 {B && <>
                     <h4>Por qué esa profundidad: el barrido de {M('\\hat J(z_p)')}</h4>
                     <p>Panel bajo las curvas: {M('\\hat J')} evaluado con el modelo directo, sin optimizar, en {B.z.length} profundidades entre{' '}
-                        {fmtZ(B.z[0])} y {fmtZ(B.z[B.z.length - 1])} m, con el caudal del mejor iterado fijo. Con {M('Q')} fijo,{' '}
+                        {fmtZ(B.z[0])} y {fmtZ(B.z[B.z.length - 1])} m, con el caudal del iterado {o.nit} fijo. Con {M('Q')} fijo,{' '}
                         {M('\\hat J(z_p)=\\gamma J_m(z_p)+\\alpha J_{\\rm inst}(z_p)+\\beta J_{\\rm op}(z_p)')}:</p>
                     <ul>
                         <li>{M('\\gamma J_m')} baja al profundizar, de {B.J1[0].toFixed(3)} a {B.J1[B.J1.length - 1].toFixed(4)}: el pozo se aleja de
@@ -225,7 +223,7 @@ export default function A3D14({ theme = 'dark' }) {
                             bajar un metro iguala lo que cuesta. Con los vecinos del barrido, un metro más hondo cambia {M('\\gamma J_m')} en{' '}
                             {cientifico(B.dJ1).replace('-', '−')} y el costo en +{cientifico(B.dCosto)}: casi iguales y de signo opuesto (en el
                             mínimo exacto, que cae entre muestras, serían iguales).</li>
-                        <li>El mínimo del barrido ({fmtZ(B.z[B.k])} m) es el {M('z_p')} del mejor iterado: con su propio caudal, el optimizador
+                        <li>El mínimo del barrido ({fmtZ(B.z[B.k])} m) es el {M('z_p')} del iterado {o.nit}: con su propio caudal, el optimizador
                             ya está en el mínimo de {M('\\hat J')} respecto de {M('z_p')}. Es plano: a {Math.round(B.dzVecinos)} m del mínimo,{' '}
                             {M('\\hat J')} cambia {(100 * B.plano).toFixed(2)} %. Por eso un cambio pequeño en {M('J_m')} (otro modelo de
                             transporte, otra demanda) mueve {M('z_p')} decenas de metros.</li>
@@ -240,15 +238,14 @@ export default function A3D14({ theme = 'dark' }) {
                     depende de {M('Q')}, lo apartan de ese reparto. Si la demanda crece, crece {M('\\int Q^2')} y con él el costo de bajar un
                     metro el pozo ({M('\\beta\\int Q^2')} en {M('J_{\\rm op}')}).</p>
                 <h4>Convergencia</h4>
-                <p>{M('\\chi')} = {o.chi ? cientifico(o.chi) : '—'}, lejos de la meta 10⁻⁴. {M('z_p')} ya casi no se mueve ({mov.toFixed(1)} m en las
-                    últimas 20 evaluaciones); lo que falta es el caudal. Por eso es un «mejor iterado», no un óptimo.</p>
+                <p>La serie se detuvo en la iteración {o.nit} con {M('\\chi')} = {o.chi ? cientifico(o.chi) : '—'}, sobre la meta 10⁻⁴: no es un
+                    óptimo certificado. {M('z_p')} ya casi no se mueve ({mov.toFixed(1)} m en las últimas 20 evaluaciones); lo que falta es
+                    pulir el caudal, y {M('\\hat J')} cambia muy poco de una iteración a otra.</p>
                 <h4>Por qué no es definitivo</h4>
-                <p>La cota de la bomba {M('Q_{\\max}a(\\tau)')} se tomó del perfil horario a mitad de cada paso: baja hasta{' '}
-                    {Math.min(...OPT.cota).toFixed(2)}, mientras que con el promedio exacto no baja de{' '}
-                    {cota33 ? Math.min(...cota33).toFixed(2) : '—'} (línea gris punteada). En {pegados} de los 72 pasos el caudal del mejor
-                    iterado está pegado a esas caídas falsas: el perfil de bombeo sigue en parte al error de muestreo. Observación preliminar
-                    con la demanda corregida: el optimizador aplana el bombeo ({M('\\sum Q_n^2')} −5.6 %) y {M('\\hat J')} cambia del orden de
-                    10⁻², más que las diferencias entre modelos. Hay que reemplazar {M('z_p')}, los términos y el perfil por los de la serie 33.</p>
+                <p>Además de {M('\\chi')}, la prueba de consistencia desde {M('z_p^0=-200')} m{Z200 ? <> va en {M(`z_p=${fmtZ(Z200.zp)}`)} m
+                    con {M(`\\hat J=${Z200.J.toFixed(4)}`)} (iteración {Z200.nit}), frente a {fmtZ(o.zp)} m y {Number(Jf.J).toFixed(4)} desde{' '}
+                    {fmtZ(OPT.zp0)} m: </> : ' '}no llega al mismo punto. Como {M('\\hat J')} es casi plano en {M('z_p')} cerca del mínimo, puede ser
+                    convergencia lenta o un mínimo local; se revisará al terminar las pruebas.</p>
             </Notas>
         </SlideLayout>
     );
