@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/avance1_doc/static/css/main.1b078fb2.css",
-    "main.js": "/avance1_doc/static/js/main.1023b359.js",
+    "main.js": "/avance1_doc/static/js/main.e315ed97.js",
     "static/media/KaTeX_AMS-Regular.ttf": "/avance1_doc/static/media/KaTeX_AMS-Regular.853be92419a6c3766b9a.ttf",
     "static/media/KaTeX_Main-Regular.ttf": "/avance1_doc/static/media/KaTeX_Main-Regular.9eba1d77abcf2aa6e94e.ttf",
     "static/media/KaTeX_Main-Bold.ttf": "/avance1_doc/static/media/KaTeX_Main-Bold.8169508bf58f8bd92ad8.ttf",
@@ -66,6 +66,6 @@
   },
   "entrypoints": [
     "static/css/main.1b078fb2.css",
-    "static/js/main.1023b359.js"
+    "static/js/main.e315ed97.js"
   ]
 }
