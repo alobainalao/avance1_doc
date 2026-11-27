@@ -3,6 +3,7 @@
 
 import avance2Slides from '../slideConfig';
 import avance3Slides, { avance3Secciones, avance3Publica } from './slideConfig.avance3';
+import { avance3sVisibles, avance3sSecciones, avance3sPublica } from './slideConfig.avance3s';
 import { numerarEcuaciones } from '../layouts-v2/EcNum.js';
 
 const avance2Sections = [
@@ -58,6 +59,33 @@ const registry = [
         canvasW: 1408,
         ecuaciones: numerarEcuaciones(avance3Slides),
         sections: avance3Secciones,
+        available: true,
+        oculta: true,
+    },
+    // Avance 3, versión simplificada (slideConfig.avance3s.js): solo MRMT por bloques con elementos finitos y su
+    // optimización; también en dos versiones, la completa solo por su enlace.
+    {
+        id: 'avance3s',
+        label: 'Avance 3 · simplificada',
+        subtitle: 'Sem 3 · MRMT por bloques y control adjunto',
+        date: 'Enero 2027',
+        slides: avance3sPublica,
+        deckClass: 'deck-a3 deck-a3-publica deck-a3s',
+        canvasW: 1408,
+        ecuaciones: numerarEcuaciones(avance3sPublica),
+        sections: avance3sSecciones,
+        available: true,
+    },
+    {
+        id: 'avance3s-completa',
+        label: 'Avance 3 · simplificada · completa',
+        subtitle: 'Sem 3 · simplificada, con toda la explicación',
+        date: 'Enero 2027',
+        slides: avance3sVisibles,
+        deckClass: 'deck-a3 deck-a3s',
+        canvasW: 1408,
+        ecuaciones: numerarEcuaciones(avance3sVisibles),
+        sections: avance3sSecciones,
         available: true,
         oculta: true,
     },

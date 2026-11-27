@@ -1,0 +1,19 @@
+/* Avance 3, versión simplificada: lo propio de slides-avance3s/ (el resto viene de slides-avance3/avance3.css). */
+
+/* Contraste del texto (pedido del 26-nov-2026): negro sobre el fondo claro y rojo sobre el oscuro. Cambia el texto, las
+   ecuaciones (KaTeX hereda el color) y los rótulos de las figuras, que usan --sl-text y --sl-muted; los colores con
+   significado (agua, pluma, válido…) y la barra del título no cambian. Rojo del oscuro: #FF5C5C tiene contraste ≈ 6:1 y
+   #E06A6A ≈ 5:1 sobre #0B1724. */
+.deck-a3.deck-a3s .slide-layout--light {
+    --sl-text:  #000000;
+    --sl-muted: #222222;
+}
+.deck-a3.deck-a3s .slide-layout--dark {
+    --sl-text:  #FF5C5C;
+    --sl-muted: #E06A6A;
+}
+.deck-a3.deck-a3s .katex-display .tag { color: var(--sl-muted); }
+/* Ecuaciones y rótulos de las tarjetas con el color del texto (en el avance 3 van en el acento y en gris); los términos
+   coloreados con \textcolor conservan su color. */
+.deck-a3.deck-a3s .slide-layout__content .katex { color: var(--sl-text); }
+.deck-a3.deck-a3s .sl-eq-card__label { color: var(--sl-muted); }
