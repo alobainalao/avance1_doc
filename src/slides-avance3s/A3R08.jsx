@@ -16,39 +16,39 @@ const NQ = BLOQUE.Q.length;
 const eqFD = String.raw`\frac{\partial\hat J}{\partial u_i}\approx\frac{\hat J(u+\delta\,e_i)-\hat J(u)}{\delta},\qquad i=1,\dots,73`;
 const eqAdj = String.raw`\nabla\hat J(u)=\frac{\partial J}{\partial u}+\Big(\frac{\partial R}{\partial u}\Big)^{\!\top}\psi,\qquad \Big(\frac{\partial R}{\partial y}\Big)^{\!\top}\psi=-\frac{\partial J}{\partial y}`;
 
-// Barras ∂Ĵ/∂Q_n en el control inicial [1/(m²/s)], una por paso de 10 h.
+// Barras ∂Ĵ/∂Q_n en el control inicial [1/(m²/s)], una por paso de 10 h; eje con marcas redondas.
 function Barras({ g }) {
-    const W = 560, H = 230, L = 70, B = 40, T = 14;
-    const v = g.slice(0, NQ), m = Math.max(...v.map(Math.abs));
-    const sy = (y) => T + (H - T - B) * (1 - (y + (Math.min(...v) < 0 ? m : 0)) / (Math.min(...v) < 0 ? 2 * m : m));
+    const W = 560, H = 240, L = 70, B = 40, T = 30;
+    const v = g.slice(0, NQ), lo = Math.min(0, ...v), hi = Math.max(0, ...v);
+    const paso = (() => { const r = (hi - lo) / 3, p = 10 ** Math.floor(Math.log10(r)); return [1, 2, 5, 10].map(m => m * p).find(m => m >= r); })();
+    const y0 = Math.floor(lo / paso) * paso, y1 = Math.ceil(hi / paso) * paso;
+    const sy = (y) => T + (H - T - B) * (y1 - y) / (y1 - y0);
     const sx = (k) => L + (W - L - 10) * k / NQ;
     const cero = sy(0), eje = { fontFamily: 'var(--a3-sans)', fontSize: 14, fill: 'var(--sl-muted)' };
-    const marcas = [0, 10, 20, 30];
-    const fmt = (y) => (y === 0 ? '0' : y.toExponential(0).replace('e-', '·10⁻').replace('e+', '·10').replace(/⁻(\d)/, (a, d) => '⁻' + '⁰¹²³⁴⁵⁶⁷⁸⁹'[d]));
+    const marcas = []; for (let y = y0; y <= y1 + paso / 2; y += paso) marcas.push(y);
+    const dec = Math.max(0, -Math.floor(Math.log10(paso) + 1e-9));
     return (
         <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', display: 'block' }}>
+            {marcas.map(y => (
+                <g key={y}>
+                    <line x1={L} x2={W - 10} y1={sy(y)} y2={sy(y)} stroke="var(--a3-filete)" strokeWidth="0.7" />
+                    <text x={L - 7} y={sy(y) + 5} textAnchor="end" style={eje}>{y.toFixed(dec)}</text>
+                </g>
+            ))}
             {v.map((y, k) => (
                 <rect key={k} x={sx(k) + 0.6} width={(W - L - 10) / NQ - 1.2} y={Math.min(sy(y), cero)} height={Math.abs(sy(y) - cero)}
                       fill={y >= 0 ? 'var(--a3-pluma)' : 'var(--a3-agua)'} />
             ))}
             <line x1={L} x2={W - 10} y1={cero} y2={cero} stroke="var(--sl-text)" strokeWidth="1" />
             <line x1={L} x2={L} y1={T} y2={H - B} stroke="var(--sl-text)" strokeWidth="1" />
-            {[m, Math.min(...v) < 0 ? -m : m / 2].map((y, i) => (
-                <g key={i}>
-                    <line x1={L - 4} x2={L} y1={sy(y)} y2={sy(y)} stroke="var(--sl-text)" />
-                    <text x={L - 7} y={sy(y) + 5} textAnchor="end" style={eje}>{fmt(y)}</text>
-                </g>
-            ))}
-            <text x={L - 7} y={cero + 5} textAnchor="end" style={eje}>0</text>
-            {marcas.map(d => (
+            {[0, 10, 20, 30].map(d => (
                 <g key={d}>
                     <line x1={sx(d / DIAS)} x2={sx(d / DIAS)} y1={H - B} y2={H - B + 4} stroke="var(--sl-text)" />
                     <text x={sx(d / DIAS)} y={H - B + 19} textAnchor="middle" style={eje}>{d}</text>
                 </g>
             ))}
-            <line x1={L} x2={W - 10} y1={H - B} y2={H - B} stroke="var(--sl-muted)" strokeWidth="0.6" />
             <text x={(L + W) / 2} y={H - 4} textAnchor="middle" style={eje}>t [días]</text>
-            <text x={L + 6} y={T + 2} style={{ ...eje, fill: 'var(--sl-text)' }}>∂Ĵ/∂Q<tspan dy="4" fontSize="10">n</tspan><tspan dy="-4"> [1/(m²/s)]</tspan></text>
+            <text x={L} y={T - 12} style={{ ...eje, fill: 'var(--sl-text)' }}>∂Ĵ/∂Q<tspan dy="4" fontSize="10">n</tspan><tspan dy="-4"> [1/(m²/s)]</tspan></text>
         </svg>
     );
 }
@@ -91,7 +91,7 @@ export default function A3R08({ theme = 'dark' }) {
                         <Cifra n="73" color="var(--a3-pluma)" texto={<>resoluciones del estado extra, una por control<span className="a3-completa"> (146 centradas)</span></>} />
                     </Bloque>
                     <Bloque color="var(--a3-valido)" titulo="Método adjunto">
-                        <Eq math={eqAdj} id="grad-adj" compacta />
+                        <Eq math={eqAdj} compacta />
                         <Cifra n="2" color="var(--a3-valido)" texto={<>resoluciones por gradiente: estado (adelante) y adjunto (atrás), con 73 o con más controles</>} />
                     </Bloque>
                 </div>
@@ -122,4 +122,4 @@ export default function A3R08({ theme = 'dark' }) {
     );
 }
 
-A3R08.ecuaciones = ['fd', 'grad-adj'];
+A3R08.ecuaciones = ['fd'];

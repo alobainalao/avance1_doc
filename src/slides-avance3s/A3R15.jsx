@@ -15,7 +15,7 @@ const realizado = [
     ['Numérica', <>elementos finitos (P1/P2), Euler implícito y esquema por bloques con complemento de Schur</>],
     ['Adjunto', <>cinco adjuntos y gradiente verificado contra diferencias finitas, también en la configuración real</>],
     ['Optimización', <>{U[0]} iteraciones con bomba y tanque: <InlineMath math="\hat J" /> −{(100 * (1 - U[1] / H[0][1])).toFixed(1)} %,{' '}
-        <InlineMath math="z_p" /> de {fmtZ(H[0][3])} a {fmtZ(U[3])} m (preliminar)</>],
+        <InlineMath math="z_p" /> de {fmtZ(H[0][3])} a {fmtZ(U[3])} m, con más nitrato en el pozo (preliminar)</>],
 ];
 const proyectado = [
     ['Modelo multitasa', <>almacenamiento <InlineMath math="S_s" /> realista; sensibilidad a <InlineMath math="\eta_r" /> y <InlineMath math="\tau_r" />; orden en el tiempo del esquema por bloques</>],

@@ -91,7 +91,7 @@ export function Serie({ x, series, ylabel, xlabel = 't [días]', W = 520, H = 23
             {ticks.map(v => (
                 <g key={v}>
                     <line x1={L} x2={W - R} y1={sy(v)} y2={sy(v)} stroke="var(--a3-filete)" strokeWidth="0.7" />
-                    <text x={L - 6} y={sy(v) + 4} textAnchor="end" style={eje}>{+v.toPrecision(3)}</text>
+                    <text x={L - 6} y={sy(v) + 4} textAnchor="end" style={eje}>{v.toFixed(Math.max(0, -Math.floor(Math.log10(paso) + 1e-9)))}</text>
                 </g>
             ))}
             <line x1={L} x2={L} y1={T - 4} y2={H - B} stroke="var(--sl-text)" />

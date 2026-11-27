@@ -1,7 +1,7 @@
 import React from 'react';
 import { InlineMath } from 'react-katex';
 import SlideLayout from '../layouts-v2/SlideLayout.jsx';
-import { Eq, RefEc } from '../slides-avance3/ui.jsx';
+import { Eq } from '../slides-avance3/ui.jsx';
 import { Notas } from '../slides-avance3/version.jsx';
 import { VERIF } from '../slides-avance3/verificacion.js';
 import { BLOQUE } from './optimoBloque.js';
@@ -78,15 +78,20 @@ const Paso = ({ n, children }) => (
 );
 
 export default function A3R09({ theme = 'dark' }) {
-    const eReal = REAL.map(r => r.err);
+    // razón e(δ = 10⁻²) / e(δ = 3·10⁻³) por dirección; O(δ²) predice (10/3)² ≈ 11
+    const razones = [...new Set(REAL.map(r => r.direccion))].map(d => {
+        const fs = REAL.filter(r => r.direccion === d).sort((a, b) => b.delta - a.delta);
+        return fs.length > 1 ? fs[0].err / fs[fs.length - 1].err : null;
+    }).filter(Boolean);
+    const fmtE = v => v.toExponential(1).replace(/e-0?(\d+)/, (a, e) => '·10⁻' + e.split('').map(c => '⁰¹²³⁴⁵⁶⁷⁸⁹'[c]).join(''));
     return (
         <SlideLayout title="Verificación del gradiente: ¿el adjunto da la derivada de Ĵ?" theme={theme} justify="flex-start">
-            <div style={{ display: 'flex', gap: 30, flex: 1, minHeight: 0 }}>
+            <div style={{ display: 'flex', gap: 30, alignItems: 'center' }}>
                 <div style={{ flex: 1.1, display: 'flex', flexDirection: 'column', gap: 8 }}>
                     <Paso n="1">Se elige una dirección <InlineMath math="d" /> en el espacio de los 73 controles y un paso <InlineMath math="\delta" />.</Paso>
                     <Paso n="2">Se calcula la pendiente de <InlineMath math="\hat J" /> a lo largo de <InlineMath math="d" /> de dos maneras:
                         <Eq math={eqAdj} compacta />
-                        <Eq math={eqFD} id="fd-centradas" compacta />
+                        <Eq math={eqFD} compacta />
                     </Paso>
                     <Paso n="3">Se comparan: <InlineMath math={eqErr} />.</Paso>
                     <Paso n="4">
@@ -97,16 +102,18 @@ export default function A3R09({ theme = 'dark' }) {
                 <div style={{ flex: 1, minWidth: 0 }}><Grafica /></div>
             </div>
             <p style={{ margin: '8px 0 0', padding: '8px 14px', borderLeft: '5px solid var(--a3-valido)', fontSize: 'var(--a3-fs-cuerpo)', color: 'var(--sl-text)', lineHeight: 1.35 }}>
-                {eReal.length
-                    ? <>En la configuración real, <InlineMath math="e\le" /> {Math.max(...eReal).toExponential(1).replace('e-', '·10⁻').replace(/⁻0?(\d)/, (a, d) => '⁻' + '⁰¹²³⁴⁵⁶⁷⁸⁹'[d])}: </>
+                {razones.length
+                    ? <>En la configuración real, <InlineMath math="e" /> baja de {fmtE(Math.max(...REAL.map(r => r.err)))} a {fmtE(Math.min(...REAL.map(r => r.err)))}:{' '}
+                        {razones.map(r => r.toFixed(1)).join(' y ')} veces al pasar de <InlineMath math="\delta=10^{-2}" /> a <InlineMath math="3\cdot10^{-3}" />,
+                        lo que predice <InlineMath math="O(\delta^2)" />: <InlineMath math="(10/3)^2\approx11" />. </>
                     : null}
-                el gradiente adjunto es la derivada del <InlineMath math="\hat J" /> discreto respecto al control.
+                El gradiente adjunto es la derivada del <InlineMath math="\hat J" /> discreto respecto al control.
                 <span className="a3-completa"> Verifica las derivadas, no el error de la malla ni del paso de tiempo.</span>
             </p>
             <Notas titulo="Qué se verifica exactamente">
                 <p>
                     Se comparan dos números por cada dirección, no dos vectores: el producto del gradiente adjunto con la dirección (un solo gradiente sirve
-                    para todas las direcciones) y el cociente centrado <RefEc id="fd-centradas" />, que cuesta dos resoluciones del estado por cada par{' '}
+                    para todas las direcciones) y el cociente centrado, que cuesta dos resoluciones del estado por cada par{' '}
                     <InlineMath math="(d,\delta)" />. <InlineMath math="s" /> escala los controles: <InlineMath math="Q_{\max}" /> para los caudales y 100 m para{' '}
                     <InlineMath math="z_p" /> en la configuración real (<InlineMath math="\max Q^0" /> y 1 m en la prueba corta); <InlineMath math="d" /> es unitario y{' '}
                     <InlineMath math="\delta" /> adimensional.
@@ -132,4 +139,4 @@ export default function A3R09({ theme = 'dark' }) {
     );
 }
 
-A3R09.ecuaciones = ['fd-centradas'];
+A3R09.ecuaciones = [];

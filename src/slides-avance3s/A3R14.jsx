@@ -45,7 +45,7 @@ export default function A3R14({ theme = 'dark' }) {
             <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 1fr', gap: 34, flex: 1, minHeight: 0 }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 4, minWidth: 0 }}>
                     <p style={{ margin: 0, fontSize: 'var(--a3-fs-etiqueta)', fontFamily: 'var(--a3-sans)', color: 'var(--sl-text)', fontWeight: 600 }}>
-                        <InlineMath math="C_m" /> en <InlineMath math="t=T=30" /> días [mg/L] — control inicial (<InlineMath math={`z_p=${fmtZ(zi)}`} /> m)
+                        <InlineMath math="C_m" /> a los 30 días [mg/L], control inicial (<InlineMath math={`z_p=${fmtZ(zi)}`} /> m)
                     </p>
                     <Campo id="r14-i" bandas={I.C.bandas[kT]} niveles={I.C.niveles} paleta="C" zp={zi} />
                     <p style={{ margin: '4px 0 0', fontSize: 'var(--a3-fs-etiqueta)', fontFamily: 'var(--a3-sans)', color: 'var(--sl-text)', fontWeight: 600 }}>
@@ -62,7 +62,7 @@ export default function A3R14({ theme = 'dark' }) {
                         </thead>
                         <tbody>
                             {fila('agua extraída', Vi, Vo, 'm³', 0)}
-                            {fila('nitrato medio en el pozo', mediaC(I.Cpozo), mediaC(O.Cpozo), 'mg/L', 2)}
+                            {fila('nitrato medio en el pozo', mediaC(I.Cpozo), mediaC(O.Cpozo), 'mg/L', 1)}
                             {fila('nitrato extraído (estimación)', Mi, Mo, 'kg', 1)}
                         </tbody>
                     </table>
@@ -71,13 +71,18 @@ export default function A3R14({ theme = 'dark' }) {
                     <p style={{ margin: 0, fontSize: 'var(--a3-fs-etiqueta)', fontFamily: 'var(--a3-sans)', color: 'var(--sl-text)', fontWeight: 600 }}>
                         Nitrato en el pozo, <InlineMath math="\int\delta_pC_m" />
                     </p>
-                    <Serie x={t} ylabel="mg/L" H={210}
+                    <Serie x={t} ylabel="mg/L" H={180}
                            series={[{ n: 'i', y: I.Cpozo, c: GRIS }, { n: 'o', y: O.Cpozo, c: 'var(--a3-pluma)' }]} />
                     <p style={{ margin: 0, fontSize: 'var(--a3-fs-etiqueta)', fontFamily: 'var(--a3-sans)', color: 'var(--sl-text)', fontWeight: 600 }}>
                         Carga en el pozo, <InlineMath math="\int\delta_p h" />
                     </p>
-                    <Serie x={t} ylabel="m" H={210} ymin={Math.floor(Math.min(...I.Hpozo, ...O.Hpozo))} ymax={Math.ceil(Math.max(...I.Hpozo, ...O.Hpozo))}
+                    <Serie x={t} ylabel="m" H={180} ymin={Math.floor(Math.min(...I.Hpozo, ...O.Hpozo))} ymax={Math.ceil(Math.max(...I.Hpozo, ...O.Hpozo))}
                            series={[{ n: 'i', y: I.Hpozo, c: GRIS }, { n: 'o', y: O.Hpozo, c: AGUA }]} />
+                    <p style={{ margin: '4px 0 0', padding: '6px 12px', borderLeft: '5px solid var(--a3-pluma)', fontSize: 'var(--a3-fs-cuerpo)', color: 'var(--sl-text)', lineHeight: 1.35 }}>
+                        Con <InlineMath math="\gamma=\alpha=\beta=1" />, el óptimo cambia calidad por costo: el pozo sube {Math.round(zo - zi)} m y bombea
+                        casi el mismo volumen (lo fija la demanda), pero capta más nitrato: {mediaC(I.Cpozo).toFixed(1)} → {mediaC(O.Cpozo).toFixed(1)} mg/L
+                        de media, con un máximo de {Math.max(...O.Cpozo).toFixed(0)} mg/L, bajo la guía de 50.
+                    </p>
                     <p style={{ margin: 0, fontFamily: 'var(--a3-sans)', fontSize: 'var(--a3-fs-nota)', color: 'var(--sl-muted)' }}>
                         <span style={{ color: GRIS, fontWeight: 600 }}>━</span> control inicial · <span style={{ fontWeight: 600 }}>━</span> último iterado
                         (iterado {BLOQUE.nit}, preliminar)
@@ -94,6 +99,12 @@ export default function A3R14({ theme = 'dark' }) {
                     El nitrato extraído se estima con <InlineMath math="\sum_nV_sQ_n\Delta t\,C_{{\rm pozo},n}" />: es el producto del volumen bombeado por la
                     concentración observada en el pozo, no un balance de masa del modelo; sirve para comparar los dos controles. El valor guía es 50 mg/L
                     de nitrato.
+                </p>
+                <p>
+                    Términos del funcional (normalizados): calidad <InlineMath math="J_m" /> {I.J1.toFixed(3)} → {O.J1.toFixed(3)}, profundidad{' '}
+                    <InlineMath math="J_{\rm inst}" /> {I.J2.toFixed(3)} → {O.J2.toFixed(3)}, operación <InlineMath math="J_{\rm op}" /> {I.J3.toFixed(3)} →{' '}
+                    {O.J3.toFixed(3)}. Con pesos iguales, lo que se ahorra en profundidad y operación pesa más que lo que empeora la calidad: por eso el
+                    frente de Pareto (barrido de γ) es el siguiente experimento.
                 </p>
             </Notas>
         </SlideLayout>
