@@ -13,7 +13,7 @@ const fmtZ = z => String(Math.round(z)).replace('-', '−');
 const realizado = [
     ['Modelo', <>MRMT con almacenamiento, salida libre y tres regiones inmóviles</>],
     ['Numérica', <>elementos finitos (P1/P2), Euler implícito y esquema por bloques con complemento de Schur</>],
-    ['Adjunto', <>cinco adjuntos y gradiente verificado contra diferencias finitas, también en la configuración real</>],
+    ['Adjunto', <>cinco adjuntos; gradiente verificado contra diferencias finitas (en la dirección de <InlineMath math="z_p" />, un residuo en revisión)</>],
     ['Optimización', <>{U[0]} iteraciones con bomba y tanque: <InlineMath math="\hat J" /> −{(100 * (1 - U[1] / H[0][1])).toFixed(1)} %,{' '}
         <InlineMath math="z_p" /> de {fmtZ(H[0][3])} a {fmtZ(U[3])} m, con más nitrato en el pozo (preliminar)</>],
 ];

@@ -16,7 +16,7 @@ const generalPub = 'Optimizar caudal y profundidad del pozo con el gradiente adj
 const objetivos = [
     { t: 'Modelo MRMT de flujo y transporte: almacenamiento, salida libre y tres regiones inmóviles', p: 'Modelo MRMT de flujo y transporte', e: 'rea', nota: <><InlineMath math="S_s=\phi" /> es provisional; el capítulo está en revisión</> },
     { t: 'Discretización por elementos finitos y esquema por bloques (complemento de Schur)', p: 'Elementos finitos y esquema por bloques', e: 'com', nota: 'P1 para h, P2 para C; Euler implícito, Δt = 10 h' },
-    { t: 'Sistema adjunto y gradiente verificado contra diferencias finitas', p: 'Sistema adjunto y gradiente verificado', e: 'com', nota: 'derivadas direccionales en una prueba corta y en la configuración de la optimización' },
+    { t: 'Sistema adjunto y gradiente verificado contra diferencias finitas', p: 'Sistema adjunto y gradiente verificado', e: 'rea', nota: 'prueba corta y configuración real al azar; residuo en la dirección de z_p en revisión' },
     { t: 'Optimización del caudal y la profundidad con bomba y tanque', p: 'Optimización con bomba y tanque', e: 'des', nota: `resultado preliminar en el iterado ${BLOQUE.nit}; la corrida sigue hasta 100` },
     { t: 'Frente de Pareto (barrido del peso γ de la calidad)', p: 'Frente de Pareto (barrido de γ)', e: 'pen' },
     { t: 'Artículo de optimización', p: 'Artículo de optimización', e: 'des', nota: 'borrador; faltan los resultados definitivos' },
@@ -65,10 +65,11 @@ export default function A3R02({ theme = 'dark' }) {
                     El modelo está implementado y documentado, pero <InlineMath math="S_s=\phi" /> [1/m] es una elección numérica provisional,
                     mucho mayor que los valores de campo (10⁻⁶–10⁻⁴ m⁻¹), y el capítulo se está corrigiendo.
                 </p>
-                <h4>Gradiente: completado</h4>
+                <h4>Gradiente: realizado</h4>
                 <p>
-                    La derivada direccional del adjunto coincide con el cociente centrado de diferencias finitas en una prueba corta y en la
-                    configuración de la optimización (lámina de verificación).
+                    La derivada direccional del adjunto coincide con el cociente centrado de diferencias finitas en una prueba corta y, en una
+                    dirección al azar, en la configuración de la optimización. En la dirección −∇Ĵ, dominada por la profundidad, queda un residuo de
+                    unas milésimas que no baja con el paso: está en revisión (lámina de verificación).
                 </p>
                 <h4>Optimización: en desarrollo</h4>
                 <p>

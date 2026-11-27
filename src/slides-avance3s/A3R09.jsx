@@ -78,11 +78,16 @@ const Paso = ({ n, children }) => (
 );
 
 export default function A3R09({ theme = 'dark' }) {
-    // razón e(δ = 10⁻²) / e(δ = 3·10⁻³) por dirección; O(δ²) predice (10/3)² ≈ 11
+    // por dirección: razón e(δ = 10⁻²) / e(δ = 3·10⁻³), que O(δ²) predice (10/3)² ≈ 11, y el residuo que no depende de δ al
+    // ajustar e = a + b δ² con los dos pasos (a ≈ 0 si todo el desacuerdo es truncamiento)
     const razones = [...new Set(REAL.map(r => r.direccion))].map(d => {
         const fs = REAL.filter(r => r.direccion === d).sort((a, b) => b.delta - a.delta);
-        return fs.length > 1 ? fs[0].err / fs[fs.length - 1].err : null;
+        if (fs.length < 2) return null;
+        const [g, f] = [fs[0], fs[fs.length - 1]];
+        const a = (f.err * g.delta ** 2 - g.err * f.delta ** 2) / (g.delta ** 2 - f.delta ** 2);
+        return { d, r: g.err / f.err, a, e: [g.err, f.err] };
     }).filter(Boolean);
+    const dudosa = razones.find(x => x.r < 5);
     const fmtE = v => v.toExponential(1).replace(/e-0?(\d+)/, (a, e) => '·10⁻' + e.split('').map(c => '⁰¹²³⁴⁵⁶⁷⁸⁹'[c]).join(''));
     return (
         <SlideLayout title="Verificación del gradiente: ¿el adjunto da la derivada de Ĵ?" theme={theme} justify="flex-start">
@@ -103,11 +108,14 @@ export default function A3R09({ theme = 'dark' }) {
             </div>
             <p style={{ margin: '8px 0 0', padding: '8px 14px', borderLeft: '5px solid var(--a3-valido)', fontSize: 'var(--a3-fs-cuerpo)', color: 'var(--sl-text)', lineHeight: 1.35 }}>
                 {razones.length
-                    ? <>En la configuración real, <InlineMath math="e" /> baja de {fmtE(Math.max(...REAL.map(r => r.err)))} a {fmtE(Math.min(...REAL.map(r => r.err)))}:{' '}
-                        {razones.map(r => r.toFixed(1)).join(' y ')} veces al pasar de <InlineMath math="\delta=10^{-2}" /> a <InlineMath math="3\cdot10^{-3}" />,
-                        lo que predice <InlineMath math="O(\delta^2)" />: <InlineMath math="(10/3)^2\approx11" />. </>
+                    ? <>En la configuración real, de <InlineMath math="\delta=10^{-2}" /> a <InlineMath math="3\cdot10^{-3}" /> el error baja{' '}
+                        {razones.map(x => `${x.r.toFixed(1)} veces ${NOMBRE[x.d] === '−∇Ĵ' ? 'en −∇Ĵ' : 'al azar'} (${fmtE(x.e[0])} → ${fmtE(x.e[1])})`).join(' y ')};{' '}
+                        <InlineMath math="O(\delta^2)" /> predice 11.{' '}</>
                     : null}
-                El gradiente adjunto es la derivada del <InlineMath math="\hat J" /> discreto respecto al control.
+                {dudosa
+                    ? <>La dirección al azar confirma el adjunto; en −∇Ĵ, dominada por <InlineMath math="z_p" />, queda un residuo ≈ {fmtE(dudosa.a)} que no
+                        baja con <InlineMath math="\delta" />: en revisión.</>
+                    : <>El gradiente adjunto es la derivada del <InlineMath math="\hat J" /> discreto respecto al control.</>}
                 <span className="a3-completa"> Verifica las derivadas, no el error de la malla ni del paso de tiempo.</span>
             </p>
             <Notas titulo="Qué se verifica exactamente">
